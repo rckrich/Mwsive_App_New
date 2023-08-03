@@ -33,6 +33,7 @@ public class MwsiveUser
     public Playlists[] publicPlaylists { get; set; }
     public string genre { get; set; }
     public int age { get; set; }
+    public string playlists { get; set; }
 }
 
 public class MwsiveTrack
@@ -197,7 +198,6 @@ public class MwsiveUserRoot
 public class MwsiveCreatenRoot
 {
     public MwsiveUser MwsiveUser { get; set; }
-    public string mwsive_token { get; set; }
 }
 
 public class MwsiveLoginRoot

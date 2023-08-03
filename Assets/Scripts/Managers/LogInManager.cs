@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
 public class LogInManager : Manager
 {
@@ -52,7 +53,7 @@ public class LogInManager : Manager
                 }
                 else
                 {
-                    OpenView(ViewID.SurfViewModel);
+                    SceneManager.LoadScene("MainScene");
                 }
             }
         }
@@ -65,14 +66,17 @@ public class LogInManager : Manager
     private void Callback_GetCurrentUserPlaylists(object[] _value)
     {
         PlaylistRoot playlistRoot = (PlaylistRoot)_value[1];
-        for (int i = 0; i <= playlistRoot.items.Count; i++)
+
+        itemIDs = new string[playlistRoot.items.Count];
+
+        for (int i = 0; i < playlistRoot.items.Count; i++)
         {
             itemIDs[i] = playlistRoot.items[i].id;
         }
 
         SetCurrentPlaylist(itemIDs[0]);
 
-        OpenView(ViewID.SurfViewModel);
+        SceneManager.LoadScene("MainScene");
     }
 
     private void Callback_GetUserProfile(object[] _value)
@@ -89,8 +93,8 @@ public class LogInManager : Manager
 
     private void Callback_PostLogin(object[] _value)
     {
-        string webcode = (string)_value[0];
-        if (webcode == "204")
+        string webcode = ((long)_value[0]).ToString();
+        if (webcode == "204" || webcode == "200")
         {
             MwsiveLoginRoot accessToken = (MwsiveLoginRoot)_value[1];
 
@@ -102,7 +106,7 @@ public class LogInManager : Manager
             }
             else
             {
-                OpenView(ViewID.SurfViewModel);
+                SceneManager.LoadScene("MainScene");
             }
         }
         else if (webcode == "404")
@@ -118,7 +122,10 @@ public class LogInManager : Manager
     private void Callback_GetCurrentUserPlaylistsNewUser(object[] _value)
     {
         PlaylistRoot playlistRoot = (PlaylistRoot)_value[1];
-        for (int i = 0; i <= playlistRoot.items.Count; i++)
+
+        itemIDs = new string[playlistRoot.items.Count];
+
+        for (int i = 0; i < playlistRoot.items.Count; i++)
         {
             itemIDs[i] = playlistRoot.items[i].id;
         }
@@ -129,20 +136,27 @@ public class LogInManager : Manager
     private void Callback_PostCreateUser(object[] _value)
     {
         MwsiveCreatenRoot mwsiveCreatenRoot = (MwsiveCreatenRoot)_value[1];
-
-        SetMwsiveToken(mwsiveCreatenRoot.mwsive_token);
-
         SpotifyConnectionManager.instance.CreatePlaylist(profileid, Callback_CreatePlaylist);
     }
 
     private void Callback_CreatePlaylist(object[] _value)
     {
         CreatedPlaylistRoot createdPlaylistRoot = (CreatedPlaylistRoot)_value[1];
+
         playlistid = createdPlaylistRoot.id;
 
         SetCurrentPlaylist(playlistid);
 
-        OpenView(ViewID.SurfViewModel);
+        MwsiveConnectionManager.instance.PostLogin(email, profileid, Callback_PostLogInAfterCreatingUser);
+    }
+
+    private void Callback_PostLogInAfterCreatingUser(object[] _value)
+    {
+        MwsiveLoginRoot mwsiveLoginRoot = (MwsiveLoginRoot)_value[1];
+
+        SetMwsiveToken(mwsiveLoginRoot.mwsive_token);
+
+        SceneManager.LoadScene("MainScene");
     }
 
     private void SetCurrentPlaylist(string _value)
