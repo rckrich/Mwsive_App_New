@@ -13,7 +13,7 @@ public class SurfMiPlaylistViewModel : ViewModel
     public float end;
     public int offset = 21;
     int onlyone = 0;
-    public HolderManager holderManager;
+    //public HolderManager holderManager;
     public List<Image> imagenes;
     
     void Start()
@@ -29,7 +29,7 @@ public class SurfMiPlaylistViewModel : ViewModel
 
         foreach (Item item in playlistRoot.items)
         {
-            if (holderManager.playlistId == item.id)
+            if (ProgressManager.instance.progress.userDataPersistance.current_playlist.Equals(item.id))
             {
                 playlistHolderPrefab.GetComponent<Image>().enabled = true;
 
@@ -39,7 +39,7 @@ public class SurfMiPlaylistViewModel : ViewModel
                 playlistHolderPrefab.GetComponent<Image>().enabled = false;
             }
             SurfMiplaylistHolder instance = GameObject.Instantiate(playlistHolderPrefab, instanceParent).GetComponent<SurfMiplaylistHolder>();
-            instance.Initialize(item.name, item.id, item.owner.display_name, item.@public, item.description);
+            instance.Initialize(item.name, item.id, item.owner.display_name, item.@public, item.description, item.external_urls);
             if (!item.@public) { instance.PublicTrue(); }
             if (item.images != null && item.images.Count > 0) { instance.SetImage(item.images[0].url); }
             
@@ -69,7 +69,7 @@ public class SurfMiPlaylistViewModel : ViewModel
 
         foreach (Item item in playlistRoot.items)
         {
-            if (holderManager.playlistId == item.id)
+            if (ProgressManager.instance.progress.userDataPersistance.current_playlist == item.id)
             {
                 playlistHolderPrefab.GetComponent<Image>().enabled = true;
 

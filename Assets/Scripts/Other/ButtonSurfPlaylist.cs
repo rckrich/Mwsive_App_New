@@ -10,11 +10,10 @@ public class ButtonSurfPlaylist : ViewModel
     public HolderManager holderManager;
     public TMP_Text playlistText;
     public string playlistName;
-    public void SetSelectedPlaylistNameAppEvent(string _playlistName) { playlistName = _playlistName; }
+    public void SetSelectedPlaylistNameAppEvent(string _playlistName) { playlistText.text = _playlistName; }
     public string GetSelectedPlaylistNameAppEvent() { return playlistName; }
     private void OnEnable()
     {
-        playlistText.text = holderManager.playlistName;
         AddEventListener<SelectedPlaylistNameAppEvent>(SelectedPlaylistNameEventListener);
     }
     private void OnDisable()
@@ -24,19 +23,14 @@ public class ButtonSurfPlaylist : ViewModel
     // Start is called before the first frame update
     void Start()
     {
-        playlistText.text = holderManager.playlistName;
+
+        GetPlaylist();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void SelectedPlaylistNameEventListener(SelectedPlaylistNameAppEvent _event)
     {
-        playlistName = holderManager.playlistName;
-        SetSelectedPlaylistNameAppEvent(playlistName);
-        playlistText.text = playlistName;
+        GetPlaylist();
+        
     }
     public void OnClickPlaylistButton()
     {
@@ -44,5 +38,16 @@ public class ButtonSurfPlaylist : ViewModel
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
 
-   
+    public void GetPlaylist()
+    {
+        SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_OnCLick_GetPlaylist);
+    }
+    private void Callback_OnCLick_GetPlaylist(object[] _value)
+    {
+        if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
+        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
+        playlistName = searchedPlaylist.name;
+        SetSelectedPlaylistNameAppEvent(searchedPlaylist.name);
+        playlistText.text = playlistName;
+    }
 }

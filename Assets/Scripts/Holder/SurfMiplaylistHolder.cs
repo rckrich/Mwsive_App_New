@@ -16,7 +16,6 @@ public class SurfMiplaylistHolder : ViewModel
     public SurfMiPlaylistViewModel miPlaylistViewModel;
     public ChangeImage change;
     public bool @public;
-    public HolderManager holderManager;
     private bool isEnabled;
     public bool changeBool;
     public string description;
@@ -27,8 +26,7 @@ public class SurfMiplaylistHolder : ViewModel
     
     public void OnEnable()
     {
-        AddEventListener<OnSelectedPlaylistClick>(SelectedPlaylistEventListener);
-        
+        AddEventListener<OnSelectedPlaylistClick>(SelectedPlaylistEventListener);        
     }
 
     private void OnDisable()
@@ -72,8 +70,8 @@ public class SurfMiplaylistHolder : ViewModel
     {
         playlistViewModel.playlistName.text = playlistName.text;
         playlistViewModel.id = spotifyID;
-        playlistViewModel.@public = @public;
-        holderManager.playlistExternalUrl = url;
+        //playlistViewModel.@public = @public;
+        //holderManager.playlistExternalUrl = url;
         NewScreenManager.instance.ChangeToSpawnedView("playlist");
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
@@ -84,8 +82,6 @@ public class SurfMiplaylistHolder : ViewModel
     }
     public void OnClickSelected()
     {
-        holderManager.playlistId = spotifyID;
-        holderManager.playlistName = playlistName.text;
         ProgressManager.instance.progress.userDataPersistance.current_playlist = spotifyID;
         ProgressManager.instance.save();
 
