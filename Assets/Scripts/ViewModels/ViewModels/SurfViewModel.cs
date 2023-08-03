@@ -35,7 +35,7 @@ public class SurfViewModel : ViewModel
         
     }
 
-    public void OnClickProfile()
+    public void OnClick_Profile()
     {
         NewScreenManager.instance.ChangeToSpawnedView("profile");
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
@@ -43,9 +43,30 @@ public class SurfViewModel : ViewModel
 
     public void OnClick_Discos()
     {
-        
-        CallPopUP(PopUpViewModelTypes.MessageOnly, "¿Qué son los discos?", "Cada vez que escuches una canción que te haga vibrar, puedes lanzar un disco para votar por tus favoritas y destacar en el ranking. (1 Disco = 1 Pik) " +
+        NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
+        PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+        popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, "¿Qué son los discos?", "Cada vez que escuches una canción que te haga vibrar, puedes lanzar un disco para votar por tus favoritas y destacar en el ranking. (1 Disco = 1 Pik)" +
+            " <br><b>Tus Piks: </b><br>En Mwsive tus piks nos ayudan a recomendar música a otros crowd-surfers y así descubrir juntos la música que hace olas.", "Aceptar");
+        popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); });
+        CallWaitAFrame();
+        /*CallPopUP(PopUpViewModelTypes.MessageOnly, "¿Qué son los discos?", "Cada vez que escuches una canción que te haga vibrar, puedes lanzar un disco para votar por tus favoritas y destacar en el ranking. (1 Disco = 1 Pik) " +
             " < b >Tus Piks: < /b >"  +
-            "En Mwsive tus piks nos ayudan a recomendar música a otros crowd-surfers y así descubrir juntos la música que hace olas.", "Aceptar");
+            "En Mwsive tus piks nos ayudan a recomendar música a otros crowd-surfers y así descubrir juntos la música que hace olas.", "Aceptar");*/
+    }
+
+    public void OnClick_MyProfile()
+    {
+        NewScreenManager.instance.ChangeToMainView(ViewID.ProfileViewModel, false);
+        Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
+    }
+
+    public void OnClick_LogOut()
+    {
+        NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
+        PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+        popUpViewModel.Initialize(PopUpViewModelTypes.OptionChoice, "¿Qué son los discos?", "Cada vez que escuches una canción que te haga vibrar, puedes lanzar un disco para votar por tus favoritas y destacar en el ranking. (1 Disco = 1 Pik)" +
+            " <br><b>Tus Piks: </b><br>En Mwsive tus piks nos ayudan a recomendar música a otros crowd-surfers y así descubrir juntos la música que hace olas.", "Cerrar sesión");
+        popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); });
+        CallWaitAFrame();
     }
 }
