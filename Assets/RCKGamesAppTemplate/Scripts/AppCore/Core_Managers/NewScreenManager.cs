@@ -22,6 +22,10 @@ public class NewScreenManager : Manager
     [SerializeField]
     private ViewModel headerView = null;
 
+    [Header("General Loading Canvas")]
+    [SerializeField]
+    private GameObject loadingCanvas = null;
+
     [Header("View Types Data")]
     [SerializeField]
     private SpawnableViewModelTypesScriptableObject viewModelTypesData;

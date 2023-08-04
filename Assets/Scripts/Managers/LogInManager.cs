@@ -5,6 +5,8 @@ using TMPro;
 using System;
 using UnityEngine.SceneManagement;
 
+public delegate void LogInCallback(object[] _value);
+
 public class LogInManager : Manager
 {
     private static LogInManager _instance;
@@ -27,8 +29,14 @@ public class LogInManager : Manager
     private string[] itemIDs;
     private ProfileRoot profile;
 
-    public void StartLogInProcess()
+    private LogInCallback previousAction;
+
+    public void StartLogInProcess(LogInCallback _callback = null)
     {
+        previousAction = _callback;
+
+        NewScreenManager.instance.GetCurrentView().StartSearch();
+
         SpotifyConnectionManager.instance.StartConnection(Callback_StartSpotifyConnection);
     }
 
@@ -54,6 +62,7 @@ public class LogInManager : Manager
                 }
                 else
                 {
+                    NewScreenManager.instance.GetCurrentView().EndSearch();
                     SceneManager.LoadScene("MainScene");
                 }
             }
@@ -77,13 +86,16 @@ public class LogInManager : Manager
 
         SetCurrentPlaylist(itemIDs[0]);
 
+        NewScreenManager.instance.GetCurrentView().EndSearch();
+
         if (SceneManager.GetActiveScene().name.Equals("LogInScene"))
         {
             SceneManager.LoadScene("MainScene");
         }
         else
         {
-            //ToDo cerrar pantalla de carga
+            if(previousAction != null)
+                previousAction(null);
         }
     }
 
@@ -116,13 +128,16 @@ public class LogInManager : Manager
             }
             else
             {
+                NewScreenManager.instance.GetCurrentView().EndSearch();
+
                 if (SceneManager.GetActiveScene().name.Equals("LogInScene"))
                 {
                     SceneManager.LoadScene("MainScene");
                 }
                 else
                 {
-                    //ToDo cerrar pantalla de carga
+                    if (previousAction != null)
+                        previousAction(null);
                 }
 
             }
@@ -174,13 +189,17 @@ public class LogInManager : Manager
         MwsiveLoginRoot mwsiveLoginRoot = (MwsiveLoginRoot)_value[1];
 
         SetMwsiveToken(mwsiveLoginRoot.mwsive_token, DateTime.Now.AddHours(1));
+
+        NewScreenManager.instance.GetCurrentView().EndSearch();
+
         if (SceneManager.GetActiveScene().name.Equals("LogInScene"))
         {
             SceneManager.LoadScene("MainScene");
         }
         else
         {
-            //ToDo cerrar pantalla de carga
+            if (previousAction != null)
+                previousAction(null);
         }
     }
 

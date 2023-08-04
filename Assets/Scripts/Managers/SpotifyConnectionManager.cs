@@ -131,13 +131,30 @@ public class SpotifyConnectionManager : Manager
 
     #region Spotify API Call Methods
 
-    public void GetCurrentUserProfile(SpotifyWebCallback _callback = null)
+    public void GetUserProfile(string _user_id, SpotifyWebCallback _callback = null)
     {
         _callback += Callback_GetUserProfile;
-        StartCoroutine(SpotifyWebCalls.CR_GetCurrentUserProfile(oAuthHandler.GetSpotifyToken().AccessToken, _callback));
+        StartCoroutine(SpotifyWebCalls.CR_GetUserProfile(oAuthHandler.GetSpotifyToken().AccessToken, _user_id, _callback));
     }
 
     private void Callback_GetUserProfile(object[] _value)
+    {
+        if (CheckReauthenticateUser((long)_value[0]))
+        {
+            StartReauthentication();
+            return;
+        }
+
+        Debug.Log(((ProfileRoot)_value[1]).display_name);
+    }
+
+    public void GetCurrentUserProfile(SpotifyWebCallback _callback = null)
+    {
+        _callback += Callback_GetCurrentUserProfile;
+        StartCoroutine(SpotifyWebCalls.CR_GetCurrentUserProfile(oAuthHandler.GetSpotifyToken().AccessToken, _callback));
+    }
+
+    private void Callback_GetCurrentUserProfile(object[] _value)
     {
         if (CheckReauthenticateUser((long)_value[0])) {
             StartReauthentication();

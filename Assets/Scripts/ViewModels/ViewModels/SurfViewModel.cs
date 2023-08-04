@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class SurfViewModel : ViewModel
 {
-    // Start is called before the first frame update
-
     public GameObject surfManager;
     public Image profilePicture;
     private string profileId;
@@ -15,10 +13,7 @@ public class SurfViewModel : ViewModel
         surfManager.SetActive(true);
         SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
     }
-    private void OnEnable()
-    {
-        
-    }
+
     private void Callback_GetUserProfile(object[] _value)
     {
         //if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
@@ -29,30 +24,23 @@ public class SurfViewModel : ViewModel
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void OnClick_Profile()
     {
         NewScreenManager.instance.ChangeToSpawnedView("profile");
+        NewScreenManager.instance.GetCurrentView().Initialize(profileId);
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
 
     public void OnClick_Discos()
     {       
-        CallPopUP(PopUpViewModelTypes.MessageOnly, "¿Qué son los discos?", "Cada vez que escuches una canción que te haga vibrar, puedes lanzar un disco para votar por tus favoritas y destacar en el ranking. (1 Disco = 1 Pik) " +
+        CallPopUP(PopUpViewModelTypes.MessageOnly, "?Qu? son los discos?", "Cada vez que escuches una canci?n que te haga vibrar, puedes lanzar un disco para votar por tus favoritas y destacar en el ranking. (1 Disco = 1 Pik) " +
             " < b >Tus Piks: < /b >"  +
-            "En Mwsive tus piks nos ayudan a recomendar música a otros crowd-surfers y así descubrir juntos la música que hace olas.", "Aceptar");
+            "En Mwsive tus piks nos ayudan a recomendar m?sica a otros crowd-surfers y as? descubrir juntos la m?sica que hace olas.", "Aceptar");
     }
 
     public void OnClick_MyProfile()
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.ProfileViewModel, true);
-        
+        NewScreenManager.instance.GetCurrentView().Initialize();
     }
-
-    
 }
