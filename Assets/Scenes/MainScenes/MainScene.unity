@@ -3409,10 +3409,10 @@ RectTransform:
   - {fileID: 1896333068}
   m_Father: {fileID: 1548895965}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.5801, y: -33.530827}
-  m_SizeDelta: {x: 243.6145, y: 35.1227}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -33.530827}
+  m_SizeDelta: {x: 10.000004, y: 35.1227}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &213587526
 MonoBehaviour:
@@ -3491,7 +3491,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 213587529}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 931911446}
+        m_TargetAssemblyTypeName: PopUpViewModel, RCKGamesAppTemplateScripts
+        m_MethodName: ActionButtonOnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &213587529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17954,7 +17966,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1028217983}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 931911446}
+        m_TargetAssemblyTypeName: PopUpViewModel, RCKGamesAppTemplateScripts
+        m_MethodName: ExitButtonOnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1028217983
 MonoBehaviour:
   m_ObjectHideFlags: 0

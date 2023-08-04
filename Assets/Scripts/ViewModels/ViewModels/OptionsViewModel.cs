@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class OptionsViewModel : ViewModel
 {
@@ -16,17 +17,21 @@ public class OptionsViewModel : ViewModel
     }
     public void OnClick_LogOut()
     {
-        NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
+        CallPopUP(PopUpViewModelTypes.OptionChoice, "", "¿Estas seguro que deseas cerrar sesión?", "Cerrar sesión");
         PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
-        popUpViewModel.Initialize(PopUpViewModelTypes.OptionChoice, "","¿Estas seguro que deseas cerrar sesión?","Cerrar sesión");
-        popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); });
-        CallWaitAFrame();
+        popUpViewModel.SetPopUpAction(() => MwsiveConnectionManager.instance.PostLogout(Callback_PostLogout));
     }
-
-    private void OpenView(ViewID _value)
+        private void OpenView(ViewID _value)
     {
         NewScreenManager.instance.ChangeToMainView(_value, false);
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
 
+    }
+
+    private void Callback_PostLogout(object[] _value)
+    {
+        Debug.Log("LogOut Exitoso");
+        SceneManager.LoadScene("LogInScene");
+        
     }
 }

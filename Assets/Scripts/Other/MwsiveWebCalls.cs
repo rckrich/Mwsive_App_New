@@ -154,10 +154,11 @@ public class MwsiveWebCalls : MonoBehaviour
             webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
 
             yield return webRequest.SendWebRequest();
-
+            
             if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
             {
                 //Catch response code for multiple requests to the server in a short timespan.
+                Debug.Log(webRequest.responseCode);
 
                 if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
                 {

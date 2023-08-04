@@ -41,6 +41,7 @@ public class LogInManager : Manager
     {
         if (ProgressManager.instance.progress.userDataPersistance.userTokenSetted)
         {
+            Debug.Log(ProgressManager.instance.progress.userDataPersistance.access_token);
             if (HasMwsiveTokenExpired())
             {
                 SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
@@ -100,12 +101,14 @@ public class LogInManager : Manager
 
     private void Callback_PostLogin(object[] _value)
     {
+        
         string webcode = ((long)_value[0]).ToString();
         if (webcode == "204" || webcode == "200")
         {
-            MwsiveLoginRoot accessToken = (MwsiveLoginRoot)_value[1];
+            MwsiveLoginRoot mwsiveLoginRoot = (MwsiveLoginRoot)_value[1];
+            Debug.Log(mwsiveLoginRoot);
 
-            SetMwsiveToken(accessToken.mwsive_token, DateTime.Now.AddHours(1));
+            SetMwsiveToken(mwsiveLoginRoot.mwsive_token, DateTime.Now.AddHours(1));
 
             if (IsCurrentPlaylistEmpty())
             {
@@ -126,6 +129,7 @@ public class LogInManager : Manager
         }
         else if (webcode == "404")
         {
+            Debug.Log(ProgressManager.instance.progress.userDataPersistance.access_token);
             SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_GetCurrentUserPlaylistsNewUser);
         }
         else
@@ -189,6 +193,7 @@ public class LogInManager : Manager
     private void SetMwsiveToken(string _value, DateTime _expire_date)
     {
         ProgressManager.instance.progress.userDataPersistance.access_token = _value;
+        Debug.Log(ProgressManager.instance.progress.userDataPersistance.access_token);
         ProgressManager.instance.progress.userDataPersistance.expires_at = _expire_date;
         ProgressManager.instance.progress.userDataPersistance.userTokenSetted = true;
         ProgressManager.instance.save();
