@@ -120,7 +120,7 @@ public class LogInManager : Manager
             MwsiveLoginRoot mwsiveLoginRoot = (MwsiveLoginRoot)_value[1];
             Debug.Log(mwsiveLoginRoot);
 
-            SetMwsiveToken(mwsiveLoginRoot.mwsive_token, DateTime.Now.AddHours(1));
+            SetMwsiveToken(mwsiveLoginRoot.access_token, DateTime.Now.AddHours(1));
 
             if (IsCurrentPlaylistEmpty())
             {
@@ -188,7 +188,7 @@ public class LogInManager : Manager
     {
         MwsiveLoginRoot mwsiveLoginRoot = (MwsiveLoginRoot)_value[1];
 
-        SetMwsiveToken(mwsiveLoginRoot.mwsive_token, DateTime.Now.AddHours(1));
+        SetMwsiveToken(mwsiveLoginRoot.access_token, DateTime.Now.AddHours(1));
 
         NewScreenManager.instance.GetCurrentView().EndSearch();
 

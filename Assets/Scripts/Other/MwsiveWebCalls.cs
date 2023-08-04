@@ -130,7 +130,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Mwisve login " + jsonResult);
-                    MwsiveLoginRoot mwsiveLoginRoot = JsonConvert.DeserializeObject<MwsiveLoginRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveLoginRoot mwsiveLoginRoot = JsonConvert.DeserializeObject<MwsiveLoginRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveLoginRoot });
                     yield break;
                 }
