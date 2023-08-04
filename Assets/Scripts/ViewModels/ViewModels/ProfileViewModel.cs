@@ -6,22 +6,60 @@ using UnityEngine.UI;
 
 public class ProfileViewModel : ViewModel
 {
-    // Start is called before the first frame update
     public TextMeshProUGUI displayName;
     public Image profilePicture;
-    private string profileId;
     public GameObject playlistHolderPrefab;
     public Transform instanceParent;
-    void OnEnable()
+
+    private string profileId = "";
+
+    public override void Initialize(params object[] list)
     {
-        SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
+        if (list.Length > 0)
+            profileId = (string)list[0];
+
+        if (ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted)
+        {
+            if (profileId.Equals(""))
+            {
+                // Significa que estamos queriendo abrir el perfil del usuario de la app
+                SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
+            }
+            else
+            {
+                // Significa que estamos queriendo abrir el perfil de otro usuario de la app
+                SpotifyConnectionManager.instance.GetUserProfile(profileId, Callback_GetUserProfile);
+            }
+        }
+        else
+        {
+            CallPopUP(PopUpViewModelTypes.OptionChoice, "Neceseitas permiso", "Necesitas crear una cuenta de Mwsive para poder realizar está acción, preisona Crear Cuenta para hacer una.", "Crear Cuenta");
+            PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+
+            popUpViewModel.SetPopUpCancelAction(() => {
+                NewScreenManager.instance.BackToPreviousView();
+                NewScreenManager.instance.BackToPreviousView();
+            });
+
+            popUpViewModel.SetPopUpAction(() => {
+                LogInManager.instance.StartLogInProcess(Callback_ProfileViewModelInitialize);
+                NewScreenManager.instance.BackToPreviousView();
+            });
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Callback_ProfileViewModelInitialize(object[] list)
     {
-        
+        if (profileId.Equals(""))
+        {
+            SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
+        }
+        else
+        {
+            SpotifyConnectionManager.instance.GetUserProfile(profileId, Callback_GetUserProfile);
+        }
     }
+
     public void OnClick_SpawnInsigniasButton()
     {
         NewScreenManager.instance.ChangeToSpawnedView("insignias");

@@ -10,6 +10,51 @@ public delegate void SpotifyWebCallback(object[] _value);
 
 public static class SpotifyWebCalls
 {
+    public static IEnumerator CR_GetUserProfile(string _token, string _user_id, SpotifyWebCallback _callback)
+    {
+        string jsonResult = "";
+
+        string url = "https://api.spotify.com/v1/playlists/" + _user_id;
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            webRequest.SetRequestHeader("Accept", "application/json");
+            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
+            {
+                //Catch response code for multiple requests to the server in a short timespan.
+
+                if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
+                {
+                    WebCallsUtils.ReauthenticateUser(_callback);
+                }
+
+                Debug.Log("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                yield break;
+            }
+            else
+            {
+                while (!webRequest.isDone) { yield return null; }
+
+                if (webRequest.isDone)
+                {
+                    jsonResult = webRequest.downloadHandler.text;
+                    Debug.Log("Fetch user profile result: " + jsonResult);
+                    ProfileRoot profileRoot = JsonConvert.DeserializeObject<ProfileRoot>(jsonResult);
+                    _callback(new object[] { webRequest.responseCode, profileRoot });
+                    yield break;
+                }
+            }
+
+            Debug.Log("Failed on fetch user profile: " + jsonResult);
+            yield break;
+
+        }
+    }
+
     public static IEnumerator CR_GetCurrentUserProfile(string _token, SpotifyWebCallback _callback)
     {
         string jsonResult = "";

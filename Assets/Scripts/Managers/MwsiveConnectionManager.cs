@@ -75,6 +75,7 @@ public class MwsiveConnectionManager : MonoBehaviour
     public void PostLogout(MwsiveWebCallback _callback = null)
     {
         _callback += Callback_PostLogout;
+        Debug.Log(ProgressManager.instance.progress.userDataPersistance.access_token);
         StartCoroutine(MwsiveWebCalls.CR_PostLogout(ProgressManager.instance.progress.userDataPersistance.access_token, _callback));
     }
 

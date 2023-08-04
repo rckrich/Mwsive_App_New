@@ -5,6 +5,8 @@ using TMPro;
 using System;
 using UnityEngine.SceneManagement;
 
+public delegate void LogInCallback(object[] _value);
+
 public class LogInManager : Manager
 {
     private static LogInManager _instance;
@@ -27,8 +29,14 @@ public class LogInManager : Manager
     private string[] itemIDs;
     private ProfileRoot profile;
 
-    public void StartLogInProcess()
+    private LogInCallback previousAction;
+
+    public void StartLogInProcess(LogInCallback _callback = null)
     {
+        previousAction = _callback;
+
+        NewScreenManager.instance.GetCurrentView().StartSearch();
+
         SpotifyConnectionManager.instance.StartConnection(Callback_StartSpotifyConnection);
     }
 
@@ -41,6 +49,7 @@ public class LogInManager : Manager
     {
         if (ProgressManager.instance.progress.userDataPersistance.userTokenSetted)
         {
+            Debug.Log(ProgressManager.instance.progress.userDataPersistance.access_token);
             if (HasMwsiveTokenExpired())
             {
                 SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
@@ -53,6 +62,7 @@ public class LogInManager : Manager
                 }
                 else
                 {
+                    NewScreenManager.instance.GetCurrentView().EndSearch();
                     SceneManager.LoadScene("MainScene");
                 }
             }
@@ -76,7 +86,17 @@ public class LogInManager : Manager
 
         SetCurrentPlaylist(itemIDs[0]);
 
-        SceneManager.LoadScene("MainScene");
+        NewScreenManager.instance.GetCurrentView().EndSearch();
+
+        if (SceneManager.GetActiveScene().name.Equals("LogInScene"))
+        {
+            SceneManager.LoadScene("MainScene");
+        }
+        else
+        {
+            if(previousAction != null)
+                previousAction(null);
+        }
     }
 
     private void Callback_GetUserProfile(object[] _value)
@@ -93,12 +113,14 @@ public class LogInManager : Manager
 
     private void Callback_PostLogin(object[] _value)
     {
+        
         string webcode = ((long)_value[0]).ToString();
         if (webcode == "204" || webcode == "200")
         {
-            MwsiveLoginRoot accessToken = (MwsiveLoginRoot)_value[1];
+            MwsiveLoginRoot mwsiveLoginRoot = (MwsiveLoginRoot)_value[1];
+            Debug.Log(mwsiveLoginRoot);
 
-            SetMwsiveToken(accessToken.mwsive_token, DateTime.Now.AddHours(1));
+            SetMwsiveToken(mwsiveLoginRoot.access_token, DateTime.Now.AddHours(1));
 
             if (IsCurrentPlaylistEmpty())
             {
@@ -106,11 +128,23 @@ public class LogInManager : Manager
             }
             else
             {
-                SceneManager.LoadScene("MainScene");
+                NewScreenManager.instance.GetCurrentView().EndSearch();
+
+                if (SceneManager.GetActiveScene().name.Equals("LogInScene"))
+                {
+                    SceneManager.LoadScene("MainScene");
+                }
+                else
+                {
+                    if (previousAction != null)
+                        previousAction(null);
+                }
+
             }
         }
         else if (webcode == "404")
         {
+            Debug.Log(ProgressManager.instance.progress.userDataPersistance.access_token);
             SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_GetCurrentUserPlaylistsNewUser);
         }
         else
@@ -154,9 +188,19 @@ public class LogInManager : Manager
     {
         MwsiveLoginRoot mwsiveLoginRoot = (MwsiveLoginRoot)_value[1];
 
-        SetMwsiveToken(mwsiveLoginRoot.mwsive_token, DateTime.Now.AddHours(1));
+        SetMwsiveToken(mwsiveLoginRoot.access_token, DateTime.Now.AddHours(1));
 
-        SceneManager.LoadScene("MainScene");
+        NewScreenManager.instance.GetCurrentView().EndSearch();
+
+        if (SceneManager.GetActiveScene().name.Equals("LogInScene"))
+        {
+            SceneManager.LoadScene("MainScene");
+        }
+        else
+        {
+            if (previousAction != null)
+                previousAction(null);
+        }
     }
 
     private void SetCurrentPlaylist(string _value)
@@ -168,6 +212,7 @@ public class LogInManager : Manager
     private void SetMwsiveToken(string _value, DateTime _expire_date)
     {
         ProgressManager.instance.progress.userDataPersistance.access_token = _value;
+        Debug.Log(ProgressManager.instance.progress.userDataPersistance.access_token);
         ProgressManager.instance.progress.userDataPersistance.expires_at = _expire_date;
         ProgressManager.instance.progress.userDataPersistance.userTokenSetted = true;
         ProgressManager.instance.save();
