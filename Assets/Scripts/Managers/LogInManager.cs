@@ -76,7 +76,14 @@ public class LogInManager : Manager
 
         SetCurrentPlaylist(itemIDs[0]);
 
-        SceneManager.LoadScene("MainScene");
+        if (SceneManager.GetActiveScene().name.Equals("LogInScene"))
+        {
+            SceneManager.LoadScene("MainScene");
+        }
+        else
+        {
+            //ToDo cerrar pantalla de carga
+        }
     }
 
     private void Callback_GetUserProfile(object[] _value)
@@ -106,7 +113,15 @@ public class LogInManager : Manager
             }
             else
             {
-                SceneManager.LoadScene("MainScene");
+                if (SceneManager.GetActiveScene().name.Equals("LogInScene"))
+                {
+                    SceneManager.LoadScene("MainScene");
+                }
+                else
+                {
+                    //ToDo cerrar pantalla de carga
+                }
+
             }
         }
         else if (webcode == "404")
@@ -155,8 +170,14 @@ public class LogInManager : Manager
         MwsiveLoginRoot mwsiveLoginRoot = (MwsiveLoginRoot)_value[1];
 
         SetMwsiveToken(mwsiveLoginRoot.mwsive_token, DateTime.Now.AddHours(1));
-
-        SceneManager.LoadScene("MainScene");
+        if (SceneManager.GetActiveScene().name.Equals("LogInScene"))
+        {
+            SceneManager.LoadScene("MainScene");
+        }
+        else
+        {
+            //ToDo cerrar pantalla de carga
+        }
     }
 
     private void SetCurrentPlaylist(string _value)

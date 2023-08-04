@@ -55,14 +55,15 @@ public abstract class ViewModel : AppObject
 
     public virtual void EndSearch(string popUpTitle, string popPupMessage) { StartCoroutine(CR_EndSearch(popUpTitle, popPupMessage)); }
 
-    protected virtual void CallErrorPopUp() { ScreenManager.instance.ChangeView(ViewID.ErrorViewModel, true); }
+    protected virtual void CallErrorPopUp() { NewScreenManager.instance.ChangeToMainView(ViewID.ErrorViewModel, true); }
 
     protected virtual void CallPopUP(PopUpViewModelTypes _type, string _titleText, string _descriptionText, string _actionButtonText = "")
     {
-        ScreenManager.instance.ChangeView(ViewID.PopUpViewModel, true);
-        PopUpViewModel popUpViewModel = (PopUpViewModel)ScreenManager.instance.GetView(ViewID.PopUpViewModel);
+        
+        NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
+        PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
         popUpViewModel.Initialize(_type, _titleText, _descriptionText, _actionButtonText);
-        popUpViewModel.SetPopUpAction(() => { ScreenManager.instance.BackToPreviousView(); });
+        popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); });
         CallWaitAFrame();
     }
 

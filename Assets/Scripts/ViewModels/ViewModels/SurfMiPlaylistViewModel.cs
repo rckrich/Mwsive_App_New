@@ -79,7 +79,7 @@ public class SurfMiPlaylistViewModel : ViewModel
                 playlistHolderPrefab.GetComponent<Image>().enabled = false;
             }
             SurfMiplaylistHolder instance = GameObject.Instantiate(playlistHolderPrefab, instanceParent).GetComponent<SurfMiplaylistHolder>();
-            instance.Initialize(item.name, item.id, item.owner.display_name, item.@public,item.description);
+            instance.Initialize(item.name, item.id, item.owner.display_name, item.@public,item.description, item.external_urls);
             if (!item.@public) { instance.PublicTrue(); }
             if (item.images != null && item.images.Count > 0)
                 instance.SetImage(item.images[0].url);
