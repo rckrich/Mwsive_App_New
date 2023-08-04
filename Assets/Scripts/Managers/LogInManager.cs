@@ -98,7 +98,7 @@ public class LogInManager : Manager
         {
             MwsiveLoginRoot accessToken = (MwsiveLoginRoot)_value[1];
 
-            SetMwsiveToken(accessToken.mwsive_token);
+            SetMwsiveToken(accessToken.mwsive_token, DateTime.Now.AddHours(1));
 
             if (IsCurrentPlaylistEmpty())
             {
@@ -154,7 +154,7 @@ public class LogInManager : Manager
     {
         MwsiveLoginRoot mwsiveLoginRoot = (MwsiveLoginRoot)_value[1];
 
-        SetMwsiveToken(mwsiveLoginRoot.mwsive_token);
+        SetMwsiveToken(mwsiveLoginRoot.mwsive_token, DateTime.Now.AddHours(1));
 
         SceneManager.LoadScene("MainScene");
     }
@@ -165,9 +165,10 @@ public class LogInManager : Manager
         ProgressManager.instance.save();
     }
 
-    private void SetMwsiveToken(string _value)
+    private void SetMwsiveToken(string _value, DateTime _expire_date)
     {
         ProgressManager.instance.progress.userDataPersistance.access_token = _value;
+        ProgressManager.instance.progress.userDataPersistance.expires_at = _expire_date;
         ProgressManager.instance.progress.userDataPersistance.userTokenSetted = true;
         ProgressManager.instance.save();
     }
@@ -179,7 +180,7 @@ public class LogInManager : Manager
 
     private bool HasMwsiveTokenExpired()
     {
-        return ProgressManager.instance.progress.userDataPersistance.expires_at.CompareTo(DateTime.Now) > 0;
+        return ProgressManager.instance.progress.userDataPersistance.expires_at.CompareTo(DateTime.Now) < 0;
     }
 
     private void OpenView(ViewID _value)

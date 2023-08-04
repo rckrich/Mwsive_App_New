@@ -58,7 +58,9 @@ public class NewScreenManager : Manager
 
             if (isCurrentViewSpawned)
             {
+                RemoveSpawnedViewFromList(currentView);
                 Destroy(currentView.gameObject);
+
             }
             else {
                 currentView.SetActive(false);
@@ -215,6 +217,16 @@ public class NewScreenManager : Manager
         foreach(ViewModel view in spawnedViewsList)
         {
             Destroy(view.gameObject);
+        }
+
+        spawnedViewsList.Clear();
+    }
+
+    private void RemoveSpawnedViewFromList(ViewModel _currentView)
+    {
+        if (CeckIfCurrentViewSpawned(_currentView))
+        {
+            spawnedViewsList.Remove(_currentView);
         }
     }
 
