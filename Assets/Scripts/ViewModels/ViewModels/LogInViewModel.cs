@@ -14,6 +14,6 @@ public class LogInViewModel : ViewModel
 
     public void OnClick_NoLogInButton()
     {
-        GameObject.FindAnyObjectByType<NoLogInConnectionManager>().OnCLick_NoLogInButton();
+        GameObject.FindAnyObjectByType<NoLogInConnectionManager>().StartConnection();
     }
 }

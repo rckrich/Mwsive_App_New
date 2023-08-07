@@ -67,7 +67,7 @@ public class SpotifyConnectionManager : Manager
                 _callback(new object[]
                 {
                     oAuthHandler.GetSpotifyToken().RawValue
-                }) ;
+                });
             }
         }
         else
@@ -447,8 +447,16 @@ public class SpotifyConnectionManager : Manager
     private void StartReauthentication()
     {
         StopAllCoroutines();
-        ResetToken();
-        StartConnection();
+
+        if (ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted)
+        {
+            ResetToken();
+            StartConnection();
+        }
+        else
+        {
+            NoLogInConnectionManager.instance.StartConnection();
+        }
     }
 
     #endregion
