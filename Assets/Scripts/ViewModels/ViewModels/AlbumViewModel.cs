@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlaylistViewModel : ViewModel
+public class AlbumViewModel : ViewModel
 {
     // Start is called before the first frame update
     //public TMP_InputField playlistIDInputField;
