@@ -20,7 +20,25 @@ public class ADNMusicalPrefabInitializaer : MonoBehaviour
     
     public void InitializeSingleWithBackgroundWithImage(string _text, string Image, string _id){
         ImageManager.instance.GetImage(Image, Portada, (RectTransform)this.transform);
-        Title.text = _text;
+        if(_text.Length > 27){
+            string _text2 = "";
+            for (int k = 0; k < 27; k++)
+            {
+                
+                _text2 =_text2 + _text[k];
+                
+            }
+            _text2 = _text2 + "...";
+            Title.text = _text2;
+        }else{
+            Title.text = _text;
+        }
+
+
+
+
+
+        
         int i = int.Parse(gameObject.name.Split("-")[1]);
         i--;
         Color32 _color = Colors[i % 3];
@@ -30,7 +48,19 @@ public class ADNMusicalPrefabInitializaer : MonoBehaviour
     }
     public void InitializeSingleWithBackgroundNoImage(string _text, string _id){
         
-        Title.text = _text;
+        if(_text.Length > 27){
+            string _text2 = "";
+            for (int k = 0; k < 27; k++)
+            {
+                
+                _text2 =_text2 + _text[k];
+                
+            }
+            _text2 = _text2 + "...";
+            Title.text = _text2;
+        }else{
+            Title.text = _text;
+        }
         int i = int.Parse(gameObject.name.Split("-")[1]);
         i--;
         Color32 _color = Colors[i % 3];
@@ -42,8 +72,32 @@ public class ADNMusicalPrefabInitializaer : MonoBehaviour
 
      public void InitializeDoubleWithBackgroundWithImage(string _Title, string _Subtitle, string Image, string _id){
         ImageManager.instance.GetImage(Image, Portada, (RectTransform)this.transform);
-        Title.text = _Title;
-        Subtitle.text = _Subtitle;
+        if(_Title.Length > 27){
+            string _text2 = "";
+            for (int k = 0; k < 27; k++)
+            {
+                
+                _text2 =_text2 + _Title[k];
+                
+            }
+            _text2 = _text2 + "...";
+            Title.text = _text2;
+        }else{
+            Title.text = _Title;
+        }
+        if(_Subtitle.Length > 27){
+            string _text2 = "";
+            for (int k = 0; k < 27; k++)
+            {
+                
+                _text2 =_text2 + _Subtitle[k];
+                
+            }
+            _text2 = _text2 + "...";
+            Subtitle.text = _text2;
+        }else{
+            Subtitle.text = _Subtitle;
+        }
         int i = int.Parse(gameObject.name.Split("-")[1]);
         i--;
         Color32 _color = Colors[i % 3];
@@ -53,8 +107,37 @@ public class ADNMusicalPrefabInitializaer : MonoBehaviour
     }
     public void InitializeDoubleWithBackgroundNoImage(string _Title, string _Subtitle, string _id){
         
-        Title.text = _Title;
-        Subtitle.text = _Subtitle;
+        if(_Title.Length > 27){
+            string _text2 = "";
+            for (int k = 0; k < 27; k++)
+            {
+                
+                _text2 =_text2 + _Title[k];
+                
+            }
+            _text2 = _text2 + "...";
+            Title.text = _text2;
+        }else{
+            Title.text = _Title;
+        }
+
+        if(_Subtitle.Length > 27){
+            string _text2 = "";
+            for (int k = 0; k < 27; k++)
+            {
+                
+                _text2 =_text2 + _Subtitle[k];
+                
+            }
+            _text2 = _text2 + "...";
+            Subtitle.text = _text2;
+        }else{
+            Subtitle.text = _Subtitle;
+        }
+
+
+
+        
         int i = int.Parse(gameObject.name.Split("-")[1]);
         i--;
         Color32 _color = Colors[i % 3];
@@ -65,6 +148,7 @@ public class ADNMusicalPrefabInitializaer : MonoBehaviour
 
 
     public void OnClickButton(){
+        ADNDynamicScroll.instance.HideShowHeader();
         ADNDynamicScroll.instance.ShowAllInstances(Title.text, id);
     }
 

@@ -37,9 +37,6 @@ public class PlaylistViewModel : ViewModel
         {
             SpotifyConnectionManager.instance.GetPlaylist(id, Callback_GetPLaylist);
 
-            holderManager.playlistId = id;
-            holderManager.playlistName = playlistName.text;
-            Debug.Log(holderManager.playlistId);
         }
         /*
         if (!@public)
@@ -70,6 +67,7 @@ public class PlaylistViewModel : ViewModel
 
         SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
         InstanceTrackObjects(searchedPlaylist.tracks);
+        stringUrl = searchedPlaylist.external_urls.spotify;
        
     }
     public void OnReachEnd()
@@ -105,8 +103,6 @@ public class PlaylistViewModel : ViewModel
     }
     public void OnClickListenInSpotify()
     {
-        url = holderManager.playlistExternalUrl;
-        stringUrl = url.spotify.ToString();
         Application.OpenURL(stringUrl);
     }
 

@@ -9,7 +9,7 @@ public class ADNDynamicScroll : MonoBehaviour
     
     public float MaxPrefabsInScreen = 0;
     public ScrollRect ScrollBar;
-    public GameObject SpawnArea, Prefab, Añadir, ScrollView, GuardarTop, HeaderGrafico;
+    public GameObject SpawnArea, Prefab, Añadir, ScrollView, GuardarTop;
     private GameObject Instance;  
     public List<GameObject> Instances = new List<GameObject>(); 
     private static ADNDynamicScroll _instance;
@@ -139,9 +139,10 @@ public class ADNDynamicScroll : MonoBehaviour
         GuardarTop.GetComponent<Image>().color = new Color32 (128,128,128,255);
     }
 
-    public void HideShowHeader(bool value){
-        HeaderGrafico.SetActive(value);
+    public void HideShowHeader(){
+        ScrollView.GetComponent<ScrollRect>().enabled = false;
     }
+    
     
     public void HideAllOtherInstances(string gameObjectname){
         Debug.Log("Hide");

@@ -17,59 +17,59 @@ public class AlbumViewModel : ViewModel
     public string id;
     public TextMeshProUGUI playlistName;
     public bool @public;
-    public GameObject button;
     public string artists;
-    public HolderManager holderManager;
     public float end;
     public int offset = 1;
     int onlyone = 0;
     public ScrollRect scrollRect;
     public ExternalUrls url;
     public string stringUrl;
+
+
+    private string image;
    
     void Start()
     {
-        GetPlaylist();
+        GetAlbum();
     }
-    public void GetPlaylist()
+    public void GetAlbum()
     {
         if (!id.Equals(""))
         {
-            SpotifyConnectionManager.instance.GetPlaylist(id, Callback_GetPLaylist);
-
-            holderManager.playlistId = id;
-            holderManager.playlistName = playlistName.text;
-            Debug.Log(holderManager.playlistId);
+            SpotifyConnectionManager.instance.GetAlbum(id, Callback_GetPLayAlbum);
         }
-        /*
-        if (!@public)
-        {  
-            button.GetComponent<ChangeImage>().OnClickToggle();
-        }
-        */
+        
     }
     private void InstanceTrackObjects(Tracks _tracks)
     {
-
+        Debug.Log(_tracks.items.Count);
         foreach (Item item in _tracks.items)
         {
+
             TrackHolder instance = GameObject.Instantiate(trackHolderPrefab, instanceParent).GetComponent<TrackHolder>();
             artists = "";
-            foreach(Artist artist in item.track.artists) { artists += artist.name + ", "; }
-            instance.Initialize(item.track.name, artists, item.track.id, item.track.artists[0].id, item.track.uri, item.track.preview_url, item.track.external_urls); 
-            if (item.track.album.images != null && item.track.album.images.Count > 0)
-                instance.SetImage(item.track.album.images[0].url);
+            foreach(Artist artist in item.artists) { artists += artist.name + ", "; }
+            
+
+            instance.Initialize(item.name, artists, item.id, item.artists[0].id, item.uri, item.preview_url, item.external_urls); 
+            
+            instance.SetImage(image);
             offset++;
         }
     }
     
 
-    private void Callback_GetPLaylist(object[] _value)
+    private void Callback_GetPLayAlbum(object[] _value)
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
-        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
-        InstanceTrackObjects(searchedPlaylist.tracks);
+        AlbumRoot _Album = (AlbumRoot)_value[1];
+        if(_Album.images[0].url != null){
+            image = _Album.images[0].url;
+        }
+    
+        InstanceTrackObjects(_Album.tracks);
+        stringUrl = _Album.external_urls.spotify;
        
     }
     public void OnReachEnd()
@@ -105,8 +105,6 @@ public class AlbumViewModel : ViewModel
     }
     public void OnClickListenInSpotify()
     {
-        url = holderManager.playlistExternalUrl;
-        stringUrl = url.spotify.ToString();
         Application.OpenURL(stringUrl);
     }
 
