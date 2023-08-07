@@ -8,12 +8,18 @@ public class SurfViewModel : ViewModel
     public GameObject surfManager;
     public Image profilePicture;
     private string profileId;
+    public ButtonSurfPlaylist buttonSurfPlaylist;
+
     void Start()
     {
-        surfManager.SetActive(true);
-        SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
+        
     }
 
+    public void GetProfile()
+    {
+        if (ProgressManager.instance.progress.userDataPersistance.userTokenSetted)
+            SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
+    }
     private void Callback_GetUserProfile(object[] _value)
     {
         //if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
@@ -21,6 +27,7 @@ public class SurfViewModel : ViewModel
         ProfileRoot profileRoot = (ProfileRoot)_value[1];
         profileId = profileRoot.id;
         ImageManager.instance.GetImage(profileRoot.images[0].url, profilePicture, (RectTransform)this.transform);
+      
         
     }
 
