@@ -169,7 +169,7 @@ public class LogInManager : Manager
 
     private void Callback_PostCreateUser(object[] _value)
     {
-        MwsiveCreatenRoot mwsiveCreatenRoot = (MwsiveCreatenRoot)_value[1];
+        MwsiveCreatedRoot mwsiveCreatenRoot = (MwsiveCreatedRoot)_value[1];
         SpotifyConnectionManager.instance.CreatePlaylist(profileid, Callback_CreatePlaylist);
     }
 

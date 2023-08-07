@@ -62,8 +62,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Create Mwsive user " + jsonResult);
-                    MwsiveUserRoot mwsiveUserRoot = JsonConvert.DeserializeObject<MwsiveUserRoot>(jsonResult);
-                    _callback(new object[] { webRequest.responseCode, mwsiveUserRoot });
+                    MwsiveCreatedRoot mwsiveCreatedRoot = JsonConvert.DeserializeObject<MwsiveCreatedRoot>(jsonResult);
+                    _callback(new object[] { webRequest.responseCode, mwsiveCreatedRoot });
                     yield break;
                 }
             }

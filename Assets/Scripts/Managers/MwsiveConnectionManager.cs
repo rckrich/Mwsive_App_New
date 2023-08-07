@@ -53,7 +53,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveCreatenRoot)_value[1]));
+        Debug.Log(((MwsiveCreatedRoot)_value[1]));
     }
 
     public void PostLogin(string _email, string _user_id, MwsiveWebCallback _callback = null)

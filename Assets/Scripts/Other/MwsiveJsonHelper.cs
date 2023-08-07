@@ -195,7 +195,7 @@ public class MwsiveUserRoot
     public string MwsiveUser { get; set; }
 }
 
-public class MwsiveCreatenRoot
+public class MwsiveCreatedRoot
 {
     public MwsiveUser MwsiveUser { get; set; }
 }
