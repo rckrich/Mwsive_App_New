@@ -14,14 +14,7 @@ public class SplashViewModel : ViewModel
     {
         if (ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted)
         {
-            if (HasSpotifyTokenExpired())
-            {
-                LogInManager.instance.StartLogInProcess();
-            }
-            else
-            {
-                LogInManager.instance.MwsiveTokenLogInProcess();
-            }
+            LogInManager.instance.StartLogInProcess();
         }
         else
         {
@@ -31,7 +24,7 @@ public class SplashViewModel : ViewModel
 
     private bool HasSpotifyTokenExpired()
     {
-        return ProgressManager.instance.progress.userDataPersistance.spotify_expires_at.CompareTo(DateTime.Now) > 0;
+        return ProgressManager.instance.progress.userDataPersistance.spotify_expires_at.CompareTo(DateTime.Now) < 0;
     }
 
     private void OpenView(ViewID _value)

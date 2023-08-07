@@ -27,7 +27,7 @@ public enum ViewID
     FollowersViewModel,
     EditProfileViewModel,
     RankingViewModel,
-
+    DangerZoneViewModel,
 }
 
 public enum HTTPMethods

@@ -34,12 +34,11 @@ RectTransform:
   m_Children:
   - {fileID: 4290480511661376229}
   m_Father: {fileID: 4969784576469249357}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 50.3, y: 9.6}
-  m_SizeDelta: {x: 8, y: 2}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -39.1, y: 6.3150024}
+  m_SizeDelta: {x: 10, y: 2.7279}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5096184649913231570
 CanvasRenderer:
@@ -187,11 +186,10 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1140755404967961748}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.02}
+  m_AnchoredPosition: {x: 0, y: 0.020000458}
   m_SizeDelta: {x: 0, y: 0.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6717358257993678729
@@ -249,8 +247,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 1
-  m_fontSizeBase: 1
+  m_fontSize: 1.5
+  m_fontSizeBase: 1.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -324,11 +322,10 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4969784576469249357}
-  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -26, y: 8.200015}
+  m_AnchoredPosition: {x: -26, y: 8}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &134291380200234878
@@ -488,7 +485,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4969784576469249357}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -571,6 +567,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 9147823599168841517}
+        m_TargetAssemblyTypeName: SelectedPlaylistNameAppObject, Scripts
+        m_MethodName: SelectedPlaylistNameAppEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &4969784576017381257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -632,12 +640,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4969784576469249357}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -11.3, y: 14.925}
-  m_SizeDelta: {x: 87.1967, y: 16.55}
+  m_AnchoredPosition: {x: 72.41765, y: 14.925}
+  m_SizeDelta: {x: 254.1606, y: 16.55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4969784576051622480
 CanvasRenderer:
@@ -667,7 +674,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: Mwsive
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9dfaac552010a224d8adfdf529c25fa4, type: 2}
   m_sharedMaterial: {fileID: 5309427046401644999, guid: 9dfaac552010a224d8adfdf529c25fa4, type: 2}
@@ -694,13 +701,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 6
-  m_fontSizeBase: 6
+  m_fontSize: 8
+  m_fontSizeBase: 8
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 16
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 1024
   m_textAlignment: 65535
@@ -767,12 +774,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4969784576469249357}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -9.2, y: -4.5}
-  m_SizeDelta: {x: 92.295, y: 15.4}
+  m_AnchoredPosition: {x: 15.0191, y: -4.5}
+  m_SizeDelta: {x: 140.7331, y: 15.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4969784576304801862
 CanvasRenderer:
@@ -802,7 +808,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: Mwsive
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dd8a9564c64e77645925f0853d7fc372, type: 2}
   m_sharedMaterial: {fileID: 6108341975423490025, guid: dd8a9564c64e77645925f0853d7fc372, type: 2}
@@ -829,8 +835,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 4
-  m_fontSizeBase: 4
+  m_fontSize: 6
+  m_fontSizeBase: 6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -884,6 +890,7 @@ GameObject:
   - component: {fileID: -2790045636043222196}
   - component: {fileID: 6083056419048850266}
   - component: {fileID: 8400689002820854051}
+  - component: {fileID: 9147823599168841517}
   m_Layer: 5
   m_Name: PF_SurfMiPlaylistHolder
   m_TagString: Untagged
@@ -909,7 +916,6 @@ RectTransform:
   - {fileID: 1140755404967961748}
   - {fileID: 4732785041974896550}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -968,7 +974,6 @@ MonoBehaviour:
   miPlaylistViewModel: {fileID: 1960618545465120682, guid: 9cbc6ba61f0ada549a7ad17a322016d2, type: 3}
   change: {fileID: 2814328039249780484}
   public: 0
-  holderManager: {fileID: 2692963331336141333, guid: 55d500d6e41ab1a48bbb098ee7f2fa5a, type: 3}
   changeBool: 0
   description: 
 --- !u!222 &6083056419048850266
@@ -991,4 +996,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b8550e708368f74aa6d4a2321cd8988, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enabled: 0
+  isEnabled: 0
+--- !u!114 &9147823599168841517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4969784576469249356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78124e1095553754ab7fdf5e710cbe43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playlistName: 

@@ -29,10 +29,11 @@ public class MwsiveUser
     public Artist[] goats { get; set; }
     public Track[] ost { get; set; }
     public object created_at { get; set; }
-    public User user { get; set; }
+    public string user { get; set; }
     public Playlists[] publicPlaylists { get; set; }
     public string genre { get; set; }
     public int age { get; set; }
+    public string playlists { get; set; }
 }
 
 public class MwsiveTrack
@@ -197,13 +198,13 @@ public class MwsiveUserRoot
 public class MwsiveCreatenRoot
 {
     public MwsiveUser MwsiveUser { get; set; }
-    public string mwsive_token { get; set; }
 }
 
 public class MwsiveLoginRoot
 {
-    public MwsiveUser MwsiveUser { get; set; }
-    public string mwsive_token { get; set; }
+    public string access_token { get; set; }
+    public string token_type { get; set; }
+    public MwsiveUser user { get; set; }
 }
 
 public class MwsiveCuratorsRoot
