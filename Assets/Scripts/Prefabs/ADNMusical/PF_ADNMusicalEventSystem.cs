@@ -58,11 +58,7 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
         
         SearchText = searchbar.text;
         if(SearchText.Length >= 1){
-            EraseButton.SetActive(false);
-            PlaceHolder.SetActive(false);
             
-            
-            ADNDynamicScroll.instance.HideAllOtherInstances(gameObject.name);
             if(SearchText.Length >= 3 || EnableSerach){
                 CheckForSpawnHasEnded = true;
                 
@@ -92,6 +88,19 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
         ScrollBar.verticalNormalizedPosition = 1;
     }
 
+    public void OnSelectInputField(){
+        ADNDynamicScroll.instance.HideShowHeader();
+        EraseButton.SetActive(false);
+        PlaceHolder.SetActive(false);
+            
+            
+        ADNDynamicScroll.instance.HideAllOtherInstances(gameObject.name);
+    }
+
+
+    
+
+
     public string GetPlaceHolder(){
         return PlaceHolder.GetComponent<TextMeshProUGUI>().text;
     }
@@ -99,6 +108,22 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
         return SpotifyId;
     }
     public void SetPlaceHolder(string _text){
+        if(_text.Length > 27){
+            string _text2 = "";
+            for (int i = 0; i < 27; i++)
+            {
+                
+                _text2 =_text2 + _text[i];
+                
+            }
+            _text2 = _text2 + "...";
+            PlaceHolder.GetComponent<TextMeshProUGUI>().text = _text2;
+        }else{
+            PlaceHolder.GetComponent<TextMeshProUGUI>().text = _text;
+        }
+
+
+
         PlaceHolder.GetComponent<TextMeshProUGUI>().text = _text;
     }
 

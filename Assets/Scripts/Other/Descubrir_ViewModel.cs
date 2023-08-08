@@ -6,7 +6,7 @@ using TMPro;
 
 public class Descubrir_ViewModel : MonoBehaviour
 {
-    public string[] types = new string[] {"album", "artist", "playlist", "track"};
+    
     public DescubrirPaginas Descubrir;
     public List<GameObject> Prefabs = new List<GameObject>();    
     public List<GameObject> LastPosition = new List<GameObject>();   
@@ -16,11 +16,12 @@ public class Descubrir_ViewModel : MonoBehaviour
     public List<List<GameObject>> ListOfLists = new List<List<GameObject>>();
     private string SearchText;
     private GameObject Instance;
-    public int numEnpantalla, PositionInSearch;
+    private int numEnpantalla, PositionInSearch;
     private bool EnableSerach;
-    public int MaxPrefabsinScreen = 0;
+    private int MaxPrefabsinScreen = 0;
     private float ScrollbarVerticalPos =-0.001f;
     private bool CheckForSpawnHasEnded = true;
+    private string[] types = new string[] {"album", "artist", "playlist", "track"};
     // Start is called before the first frame update
     void Start()
     {
@@ -123,15 +124,16 @@ public class Descubrir_ViewModel : MonoBehaviour
                     {
                         try
                         {
+                            
                             if (item.album.images != null){
-                                CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(item.name, item.artists[0].name, item.album.images[0].url, item.id);
+                                CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(item.name, item.artists[0].name, item.album.images[0].url, item.id, item.external_urls.spotify);
                             }else{
-                                CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id);
+                                CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id, item.external_urls.spotify);
                             }
                         }
                         catch (System.ArgumentOutOfRangeException)
                         {
-                            CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id);
+                            CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id, item.external_urls.spotify);
                         }
                     }
                     
@@ -144,14 +146,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                         try
                         {
                             if (item.images != null){
-                                CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(item.name, item.images[0].url, item.id);
+                                CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(item.name, item.images[0].url, item.id, item.external_urls.spotify);
                             }else{
-                                CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id);
+                                CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id, item.external_urls.spotify);
                             }
                         }
                         catch (System.ArgumentOutOfRangeException)
                         {
-                            CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id);
+                            CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id, item.external_urls.spotify);
                         }
                     }
                     
@@ -163,14 +165,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                         try
                         {
                             if (item.images != null){
-                                CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(item.name, item.artists[0].name, item.images[0].url, item.id);
+                                CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(item.name, item.artists[0].name, item.images[0].url, item.id, item.external_urls.spotify);
                             }else{
-                                CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id);
+                                CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id, item.external_urls.spotify);
                             }
                         }
                         catch (System.ArgumentOutOfRangeException)
                         {
-                            CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id);
+                            CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id, item.external_urls.spotify);
                     }
                     
                     
@@ -182,14 +184,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                         try
                         {
                             if (item.images != null){
-                                CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(item.name, item.images[0].url, item.id);
+                                CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(item.name, item.images[0].url, item.id, item.external_urls.spotify);
                             }else{
-                                CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id);
+                                CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id, item.external_urls.spotify);
                             }
                         }
                         catch (System.ArgumentOutOfRangeException)
                         {
-                            CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id);
+                            CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id, item.external_urls.spotify);
                         }
                     }
                 }   
@@ -211,14 +213,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                     try
                     {
                         if (searchRoot.tracks.items[i].album.images != null){
-                            ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(searchRoot.tracks.items[i].name, searchRoot.tracks.items[i].artists[0].name, searchRoot.tracks.items[i].album.images[0].url, searchRoot.tracks.items[i].id);
+                            ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(searchRoot.tracks.items[i].name, searchRoot.tracks.items[i].artists[0].name, searchRoot.tracks.items[i].album.images[0].url, searchRoot.tracks.items[i].id, searchRoot.tracks.items[i].external_urls.spotify);
                         }else{
-                            ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(searchRoot.tracks.items[i].name, searchRoot.tracks.items[i].artists[0].name, searchRoot.tracks.items[i].id);
+                            ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(searchRoot.tracks.items[i].name, searchRoot.tracks.items[i].artists[0].name, searchRoot.tracks.items[i].id, searchRoot.tracks.items[i].external_urls.spotify);
                             }
                     }
                     catch (System.ArgumentOutOfRangeException)
                     {
-                        ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(searchRoot.tracks.items[i].name, searchRoot.tracks.items[i].artists[0].name, searchRoot.tracks.items[i].id);
+                        ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(searchRoot.tracks.items[i].name, searchRoot.tracks.items[i].artists[0].name, searchRoot.tracks.items[i].id, searchRoot.tracks.items[i].external_urls.spotify);
                         
                     }
                             
@@ -238,14 +240,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                     try
                     {
                         if (searchRoot.artists.items[i].images != null){
-                        ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(searchRoot.artists.items[i].name, searchRoot.artists.items[i].images[0].url, searchRoot.artists.items[i].id);
+                        ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(searchRoot.artists.items[i].name, searchRoot.artists.items[i].images[0].url, searchRoot.artists.items[i].id, searchRoot.artists.items[i].external_urls.spotify);
                         }else{
-                            ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(searchRoot.artists.items[i].name, searchRoot.artists.items[i].id);
+                            ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(searchRoot.artists.items[i].name, searchRoot.artists.items[i].id, searchRoot.artists.items[i].external_urls.spotify);
                             }
                     }
                     catch (System.ArgumentOutOfRangeException)
                     {
-                        ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(searchRoot.artists.items[i].name, searchRoot.artists.items[i].id);
+                        ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(searchRoot.artists.items[i].name, searchRoot.artists.items[i].id, searchRoot.artists.items[i].external_urls.spotify);
                         
                     }
                             
@@ -262,14 +264,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                     try
                     {
                         if (searchRoot.albums.items[i].images != null){
-                        ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(searchRoot.albums.items[i].name, searchRoot.albums.items[i].artists[0].name, searchRoot.albums.items[i].images[0].url, searchRoot.albums.items[i].id);
+                        ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(searchRoot.albums.items[i].name, searchRoot.albums.items[i].artists[0].name, searchRoot.albums.items[i].images[0].url, searchRoot.albums.items[i].id, searchRoot.albums.items[i].external_urls.spotify);
                         }else{
-                            ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(searchRoot.albums.items[i].name, searchRoot.albums.items[i].artists[0].name, searchRoot.albums.items[i].id);
+                            ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(searchRoot.albums.items[i].name, searchRoot.albums.items[i].artists[0].name, searchRoot.albums.items[i].id, searchRoot.albums.items[i].external_urls.spotify);
                             }
                     }
                     catch (System.ArgumentOutOfRangeException)
                     {
-                        ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(searchRoot.albums.items[i].name, searchRoot.albums.items[i].artists[0].name, searchRoot.albums.items[i].id);
+                        ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(searchRoot.albums.items[i].name, searchRoot.albums.items[i].artists[0].name, searchRoot.albums.items[i].id, searchRoot.albums.items[i].external_urls.spotify);
                     }
                         
                 }
@@ -285,14 +287,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                     try
                     {
                         if (searchRoot.playlists.items[i].images != null){
-                        ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(searchRoot.playlists.items[i].name, searchRoot.playlists.items[i].images[0].url, searchRoot.playlists.items[i].id);
+                        ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(searchRoot.playlists.items[i].name, searchRoot.playlists.items[i].images[0].url, searchRoot.playlists.items[i].id, searchRoot.playlists.items[i].external_urls.spotify);
                         }else{
-                            ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(searchRoot.playlists.items[i].name, searchRoot.playlists.items[i].id);
+                            ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(searchRoot.playlists.items[i].name, searchRoot.playlists.items[i].id, searchRoot.playlists.items[i].external_urls.spotify);
                             }
                     }
                     catch (System.ArgumentOutOfRangeException)
                     {
-                        ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(searchRoot.playlists.items[i].name, searchRoot.playlists.items[i].id);
+                        ListOfLists[numEnpantalla][i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(searchRoot.playlists.items[i].name, searchRoot.playlists.items[i].id, searchRoot.playlists.items[i].external_urls.spotify);
                         
                     }
                             
@@ -311,14 +313,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                         try
                         {
                             if (item.album.images != null){
-                                CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(item.name, item.artists[0].name, item.album.images[0].url, item.id);
+                                CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(item.name, item.artists[0].name, item.album.images[0].url, item.id, item.external_urls.spotify);
                             }else{
-                                CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id);
+                                CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id, item.external_urls.spotify);
                             }
                         }
                         catch (System.ArgumentOutOfRangeException)
                         {
-                            CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id);
+                            CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id, item.external_urls.spotify);
                         }
                     }
                     
@@ -331,14 +333,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                         try
                         {
                             if (item.images != null){
-                                CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(item.name, item.images[0].url, item.id);
+                                CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(item.name, item.images[0].url, item.id, item.external_urls.spotify);
                             }else{
-                                CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id);
+                                CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id, item.external_urls.spotify);
                             }
                         }
                         catch (System.ArgumentOutOfRangeException)
                         {
-                            CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id);
+                            CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id, item.external_urls.spotify);
                         }
                     }
                     
@@ -350,14 +352,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                         try
                         {
                             if (item.images != null){
-                                CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(item.name, item.artists[0].name, item.images[0].url, item.id);
+                                CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(item.name, item.artists[0].name, item.images[0].url, item.id, item.external_urls.spotify);
                             }else{
-                                CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id);
+                                CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id, item.external_urls.spotify);
                             }
                         }
                         catch (System.ArgumentOutOfRangeException)
                         {
-                            CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id);
+                            CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id, item.external_urls.spotify);
                     }
                     
                     
@@ -369,14 +371,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                         try
                         {
                             if (item.images != null){
-                                CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(item.name, item.images[0].url, item.id);
+                                CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(item.name, item.images[0].url, item.id, item.external_urls.spotify);
                             }else{
-                                CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id);
+                                CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id, item.external_urls.spotify);
                             }
                         }
                         catch (System.ArgumentOutOfRangeException)
                         {
-                            CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id);
+                            CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id, item.external_urls.spotify);
                         }
                     }
                 }   
@@ -412,16 +414,16 @@ public class Descubrir_ViewModel : MonoBehaviour
                         {
                             if (item.album.images != null){
                                 
-                                CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(item.name, item.artists[0].name, item.album.images[0].url, item.id);
+                                CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(item.name, item.artists[0].name, item.album.images[0].url, item.id, item.external_urls.spotify);
                             }else{
                                 
-                                CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id);
+                                CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id, item.external_urls.spotify);
                             }
                         }
                         catch (System.ArgumentOutOfRangeException)
                         {
                             
-                            CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id);
+                            CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id, item.external_urls.spotify);
                         }
                     }
                     
@@ -434,14 +436,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                         try
                         {
                             if (item.images != null){
-                                CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(item.name, item.images[0].url, item.id);
+                                CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(item.name, item.images[0].url, item.id, item.external_urls.spotify);
                             }else{
-                                CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id);
+                                CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id, item.external_urls.spotify);
                             }
                         }
                         catch (System.ArgumentOutOfRangeException)
                         {
-                            CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id);
+                            CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id, item.external_urls.spotify);
                         }
                     }
                     
@@ -453,14 +455,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                         try
                         {
                             if (item.images != null){
-                                CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(item.name, item.artists[0].name, item.images[0].url, item.id);
+                                CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(item.name, item.artists[0].name, item.images[0].url, item.id, item.external_urls.spotify);
                             }else{
-                                CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id);
+                                CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id, item.external_urls.spotify);
                             }
                         }
                         catch (System.ArgumentOutOfRangeException)
                         {
-                            CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id);
+                            CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id, item.external_urls.spotify);
                         }
                     
                     }    
@@ -472,14 +474,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                         try
                         {
                             if (item.images != null){
-                                CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(item.name, item.images[0].url, item.id);
+                                CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(item.name, item.images[0].url, item.id, item.external_urls.spotify);
                             }else{
-                                CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id);
+                                CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id, item.external_urls.spotify);
                             }
                         }
                         catch (System.ArgumentOutOfRangeException)
                         {
-                            CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id);
+                            CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id, item.external_urls.spotify);
                         }
                     }
                 }   
@@ -501,14 +503,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                     try
                     {
                         if (searchRoot.tracks.items[i].album.images != null){
-                            ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(searchRoot.tracks.items[i].name, searchRoot.tracks.items[i].artists[0].name, searchRoot.tracks.items[i].album.images[0].url, searchRoot.tracks.items[i].id);
+                            ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(searchRoot.tracks.items[i].name, searchRoot.tracks.items[i].artists[0].name, searchRoot.tracks.items[i].album.images[0].url, searchRoot.tracks.items[i].id, searchRoot.tracks.items[i].external_urls.spotify);
                         }else{
-                            ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(searchRoot.tracks.items[i].name, searchRoot.tracks.items[i].artists[0].name, searchRoot.tracks.items[i].id);
+                            ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(searchRoot.tracks.items[i].name, searchRoot.tracks.items[i].artists[0].name, searchRoot.tracks.items[i].id, searchRoot.tracks.items[i].external_urls.spotify);
                             }
                     }
                     catch (System.ArgumentOutOfRangeException)
                     {
-                        ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(searchRoot.tracks.items[i].name, searchRoot.tracks.items[i].artists[0].name, searchRoot.tracks.items[i].id);
+                        ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(searchRoot.tracks.items[i].name, searchRoot.tracks.items[i].artists[0].name, searchRoot.tracks.items[i].id, searchRoot.tracks.items[i].external_urls.spotify);
                         
                     }
                             
@@ -524,14 +526,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                     try
                     {
                         if (searchRoot.artists.items[i].images != null){
-                        ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(searchRoot.artists.items[i].name, searchRoot.artists.items[i].images[0].url, searchRoot.artists.items[i].id);
+                        ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(searchRoot.artists.items[i].name, searchRoot.artists.items[i].images[0].url, searchRoot.artists.items[i].id, searchRoot.artists.items[i].external_urls.spotify);
                         }else{
-                            ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(searchRoot.artists.items[i].name, searchRoot.tracks.items[i].id);
+                            ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(searchRoot.artists.items[i].name, searchRoot.tracks.items[i].id, searchRoot.artists.items[i].external_urls.spotify);
                             }
                     }
                     catch (System.ArgumentOutOfRangeException)
                     {
-                        ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(searchRoot.artists.items[i].name, searchRoot.tracks.items[i].id);
+                        ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(searchRoot.artists.items[i].name, searchRoot.tracks.items[i].id, searchRoot.artists.items[i].external_urls.spotify);
                         
                     }
                 
@@ -548,14 +550,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                     try
                     {
                         if (searchRoot.albums.items[i].images != null){
-                        ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(searchRoot.albums.items[i].name, searchRoot.albums.items[i].artists[0].name, searchRoot.albums.items[i].images[0].url, searchRoot.albums.items[i].id);
+                        ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(searchRoot.albums.items[i].name, searchRoot.albums.items[i].artists[0].name, searchRoot.albums.items[i].images[0].url, searchRoot.albums.items[i].id, searchRoot.albums.items[i].external_urls.spotify);
                         }else{
-                            ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(searchRoot.albums.items[i].name, searchRoot.albums.items[i].artists[0].name, searchRoot.albums.items[i].id);
+                            ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(searchRoot.albums.items[i].name, searchRoot.albums.items[i].artists[0].name, searchRoot.albums.items[i].id, searchRoot.albums.items[i].external_urls.spotify);
                             }
                     }
                     catch (System.ArgumentOutOfRangeException)
                     {
-                        ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(searchRoot.albums.items[i].name, searchRoot.albums.items[i].artists[0].name, searchRoot.albums.items[i].id);
+                        ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(searchRoot.albums.items[i].name, searchRoot.albums.items[i].artists[0].name, searchRoot.albums.items[i].id, searchRoot.albums.items[i].external_urls.spotify);
                     }
                         
                 }
@@ -570,14 +572,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                     try
                     {
                         if (searchRoot.playlists.items[i].images != null){
-                        ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(searchRoot.playlists.items[i].name, searchRoot.playlists.items[i].images[0].url, searchRoot.playlists.items[i].id);
+                        ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(searchRoot.playlists.items[i].name, searchRoot.playlists.items[i].images[0].url, searchRoot.playlists.items[i].id, searchRoot.playlists.items[i].external_urls.spotify);
                         }else{
-                            ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(searchRoot.playlists.items[i].name, searchRoot.playlists.items[i].id);
+                            ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(searchRoot.playlists.items[i].name, searchRoot.playlists.items[i].id, searchRoot.playlists.items[i].external_urls.spotify);
                             }
                     }
                     catch (System.ArgumentOutOfRangeException)
                     {
-                        ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(searchRoot.playlists.items[i].name, searchRoot.playlists.items[i].id);
+                        ListOfLists[numEnpantalla][PositionInSearch+i].GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(searchRoot.playlists.items[i].name, searchRoot.playlists.items[i].id, searchRoot.playlists.items[i].external_urls.spotify);
                         
                     }
                             
@@ -598,16 +600,16 @@ public class Descubrir_ViewModel : MonoBehaviour
                         {
                             if (item.album.images != null){
                                 
-                                CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(item.name, item.artists[0].name, item.album.images[0].url, item.id);
+                                CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(item.name, item.artists[0].name, item.album.images[0].url, item.id, item.external_urls.spotify);
                             }else{
                                 
-                                CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id);
+                                CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id, item.external_urls.spotify);
                             }
                         }
                         catch (System.ArgumentOutOfRangeException)
                         {
                             
-                            CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id);
+                            CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id, item.external_urls.spotify);
                         }
                     }
                     
@@ -620,14 +622,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                         try
                         {
                             if (item.images != null){
-                                CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(item.name, item.images[0].url, item.id);
+                                CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(item.name, item.images[0].url, item.id, item.external_urls.spotify);
                             }else{
-                                CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id);
+                                CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id, item.external_urls.spotify);
                             }
                         }
                         catch (System.ArgumentOutOfRangeException)
                         {
-                            CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id);
+                            CustomSpawnPrefab(false, 3).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id, item.external_urls.spotify);
                         }
                     }
                     
@@ -639,14 +641,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                         try
                         {
                             if (item.images != null){
-                                CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(item.name, item.artists[0].name, item.images[0].url, item.id);
+                                CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDoubleWithImage(item.name, item.artists[0].name, item.images[0].url, item.id, item.external_urls.spotify);
                             }else{
-                                CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id);
+                                CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id, item.external_urls.spotify);
                             }
                         }
                         catch (System.ArgumentOutOfRangeException)
                         {
-                            CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id);
+                            CustomSpawnPrefab(false, 4).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id, item.external_urls.spotify);
                         }
                     
                     }    
@@ -658,14 +660,14 @@ public class Descubrir_ViewModel : MonoBehaviour
                         try
                         {
                             if (item.images != null){
-                                CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(item.name, item.images[0].url, item.id);
+                                CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingleWithImage(item.name, item.images[0].url, item.id, item.external_urls.spotify);
                             }else{
-                                CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id);
+                                CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id, item.external_urls.spotify);
                             }
                         }
                         catch (System.ArgumentOutOfRangeException)
                         {
-                            CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id);
+                            CustomSpawnPrefab(false, 5).GetComponent<DynamicSearchPrefabInitializer>().InitializeSingle(item.name, item.id, item.external_urls.spotify);
                         }
                     }
                 }   
@@ -682,18 +684,6 @@ public class Descubrir_ViewModel : MonoBehaviour
         PositionInSearch = PositionInSearch + MaxPrefabsinScreen;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
     
     public void CheckForSpawn(){
         
@@ -703,7 +693,18 @@ public class Descubrir_ViewModel : MonoBehaviour
                 
                 CheckForSpawnHasEnded = false;
                 DynamicPrefabSpawner(MaxPrefabsinScreen);
-                SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_CheckForSpawn, "ES", MaxPrefabsinScreen, PositionInSearch);
+                if(numEnpantalla == 6 || numEnpantalla == 0){
+                    if(numEnpantalla == 6){
+                        string GenreText =SearchText +"%20genre:" + SearchText;
+                        SpotifyConnectionManager.instance.SearchForItem(GenreText, types, Callback_OnCLick_CheckForSpawn, "ES", Mathf.RoundToInt(MaxPrefabsinScreen/3), PositionInSearch);
+                    }else{
+                        SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_CheckForSpawn, "ES", Mathf.RoundToInt(MaxPrefabsinScreen/3), PositionInSearch);
+                    }
+                    
+                }else{
+                    SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_CheckForSpawn, "ES", MaxPrefabsinScreen, PositionInSearch);
+                }
+                
             }
         }
         
@@ -715,7 +716,7 @@ public class Descubrir_ViewModel : MonoBehaviour
             CalculateMaxPrefabToCall();
         }
 
-        if (numEnpantalla == 0){
+        if (numEnpantalla == 0 || numEnpantalla == 6){
             //SpawnAll( prefabs);
         }else{
             for (int i = 0; i <= prefabs-1; i++)
@@ -865,13 +866,7 @@ public class Descubrir_ViewModel : MonoBehaviour
                 Instance.SetActive(IsVisible);
                 ListOfLists[numEnpantalla].Add(Instance);   
                 break;
-            case 6: 
-                Instance = Instantiate(Prefabs[numEnpantalla],PrefabsPosition.transform.position, Quaternion.identity);
-                Instance.transform.SetParent(GameObject.Find("PF_Genders_Container").transform);
-                Instance.transform.localScale = new Vector3(1,1,1);
-                Instance.SetActive(IsVisible);
-                ListOfLists[numEnpantalla].Add(Instance);
-                break;
+
         }
 
     }

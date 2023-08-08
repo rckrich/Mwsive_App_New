@@ -234,20 +234,15 @@ public class SpotifyConnectionManager : Manager
 
     public void GetPlaylist(string _playlistID, SpotifyWebCallback _callback = null, string _market = "ES")
     {
-        _callback += Callback_GetPlaylist;
         StartCoroutine(SpotifyWebCalls.CR_GetPlaylist(oAuthHandler.GetSpotifyToken().AccessToken, _callback, _playlistID, _market));
     }
 
-    private void Callback_GetPlaylist(object[] _value)
+    public void GetAlbum(string _playlistID, SpotifyWebCallback _callback = null, string _market = "ES")
     {
-        if (CheckReauthenticateUser((long)_value[0]))
-        {
-            StartReauthentication();
-            return;
-        }
-
-        Debug.Log((SearchedPlaylist)_value[1]);
+        StartCoroutine(SpotifyWebCalls.CR_GetAlbum(oAuthHandler.GetSpotifyToken().AccessToken, _callback, _playlistID, _market));
     }
+
+
 
     public void GetPlaylistItems(string _playlistID, SpotifyWebCallback _callback = null, string _market = "ES", int _limit = 20, int _offset = 0)
     {

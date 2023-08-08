@@ -69,6 +69,11 @@ public class TrackHolder : ViewModel
         songOptions.trackID = trackSpotifyID;
         holderManager.trackExternalUrl = url;
         NewScreenManager.instance.ChangeToSpawnedView("listaDeOpciones");
+        GameObject Instance = NewScreenManager.instance.GetCurrentView().gameObject;
+        Instance.transform.SetParent(GameObject.Find("Main Canvas").transform); 
+        Instance.GetComponent<RectTransform>().offsetMin = new Vector2(0,0);
+        Instance.GetComponent<RectTransform>().offsetMax = new Vector2(0,0);
+        Instance.transform.localScale = new Vector3(1,1,1);
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
 }
