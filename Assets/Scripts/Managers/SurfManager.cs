@@ -21,6 +21,7 @@ public class SurfManager : Manager
         }
     }
 
+    public AppManager appManager;
     public SwipeListener swipeListener;
     public ScrollRect Controller;
     public GameObject Prefab;
@@ -202,10 +203,12 @@ public class SurfManager : Manager
 
         
         CurrentPosition++;
-
+        GetBeforeCurrentPrefab().GetComponent<ButtonSurfPlaylist>().Swipe();
         GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+        
         if(CurrentPosition == PrefabPosition-3){
             //SpawnPrefab();
+            
         }
         Success = true;
         HasSwipeEnded = true;
@@ -227,8 +230,9 @@ public class SurfManager : Manager
             UIAniManager.instance.SurfTransitionBackHideSong(MwsiveSongs[CurrentPosition+2], RestPositions[3], 1);
 
             UIAniManager.instance.SurfAddSongReset(AddSong);
-            
-            CurrentPosition--;
+
+            GetBeforeCurrentPrefab().GetComponent<ButtonSurfPlaylist>().BackSwipe();
+            CurrentPosition--;           
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
             
 
@@ -316,8 +320,8 @@ public class SurfManager : Manager
             }
 
             artists = artists.Remove(artists.Length - 2);
-
-            instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(item.track.name, item.track.album.name, artists, item.track.album.images[0].url, item.track.id, item.track.external_urls.spotify, item.track.preview_url);
+            Debug.Log(item.track.uri);
+            instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(appManager.playlistName, item.track.name, item.track.album.name, artists, item.track.album.images[0].url, item.track.id, item.track.uri, item.track.preview_url);
         }
         FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
 
@@ -386,5 +390,6 @@ public class SurfManager : Manager
         lastClickTime = Time.time;
     }
 
+    
 
 }
