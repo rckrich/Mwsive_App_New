@@ -20,6 +20,7 @@ public class SurfMiplaylistHolder : ViewModel
     public bool changeBool;
     public string description;
     public ExternalUrls url;
+    public AppManager appManager;
     
     public void SetOnSelectedPlaylist(bool _enabled) { isEnabled = _enabled; }
     public bool GetOnSelectedPlaylist() { return isEnabled; }
@@ -75,18 +76,20 @@ public class SurfMiplaylistHolder : ViewModel
         NewScreenManager.instance.ChangeToSpawnedView("playlist");
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
+
     public void SelectedPlaylistEventListener(OnSelectedPlaylistClick _enable)
     {
         SetOnSelectedPlaylist(false);
         gameObject.GetComponent<Image>().enabled = false;
     }
+
     public void OnClickSelected()
     {
         ProgressManager.instance.progress.userDataPersistance.current_playlist = spotifyID;
         ProgressManager.instance.save();
 
         gameObject.GetComponent<Image>().enabled = true;
-        
+       
     }
     
     public void ChangePublic()
