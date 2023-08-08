@@ -6,22 +6,28 @@ public class MwsiveControllerButtons : MonoBehaviour
 {
     public SurfManager Surf;
     public float AnimationDuration;
-    public void OnClickOlaButton(){
-        
+    public void OnClickOlaButton() {
+
         GameObject Instance = Surf.GetCurrentPrefab();
         Instance.GetComponentInChildren<MwsiveButton>().OnClickOlaButton(AnimationDuration);
     }
-    public void OnClickAñadirButton(){
+    public void OnClickAñadirButton() {
         GameObject Instance = Surf.GetCurrentPrefab();
         Instance.GetComponentInChildren<MwsiveButton>().OnClickAñadirButton(AnimationDuration);
     }
-    public void OnClickCompartirButton(){
+    public void OnClickCompartirButton() {
         GameObject Instance = Surf.GetCurrentPrefab();
         Instance.GetComponentInChildren<MwsiveButton>().OnClickCompartirButton(AnimationDuration);
     }
 
-    public bool IsItOlaColorButtonActive(){
+    public bool IsItOlaColorButtonActive() {
         GameObject Instance = Surf.GetCurrentPrefab();
         return Instance.GetComponentInChildren<MwsiveButton>().GetIsItOlaActive();
+    }
+
+    public void OnClickPlayStopButton()
+    {
+        GameObject Instance = Surf.GetCurrentPrefab();
+        Instance.GetComponent<ButtonSurfPlaylist>().OnClic_StopAudioPreview();
     }
 }

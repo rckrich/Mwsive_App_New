@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class ButtonSurfPlaylist : ViewModel
 {
-    
+
     public TMP_Text playlistText;
     public TMP_Text trackName;
     public TMP_Text artistName;
@@ -19,97 +19,56 @@ public class ButtonSurfPlaylist : ViewModel
     public Transform transformImage;
     public string trackID;
     public List<string> uris = new List<string>();
+    public string previewURL;
+    public string mp3URL;
 
- 
-
-    public void SetSelectedPlaylistNameAppEvent(string _playlistName) { playlistText.text = _playlistName;
+    public void SetSelectedPlaylistNameAppEvent(string _playlistName)
+    {
+        playlistText.text = _playlistName;
     }
     public string GetSelectedPlaylistNameAppEvent() { return playlistName; }
     private void OnEnable()
     {
-        
-        AddEventListener<SelectedPlaylistNameAppEvent>(SelectedPlaylistNameEventListener);
+
+        //AddEventListener<SelectedPlaylistNameAppEvent>(SelectedPlaylistNameEventListener);
     }
     private void OnDisable()
     {
-        RemoveEventListener<SelectedPlaylistNameAppEvent>(SelectedPlaylistNameEventListener);
-    }
- 
-    void Start()
-    {
-
-        GetPlaylist();
-        
+        //RemoveEventListener<SelectedPlaylistNameAppEvent>(SelectedPlaylistNameEventListener);
     }
 
-    public void SelectedPlaylistNameEventListener(SelectedPlaylistNameAppEvent _event)
+    public void InitializeMwsiveSong(string _trackname, string _album, string _artist, string _image, string _spotifyid, string _url, string _previewURL)
     {
-        GetPlaylist();
-
-        
-    }
-    public void OnClickPlaylistButton()
-    {
-        NewScreenManager.instance.ChangeToSpawnedView("surfMiPlaylist");
-        Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
-    }
-
-    public void GetPlaylist()
-    {
-       
-        SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_OnCLick_GetPlaylist);
-    }
-    private void Callback_OnCLick_GetPlaylist(object[] _value)
-    {
-        if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
-        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
-        playlistName = searchedPlaylist.name;
-        SetSelectedPlaylistNameAppEvent(searchedPlaylist.name);
-        playlistText.text = playlistName;
-        GetTrack();
-    }
-
-    public void SetPlaylist(string _playlistName)
-    {
-
-        playlistName = _playlistName;
-
-    }
-
-
-    public void GetTrack()
-    {
-       SpotifyConnectionManager.instance.GetTrack(trackID, Callback_GetTrack);
-    }
-
-    private void Callback_GetTrack(object[] _value)
-    {
-        TrackRoot trackRoot = (TrackRoot)_value[1];
-        trackName.text = trackRoot.name;
-        foreach(Artist artist in trackRoot.artists)
+        if (_trackname.Length > 27)
         {
-            artistName.text += trackRoot.artists + ", ";
+            string _text2 = "";
+            for (int i = 0; i < 27; i++)
+            {
+                _text2 = _text2 + _trackname[i];
+            }
+            _text2 = _text2 + "...";
+            trackName.text = _text2;
         }
-        albumName.text = trackRoot.album.name;
-        uris.Add(trackRoot.uri);
-        ImageManager.instance.GetImage(trackRoot.album.images[0].url, trackCover, (RectTransform)transformImage);
-
-        MwsiveConnectionManager.instance.GetFollowingThatVoted(trackID, Callback_GetFollowingThatVoted);
+        else
+        {
+            trackName.text = _trackname;
+        }
+        albumName.text = _album;
+        artistName.text = _artist;
+        ImageManager.instance.GetImage(_image, trackCover, (RectTransform)this.transform);
+        trackID = _spotifyid;
+        uris.Add(_url);
+        previewURL = _previewURL;
     }
 
-    private void Callback_GetFollowingThatVoted(object[] _value)
+    public void PlayAudioPreview()
     {
-       
-    }
-
-    public void OnSwipe()
-    {
-        SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddItemsToPlayList);
+        SpotifyPreviewAudioManager.instance.GetTrack(previewURL);
 
     }
 
-    private void Callback_AddItemsToPlayList(object[] _value)
+    public void OnClic_StopAudioPreview()
     {
-
-    } 
+        SpotifyPreviewAudioManager.instance.Pause();
+    }
 }

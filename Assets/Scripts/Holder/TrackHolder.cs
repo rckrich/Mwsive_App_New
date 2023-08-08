@@ -58,6 +58,7 @@ public class TrackHolder : ViewModel
             Playing();
         }
     }
+
     public void Playing()
     {
         playSimbol.SetActive(true);

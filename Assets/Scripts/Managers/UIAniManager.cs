@@ -549,7 +549,7 @@ public class UIAniManager : MonoBehaviour
         
         
         
-        GA.transform.DORotate(new Vector3 (0f,0f ,MaxRotation*var), SurfTransitionDuration);
+        GA.transform.DORotate(new Vector3 (0f,0f ,MaxRotation*var), SurfTransitionDuration).OnComplete(() => { GA.transform.DORotate(new Vector3(0f, 0f, 0f), SurfTransitionDuration/2); }); 
         GA.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration);
     }
 
