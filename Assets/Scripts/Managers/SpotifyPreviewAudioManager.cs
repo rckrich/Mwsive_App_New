@@ -23,6 +23,7 @@ public class SpotifyPreviewAudioManager : MonoBehaviour
     public AudioSource audioSource;
 
     private AudioClip audioClip;
+    private bool isPaused = false;
 
     public void GetTrack(string _audioURL)
     {
@@ -36,6 +37,20 @@ public class SpotifyPreviewAudioManager : MonoBehaviour
             audioSource.Stop();
             
         }
+    }
+
+    public void Pause()
+    {
+        if (isPaused)
+        {
+            audioSource.Play();
+        }
+        else
+        {
+            audioSource.Pause();
+        }
+
+        isPaused = !isPaused;
     }
 
     private IEnumerator CR_GetAudioClip(string _audioURL)
