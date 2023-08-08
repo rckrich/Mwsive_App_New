@@ -15,6 +15,7 @@ public class SurfManager : Manager
     public GameObject MwsiveOla;
     public List <GameObject> MwsiveSongs = new List<GameObject>();
     public GameObject[ ] RestPositions;
+    public static SurfManager _instance;
 
     public float MaxRotation = 18f;
     public float SurfSuccessSensitivity = 2.2f;
@@ -29,15 +30,20 @@ public class SurfManager : Manager
     private bool Success = false;
     private float lastClickTime;
 
-    
+    public static SurfManager instance
+    {
+        get
+        {
+            if(_instance == null)
+            {
+                _instance = GameObject.FindObjectOfType<SurfManager>();
+            }
+            return _instance;
+        }
+    }
   
     private void Start() {
         ControllerPostion = new Vector2(Controller.transform.position.x, Controller.transform.position.y); 
-        SpawnPrefab();
-        SpawnPrefab();
-        SpawnPrefab();
-        SpawnPrefab();
-        SpawnPrefab();
     }
     private void OnEnable() {
         swipeListener.OnSwipe.AddListener(OnSwipe);
@@ -192,9 +198,13 @@ public class SurfManager : Manager
         UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[0], 1);
         UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+2], RestPositions[1], 1);
         UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[2], 1);
+
+        
         CurrentPosition++;
+
+        GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
         if(CurrentPosition == PrefabPosition-3){
-            SpawnPrefab();
+            //SpawnPrefab();
         }
         Success = true;
         HasSwipeEnded = true;
@@ -216,9 +226,13 @@ public class SurfManager : Manager
             UIAniManager.instance.SurfTransitionBackHideSong(MwsiveSongs[CurrentPosition+2], RestPositions[3], 1);
 
             UIAniManager.instance.SurfAddSongReset(AddSong);
-            CurrentPosition--;
             
-        }else{
+            CurrentPosition--;
+            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+            
+
+        }
+        else{
             ResetValue();
         }
 
@@ -238,9 +252,12 @@ public class SurfManager : Manager
             UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[0], 1);
             UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+2], RestPositions[1], 1);
             UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[2], 1);
+            
             CurrentPosition++;
-            if(CurrentPosition == PrefabPosition -3){
-                SpawnPrefab();
+            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+
+            if (CurrentPosition == PrefabPosition -3){
+                //SpawnPrefab();
             }
             UIAniManager.instance.SurfAddSongReset(AddSong);
 
@@ -278,7 +295,37 @@ public class SurfManager : Manager
         return _Instance;
     }
 
-    private void SpawnPrefab(){
+    public void DynamicPrefabSpawner(object[] _value)
+    {
+        SearchedPlaylist _searchroot = (SearchedPlaylist)_value[0];
+        GameObject FirstInstance = null;
+        foreach (var item in _searchroot.tracks.items)
+        {
+
+            GameObject instance = SpawnPrefab();
+            if (FirstInstance == null)
+            {
+                FirstInstance = instance;
+            }
+            string artists = "";
+
+            foreach (Artist artist in item.track.artists)
+            {
+                artists = artists + artist.name + ", ";
+            }
+
+            artists = artists.Remove(artists.Length - 2);
+
+            instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(item.track.name, item.track.album.name, artists, item.track.album.images[0].url, item.track.id, item.track.external_urls.spotify, item.track.preview_url);
+        }
+        FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+
+
+    }
+
+
+
+    private GameObject SpawnPrefab(){
         GameObject Instance;
         if(PrefabPosition < 4){
             Instance = Instantiate(Prefab,RestPositions[PrefabPosition].transform.position, Quaternion.identity);
@@ -313,6 +360,7 @@ public class SurfManager : Manager
             }
         
         PrefabPosition++;
+        return Instance;
     }
 
     public void CheckDoubleClick(){
