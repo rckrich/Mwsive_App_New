@@ -7,6 +7,18 @@ public class AppManager : Manager
 {
     private const string TOP_GLOBAL_PLAYLIST_ID = "37i9dQZEVXbMDoHDwVN2tF";
 
+    private static AppManager _instance;
+    public static AppManager instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = GameObject.FindObjectOfType<AppManager>();
+
+            return _instance;
+        }
+    }
+
     public string profileID;
     public Image profilePicture;   
     public SurfViewModel surfViewModel;

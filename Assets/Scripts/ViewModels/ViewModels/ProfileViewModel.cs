@@ -20,16 +20,7 @@ public class ProfileViewModel : ViewModel
 
         if (ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted)
         {
-            if (profileId.Equals(""))
-            {
-                // Significa que estamos queriendo abrir el perfil del usuario de la app
-                SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
-            }
-            else
-            {
-                // Significa que estamos queriendo abrir el perfil de otro usuario de la app
-                SpotifyConnectionManager.instance.GetUserProfile(profileId, Callback_GetUserProfile);
-            }
+            GetUserBasedOnEmptyProfileID(profileId);
         }
         else
         {
@@ -50,7 +41,12 @@ public class ProfileViewModel : ViewModel
 
     private void Callback_ProfileViewModelInitialize(object[] list)
     {
-        if (profileId.Equals(""))
+        GetUserBasedOnEmptyProfileID(profileId);
+    }
+
+    private void GetUserBasedOnEmptyProfileID(string _profileId)
+    {
+        if (_profileId.Equals(""))
         {
             SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
         }
@@ -83,7 +79,6 @@ public class ProfileViewModel : ViewModel
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
     
-
     private void Callback_GetUserProfile(object[] _value)
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
@@ -139,8 +134,12 @@ public class ProfileViewModel : ViewModel
     {
         OpenView(ViewID.SurfViewModel);
     }
+
     private void OpenView(ViewID _value)
     {
+        if (_value == ViewID.SurfViewModel)
+            SurfManager.instance.canSwipe = true;
+
         NewScreenManager.instance.ChangeToMainView(_value, false);
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
 

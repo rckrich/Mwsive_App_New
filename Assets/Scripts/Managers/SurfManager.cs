@@ -21,7 +21,6 @@ public class SurfManager : Manager
         }
     }
 
-    public AppManager appManager;
     public SwipeListener swipeListener;
     public ScrollRect Controller;
     public GameObject Prefab;
@@ -35,7 +34,9 @@ public class SurfManager : Manager
     public float SurfSuccessSensitivity = 2.2f;
     public Vector2 LeftRightOffset;
     public float doubleClickTime = .2f;
-    
+
+    [HideInInspector]
+    public bool canSwipe = true;
 
     private Vector2 ControllerPostion = new Vector2();
     private int CurrentPosition = 0;
@@ -44,17 +45,31 @@ public class SurfManager : Manager
     private bool Success = false;
     private float lastClickTime;
   
-    private void Start() {
+    private void Start()
+    {
         ControllerPostion = new Vector2(Controller.transform.position.x, Controller.transform.position.y); 
     }
-    private void OnEnable() {
+
+    private void OnEnable()
+    {
         swipeListener.OnSwipe.AddListener(OnSwipe);
-        foreach(GameObject song in GameObject.FindGameObjectsWithTag("MwsiveSong")){
+
+        foreach(GameObject song in GameObject.FindGameObjectsWithTag("MwsiveSong"))
+        {
             MwsiveSongs.Add(song);
         }
     }
 
-    private void OnSwipe(string swipe){
+    private void OnDisable()
+    {
+        swipeListener.OnSwipe.RemoveListener(OnSwipe);
+    }
+
+    private void OnSwipe(string swipe)
+    {
+        if (!canSwipe)
+            return;
+
         switch (swipe){
             case "Right":
                 
@@ -80,10 +95,6 @@ public class SurfManager : Manager
         }
         //Debug.Log(swipe);
     }
-    private void OnDisable() {
-        swipeListener.OnSwipe.RemoveListener(OnSwipe);
-    }
-
     
     public void ValChange(){
 
@@ -325,7 +336,7 @@ public class SurfManager : Manager
 
                 artists = artists.Remove(artists.Length - 2);
 
-                instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(appManager.playlistName, item.track.name, item.track.album.name, artists, item.track.album.images[0].url, item.track.id, item.track.uri, item.track.preview_url);
+                instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.playlistName, item.track.name, item.track.album.name, artists, item.track.album.images[0].url, item.track.id, item.track.uri, item.track.preview_url);
 
             }
         }
