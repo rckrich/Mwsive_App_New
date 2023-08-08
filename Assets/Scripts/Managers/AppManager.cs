@@ -9,7 +9,7 @@ public class AppManager : ViewModel
     public Image profilePicture;   
     public SurfViewModel surfViewModel;
     public GameObject Container;
-    public Transform transform;
+    public Transform surfTransform;
     public string playlistName;
     public SelectedPlaylistNameAppObject appObject;
     public ButtonSurfPlaylist buttonSurfPlaylist;
@@ -25,7 +25,7 @@ public class AppManager : ViewModel
         ProfileRoot profileRoot = (ProfileRoot)_value[1];
         profileID = profileRoot.id;
         Debug.Log(profileRoot.images[0].url);
-        ImageManager.instance.GetImage(profileRoot.images[0].url, profilePicture, (RectTransform)transform);
+        ImageManager.instance.GetImage(profileRoot.images[0].url, profilePicture, (RectTransform)surfTransform);
         SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_OnCLick_GetPlaylist);
 
     }
