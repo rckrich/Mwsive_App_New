@@ -303,29 +303,34 @@ public class SurfManager : Manager
     public void DynamicPrefabSpawner(object[] _value)
     {
         SearchedPlaylist _searchroot = (SearchedPlaylist)_value[0];
+
         GameObject FirstInstance = null;
+
         foreach (var item in _searchroot.tracks.items)
         {
-
-            GameObject instance = SpawnPrefab();
-            if (FirstInstance == null)
+            if (item.track.preview_url != null)
             {
-                FirstInstance = instance;
-            }
-            string artists = "";
+                GameObject instance = SpawnPrefab();
+                if (FirstInstance == null)
+                {
+                    FirstInstance = instance;
+                }
 
-            foreach (Artist artist in item.track.artists)
-            {
-                artists = artists + artist.name + ", ";
-            }
+                string artists = "";
 
-            artists = artists.Remove(artists.Length - 2);
-            Debug.Log(item.track.uri);
-            instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(appManager.playlistName, item.track.name, item.track.album.name, artists, item.track.album.images[0].url, item.track.id, item.track.uri, item.track.preview_url);
+                foreach (Artist artist in item.track.artists)
+                {
+                    artists = artists + artist.name + ", ";
+                }
+
+                artists = artists.Remove(artists.Length - 2);
+
+                instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(appManager.playlistName, item.track.name, item.track.album.name, artists, item.track.album.images[0].url, item.track.id, item.track.uri, item.track.preview_url);
+
+            }
         }
+
         FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
-
-
     }
 
 
