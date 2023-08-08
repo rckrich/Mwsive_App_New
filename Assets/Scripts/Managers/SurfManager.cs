@@ -7,6 +7,20 @@ using GG.Infrastructure.Utils.Swipe;
 
 public class SurfManager : Manager
 {
+    private static SurfManager _instance;
+
+    public static SurfManager instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = GameObject.FindObjectOfType<SurfManager>();
+            }
+            return _instance;
+        }
+    }
+
     public SwipeListener swipeListener;
     public ScrollRect Controller;
     public GameObject Prefab;
@@ -15,7 +29,6 @@ public class SurfManager : Manager
     public GameObject MwsiveOla;
     public List <GameObject> MwsiveSongs = new List<GameObject>();
     public GameObject[ ] RestPositions;
-    public static SurfManager _instance;
 
     public float MaxRotation = 18f;
     public float SurfSuccessSensitivity = 2.2f;
@@ -29,18 +42,6 @@ public class SurfManager : Manager
     private bool HasSwipeEnded = true;
     private bool Success = false;
     private float lastClickTime;
-
-    public static SurfManager instance
-    {
-        get
-        {
-            if(_instance == null)
-            {
-                _instance = GameObject.FindObjectOfType<SurfManager>();
-            }
-            return _instance;
-        }
-    }
   
     private void Start() {
         ControllerPostion = new Vector2(Controller.transform.position.x, Controller.transform.position.y); 
