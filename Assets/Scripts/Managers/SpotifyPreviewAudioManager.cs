@@ -55,7 +55,7 @@ public class SpotifyPreviewAudioManager : MonoBehaviour
 
     private IEnumerator CR_GetAudioClip(string _audioURL)
     {
-        Debug.Log("Starting to download the audio...");
+        Debug.Log("Starting to download the audio... " + _audioURL);
 
         using (UnityWebRequest webRequest = UnityWebRequestMultimedia.GetAudioClip(
             _audioURL,
