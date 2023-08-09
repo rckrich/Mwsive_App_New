@@ -58,7 +58,6 @@ public class SurfManager : Manager
         {
             MwsiveSongs.Add(song);
         }
-        GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
     }
 
     private void OnDisable()
