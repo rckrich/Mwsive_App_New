@@ -10,6 +10,7 @@ public class ProfileViewModel : ViewModel
     public Image profilePicture;
     public GameObject playlistHolderPrefab;
     public Transform instanceParent;
+    public GameObject surfManager;
 
     private string profileId = "";
 
@@ -132,6 +133,7 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_Surf()
     {
+        surfManager.SetActive(true);
         OpenView(ViewID.SurfViewModel);
     }
 

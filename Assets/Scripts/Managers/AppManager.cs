@@ -65,7 +65,7 @@ public class AppManager : Manager
         //Start Surf ?????
     }
 
-    public void OnPlaylistChange()
+    /*public void OnPlaylistChange()
     {
         SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_OnPlaylistChange);
     }
@@ -76,5 +76,5 @@ public class AppManager : Manager
         playlistName = searchedPlaylist.name;
 
         buttonSurfPlaylist.playlistText.text = searchedPlaylist.name;
-    }
+    }*/
 }

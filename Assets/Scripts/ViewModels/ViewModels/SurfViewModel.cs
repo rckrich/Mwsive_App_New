@@ -1,3 +1,4 @@
+using GG.Infrastructure.Utils.Swipe;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class SurfViewModel : ViewModel
     public Image profilePicture;
     private string profileId;
     public ButtonSurfPlaylist buttonSurfPlaylist;
+    
 
     public void GetProfile()
     {
@@ -26,6 +28,8 @@ public class SurfViewModel : ViewModel
 
     public void OnClick_Profile()
     {
+        surfManager.SetActive(false);
+        SpotifyPreviewAudioManager.instance.StopTrack();
         NewScreenManager.instance.ChangeToSpawnedView("profile");
         NewScreenManager.instance.GetCurrentView().Initialize(profileId);
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
@@ -40,7 +44,8 @@ public class SurfViewModel : ViewModel
 
     public void OnClick_MyProfile()
     {
-        SurfManager.instance.canSwipe = false;
+        surfManager.SetActive(false);
+        SpotifyPreviewAudioManager.instance.StopTrack();
         NewScreenManager.instance.ChangeToMainView(ViewID.ProfileViewModel, true);
         NewScreenManager.instance.GetCurrentView().Initialize();
     }
