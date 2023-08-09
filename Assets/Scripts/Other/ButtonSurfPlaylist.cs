@@ -83,8 +83,8 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void Swipe()
     {
-        SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_CurrentUserPlaylist);
-        
+        SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_Swipe);
+
     }
 
     public void Callback_Swipe(object[] _value)
@@ -103,21 +103,7 @@ public class ButtonSurfPlaylist : ViewModel
     }
     public void Callback_CurrentUserPlaylist(object[] _value)
     {
-        PlaylistRoot playlistRoott = (PlaylistRoot)_value[1];
-        foreach(var items in playlistRoott.items)
-        {
-            
-                if (trackID.Equals(items.track.id))
-                {
-                    isAdd = true;
-                }
-            
-            
-        }
-        if (!isAdd)
-        {
-            SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_Swipe);
-        }
+         
 
     }
     public void SelectedPlaylistNameEventListener(SelectedPlaylistNameAppEvent _event)
@@ -139,6 +125,6 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void OnClick_PlayOnSpotify()
     {
-
+        Application.OpenURL(externalURL);
     }
 }

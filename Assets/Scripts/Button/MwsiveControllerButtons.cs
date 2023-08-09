@@ -14,6 +14,7 @@ public class MwsiveControllerButtons : MonoBehaviour
     public void OnClickAñadirButton() {
         GameObject Instance = Surf.GetCurrentPrefab();
         Instance.GetComponentInChildren<MwsiveButton>().OnClickAñadirButton(AnimationDuration);
+        Instance.GetComponent<ButtonSurfPlaylist>().Swipe();
     }
     public void OnClickCompartirButton() {
         GameObject Instance = Surf.GetCurrentPrefab();
@@ -29,5 +30,11 @@ public class MwsiveControllerButtons : MonoBehaviour
     {
         GameObject Instance = Surf.GetCurrentPrefab();
         Instance.GetComponent<ButtonSurfPlaylist>().OnClic_StopAudioPreview();
+    }
+
+    public void OnClick_Spotify()
+    {
+        GameObject Instance = Surf.GetCurrentPrefab();
+        Instance.GetComponent<ButtonSurfPlaylist>().OnClick_PlayOnSpotify();
     }
 }
