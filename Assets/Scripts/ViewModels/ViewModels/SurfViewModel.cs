@@ -12,11 +12,6 @@ public class SurfViewModel : ViewModel
     public ButtonSurfPlaylist buttonSurfPlaylist;
     
 
-    void Start()
-    {
-        
-    }
-
     public void GetProfile()
     {
         if (ProgressManager.instance.progress.userDataPersistance.userTokenSetted)
@@ -24,13 +19,11 @@ public class SurfViewModel : ViewModel
     }
     private void Callback_GetUserProfile(object[] _value)
     {
-        //if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
+        if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
         ProfileRoot profileRoot = (ProfileRoot)_value[1];
         profileId = profileRoot.id;
         ImageManager.instance.GetImage(profileRoot.images[0].url, profilePicture, (RectTransform)this.transform);
-      
-        
     }
 
     public void OnClick_Profile()
