@@ -37,9 +37,10 @@ public class SurfViewModel : ViewModel
 
     public void OnClick_Discos()
     {       
-        CallPopUP(PopUpViewModelTypes.MessageOnly, "?Qu? son los discos?", "Cada vez que escuches una canci?n que te haga vibrar, puedes lanzar un disco para votar por tus favoritas y destacar en el ranking. (1 Disco = 1 Pik) " +
-            " < b >Tus Piks: < /b >"  +
-            "En Mwsive tus piks nos ayudan a recomendar m?sica a otros crowd-surfers y as? descubrir juntos la m?sica que hace olas.", "Aceptar");
+        CallPopUP(PopUpViewModelTypes.MessageOnly, "¿Qué son los discos?", "Cada vez que escuches una canción que te haga vibrar, puedes lanzar un disco para votar por tus favoritas y destacar en el ranking. (1 Disco = 1 Pik) " +
+            "<br><b>Tus Piks: </b><br>"  +
+            "En Mwsive tus piks nos ayudan a recomendar música a otros crowd-surfers y así descubrir juntos la música que hace olas.", "Aceptar");
+        
     }
 
     public void OnClick_MyProfile()

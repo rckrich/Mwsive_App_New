@@ -113,6 +113,7 @@ public class ProfileViewModel : ViewModel
     }
     public void OnClick_BackButton()
     {
+        surfManager.SetActive(true);
         OpenView(ViewID.SurfViewModel);
     }
 
@@ -133,7 +134,7 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_Surf()
     {
-        surfManager.SetActive(true);
+        
         OpenView(ViewID.SurfViewModel);
     }
 

@@ -21,6 +21,8 @@ public class ButtonSurfPlaylist : ViewModel
     public List<string> uris = new List<string>();
     public string previewURL;
     public string mp3URL;
+    public bool isAdd;
+    public string externalURL;
 
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
     {
@@ -37,7 +39,7 @@ public class ButtonSurfPlaylist : ViewModel
         RemoveEventListener<SelectedPlaylistNameAppEvent>(SelectedPlaylistNameEventListener);
     }
 
-    public void InitializeMwsiveSong(string _playlistName, string _trackname, string _album, string _artist, string _image, string _spotifyid, string _url, string _previewURL)
+    public void InitializeMwsiveSong(string _playlistName, string _trackname, string _album, string _artist, string _image, string _spotifyid, string _url, string _previewURL, string _externalURL)
     {
         playlistText.text = _playlistName;
         playlistName = _playlistName;
@@ -61,6 +63,7 @@ public class ButtonSurfPlaylist : ViewModel
         trackID = _spotifyid;
         uris[0] = _url;
         previewURL = _previewURL;
+        externalURL = _externalURL;
     }
 
     public void PlayAudioPreview()
@@ -82,7 +85,8 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void Swipe()
     {
-        SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_Swipe);
+        SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_CurrentUserPlaylist);
+        
     }
 
     public void Callback_Swipe(object[] _value)
@@ -92,14 +96,28 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void BackSwipe()
     {
-        SpotifyConnectionManager.instance.RemoveItemsFromPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_Swipe);
+        
     }
 
     public void CallBack_BackSwipe()
     {
 
     }
-
+    public void Callback_CurrentUserPlaylist(object[] _value)
+    {
+        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
+        foreach(var track in searchedPlaylist.tracks.items)
+        {
+            if (trackID == track.id)
+            {
+                isAdd = true;
+            }
+        }
+        if (!isAdd)
+        {
+            SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_Swipe);
+        }
+    }
     public void SelectedPlaylistNameEventListener(SelectedPlaylistNameAppEvent _event)
     {
         OnPlaylistChange();
@@ -116,5 +134,11 @@ public class ButtonSurfPlaylist : ViewModel
         SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
         playlistName = searchedPlaylist.name;
         playlistText.text = searchedPlaylist.name;
+        
+    }
+
+    public void OnClick_PlayOnSpotify()
+    {
+
     }
 }
