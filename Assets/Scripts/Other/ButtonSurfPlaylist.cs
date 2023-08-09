@@ -139,6 +139,6 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void OnClick_PlayOnSpotify()
     {
-
+        Application.OpenURL(externalURL);
     }
 }
