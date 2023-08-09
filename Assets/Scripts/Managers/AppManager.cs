@@ -46,7 +46,7 @@ public class AppManager : Manager
         currentPlaylist = _searchedPlaylist;
     }
 
-    public bool SearchTrackOnRoot(string _id)
+    public bool SearchTrackOnCurrentPlaylist(string _id)
     {
         if(currentPlaylist != null)
         {

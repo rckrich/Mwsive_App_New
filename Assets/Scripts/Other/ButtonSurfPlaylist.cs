@@ -24,6 +24,8 @@ public class ButtonSurfPlaylist : ViewModel
     public bool isAdd = false;
     public string externalURL;
 
+    public MwsiveButton _MwsiveButtons;
+
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
     {
         playlistName = _playlistName;
@@ -64,6 +66,12 @@ public class ButtonSurfPlaylist : ViewModel
         uris[0] = _url;
         previewURL = _previewURL;
         externalURL = _externalURL;
+
+        if (AppManager.instance.SearchTrackOnCurrentPlaylist(_spotifyid))
+        {
+            _MwsiveButtons.OnClickAñadirButton(0.5f);
+            //Pintar de morado el que está en playlist
+        }
     }
 
     public void PlayAudioPreview()
