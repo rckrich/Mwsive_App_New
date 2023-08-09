@@ -44,32 +44,38 @@ public class NoLogInConnectionManager : MonoBehaviour
 
     private string noLogInAccesToken = "";
     private DateTime noLogInExpiredDate;
+    private SpotifyWebCallback callback;
 
     public string GetNoLogInAccesToken()
     {
         return noLogInAccesToken;
     }
 
-    public void StartConnection()
+    public void StartConnection(SpotifyWebCallback _callback = null)
     {
-        StartCoroutine(CR_PostLogin((object[] _value) => {
+        callback += Callback_StartNoLogInConnection;
 
-            if ((long)_value[0] != 200)
-            {
-                Debug.Log("Error on Spotify's API Client Credentials Spotify Log In");
-                return;
-            }
+        if(_callback != null)
+            callback += _callback;
 
-            GameObject.FindAnyObjectByType<OAuthHandler>().SetSpotifyTokenRawValue((string)_value[1]);
+        StartCoroutine(CR_PostLogin(callback));
 
-            ClientCredentialsRoot clientCredentialsRoot = (ClientCredentialsRoot)_value[2];
-            noLogInAccesToken = clientCredentialsRoot.access_token;
-            noLogInExpiredDate = DateTime.Now.AddMilliseconds(clientCredentialsRoot.expires_in);
+        callback = null;
+    }
 
-            //TEST
-            SpotifyConnectionManager.instance.GetPlaylist("5RlUrtDU7WMGnDu8GiRxGI");
-            //END TEST
-        }));
+    private void Callback_StartNoLogInConnection(object[] _value)
+    {
+        if ((long)_value[0] != 200)
+        {
+            Debug.Log("Error on Spotify's API Client Credentials Spotify Log In");
+            return;
+        }
+
+        GameObject.FindAnyObjectByType<OAuthHandler>().SetSpotifyTokenRawValue((string)_value[1]);
+
+        ClientCredentialsRoot clientCredentialsRoot = (ClientCredentialsRoot)_value[2];
+        noLogInAccesToken = clientCredentialsRoot.access_token;
+        noLogInExpiredDate = DateTime.Now.AddMilliseconds(clientCredentialsRoot.expires_in);
     }
 
     private IEnumerator CR_PostLogin(SpotifyWebCallback _callback = null)

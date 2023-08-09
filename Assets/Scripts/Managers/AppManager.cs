@@ -18,7 +18,14 @@ public class AppManager : Manager
 
     void Start()
     {
-        SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
+        if (ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted)
+        {
+            SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
+        }
+        else
+        {
+            SpotifyConnectionManager.instance.GetPlaylist(TOP_GLOBAL_PLAYLIST_ID, Callback_GetTopPlaylist);
+        }
     }
 
     private void Callback_GetUserProfile(object[] _value)
@@ -43,8 +50,19 @@ public class AppManager : Manager
         //TODO llenar el surf de la info de esta playlist
         SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
         SurfManager.instance.DynamicPrefabSpawner(new object[] { searchedPlaylist });
-        //SurfManager.instance.SetTracks(searchedPlaylist.tracks);
         //Start Surf ?????
-
     }
+
+    /*public void OnPlaylistChange()
+    {
+        SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_OnPlaylistChange);
+    }
+
+    public void Callback_OnPlaylistChange(object[] _value)
+    {
+        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
+        playlistName = searchedPlaylist.name;
+
+        buttonSurfPlaylist.playlistText.text = searchedPlaylist.name;
+    }*/
 }
