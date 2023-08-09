@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+public delegate void SpotifyAudioDownloaderCallback(object[] _list);
+
 public class SpotifyPreviewAudioManager : MonoBehaviour
 {
     private static SpotifyPreviewAudioManager _instance;
@@ -25,9 +27,9 @@ public class SpotifyPreviewAudioManager : MonoBehaviour
     private AudioClip audioClip;
     private bool isPaused = false;
 
-    public void GetTrack(string _audioURL)
+    public void GetTrack(string _audioURL, SpotifyAudioDownloaderCallback _callback = null)
     {
-        StartCoroutine(CR_GetAudioClip(_audioURL));
+        StartCoroutine(CR_GetAudioClip(_audioURL, _callback));
     }
 
     public void StopTrack()
@@ -53,7 +55,7 @@ public class SpotifyPreviewAudioManager : MonoBehaviour
         isPaused = !isPaused;
     }
 
-    private IEnumerator CR_GetAudioClip(string _audioURL)
+    private IEnumerator CR_GetAudioClip(string _audioURL, SpotifyAudioDownloaderCallback _callback = null)
     {
         Debug.Log("Starting to download the audio... " + _audioURL);
 
@@ -74,7 +76,10 @@ public class SpotifyPreviewAudioManager : MonoBehaviour
                 audioSource.clip = audioClip;
                 audioSource.time = 0f;
                 audioSource.Play();
-                
+
+                if (_callback != null)
+                    _callback(null);
+
                 Debug.Log("Audio is playing");
             }
         }

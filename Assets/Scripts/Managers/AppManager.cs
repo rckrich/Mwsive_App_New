@@ -23,7 +23,6 @@ public class AppManager : Manager
     public Image profilePicture;   
     public GameObject Container;
     public Transform surfTransform;
-    public string playlistName;
     public SelectedPlaylistNameAppObject appObject;
     public ButtonSurfPlaylist buttonSurfPlaylist;
 
@@ -44,6 +43,29 @@ public class AppManager : Manager
     public void ChangeCurrentPlaylist(SearchedPlaylist _searchedPlaylist)
     {
         currentPlaylist = _searchedPlaylist;
+    }
+
+    public void ChangeCurrentPlaylist(string _playlistID)
+    {
+        StartSearch();
+        SpotifyConnectionManager.instance.GetPlaylist(_playlistID, Callback_OnPlaylistChange);
+    }
+
+    public void Callback_OnPlaylistChange(object[] _value)
+    {
+        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
+        currentPlaylist = searchedPlaylist;
+        ProgressManager.instance.progress.userDataPersistance.current_playlist = searchedPlaylist.id;
+        ProgressManager.instance.save();
+
+        InvokeEvent<SelectedPlaylistNameAppEvent>(new SelectedPlaylistNameAppEvent(searchedPlaylist.name));
+
+        EndSearch();
+    }
+
+    public SearchedPlaylist GetCurrentPlaylist()
+    {
+        return currentPlaylist;
     }
 
     public bool SearchTrackOnCurrentPlaylist(string _id)
@@ -70,8 +92,7 @@ public class AppManager : Manager
     private void Callback_GetCurrentMwsiveUserPlaylist(object[] _value)
     {
         SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
-        playlistName = searchedPlaylist.name;
-
+        currentPlaylist = searchedPlaylist;
         SpotifyConnectionManager.instance.GetPlaylist(TOP_GLOBAL_PLAYLIST_ID, Callback_GetTopPlaylist);
     }
 
@@ -79,7 +100,6 @@ public class AppManager : Manager
     {
         //TODO llenar el surf de la info de esta playlist
         SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
-        ChangeCurrentPlaylist(searchedPlaylist);
         SurfManager.instance.DynamicPrefabSpawner(new object[] { searchedPlaylist });
         //Start Surf ?????
     }

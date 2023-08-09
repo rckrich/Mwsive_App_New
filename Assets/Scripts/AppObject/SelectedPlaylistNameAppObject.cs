@@ -8,6 +8,6 @@ public class SelectedPlaylistNameAppObject : AppObject
 
     public void SelectedPlaylistNameAppEvent()
     {
-        InvokeEvent<SelectedPlaylistNameAppEvent>(new SelectedPlaylistNameAppEvent(playlistName));
+        //InvokeEvent<SelectedPlaylistNameAppEvent>(new SelectedPlaylistNameAppEvent(playlistName));
     }
 }

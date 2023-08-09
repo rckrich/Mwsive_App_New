@@ -33,11 +33,12 @@ public class PlaylistViewModel : ViewModel
     {
         GetPlaylist();
     }
+
     public void GetPlaylist()
     {
         if (!id.Equals(""))
         {
-            SpotifyConnectionManager.instance.GetPlaylist(id, Callback_GetPLaylist);
+            SpotifyConnectionManager.instance.GetPlaylist(id, Callback_GetPlaylist);
 
         }
         /*
@@ -63,7 +64,7 @@ public class PlaylistViewModel : ViewModel
     }
     
 
-    private void Callback_GetPLaylist(object[] _value)
+    private void Callback_GetPlaylist(object[] _value)
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 

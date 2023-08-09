@@ -61,6 +61,7 @@ public class SurfMiplaylistHolder : ViewModel
     {
         change.True();
     }
+
     public void SetImage(string _pictureURL)
     {
         ImageManager.instance.GetImage(_pictureURL, playlistPicture, (RectTransform)this.transform);
@@ -85,11 +86,8 @@ public class SurfMiplaylistHolder : ViewModel
 
     public void OnClickSelected()
     {
-        ProgressManager.instance.progress.userDataPersistance.current_playlist = spotifyID;
-        ProgressManager.instance.save();
-
+        AppManager.instance.ChangeCurrentPlaylist(spotifyID);
         gameObject.GetComponent<Image>().enabled = true;
-       
     }
     
     public void ChangePublic()
@@ -99,17 +97,17 @@ public class SurfMiplaylistHolder : ViewModel
         if (!spotifyID.Equals("") && !playlistName.text.Equals(""))
             SpotifyConnectionManager.instance.ChangePlaylistDetails(spotifyID, Callback_OnCLick_ChangePlaylistDetails, playlistName.text, description, changeBool);
     }
+
     private void Callback_OnCLick_ChangePlaylistDetails(object[] _value)
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
         SpotifyConnectionManager.instance.GetPlaylist(spotifyID, Callback_OnCLick_GetPlaylist);
     }
+
     private void Callback_OnCLick_GetPlaylist(object[] _value)
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
        
     }
-
-    
 }
