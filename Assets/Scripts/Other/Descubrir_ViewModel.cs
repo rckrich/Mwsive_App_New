@@ -14,6 +14,8 @@ public class Descubrir_ViewModel : MonoBehaviour
     public TMP_InputField Searchbar;
     public List<ScrollRect> Scrollbar = new List<ScrollRect>(); 
     public List<List<GameObject>> ListOfLists = new List<List<GameObject>>();
+
+    
     private string SearchText;
     private GameObject Instance;
     private int numEnpantalla, PositionInSearch;

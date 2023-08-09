@@ -905,6 +905,7 @@ MonoBehaviour:
   playlistName: {fileID: 502545051827305868}
   public: 0
   button: {fileID: 443706786586586521}
+  PF_SURF: {fileID: 1964677882829966216, guid: be4f22ee1938ab848b981d7815efd9bb, type: 3}
   artists: 
   holderManager: {fileID: 2692963331336141333, guid: 55d500d6e41ab1a48bbb098ee7f2fa5a, type: 3}
   end: -0.01
@@ -2606,7 +2607,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3057724479777381238}
+        m_TargetAssemblyTypeName: PlaylistViewModel, Scripts
+        m_MethodName: OnClick_SurfButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &5774977866457195183
 Animator:
   serializedVersion: 5
