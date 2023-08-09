@@ -115,7 +115,6 @@ public class ButtonSurfPlaylist : ViewModel
     {
         SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
         playlistName = searchedPlaylist.name;
-
         playlistText.text = searchedPlaylist.name;
     }
 }
