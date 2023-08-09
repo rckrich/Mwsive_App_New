@@ -21,12 +21,13 @@ public class AppManager : Manager
 
     public string profileID;
     public Image profilePicture;   
-    public SurfViewModel surfViewModel;
     public GameObject Container;
     public Transform surfTransform;
     public string playlistName;
     public SelectedPlaylistNameAppObject appObject;
     public ButtonSurfPlaylist buttonSurfPlaylist;
+
+    private SearchedPlaylist currentPlaylist = null;
 
     void Start()
     {
@@ -38,6 +39,23 @@ public class AppManager : Manager
         {
             SpotifyConnectionManager.instance.GetPlaylist(TOP_GLOBAL_PLAYLIST_ID, Callback_GetTopPlaylist);
         }
+    }
+
+    public void ChangeCurrentPlaylist(SearchedPlaylist _searchedPlaylist)
+    {
+        currentPlaylist = _searchedPlaylist;
+    }
+
+    public bool SearchTrackOnRoot(string _id)
+    {
+        if(currentPlaylist != null)
+        {
+            Item searchedItem = currentPlaylist.tracks.items.Find((x) => x.track.id.Equals(_id));
+
+            return searchedItem != null;
+        }
+
+        return false;
     }
 
     private void Callback_GetUserProfile(object[] _value)
@@ -61,6 +79,7 @@ public class AppManager : Manager
     {
         //TODO llenar el surf de la info de esta playlist
         SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
+        ChangeCurrentPlaylist(searchedPlaylist);
         SurfManager.instance.DynamicPrefabSpawner(new object[] { searchedPlaylist });
         //Start Surf ?????
     }
