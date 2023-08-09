@@ -21,7 +21,7 @@ public class ButtonSurfPlaylist : ViewModel
     public List<string> uris = new List<string>();
     public string previewURL;
     public string mp3URL;
-    public bool isAdd;
+    public bool isAdd = false;
     public string externalURL;
 
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
@@ -103,18 +103,22 @@ public class ButtonSurfPlaylist : ViewModel
     }
     public void Callback_CurrentUserPlaylist(object[] _value)
     {
-        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
-        foreach(var track in searchedPlaylist.tracks.items)
+        PlaylistRoot playlistRoott = (PlaylistRoot)_value[1];
+        foreach(var items in playlistRoott.items)
         {
-            if (trackID == track.id)
-            {
-                isAdd = true;
-            }
+            
+                if (trackID.Equals(items.track.id))
+                {
+                    isAdd = true;
+                }
+            
+            
         }
         if (!isAdd)
         {
             SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_Swipe);
         }
+
     }
     public void SelectedPlaylistNameEventListener(SelectedPlaylistNameAppEvent _event)
     {
