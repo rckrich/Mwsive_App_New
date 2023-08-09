@@ -58,7 +58,11 @@ public class SurfManager : Manager
         {
             MwsiveSongs.Add(song);
         }
-        GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+
+        GameObject currentPrefab = GetCurrentPrefab();
+
+        if(currentPrefab != null)
+            currentPrefab.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
     }
 
     private void OnDisable()
@@ -308,7 +312,13 @@ public class SurfManager : Manager
     }
 
     public GameObject GetCurrentPrefab(){
-        GameObject _Instance = MwsiveSongs[CurrentPosition];
+        GameObject _Instance = null;
+
+        if (MwsiveSongs.Count > 0)
+        {
+            _Instance = MwsiveSongs[CurrentPosition];
+        }
+
         return _Instance;
     }
 
