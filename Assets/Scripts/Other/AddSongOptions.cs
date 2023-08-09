@@ -17,6 +17,7 @@ public class AddSongOptions : ViewModel
     public TrackViewModel trackViewModel;
     public ExternalUrls url;
     public string stringUrl;
+    public string uri;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +27,10 @@ public class AddSongOptions : ViewModel
 
     public void OnClick_AddItemsToPlaylist()
     {
-        holderManager.trackID = trackID;
+         trackID = AppManager.instance.trackID;
+        AppManager.instance.GetTrack();
+        uri = AppManager.instance.uri;
+        
         NewScreenManager.instance.ChangeToSpawnedView("songMiPlaylist");
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }

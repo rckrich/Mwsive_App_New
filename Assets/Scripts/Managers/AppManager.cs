@@ -24,6 +24,8 @@ public class AppManager : Manager
     public GameObject Container;
     public Transform surfTransform;
     public string playlistName;
+    public string trackID;
+    public string uri;
     public SelectedPlaylistNameAppObject appObject;
     public ButtonSurfPlaylist buttonSurfPlaylist;
 
@@ -84,16 +86,17 @@ public class AppManager : Manager
         //Start Surf ?????
     }
 
-    /*public void OnPlaylistChange()
+
+
+    public void GetTrack()
     {
-        SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_OnPlaylistChange);
+        SpotifyConnectionManager.instance.GetTrack(trackID, Callback_GetTrack);
     }
 
-    public void Callback_OnPlaylistChange(object[] _value)
+    public void Callback_GetTrack(object[] _value)
     {
-        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
-        playlistName = searchedPlaylist.name;
+        TrackRoot trackRoot = (TrackRoot)_value[1];
 
-        buttonSurfPlaylist.playlistText.text = searchedPlaylist.name;
-    }*/
+        uri = trackRoot.uri;
+    }
 }

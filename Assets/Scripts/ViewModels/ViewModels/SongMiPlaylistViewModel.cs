@@ -12,9 +12,9 @@ public class SongMiPlaylistViewModel : ViewModel
     public float end;
     public int offset = 21;
     int onlyone = 0;
-    public HolderManager holderManager;
     public List<Image> imagenes;
-    public SongMiplaylistHolder holder;
+    public List<string> uri;
+    
    
 
     void Start()
@@ -24,25 +24,7 @@ public class SongMiPlaylistViewModel : ViewModel
 
     private void Callback_OnClick_GetCurrentUserPlaylists(object[] _value)
     {
-        if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
-
-        PlaylistRoot playlistRoot = (PlaylistRoot)_value[1];
-
-        foreach (Item item in playlistRoot.items)
-        {
-            if (holderManager.playlistId == item.id)
-            {
-
-                holder.Charging();
-            }
-            else { holder.NoSelected(); }
-                     
-            SongMiplaylistHolder instance = GameObject.Instantiate(playlistHolderPrefab, instanceParent).GetComponent<SongMiplaylistHolder>();
-            instance.Initialize(item.name, item.id, item.owner.display_name, item.@public);
-            if (item.images != null && item.images.Count > 0) { instance.SetImage(item.images[0].url); }
-            
-           
-        }
+      
     }
 
     public void OnReachEnd()
@@ -60,30 +42,14 @@ public class SongMiPlaylistViewModel : ViewModel
     }
     private void Callback_GetMoreUserPlaylists(object[] _value)
     {
-        if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
-
-        PlaylistRoot playlistRoot = (PlaylistRoot)_value[1];
-
-        foreach (Item item in playlistRoot.items)
-        {
-            if (holderManager.playlistId == item.id)
-            {
-
-                holder.Charging();
-            }
-            else { holder.NoSelected(); }
-            SongMiplaylistHolder instance = GameObject.Instantiate(playlistHolderPrefab, instanceParent).GetComponent<SongMiplaylistHolder>();
-            instance.Initialize(item.name, item.id, item.owner.display_name, item.@public);
-            if (item.images != null && item.images.Count > 0)
-                instance.SetImage(item.images[0].url);
-            
-        }
-        onlyone = 0;
+        
     }
      public void OnClickDone()
     {
-        if (!holderManager.playlistId.Equals(""))
-            SpotifyConnectionManager.instance.AddItemsToPlaylist(holderManager.playlistId, holderManager.uri, Callback_OnCLick_AddItemsToPlaylist);
+        
+        AppManager appManager = new AppManager();
+        uri[0] = appManager.uri;
+        SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uri, Callback_OnCLick_AddItemsToPlaylist);
 
         NewScreenManager.instance.BackToPreviousView();
     }
