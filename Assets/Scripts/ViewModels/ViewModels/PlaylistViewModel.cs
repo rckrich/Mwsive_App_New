@@ -17,7 +17,7 @@ public class PlaylistViewModel : ViewModel
     public string id;
     public TextMeshProUGUI playlistName;
     public bool @public;
-    public GameObject button;
+    public GameObject button, PF_SURF;
     public string artists;
     public HolderManager holderManager;
     public float end;
@@ -26,6 +26,8 @@ public class PlaylistViewModel : ViewModel
     public ScrollRect scrollRect;
     public ExternalUrls url;
     public string stringUrl;
+
+    private SearchedPlaylist searchedPlaylist;
    
     void Start()
     {
@@ -65,7 +67,7 @@ public class PlaylistViewModel : ViewModel
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
-        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
+        searchedPlaylist = (SearchedPlaylist)_value[1];
         InstanceTrackObjects(searchedPlaylist.tracks);
         stringUrl = searchedPlaylist.external_urls.spotify;
        
@@ -110,4 +112,15 @@ public class PlaylistViewModel : ViewModel
     {
         NewScreenManager.instance.BackToPreviousView();
     }
+
+    public void OnClick_SurfButton(){
+        GameObject SurfInstance = Instantiate(PF_SURF, transform.position, Quaternion.identity);
+        SurfInstance.transform.SetParent(GameObject.Find("Main Canvas").transform);
+        SurfInstance.transform.localScale = new Vector3(1,1,1);
+        SurfInstance.GetComponent<RectTransform>().offsetMin = new Vector2(0,0);
+        SurfInstance.GetComponent<RectTransform>().offsetMax = new Vector2(0,0);
+        SurfInstance.GetComponentInChildren<SurfManager>().DynamicPrefabSpawner(new object[] { searchedPlaylist });
+        
+    }
 }
+

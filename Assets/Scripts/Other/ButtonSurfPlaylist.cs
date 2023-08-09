@@ -69,7 +69,6 @@ public class ButtonSurfPlaylist : ViewModel
     public void PlayAudioPreview()
     {
         SpotifyPreviewAudioManager.instance.GetTrack(previewURL);
-
     }
 
     public void OnClic_StopAudioPreview()
@@ -80,7 +79,6 @@ public class ButtonSurfPlaylist : ViewModel
     public void OnClick_OpenPlaylist()
     {
         NewScreenManager.instance.ChangeToSpawnedView("surfMiPlaylist");
-
     }
 
     public void Swipe()
@@ -125,7 +123,6 @@ public class ButtonSurfPlaylist : ViewModel
     public void SelectedPlaylistNameEventListener(SelectedPlaylistNameAppEvent _event)
     {
         OnPlaylistChange();
-        
     }
 
     public void OnPlaylistChange()
@@ -138,7 +135,6 @@ public class ButtonSurfPlaylist : ViewModel
         SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
         playlistName = searchedPlaylist.name;
         playlistText.text = searchedPlaylist.name;
-        
     }
 
     public void OnClick_PlayOnSpotify()

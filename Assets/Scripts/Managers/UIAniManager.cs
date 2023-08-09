@@ -648,7 +648,7 @@ public class UIAniManager : MonoBehaviour
         GA.GetComponent<CanvasGroup>().DOFade(1, 0.1f);
         
         GA.transform.DOScale(new Vector3(1,1,1)*fade, SurfTransitionDuration);
-        GA.GetComponent<CanvasGroup>().DOFade(0, SurfTransitionDuration*2).OnComplete(() => {IsAddSongSurfDone = true; GA.transform.localScale =new Vector3(0,0,0); });
+        GA.GetComponent<CanvasGroup>().DOFade(0, SurfTransitionDuration*2).OnComplete(() => {IsAddSongSurfDone = true; });
     }
 
     public void DoubleClickOla(GameObject GA){

@@ -18,6 +18,7 @@ public class SurfMiPlaylistViewModel : ViewModel
     
     void Start()
     {
+        StartSearch();
         SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_OnClick_GetCurrentUserPlaylists);
     }
 
@@ -42,19 +43,19 @@ public class SurfMiPlaylistViewModel : ViewModel
             instance.Initialize(item.name, item.id, item.owner.display_name, item.@public, item.description, item.external_urls);
             if (!item.@public) { instance.PublicTrue(); }
             if (item.images != null && item.images.Count > 0) { instance.SetImage(item.images[0].url); }
-            
-
-           
         }
+
+        Debug.Log("Search has ended");
+        EndSearch();
     }
 
     public void OnReachEnd()
     {
-       
         if (onlyone == 0)
         {
             if (scrollRect.verticalNormalizedPosition <= end)
             {
+                StartSearch();
                 SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_GetMoreUserPlaylists, 20, offset);
                 offset += 20;
                 onlyone = 1;
@@ -86,6 +87,8 @@ public class SurfMiPlaylistViewModel : ViewModel
             
         }
         onlyone = 0;
+
+        EndSearch();
     }
      
 
