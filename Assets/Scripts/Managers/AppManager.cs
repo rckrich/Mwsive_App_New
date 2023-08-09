@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class AppManager : Manager
 {
-    private const string TOP_GLOBAL_PLAYLIST_ID = "37i9dQZEVXbMDoHDwVN2tF";
+    private const string TOP_GLOBAL_PLAYLIST_ID = "37i9dQZEVXbO3qyFxbkOE1";
 
     private static AppManager _instance;
     public static AppManager instance
@@ -30,6 +30,7 @@ public class AppManager : Manager
 
     void Start()
     {
+        StartSearch();
         if (ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted)
         {
             SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
@@ -98,10 +99,9 @@ public class AppManager : Manager
 
     private void Callback_GetTopPlaylist(object[] _value)
     {
-        //TODO llenar el surf de la info de esta playlist
+        EndSearch();
         SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
         SurfManager.instance.DynamicPrefabSpawner(new object[] { searchedPlaylist });
-        //Start Surf ?????
     }
 
     /*public void OnPlaylistChange()
