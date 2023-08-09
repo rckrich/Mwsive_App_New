@@ -337,7 +337,7 @@ public class SurfManager : Manager
 
                 artists = artists.Remove(artists.Length - 2);
 
-                instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.playlistName, item.track.name, item.track.album.name, artists, item.track.album.images[0].url, item.track.id, item.track.uri, item.track.preview_url);
+                instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.playlistName, item.track.name, item.track.album.name, artists, item.track.album.images[0].url, item.track.id, item.track.uri, item.track.preview_url, item.track.external_urls);
 
             }
         }
