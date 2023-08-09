@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class ButtonSurfPlaylist : ViewModel
 {
-
     public TMP_Text playlistText;
     public TMP_Text trackName;
     public TMP_Text artistName;
@@ -24,16 +23,21 @@ public class ButtonSurfPlaylist : ViewModel
     public bool isAdd = false;
     public string externalURL;
 
+    public MwsiveButton _MwsiveButtons;
+
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
     {
         playlistName = _playlistName;
     }
     public string GetSelectedPlaylistNameAppEvent() { return playlistName; }
+
     private void OnEnable()
     {
         playlistText.text = playlistName;
         AddEventListener<SelectedPlaylistNameAppEvent>(SelectedPlaylistNameEventListener);
+        playlistText.text = AppManager.instance.GetCurrentPlaylist().name;
     }
+
     private void OnDisable()
     {
         RemoveEventListener<SelectedPlaylistNameAppEvent>(SelectedPlaylistNameEventListener);
@@ -64,11 +68,24 @@ public class ButtonSurfPlaylist : ViewModel
         uris[0] = _url;
         previewURL = _previewURL;
         externalURL = _externalURL;
+
+        if (AppManager.instance.SearchTrackOnCurrentPlaylist(_spotifyid))
+        {
+            _MwsiveButtons.OnClickAñadirButton(0.5f);
+            //Pintar de morado el que está en playlist
+        }
     }
 
     public void PlayAudioPreview()
     {
-        SpotifyPreviewAudioManager.instance.GetTrack(previewURL);
+        StartSearch();
+        SpotifyPreviewAudioManager.instance.GetTrack(previewURL, Callback_GetTrack);
+    }
+
+    private void Callback_GetTrack(object[] _list)
+    {
+        Debug.Log("End Search");
+        EndSearch();
     }
 
     public void OnClic_StopAudioPreview()
@@ -84,7 +101,6 @@ public class ButtonSurfPlaylist : ViewModel
     public void Swipe()
     {
         SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_Swipe);
-
     }
 
     public void Callback_Swipe(object[] _value)
@@ -101,26 +117,16 @@ public class ButtonSurfPlaylist : ViewModel
     {
 
     }
+
     public void Callback_CurrentUserPlaylist(object[] _value)
     {
          
 
     }
+
     public void SelectedPlaylistNameEventListener(SelectedPlaylistNameAppEvent _event)
     {
-        OnPlaylistChange();
-    }
-
-    public void OnPlaylistChange()
-    {
-        SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_OnPlaylistChange);
-    }
-
-    public void Callback_OnPlaylistChange(object[] _value)
-    {
-        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
-        playlistName = searchedPlaylist.name;
-        playlistText.text = searchedPlaylist.name;
+        playlistText.text = AppManager.instance.GetCurrentPlaylist().name;
     }
 
     public void OnClick_PlayOnSpotify()
