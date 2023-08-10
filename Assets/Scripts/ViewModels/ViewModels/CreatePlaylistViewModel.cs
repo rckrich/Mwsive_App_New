@@ -43,7 +43,7 @@ public class CreatePlaylistViewModel : ViewModel
         }
         else
         {
-            //TODO Spawn little message downwards telling user to "put name to create playlist"
+            UIMessage.instance.UIMessageInstanciate("Debe colocar un nombre a la playlist");
         }
     }
 
