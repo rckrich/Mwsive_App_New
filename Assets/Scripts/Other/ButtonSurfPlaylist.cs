@@ -25,6 +25,7 @@ public class ButtonSurfPlaylist : ViewModel
 
     public MwsiveButton _MwsiveButtons;
 
+
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
     {
         playlistName = _playlistName;
@@ -95,6 +96,7 @@ public class ButtonSurfPlaylist : ViewModel
   
     public void OnClick_OpenPlaylist()
     {
+        SurfManager.instance.SetActive(false);
         NewScreenManager.instance.ChangeToSpawnedView("surfMiPlaylist");
     }
 

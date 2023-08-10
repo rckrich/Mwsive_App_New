@@ -94,6 +94,7 @@ public class SurfMiPlaylistViewModel : ViewModel
 
     public void OnClick_BackButton()
     {
+        SurfManager.instance.SetActive(true);
         NewScreenManager.instance.BackToPreviousView();
     }
 
