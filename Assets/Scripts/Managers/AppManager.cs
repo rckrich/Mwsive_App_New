@@ -31,6 +31,7 @@ public class AppManager : Manager
     public ButtonSurfPlaylist buttonSurfPlaylist;
 
     private SearchedPlaylist currentPlaylist = null;
+    private SpotifyWebCallback refreshPlaylistCallback;
 
     void Start()
     {
@@ -108,8 +109,6 @@ public class AppManager : Manager
         SurfManager.instance.DynamicPrefabSpawner(new object[] { searchedPlaylist });
     }
 
-
-
     public void GetTrack(string _trackId)
     {
         SpotifyConnectionManager.instance.GetTrack(_trackId, Callback_GetTrack);
@@ -120,5 +119,24 @@ public class AppManager : Manager
         TrackRoot trackRoot = (TrackRoot)_value[1];
         url = trackRoot.external_urls.spotify;
         uri = trackRoot.uri;
+    }
+
+    public void RefreshCurrentPlaylistInformation(SpotifyWebCallback _callback)
+    {
+        refreshPlaylistCallback = _callback;
+        SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_RefreshCurrentPlaylist);
+    }
+
+    private void Callback_RefreshCurrentPlaylist(object[] _value)
+    {
+        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
+        currentPlaylist = searchedPlaylist;
+
+        if(refreshPlaylistCallback != null)
+        {
+            refreshPlaylistCallback(null);
+        }
+
+        refreshPlaylistCallback = null;
     }
 }

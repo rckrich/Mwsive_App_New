@@ -131,21 +131,18 @@ public class ButtonSurfPlaylist : ViewModel
 
     private void Callback_AddToPlaylist(object[] _value)
     {
-        mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
-        UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");
-        CallRefreshAppManagerPlaylist();
+        AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
+            mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
+            UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");
+        });
     }
 
     private void Callback_RemoveToPlaylist(object[] _value)
     {
-        mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
-        UIMessage.instance.UIMessageInstanciate("Canción eliminada de la playlist");
-        CallRefreshAppManagerPlaylist();
-    }
-
-    private void CallRefreshAppManagerPlaylist()
-    {
-
+        AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
+            mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
+            UIMessage.instance.UIMessageInstanciate("Canción eliminada de la playlist");
+        });
     }
 
     public void BackSwipe()
