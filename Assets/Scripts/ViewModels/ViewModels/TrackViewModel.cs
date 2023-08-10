@@ -104,4 +104,9 @@ public class TrackViewModel : ViewModel
         stringUrl = holderManager.trackExternalUrl.spotify.ToString();
         Application.OpenURL(stringUrl);
     }
+
+    public void OnClick_ButtonBack()
+    {
+        NewScreenManager.instance.BackToPreviousView();
+    }
 }
