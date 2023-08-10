@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #region Mwsive Entities
 
-public class MwsiveUser
+public class MwsiveUser : Instanceable
 {
     public int id { get; set; }
     public string display_name { get; set; }

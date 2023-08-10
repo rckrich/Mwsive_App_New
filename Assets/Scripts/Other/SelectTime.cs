@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class SelectTime : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void OnClick_AllTime()
     {
-        
+        NewScreenManager.instance.GetMainView(ViewID.RankingViewModel).GetComponent<RankingViewModel>().ChangeTimeType("AllTime");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnClick_PastMonth()
     {
-        
+        NewScreenManager.instance.GetMainView(ViewID.RankingViewModel).GetComponent<RankingViewModel>().ChangeTimeType("PastMonth");
+    }
+
+    public void OnClick_PastWeek()
+    {
+        NewScreenManager.instance.GetMainView(ViewID.RankingViewModel).GetComponent<RankingViewModel>().ChangeTimeType("PastWeek");
     }
 }
