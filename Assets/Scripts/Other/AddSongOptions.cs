@@ -15,20 +15,19 @@ public class AddSongOptions : ViewModel
     public int objectsToNotDestroyIndex;
     public HolderManager holderManager;
     public TrackViewModel trackViewModel;
-    public ExternalUrls url;
-    public string stringUrl;
+    public string url;
     public string uri;
     // Start is called before the first frame update
     void Start()
     {
-        
+        trackID = AppManager.instance.trackID;
+        AppManager.instance.GetTrack();
     }
 
 
     public void OnClick_AddItemsToPlaylist()
     {
-         trackID = AppManager.instance.trackID;
-        AppManager.instance.GetTrack();
+         
         uri = AppManager.instance.uri;
         
         NewScreenManager.instance.ChangeToSpawnedView("songMiPlaylist");
@@ -49,9 +48,8 @@ public class AddSongOptions : ViewModel
     }
     public void ListenOnSpotify()
     {
-        url = holderManager.trackExternalUrl;
-        stringUrl = url.spotify.ToString();
-        Application.OpenURL(stringUrl);
+       url = AppManager.instance.url;
+        Application.OpenURL(url);
     }
     public void OnClick_BackButton()
     {
