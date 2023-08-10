@@ -29,21 +29,19 @@ public class SongMiplaylistHolder : ViewModel
     {
         RemoveEventListener<OnSelectedPlaylistClick>(SelectedPlaylistEventListener);
     }
-    public void Initialize(string _playlistName, string _spotifyID, string _owner, bool _public, ExternalUrls _url)
+    public void Initialize(string _playlistName, string _spotifyID, string _owner, ExternalUrls _url)
     {
         playlistName.text = _playlistName;
         spotifyID = _spotifyID;
-        playlistOwner.text = _owner;
-        @public = _public;
+        playlistOwner.text = _owner;      
         url = _url;
     }
 
-    public void Initialize(string _playlistName, string _spotifyID, string _owner, bool _public,ExternalUrls _url, string _pictureURL)
+    public void Initialize(string _playlistName, string _spotifyID, string _owner,ExternalUrls _url, string _pictureURL)
     {
         playlistName.text = _playlistName;
         spotifyID = _spotifyID;
         playlistOwner.text = _owner;
-        @public = _public;
         url = _url;
         ImageManager.instance.GetImage(_pictureURL, playlistPicture, (RectTransform)this.transform);
     }
@@ -70,9 +68,7 @@ public class SongMiplaylistHolder : ViewModel
     }
     public void OnClickSelected()
     {
-        holderManager.playlistId = spotifyID;
-        holderManager.playlistName = playlistName.text;
-        
+        AppManager.instance.ChangeCurrentPlaylist(spotifyID);        
         selected.SetActive(true);
         
     }

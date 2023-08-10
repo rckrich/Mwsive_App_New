@@ -110,7 +110,7 @@ public class AppManager : Manager
 
 
 
-    public void GetTrack()
+    public void GetTrack(string _trackId)
     {
         SpotifyConnectionManager.instance.GetTrack(trackID, Callback_GetTrack);
     }

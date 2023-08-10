@@ -30,19 +30,9 @@ public class SongMiPlaylistViewModel : ViewModel
         PlaylistRoot playlistRoot = (PlaylistRoot)_value[1];
 
         foreach (Item item in playlistRoot.items)
-        {
-            if (ProgressManager.instance.progress.userDataPersistance.current_playlist.Equals(item.id))
-            {
-                playlistHolderPrefab.GetComponent<Image>().enabled = true;
-
-            }
-            else
-            {
-                playlistHolderPrefab.GetComponent<Image>().enabled = false;
-            }
-            SurfMiplaylistHolder instance = GameObject.Instantiate(playlistHolderPrefab, instanceParent).GetComponent<SurfMiplaylistHolder>();
-            instance.Initialize(item.name, item.id, item.owner.display_name, item.@public, item.description, item.external_urls);
-            if (!item.@public) { instance.PublicTrue(); }
+        {           
+            SongMiplaylistHolder instance = GameObject.Instantiate(playlistHolderPrefab, instanceParent).GetComponent<SongMiplaylistHolder>();
+            instance.Initialize(item.name, item.id, item.owner.display_name, item.external_urls);
             if (item.images != null && item.images.Count > 0) { instance.SetImage(item.images[0].url); }
         }
         EndSearch();
@@ -69,6 +59,7 @@ public class SongMiPlaylistViewModel : ViewModel
     {
 
         uri[0] = AppManager.instance.uri;
+        Debug.Log(uri[0]);
         SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uri, Callback_OnCLick_AddItemsToPlaylist);
 
         NewScreenManager.instance.BackToPreviousView();
