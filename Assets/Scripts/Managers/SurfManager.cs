@@ -33,7 +33,7 @@ public class SurfManager : Manager
     public float MaxRotation = 18f;
     public float SurfSuccessSensitivity = 2.2f;
     public Vector2 LeftRightOffset;
-    public float doubleClickTime = .2f;
+    public float doubleClickTime = .1f;
 
     [HideInInspector]
     public bool canSwipe = true;
@@ -395,28 +395,55 @@ public class SurfManager : Manager
         return Instance;
     }
 
-    public void CheckDoubleClick(){
-        float timeSinceLastClick = Time.time - lastClickTime;
-
-        if (timeSinceLastClick <= doubleClickTime){
-            DOTween.Kill(MwsiveOla);
+    float touchDuration;
+    Touch touch;
+    void Update() {
+        if(Input.touchCount > 0){ //if there is any touch
+            touchDuration += Time.deltaTime;
+            touch = Input.GetTouch(0);
+ 
+            if(touch.phase == TouchPhase.Ended && touchDuration < 0.2f) //making sure it only check the touch once && it was a short touch/tap and not a dragging.
+                StartCoroutine("singleOrDouble");
+        }
+        else
+            touchDuration = 0.0f;
+    }
+ 
+    IEnumerator singleOrDouble(){
+        yield return new WaitForSeconds(0.3f);
+        if(touch.tapCount == 1){
+            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().OnClic_StopAudioPreview();
+        }    
+        else if(touch.tapCount == 2){
+            //this coroutine has been called twice. We should stop the next one here otherwise we get two double tap
+            StopCoroutine("singleOrDouble");
+            DOTween.Complete(MwsiveOla);
             UIAniManager.instance.DoubleClickOla(MwsiveOla);
-            bool flag = OlaButton.GetComponent<MwsiveControllerButtons>().IsItOlaColorButtonActive();
-            
-            if(!flag){
+            if(!OlaButton.GetComponent<MwsiveControllerButtons>().IsItOlaColorButtonActive()){
                 OlaButton.GetComponent<MwsiveControllerButtons>().OnClickOlaButton();
                 
-            }else{
             }
+        }
+    }
 
-        }else{
+
+
+    public void CheckDoubleClick(){
+        float timeSinceLastClick = Time.time - lastClickTime;
+        if (timeSinceLastClick <= doubleClickTime){
+            
+             DOTween.Complete(MwsiveOla);
+            UIAniManager.instance.DoubleClickOla(MwsiveOla);
+            if(!OlaButton.GetComponent<MwsiveControllerButtons>().IsItOlaColorButtonActive()){
+                OlaButton.GetComponent<MwsiveControllerButtons>().OnClickOlaButton();
+                
+            }
+            
 
         }
-            
 
         lastClickTime = Time.time;
     }
-
     
 
 }
