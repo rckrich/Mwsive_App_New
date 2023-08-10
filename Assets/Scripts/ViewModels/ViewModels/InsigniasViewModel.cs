@@ -25,8 +25,7 @@ public class InsigniasViewModel : ViewModel
     }
     public void OnClick_SpawnPopUpButton()
     {
-        NewScreenManager.instance.ChangeToSpawnedView("popUp");
-        Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
+        //CallPopUP(PopUpViewModelTypes.MessageOnly, )
     }
     public void OnClick_BackButton()
     {
