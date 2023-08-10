@@ -58,8 +58,10 @@ public abstract class ScrollViewModel : ViewModel
 
     public virtual void SetActiveMessageNoProduct(bool _value)
     {
-        nothingOnListMessageReference.SetActive(_value);
-        instancesGroupReference.SetActive(!_value);
+        if(nothingOnListMessageReference != null)
+            nothingOnListMessageReference.SetActive(_value);
+        if(instancesGroupReference != null)
+            instancesGroupReference.SetActive(!_value);
     }
 
     public virtual void ReloadActivitiesFeed()

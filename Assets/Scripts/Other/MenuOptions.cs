@@ -15,7 +15,6 @@ public class MenuOptions : ViewModel
         ranking.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
     }
 
-    // Update is called once per frame
     public void OnClick(int numero)
     {                   
             if(numero == 0)
@@ -23,9 +22,9 @@ public class MenuOptions : ViewModel
                 explorar.GetComponent<Image>().GetComponent<Graphic>().color = Color.white;
                 descubrir.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
                 ranking.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
-                //OpenView(ViewID.DescubrirViewModel);
-           
+                OpenView(ViewID.ExploreViewModel);         
             }
+
             if(numero == 1)
             {
                 explorar.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
@@ -33,6 +32,7 @@ public class MenuOptions : ViewModel
                 ranking.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
                 OpenView(ViewID.SurfViewModel);
             }
+
             if(numero == 2)
             {
                 explorar.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
@@ -44,8 +44,6 @@ public class MenuOptions : ViewModel
 
     private void OpenView(ViewID _value)
     {
-        NewScreenManager.instance.ChangeToMainView(_value, false);
-        Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
-        
+        NewScreenManager.instance.ChangeToMainView(_value, false);        
     }
 }

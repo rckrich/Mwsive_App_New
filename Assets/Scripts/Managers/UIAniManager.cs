@@ -652,15 +652,27 @@ public class UIAniManager : MonoBehaviour
     }
 
     public void DoubleClickOla(GameObject GA){
-        GA.GetComponent<CanvasGroup>().alpha = 1;
-        GA.SetActive(true);
         GA.transform.DOScale(new Vector3(1.5F,1.5F,1.5F), .3f);
-        GA.GetComponent<CanvasGroup>().DOFade(0, .3f).OnComplete(() => {GA.SetActive(false); GA.transform.localScale = new Vector3 (0,0,0);});
+        GA.GetComponent<CanvasGroup>().DOFade(0, .3f).OnComplete(() => {Destroy(GA);});
     }
 
 
     
+    public void UIMessage(GameObject GA){
+        SetPosition();
+        GA.transform.position = RestPositionDown;
+        GA.SetActive(true);
+        GA.GetComponent<CanvasGroup>().DOFade(1f, .7f).SetEase(_AnimationFade);
+        GA.transform.DOMove(FinalPosition, .7f, false).SetEase(_AnimationMove).OnComplete(() => {StartCoroutine(WaitMessage(1.5F, GA)); });
+        
+    }
 
+    IEnumerator WaitMessage(float time, GameObject GA){
+        yield return new WaitForSeconds(time);
+        GA.GetComponent<CanvasGroup>().DOFade(0f, 1f).OnComplete(() => {Destroy(GA); });   
+        
+        GA.transform.DOMove(RestPositionDown, 1f, false);
+    }
 
 
     
