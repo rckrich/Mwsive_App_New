@@ -28,6 +28,7 @@ public enum ViewID
     EditProfileViewModel,
     RankingViewModel,
     DangerZoneViewModel,
+    ExploreViewModel
 }
 
 public enum HTTPMethods
