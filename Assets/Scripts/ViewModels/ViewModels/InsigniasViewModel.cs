@@ -14,6 +14,7 @@ public class InsigniasViewModel : ViewModel
     public Transform instanceParent;
     void Start()
     {
+        StartSearch();
         MwsiveConnectionManager.instance.GetBadges(Callback_GetBadges);
     }
 
@@ -24,8 +25,7 @@ public class InsigniasViewModel : ViewModel
     }
     public void OnClick_SpawnPopUpButton()
     {
-        NewScreenManager.instance.ChangeToSpawnedView("popUp");
-        Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
+        //CallPopUP(PopUpViewModelTypes.MessageOnly, )
     }
     public void OnClick_BackButton()
     {
@@ -40,9 +40,9 @@ public class InsigniasViewModel : ViewModel
         {
             BadgeHolder instance = GameObject.Instantiate(FollowersHolderPrefab, instanceParent).GetComponent<BadgeHolder>();
             instance.Initialize();
-
+            
         }
-
+        EndSearch();
         offset += 50;
     }
 }
