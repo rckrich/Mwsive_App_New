@@ -102,12 +102,19 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void Swipe()
     {
-        SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_Swipe);
+        if (!AppManager.instance.SearchTrackOnCurrentPlaylist(trackID))
+        {
+            SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_Swipe);
+        }
+        else
+        {
+            UIMessage.instance.UIMessageInstanciate("Esta canción ya está en la playlist");
+        }
     }
 
     public void Callback_Swipe(object[] _value)
     {
-
+        UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");
     }
 
     public void BackSwipe()
