@@ -410,15 +410,16 @@ public class SurfManager : Manager
     }
  
     IEnumerator singleOrDouble(){
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.2f);
         if(touch.tapCount == 1){
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().OnClic_StopAudioPreview();
         }    
         else if(touch.tapCount == 2){
             //this coroutine has been called twice. We should stop the next one here otherwise we get two double tap
             StopCoroutine("singleOrDouble");
-            DOTween.Complete(MwsiveOla);
-            UIAniManager.instance.DoubleClickOla(MwsiveOla);
+            GameObject Instance = Instantiate(MwsiveOla, gameObject.transform.position, Quaternion.identity);
+            Instance.transform.SetParent(GameObject.Find("MainCanvas").transform);
+            UIAniManager.instance.DoubleClickOla(Instance);
             if(!OlaButton.GetComponent<MwsiveControllerButtons>().IsItOlaColorButtonActive()){
                 OlaButton.GetComponent<MwsiveControllerButtons>().OnClickOlaButton();
                 
@@ -429,11 +430,14 @@ public class SurfManager : Manager
 
 
     public void CheckDoubleClick(){
+        /*
         float timeSinceLastClick = Time.time - lastClickTime;
         if (timeSinceLastClick <= doubleClickTime){
             
-             DOTween.Complete(MwsiveOla);
-            UIAniManager.instance.DoubleClickOla(MwsiveOla);
+            GameObject Instance = Instantiate(MwsiveOla, gameObject.transform.position, Quaternion.identity);
+            Instance.transform.SetParent(GameObject.Find("Main Canvas").transform);
+            UIAniManager.instance.DoubleClickOla(Instance);
+
             if(!OlaButton.GetComponent<MwsiveControllerButtons>().IsItOlaColorButtonActive()){
                 OlaButton.GetComponent<MwsiveControllerButtons>().OnClickOlaButton();
                 
@@ -443,6 +447,7 @@ public class SurfManager : Manager
         }
 
         lastClickTime = Time.time;
+        */
     }
     
 
