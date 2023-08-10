@@ -21,9 +21,7 @@ public class UIMessage : MonoBehaviour
 
     public GameObject MessagePF;
 
-     private void Start() {
-        UIMessageInstanciate("Canción agregada a Playlist");
-    }
+
 
     public void UIMessageInstanciate(string _text){
         GameObject Instance  = Instantiate(MessagePF, gameObject.transform.position, Quaternion.identity);
