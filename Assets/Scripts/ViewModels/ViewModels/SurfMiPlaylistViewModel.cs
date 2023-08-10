@@ -18,6 +18,11 @@ public class SurfMiPlaylistViewModel : ViewModel
     
     void Start()
     {
+        InitializePlaylistList();
+    }
+
+    private void InitializePlaylistList()
+    {
         StartSearch();
         SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_OnClick_GetCurrentUserPlaylists);
     }
@@ -45,7 +50,6 @@ public class SurfMiPlaylistViewModel : ViewModel
             if (item.images != null && item.images.Count > 0) { instance.SetImage(item.images[0].url); }
         }
 
-        Debug.Log("Search has ended");
         EndSearch();
     }
 
@@ -101,7 +105,17 @@ public class SurfMiPlaylistViewModel : ViewModel
     public void OnClick_SpawnCrearPlaylistButton()
     {
         NewScreenManager.instance.ChangeToSpawnedView("crearPlaylist");
-        Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
+        NewScreenManager.instance.GetCurrentView().GetComponent<CreatePlaylistViewModel>().Initialize(this);
+    }
+
+    public void RefreshPlaylistList()
+    {
+        for(int i = 0; i < instanceParent.transform.childCount; i++)
+        {
+            Destroy(instanceParent.transform.GetChild(i).gameObject);
+        }
+
+        InitializePlaylistList();
     }
 
 }
