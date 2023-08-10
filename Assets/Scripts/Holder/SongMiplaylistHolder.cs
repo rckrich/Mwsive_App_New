@@ -19,6 +19,7 @@ public class SongMiplaylistHolder : ViewModel
     private bool isEnabled;
     public GameObject selected;
     public ExternalUrls url;
+    public bool isSelected = false;
     public void SetOnSelectedPlaylist(bool _enabled) { isEnabled = _enabled; }
     public bool GetOnSelectedPlaylist() { return isEnabled; }
     public void OnEnable()
@@ -65,12 +66,23 @@ public class SongMiplaylistHolder : ViewModel
     {
         SetOnSelectedPlaylist(false);
         selected.SetActive(false);
+        
+         
     }
     public void OnClickSelected()
     {
-        AppManager.instance.ChangeCurrentPlaylist(spotifyID);        
-        selected.SetActive(true);
-        
+        if (!isSelected)
+        {
+            AppManager.instance.ChangeCurrentPlaylist(spotifyID);
+            selected.SetActive(true);
+            isSelected = true;
+        }       
+        else
+        {
+            selected.SetActive(false);
+            isSelected = false;
+        }
+
     }
     public void Charging()
     {

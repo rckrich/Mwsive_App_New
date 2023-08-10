@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SelectTime : MonoBehaviour
 {
+    
     public void OnClick_AllTime()
     {
         NewScreenManager.instance.GetMainView(ViewID.RankingViewModel).GetComponent<RankingViewModel>().ChangeTimeType("AllTime");
@@ -17,5 +18,10 @@ public class SelectTime : MonoBehaviour
     public void OnClick_PastWeek()
     {
         NewScreenManager.instance.GetMainView(ViewID.RankingViewModel).GetComponent<RankingViewModel>().ChangeTimeType("PastWeek");
+    }
+
+    public void OnClick_BackButton()
+    {
+        gameObject.SetActive(false);
     }
 }
