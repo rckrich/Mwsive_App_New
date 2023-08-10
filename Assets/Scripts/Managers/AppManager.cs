@@ -106,7 +106,7 @@ public class AppManager : Manager
     {
         EndSearch();
         SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
-        SurfManager.instance.DynamicPrefabSpawner(new object[] { searchedPlaylist });
+        SurfManager.instance.DynamicPrefabSpawnerPL(new object[] { searchedPlaylist });
     }
 
     public void GetTrack(string _trackId)

@@ -120,7 +120,7 @@ public class PlaylistViewModel : ViewModel
         SurfInstance.transform.localScale = new Vector3(1,1,1);
         SurfInstance.GetComponent<RectTransform>().offsetMin = new Vector2(0,0);
         SurfInstance.GetComponent<RectTransform>().offsetMax = new Vector2(0,0);
-        SurfInstance.GetComponentInChildren<SurfManager>().DynamicPrefabSpawner(new object[] { searchedPlaylist });
+        SurfInstance.GetComponentInChildren<SurfManager>().DynamicPrefabSpawnerPL(new object[] { searchedPlaylist });
         
     }
 }
