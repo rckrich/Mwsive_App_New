@@ -25,6 +25,7 @@ public class AppManager : Manager
     public Transform surfTransform;
     public string trackID;
     public string uri;
+    public string url;
 
     public SelectedPlaylistNameAppObject appObject;
     public ButtonSurfPlaylist buttonSurfPlaylist;
@@ -117,7 +118,7 @@ public class AppManager : Manager
     public void Callback_GetTrack(object[] _value)
     {
         TrackRoot trackRoot = (TrackRoot)_value[1];
-
+        url = trackRoot.external_urls.spotify;
         uri = trackRoot.uri;
     }
 }

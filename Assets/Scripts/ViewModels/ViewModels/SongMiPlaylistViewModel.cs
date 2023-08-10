@@ -46,9 +46,8 @@ public class SongMiPlaylistViewModel : ViewModel
     }
      public void OnClickDone()
     {
-        
-        AppManager appManager = new AppManager();
-        uri[0] = appManager.uri;
+
+        uri[0] = AppManager.instance.uri;
         SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uri, Callback_OnCLick_AddItemsToPlaylist);
 
         NewScreenManager.instance.BackToPreviousView();
