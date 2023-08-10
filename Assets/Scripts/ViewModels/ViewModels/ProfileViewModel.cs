@@ -21,6 +21,7 @@ public class ProfileViewModel : ViewModel
 
         if (ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted)
         {
+            
             GetUserBasedOnEmptyProfileID(profileId);
         }
         else
@@ -47,13 +48,15 @@ public class ProfileViewModel : ViewModel
 
     private void GetUserBasedOnEmptyProfileID(string _profileId)
     {
-        if (_profileId.Equals(""))
+        if (_profileId.Equals(""))           
         {
+            StartSearch();
             SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
         }
         else
         {
             SpotifyConnectionManager.instance.GetUserProfile(profileId, Callback_GetUserProfile);
+            
         }
     }
 
@@ -110,6 +113,7 @@ public class ProfileViewModel : ViewModel
             if (playlistRoot.items[i].images != null && playlistRoot.items[i].images.Count > 0)
                 instance.SetImage(playlistRoot.items[i].images[0].url);
         }
+        EndSearch();
     }
     public void OnClick_BackButton()
     {
