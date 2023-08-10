@@ -890,9 +890,11 @@ public static class SpotifyWebCalls
 
         url = WebCallsUtils.AddParametersToURI(url + "?", parameters);
 
-        url = WebCallsUtils.AddMultipleParameterToUri(url + "&", "seed_artists", _seed_artists);
+        if(_seed_artists.Length > 0)
+            url = WebCallsUtils.AddMultipleParameterToUri(url + "&", "seed_artists", _seed_artists);
         /*url = WebCallsUtils.AddMultipleParameterToUri(url + "&", "seed_genres", _seed_genres);*/
-        url = WebCallsUtils.AddMultipleParameterToUri(url + "&", "seed_tracks", _seed_tracks);
+        if (_seed_tracks.Length > 0)
+            url = WebCallsUtils.AddMultipleParameterToUri(url + "&", "seed_tracks", _seed_tracks);
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
