@@ -29,7 +29,7 @@ public class MwsiveButton : MonoBehaviour
         return IsItOlaColorButtonActive;
     }
 
-    public void OnClickAñadirButton(float AnimationDuration){
+    public void ChangeAddToPlaylistButtonColor(float AnimationDuration){
         if(!IsItAñadirColorButtonActive){
             UIAniManager.instance.FadeIn(AñadirColorButton, AnimationDuration);
             AñadirColorButton.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), .3f).OnComplete(() => {AñadirColorButton.transform.DOScale(new Vector3(1f, 1f, 1f), .3f);});

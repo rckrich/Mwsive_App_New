@@ -1067,7 +1067,7 @@ GameObject:
   - component: {fileID: 6148568945266713471}
   - component: {fileID: 6148568945266713470}
   m_Layer: 5
-  m_Name: "MwsiveA\xF1adir_Button"
+  m_Name: MwsiveAddToPLaylist_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1175,19 +1175,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6148568945266713471}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3725045339079126129}
-        m_TargetAssemblyTypeName: MwsiveButton, Scripts
-        m_MethodName: "OnClickA\xF1adirButton"
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &6148568945326522005
 GameObject:
   m_ObjectHideFlags: 0
@@ -1449,7 +1437,7 @@ MonoBehaviour:
   mp3URL: 
   isAdd: 0
   externalURL: 
-  _MwsiveButtons: {fileID: 3725045339079126129}
+  mwsiveButton: {fileID: 3725045339079126129}
 --- !u!1 &6148568945711781988
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,7 +23,7 @@ public class ButtonSurfPlaylist : ViewModel
     public bool isAdd = false;
     public string externalURL;
 
-    public MwsiveButton _MwsiveButtons;
+    public MwsiveButton mwsiveButton;
 
 
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
@@ -72,7 +72,7 @@ public class ButtonSurfPlaylist : ViewModel
 
         if (AppManager.instance.SearchTrackOnCurrentPlaylist(_spotifyid))
         {
-            _MwsiveButtons.OnClickAñadirButton(0.5f);
+            mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
             //Pintar de morado el que está en playlist
         }
     }
@@ -102,9 +102,14 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void Swipe()
     {
+        AddToPlaylist();
+    }
+
+    public void AddToPlaylist()
+    {
         if (!AppManager.instance.SearchTrackOnCurrentPlaylist(trackID))
         {
-            SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_Swipe);
+            SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
         }
         else
         {
@@ -112,9 +117,35 @@ public class ButtonSurfPlaylist : ViewModel
         }
     }
 
-    public void Callback_Swipe(object[] _value)
+    public void AddToPlaylistButton()
     {
+        if (!AppManager.instance.SearchTrackOnCurrentPlaylist(trackID))
+        {
+            SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
+        }
+        else
+        {
+            SpotifyConnectionManager.instance.RemoveItemsFromPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_RemoveToPlaylist);
+        }
+    }
+
+    private void Callback_AddToPlaylist(object[] _value)
+    {
+        mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
         UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");
+        CallRefreshAppManagerPlaylist();
+    }
+
+    private void Callback_RemoveToPlaylist(object[] _value)
+    {
+        mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
+        UIMessage.instance.UIMessageInstanciate("Canción eliminada de la playlist");
+        CallRefreshAppManagerPlaylist();
+    }
+
+    private void CallRefreshAppManagerPlaylist()
+    {
+
     }
 
     public void BackSwipe()
