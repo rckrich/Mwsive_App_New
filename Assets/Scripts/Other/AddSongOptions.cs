@@ -20,8 +20,8 @@ public class AddSongOptions : ViewModel
     // Start is called before the first frame update
     void Start()
     {
-        trackID = AppManager.instance.trackID;
-        AppManager.instance.GetTrack();
+        
+        
     }
 
 
