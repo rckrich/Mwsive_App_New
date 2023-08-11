@@ -165,7 +165,7 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
         Instance.transform.localScale = new Vector3(1,1,1);
 
         Instance.GetComponent<PlaylistViewModel>().id = SpotifyID;
-        Instance.GetComponent<PlaylistViewModel>().GetPlaylist();
+        //Instance.GetComponent<PlaylistViewModel>().GetPlaylist();
     }
 
 }

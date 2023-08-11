@@ -31,7 +31,7 @@ public class PlaylistViewModel : ViewModel
    
     void Start()
     {
-        //GetPlaylist();
+        GetPlaylist();
     }
 
     public void GetPlaylist()
