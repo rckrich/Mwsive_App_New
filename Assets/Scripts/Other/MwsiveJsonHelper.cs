@@ -28,34 +28,46 @@ public class MwsiveUser : Instanceable
     public Track[] next_starts { get; set; }
     public Artist[] goats { get; set; }
     public Track[] ost { get; set; }
-    public object created_at { get; set; }
+    public DateTime created_at { get; set; }
+    public DateTime updated_at { get; set; }
     public string user { get; set; }
     public Playlists[] publicPlaylists { get; set; }
     public string genre { get; set; }
     public int age { get; set; }
     public string playlists { get; set; }
+    public string platform_id { get; set; }
+}
+
+public class Curator
+{
+    public int id { get; set; }
+    public int order { get; set; }
+    public int mwsive_user_id { get; set; }
+    public DateTime created_at { get; set; }
+    public DateTime updated_at { get; set; }
+    public MwsiveUser mwsive_user { get; set; }
 }
 
 public class MwsiveTrack
 {
     public int id { get; set; }
-    public Album album { get; set; }
+    public string spotify_track_id { get; set; }
+    public string spotify_album_id { get; set; }
     public string album_name { get; set; }
-    public string[] artists_id { get; set; }
-    public string[] artists_name { get; set; }
-    public string[] available_markets { get; set; }
+    public string spotify_artist_ids { get; set; }
+    public string artist_names { get; set; }
+    public string available_markets { get; set; }
     public int disk_number { get; set; }
     public int duration_ms { get; set; }
-    public string track_id { get; set; }
-    public bool is_playable { get; set; }
-    public object restrictions { get; set; }
     public string name { get; set; }
     public int popularity { get; set; }
     public string preview_url { get; set; }
     public int track_number { get; set; }
-    public string type { get; set; }
     public string uri { get; set; }
-    public bool is_local { get; set; }
+    public int is_local { get; set; }
+    public DateTime created_at { get; set; }
+    public DateTime updated_at { get; set; }
+    public object track { get; set; }
 }
 
 public class Action
@@ -153,7 +165,10 @@ public class RecommendedArtist
 {
     public int id { get; set; }
     public int order { get; set; }
-    public Artist artist { get; set; }
+    public string spotify_id { get; set; }
+    public string name { get; set; }
+    public DateTime created_at { get; set; }
+    public DateTime updated_at { get; set; }
 }
 
 public class RecommendedPlaylist
@@ -168,14 +183,20 @@ public class RecommendedTrack
 {
     public int id { get; set; }
     public int order { get; set; }
-    public Track track { get; set; }
+    public int mwsive_track_id { get; set; }
+    public DateTime created_at { get; set; }
+    public DateTime updated_at { get; set; }
+    public MwsiveTrack mwsive_track { get; set; }
 }
 
 public class RecommendedAlbum
 {
     public int id { get; set; }
     public int order { get; set; }
-    public Album album { get; set; }
+    public string spotify_id { get; set; }
+    public string name { get; set; }
+    public DateTime created_at { get; set; }
+    public DateTime updated_at { get; set; }
 }
 
 public class Genre
@@ -255,27 +276,27 @@ public class MwsiveAdvertisingRoot
 
 public class MwsiveRecommendedCuratorsRoot
 {
-    public List<MwsiveUser> users { get; set; }
+    public List<Curator> curators { get; set; }
 }
 
 public class MwsiveRecommendedArtistsRoot
 {
-    public List<RecommendedArtist> recommended_artists { get; set; }
+    public List<RecommendedArtist> artists { get; set; }
 }
 
 public class MwsiveRecommendedPlaylistsRoot
 {
-    public List<RecommendedPlaylist> recommended_playlists { get; set; }
+    public List<RecommendedPlaylist> playlists { get; set; }
 }
 
 public class MwsiveRecommendedTracksRoot
 {
-    public List<RecommendedTrack> recommended_tracks { get; set; }
+    public List<RecommendedTrack> tracks { get; set; }
 }
 
 public class MwsiveRecommendedAlbumsRoot
 {
-    public List<RecommendedAlbum> recommended_albums { get; set; }
+    public List<RecommendedAlbum> albums { get; set; }
 }
 
 public class MwsiveGenresRoot
