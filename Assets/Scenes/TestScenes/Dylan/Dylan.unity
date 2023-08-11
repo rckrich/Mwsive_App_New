@@ -11176,7 +11176,7 @@ GameObject:
   - component: {fileID: 672679199}
   - component: {fileID: 672679198}
   m_Layer: 5
-  m_Name: MainCanvas
+  m_Name: SpawnableCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36437,6 +36437,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9b23c3c433b242a190e8cfd69f0b0ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewID: 0
+  networkLoadingCanvas: {fileID: 0}
+  scrollViewContent: {fileID: 0}
   Descubrir: {fileID: 1026595804}
   Prefabs:
   - {fileID: 6457824725715141589, guid: b638ae79de9f8414f986c3e29d0a71e5, type: 3}
@@ -37272,9 +37275,10 @@ MonoBehaviour:
   swipeListener: {fileID: 9166560622118597570}
   Controller: {fileID: 1284847614}
   Prefab: {fileID: 6148568945450055006, guid: d3d8010569ce88c42889d1ec0cddc425, type: 3}
+  MainCanvas: {fileID: 0}
   AddSong: {fileID: 993757827}
   OlaButton: {fileID: 137253774}
-  MwsiveOla: {fileID: 1516798230}
+  MwsiveOla: {fileID: 2076137575021857959, guid: dd1c5008e90ef2e4286781ce17bb716a, type: 3}
   MwsiveSongs: []
   RestPositions:
   - {fileID: 6136810780057472879}
@@ -37556,7 +37560,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!225 &6520197286071428502
 CanvasGroup:
   m_ObjectHideFlags: 0

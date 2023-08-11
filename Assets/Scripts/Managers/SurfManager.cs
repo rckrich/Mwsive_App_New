@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using DG.Tweening;
 using GG.Infrastructure.Utils.Swipe;
 
@@ -23,7 +24,7 @@ public class SurfManager : Manager
 
     public SwipeListener swipeListener;
     public ScrollRect Controller;
-    public GameObject Prefab;
+    public GameObject Prefab, MainCanvas;
     public GameObject AddSong;
     public GameObject OlaButton;
     public GameObject MwsiveOla;
@@ -34,6 +35,9 @@ public class SurfManager : Manager
     public float SurfSuccessSensitivity = 2.2f;
     public Vector2 LeftRightOffset;
     public float doubleClickTime = .1f;
+    public bool CanGetRecomendations = false;
+    private SearchedPlaylist searchedPlaylist;
+    private RecommendationsRoot recommendationsRoot;
 
     [HideInInspector]
     public bool canSwipe = true;
@@ -47,6 +51,10 @@ public class SurfManager : Manager
   
     private void Start()
     {
+        if(UIAniManager.instance.MainCanvas == null){
+            UIAniManager.instance.MainCanvas = MainCanvas;
+        }
+       
         ControllerPostion = new Vector2(Controller.transform.position.x, Controller.transform.position.y); 
     }
 
@@ -210,23 +218,29 @@ public class SurfManager : Manager
         Controller.horizontal =true;
         Controller.vertical =true;
         Controller.transform.position = new Vector2(ControllerPostion.x,ControllerPostion.y);
-        UIAniManager.instance.SurfSide(MwsiveSongs[CurrentPosition],1, -MaxRotation,0,true);
-        UIAniManager.instance.CompleteSurfAddSong(AddSong, 1.5f);
+        if(CurrentPosition < MwsiveSongs.Count){
+            DOTween.CompleteAll(true);
+            UIAniManager.instance.SurfSide(MwsiveSongs[CurrentPosition],1, -MaxRotation,0,true);
+            UIAniManager.instance.CompleteSurfAddSong(AddSong, 1.5f);
 
-        UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[0], 1);
-        UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+2], RestPositions[1], 1);
-        UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[2], 1);
+            UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[0], 1);
+            UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+2], RestPositions[1], 1);
+            UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[2], 1);
 
+            
+            CurrentPosition++;
+            GetBeforeCurrentPrefab().GetComponent<ButtonSurfPlaylist>().Swipe();
+            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+            Success = true;
+        }else{
+            ResetValue();
+        }
         
-        CurrentPosition++;
-        GetBeforeCurrentPrefab().GetComponent<ButtonSurfPlaylist>().Swipe();
-        GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
-        
-        if(CurrentPosition == PrefabPosition-3){
-            //SpawnPrefab();
+        if(CurrentPosition == PrefabPosition+3){
+            SpawnRecommendations();
             
         }
-        Success = true;
+        
         HasSwipeEnded = true;
         Debug.Log("SideScrollSuccess");
     }
@@ -267,26 +281,64 @@ public class SurfManager : Manager
             Controller.horizontal =true;
             Controller.vertical =true;
             Controller.transform.position = new Vector2(ControllerPostion.x,ControllerPostion.y);
-            Success = true;
-            UIAniManager.instance.SurfVerticalDown(MwsiveSongs[CurrentPosition],1, -MaxRotation, 0,true);
+            if(CurrentPosition < MwsiveSongs.Count-4){
+                 Success = true;
+                UIAniManager.instance.SurfVerticalDown(MwsiveSongs[CurrentPosition],1, -MaxRotation, 0,true);
 
-            UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[0], 1);
-            UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+2], RestPositions[1], 1);
-            UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[2], 1);
-            
-            CurrentPosition++;
-            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
-
-            if (CurrentPosition == PrefabPosition -3){
-                //SpawnPrefab();
+                UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[0], 1);
+                UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+2], RestPositions[1], 1);
+                UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[2], 1);
+                
+                CurrentPosition++;
+                GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+                UIAniManager.instance.SurfAddSongReset(AddSong);
+            }else{
+                ResetValue();
             }
-            UIAniManager.instance.SurfAddSongReset(AddSong);
+            
+            if (CurrentPosition == PrefabPosition -4){
+                SpawnRecommendations();
+            }
+            
 
             HasSwipeEnded = true;
             Debug.Log("DownScrollSuccess");
     }
            
 
+    public void SpawnRecommendations(){
+        if(CanGetRecomendations){
+            List<string> _artists = new List<string>();
+            List<string> _tracks = new List<string>();
+
+            if(recommendationsRoot == null){
+                for (int i = searchedPlaylist.tracks.items.Count-1; i > searchedPlaylist.tracks.items.Count-3   ; i--)
+                {
+                    _artists.Add(searchedPlaylist.tracks.items[i].track.artists[0].id); 
+                    _tracks.Add(searchedPlaylist.tracks.items[i].track.id);
+                    
+                }
+            }else{
+                for (int i = recommendationsRoot.tracks.Count-1; i > recommendationsRoot.tracks.Count-3   ; i--)
+                {
+                    _artists.Add(recommendationsRoot.tracks[i].artists[0].id); 
+                    _tracks.Add(recommendationsRoot.tracks[i].id);
+                    
+                }
+            }
+            
+            
+            SpotifyConnectionManager.instance.GetRecommendations(_artists.ToArray(), _tracks.ToArray(), Callback_SpawnRecommendations, 20);
+        }
+        
+        
+    }
+    private void Callback_SpawnRecommendations(object[] _value)
+    {
+        recommendationsRoot = (RecommendationsRoot)_value[1];
+        DynamicPrefabSpawnerRecommendations(new object[] { recommendationsRoot });
+        
+    }
 
     public void ResetValue(){
         if(!Success){
@@ -322,13 +374,52 @@ public class SurfManager : Manager
         return _Instance;
     }
 
-    public void DynamicPrefabSpawner(object[] _value)
+        public void DynamicPrefabSpawnerRecommendations(object[] _value)
     {
-        SearchedPlaylist _searchroot = (SearchedPlaylist)_value[0];
+        RecommendationsRoot recommendationsRoot = (RecommendationsRoot)_value[0];
 
+        Debug.Log(recommendationsRoot);
+        GameObject FirstInstance = null;
+        
+        foreach (var item in recommendationsRoot.tracks)
+        {
+            
+                    if (item.preview_url != null)
+            {
+                GameObject instance = SpawnPrefab();
+                if (FirstInstance == null)
+                {
+                    FirstInstance = instance;
+                }
+
+                string artists = "";
+
+                foreach (Artist artist in item.artists)
+                {
+                    artists = artists + artist.name + ", ";
+                }
+
+                artists = artists.Remove(artists.Length - 2);
+
+                instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.name, item.album.name, artists, item.album.images[0].url, item.id, item.uri, item.preview_url, item.external_urls.spotify);
+
+            }
+            
+            
+            
+            
+        }
+
+    }
+
+    public void DynamicPrefabSpawnerPL(object[] _value)
+    {
+        searchedPlaylist = (SearchedPlaylist)_value[0];
+
+        int i = 0;
         GameObject FirstInstance = null;
 
-        foreach (var item in _searchroot.tracks.items)
+        foreach (var item in searchedPlaylist.tracks.items)
         {
             if (item.track.preview_url != null)
             {
@@ -350,6 +441,10 @@ public class SurfManager : Manager
                 instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.track.name, item.track.album.name, artists, item.track.album.images[0].url, item.track.id, item.track.uri, item.track.preview_url, item.track.external_urls.spotify);
 
             }
+            if ( i == 5){
+                break;
+            }
+            i++;
         }
 
         FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
@@ -398,7 +493,7 @@ public class SurfManager : Manager
     float touchDuration;
     Touch touch;
     void Update() {
-        if(Input.touchCount > 0){ //if there is any touch
+        if(Input.touchCount > 0 && EventSystem.current.currentSelectedGameObject == null){ //if there is any touch
             touchDuration += Time.deltaTime;
             touch = Input.GetTouch(0);
  
@@ -417,8 +512,12 @@ public class SurfManager : Manager
         else if(touch.tapCount == 2){
             //this coroutine has been called twice. We should stop the next one here otherwise we get two double tap
             StopCoroutine("singleOrDouble");
-            GameObject Instance = Instantiate(MwsiveOla, gameObject.transform.position, Quaternion.identity);
-            Instance.transform.SetParent(GameObject.Find("MainCanvas").transform);
+
+           GameObject Instance = Instantiate(MwsiveOla, Vector3.zero, Quaternion.identity);
+            Instance.transform.SetParent(GameObject.Find("SpawnableCanvas").transform);
+            Instance.GetComponent<RectTransform>().offsetMin = new Vector2(100,250);
+            Instance.GetComponent<RectTransform>().offsetMax = new Vector2(-100,-250);
+
             UIAniManager.instance.DoubleClickOla(Instance);
             if(!OlaButton.GetComponent<MwsiveControllerButtons>().IsItOlaColorButtonActive()){
                 OlaButton.GetComponent<MwsiveControllerButtons>().OnClickOlaButton();

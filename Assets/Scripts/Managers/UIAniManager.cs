@@ -237,6 +237,8 @@ public class UIAniManager : MonoBehaviour
         }
     }
 
+
+    
     void SetPosition(){
         FinalPosition = MainCanvas.transform.position;
         RestPositionDown = new Vector2(MainCanvas.transform.position.x, -2*MainCanvas.transform.position.y);

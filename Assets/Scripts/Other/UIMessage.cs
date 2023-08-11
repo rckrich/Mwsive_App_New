@@ -24,13 +24,14 @@ public class UIMessage : MonoBehaviour
 
 
     public void UIMessageInstanciate(string _text){
-        GameObject Instance  = Instantiate(MessagePF, gameObject.transform.position, Quaternion.identity);
+        GameObject Instance  = Instantiate(MessagePF, Vector3.zero, Quaternion.identity);
         Instance.SetActive(false);
-        Instance.transform.SetParent(GameObject.Find("MainCanvas").transform);
+        Instance.transform.SetParent(GameObject.Find("SpawnableCanvas").transform);
         Instance.transform.localScale = new Vector3(1,1,1);
         Instance.GetComponent<RectTransform>().offsetMin = new Vector2(0,0);
         Instance.GetComponent<RectTransform>().offsetMax = new Vector2(0,0);
         Instance.GetComponentInChildren<TextMeshProUGUI>().text = _text;
+
 
         UIAniManager.instance.UIMessage(Instance);
     }
