@@ -26,6 +26,8 @@ public class TrackViewModel : ViewModel
     int index = 0;
     public HolderManager holderManager;
     public string stringUrl;
+
+    private RecommendationsRoot recommendations;
     void Start()
     {
         
@@ -48,6 +50,7 @@ public class TrackViewModel : ViewModel
 
         TrackRoot trackRoot = (TrackRoot)_value[1];
         displayName.text = trackRoot.name;
+        trackID = trackRoot.external_urls.spotify;
         foreach(Artist artist in trackRoot.artists) { artistName.text += artist.name + ", ";  index++; }
         seed_artists = new string[index];
         for(int i = 0; i < seed_artists.Length; i++)
@@ -79,7 +82,7 @@ public class TrackViewModel : ViewModel
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
         RecommendationsRoot recommendationsRoot = (RecommendationsRoot)_value[1];
-
+        recommendations = recommendationsRoot;
         InstanceTrackObjects(recommendationsRoot.tracks);
     }
 
@@ -99,14 +102,17 @@ public class TrackViewModel : ViewModel
     }
 
     public void OnClickListenInSpotify()
-    {
-        
-        stringUrl = holderManager.trackExternalUrl.spotify.ToString();
-        Application.OpenURL(stringUrl);
+    {               
+        Application.OpenURL(trackID);
     }
 
     public void OnClick_ButtonBack()
     {
         NewScreenManager.instance.BackToPreviousView();
+    }
+
+    public void OnClick_Surf()
+    {
+        SurfManager.instance.DynamicPrefabSpawnerSong((new object[] { recommendations }));
     }
 }

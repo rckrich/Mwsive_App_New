@@ -42,7 +42,7 @@ public class AddSongOptions : ViewModel
     }
     public void OnClickSong()
     {
-         trackViewModel.trackID = trackID;
+        trackViewModel.trackID = trackID;
         NewScreenManager.instance.ChangeToSpawnedView("cancion");
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
