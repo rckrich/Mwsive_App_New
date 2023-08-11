@@ -24,10 +24,7 @@ public class SurfManager : Manager
 
     public SwipeListener swipeListener;
     public ScrollRect Controller;
-    public GameObject Prefab, MainCanvas;
-    public GameObject AddSong;
-    public GameObject OlaButton;
-    public GameObject MwsiveOla;
+    public GameObject Prefab, MainCanvas, AddSong, OlaButton, MwsiveOla, MwsiveContainer;
     public List <GameObject> MwsiveSongs = new List<GameObject>();
     public GameObject[ ] RestPositions;
 
@@ -56,18 +53,12 @@ public class SurfManager : Manager
         if(UIAniManager.instance.MainCanvas == null){
             UIAniManager.instance.MainCanvas = MainCanvas;
         }
-       
         ControllerPostion = new Vector2(Controller.transform.position.x, Controller.transform.position.y); 
     }
 
     private void OnEnable()
     {
         swipeListener.OnSwipe.AddListener(OnSwipe);
-
-        foreach(GameObject song in GameObject.FindGameObjectsWithTag("MwsiveSong"))
-        {
-            MwsiveSongs.Add(song);
-        }
 
         GameObject currentPrefab = GetCurrentPrefab();
 
@@ -495,12 +486,16 @@ public class SurfManager : Manager
 
     public void DynamicPrefabSpawnerPL(object[] _value)
     {
+        
         searchedPlaylist = (SearchedPlaylist)_value[0];
+
+        Debug.Log(MwsiveSongs.Count);
         Debug.Log("----------------------------" + searchedPlaylist.tracks.items.Count);
         GameObject FirstInstance = null;
 
         foreach (var item in searchedPlaylist.tracks.items)
         {
+            Debug.Log(MwsiveSongs.Count);
             if (item.track.preview_url != null)
             {
                 GameObject instance = SpawnPrefab();
@@ -534,6 +529,7 @@ public class SurfManager : Manager
 
 
     private GameObject SpawnPrefab(){
+        Debug.Log(CurrentPosition);
         GameObject Instance;
         if(PrefabPosition < 4){
             Instance = Instantiate(Prefab,RestPositions[PrefabPosition].transform.position, Quaternion.identity);
@@ -548,7 +544,7 @@ public class SurfManager : Manager
         }
         Instance.name = "PF_Mwsive_Song " + PrefabPosition;
         
-        Instance.transform.SetParent(GameObject.Find("PF_Mwsive_Container").transform);
+        Instance.transform.SetParent(MwsiveContainer.transform);
         Instance.transform.SetAsFirstSibling();
         MwsiveSongs.Add(Instance);
         Instance.GetComponent<RectTransform>().offsetMin = new Vector2 (LeftRightOffset.x,0);
