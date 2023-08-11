@@ -195,13 +195,13 @@ public class MwsiveConnectionManager : MonoBehaviour
         Debug.Log(((MwsiveFollowersRoot)_value[1]));
     }
 
-    public void GetFollowing(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
+    public void GetFollowed(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
     {
-        _callback += Callback_GetFollowing;
-        StartCoroutine(MwsiveWebCalls.CR_GetFollowing(ProgressManager.instance.progress.userDataPersistance.access_token, _callback, _offset, _limit));
+        _callback += Callback_GetFollowed;
+        StartCoroutine(MwsiveWebCalls.CR_GetFollowed(ProgressManager.instance.progress.userDataPersistance.access_token, _callback, _offset, _limit));
     }
 
-    private void Callback_GetFollowing(object[] _value)
+    private void Callback_GetFollowed(object[] _value)
     {
         if (CheckResponse((long)_value[0]))
         {

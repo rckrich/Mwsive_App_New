@@ -213,7 +213,7 @@ public class Genre
 
 public class MwsiveUserRoot
 {
-    public string MwsiveUser { get; set; }
+    public MwsiveUser user { get; set; }
 }
 
 public class MwsiveCreatedRoot

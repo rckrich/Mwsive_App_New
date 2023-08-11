@@ -220,7 +220,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch Mwsive User result: " + jsonResult);
-                    MwsiveUserRoot mwsiveUserRoot = JsonConvert.DeserializeObject<MwsiveUserRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveUserRoot mwsiveUserRoot = JsonConvert.DeserializeObject<MwsiveUserRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveUserRoot });
                     yield break;
                 }
@@ -271,7 +272,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch Mwsive User result: " + jsonResult);
-                    MwsiveUserRoot mwsiveUserRoot = JsonConvert.DeserializeObject<MwsiveUserRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveUserRoot mwsiveUserRoot = JsonConvert.DeserializeObject<MwsiveUserRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveUserRoot });
                     yield break;
                 }
@@ -385,10 +387,10 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/track/";
-        string url = "http://192.241.129.184/api/track";
+        //string url = "https://mwsive.com/track/" + _track_id + "/curators/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "https://mwsive.com/track/" + _track_id + "/curators/" + _offset.ToString() + "/" + _limit.ToString();
 
-        Dictionary<string, string> parameters = new Dictionary<string, string>();
+        /*Dictionary<string, string> parameters = new Dictionary<string, string>();
         parameters.Add("track_id", _track_id);
 
 
@@ -399,7 +401,7 @@ public class MwsiveWebCalls : MonoBehaviour
         parameters.Add("offset", _offset.ToString());
         parameters.Add("limit", _limit.ToString());
 
-        url = WebCallsUtils.AddParametersToURI(url, parameters);
+        url = WebCallsUtils.AddParametersToURI(url, parameters);*/
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -495,14 +497,14 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/me/followers";
-        string url = "http://192.241.129.184/api/me/followers";
+        //string url = "https://mwsive.com/me/followers" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "http://192.241.129.184/api/me/followers" + _offset.ToString() + "/" + _limit.ToString();
 
-        Dictionary<string, string> parameters = new Dictionary<string, string>();
+        /*Dictionary<string, string> parameters = new Dictionary<string, string>();
         parameters.Add("offset", _offset.ToString());
         parameters.Add("limit", _limit.ToString());
 
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);
+        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);*/
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -543,18 +545,18 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_GetFollowing(string _token, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    public static IEnumerator CR_GetFollowed(string _token, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/me/following";
-        string url = "http://192.241.129.184/api/me/following";
+        //string url = "https://mwsive.com/me/following" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "http://192.241.129.184/api/me/following" + _offset.ToString() + "/" + _limit.ToString();
 
-        Dictionary<string, string> parameters = new Dictionary<string, string>();
+        /*Dictionary<string, string> parameters = new Dictionary<string, string>();
         parameters.Add("offset", _offset.ToString());
         parameters.Add("limit", _limit.ToString());
 
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);
+        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);*/
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
