@@ -25,7 +25,6 @@ public class ButtonSurfPlaylist : ViewModel
 
     public MwsiveButton mwsiveButton;
 
-
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
     {
         playlistName = _playlistName;
@@ -164,6 +163,15 @@ public class ButtonSurfPlaylist : ViewModel
     public void SelectedPlaylistNameEventListener(SelectedPlaylistNameAppEvent _event)
     {
         playlistText.text = AppManager.instance.GetCurrentPlaylist().name;
+        if (AppManager.instance.SearchTrackOnCurrentPlaylist(trackID))
+        {
+            mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
+            //Pintar de morado el que está en playlist
+        }
+        else
+        {
+            mwsiveButton.AddToPlaylistButtonColorButtonColorAgain(0.5f);
+        }
     }
 
     public void OnClick_PlayOnSpotify()

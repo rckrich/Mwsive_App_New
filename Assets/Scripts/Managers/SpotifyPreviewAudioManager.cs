@@ -55,6 +55,11 @@ public class SpotifyPreviewAudioManager : MonoBehaviour
         isPaused = !isPaused;
     }
 
+    public float GetAudioSourceTime() { return audioSource.time; }
+
+    public float GetAudioClipLenght() { return audioClip.length; }
+
+
     private IEnumerator CR_GetAudioClip(string _audioURL, SpotifyAudioDownloaderCallback _callback = null)
     {
         Debug.Log("Starting to download the audio... " + _audioURL);
@@ -78,7 +83,7 @@ public class SpotifyPreviewAudioManager : MonoBehaviour
                 audioSource.Play();
 
                 if (_callback != null)
-                    _callback(null);
+                    _callback(new object[] { audioClip.length });
 
                 Debug.Log("Audio is playing");
             }

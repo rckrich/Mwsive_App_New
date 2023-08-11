@@ -112,4 +112,10 @@ public class AlbumViewModel : ViewModel
     {
         NewScreenManager.instance.BackToPreviousView();
     }
+
+    public void OnClick_Surf()
+    {
+        NewScreenManager.instance.ChangeToSpawnedView("surf");
+
+    }
 }
