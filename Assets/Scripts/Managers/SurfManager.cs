@@ -375,7 +375,7 @@ public class SurfManager : Manager
     }
 
         public void DynamicPrefabSpawnerRecommendations(object[] _value)
-    {
+        {
         RecommendationsRoot recommendationsRoot = (RecommendationsRoot)_value[0];
 
         Debug.Log(recommendationsRoot);
@@ -385,7 +385,7 @@ public class SurfManager : Manager
         {
             
                     if (item.preview_url != null)
-            {
+               {
                 GameObject instance = SpawnPrefab();
                 if (FirstInstance == null)
                 {
@@ -403,14 +403,14 @@ public class SurfManager : Manager
 
                 instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.name, item.album.name, artists, item.album.images[0].url, item.id, item.uri, item.preview_url, item.external_urls.spotify);
 
+               }
+            
+            
+            
+            
             }
-            
-            
-            
-            
-        }
 
-    }
+        }
 
     public void DynamicPrefabSpawnerPL(object[] _value)
     {
