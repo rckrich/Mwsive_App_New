@@ -1007,7 +1007,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 325958414457113529}
-  - component: {fileID: 6821368306791841213}
+  - component: {fileID: 5517539445194663872}
   m_Layer: 5
   m_Name: PF_Surf
   m_TagString: Untagged
@@ -1042,7 +1042,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6821368306791841213
+--- !u!114 &5517539445194663872
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1054,7 +1054,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79a2ec017ff04704b8e59e29a6afc3b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewID: 18
+  viewID: 0
   networkLoadingCanvas: {fileID: 0}
   scrollViewContent: {fileID: 0}
 --- !u!1 &2190961493428566948
@@ -2628,13 +2628,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1964677882829966216}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 5517539445194663872}
+        m_TargetAssemblyTypeName: PF_SurfViewModel, Scripts
+        m_MethodName: OnClick_BackButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
