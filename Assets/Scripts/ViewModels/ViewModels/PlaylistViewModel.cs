@@ -39,6 +39,7 @@ public class PlaylistViewModel : ViewModel
         if (!id.Equals(""))
         {
             SpotifyConnectionManager.instance.GetPlaylist(id, Callback_GetPlaylist);
+            
 
         }
         /*
@@ -69,6 +70,7 @@ public class PlaylistViewModel : ViewModel
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
         searchedPlaylist = (SearchedPlaylist)_value[1];
+        playlistName.text = searchedPlaylist.name;
         InstanceTrackObjects(searchedPlaylist.tracks);
         stringUrl = searchedPlaylist.external_urls.spotify;
        
