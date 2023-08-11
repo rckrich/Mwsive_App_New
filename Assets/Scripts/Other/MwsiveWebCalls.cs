@@ -1310,15 +1310,15 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/recommended_curators";
-        string url = "http://192.241.129.184/api/recommended_curators";
+        //string url = "https://mwsive.com/recommended/curators/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "http://192.241.129.184/api/recommended/curators/" + _offset.ToString() + "/" + _limit.ToString();
 
-        Dictionary<string, string> parameters = new Dictionary<string, string>();
+        /*Dictionary<string, string> parameters = new Dictionary<string, string>();
         parameters.Add("type", _type);
         parameters.Add("offset", _offset.ToString());
         parameters.Add("limit", _limit.ToString());
 
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);
+        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);*/
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -1347,7 +1347,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch recommended curators result: " + jsonResult);
-                    MwsiveRecommendedCuratorsRoot mwsiveRecommendedCuratorsRoot = JsonConvert.DeserializeObject<MwsiveRecommendedCuratorsRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveRecommendedCuratorsRoot mwsiveRecommendedCuratorsRoot = JsonConvert.DeserializeObject<MwsiveRecommendedCuratorsRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveRecommendedCuratorsRoot });
                     yield break;
                 }
@@ -1362,15 +1363,15 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/recommended_artists";
-        string url = "http://192.241.129.184/api/recommended_artists";
+        //string url = "https://mwsive.com/recommended/artists/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "http://192.241.129.184/api/recommended/artists/" + _offset.ToString() + "/" + _limit.ToString();
 
-        Dictionary<string, string> parameters = new Dictionary<string, string>();
+        /*Dictionary<string, string> parameters = new Dictionary<string, string>();
         parameters.Add("type", _type);
         parameters.Add("offset", _offset.ToString());
         parameters.Add("limit", _limit.ToString());
 
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);
+        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);*/
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -1399,7 +1400,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch recommended curators result: " + jsonResult);
-                    MwsiveRecommendedArtistsRoot mwsiveRecommendedArtist = JsonConvert.DeserializeObject<MwsiveRecommendedArtistsRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveRecommendedArtistsRoot mwsiveRecommendedArtist = JsonConvert.DeserializeObject<MwsiveRecommendedArtistsRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveRecommendedArtist });
                     yield break;
                 }
@@ -1414,15 +1416,15 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/recommended_playlists";
-        string url = "http://192.241.129.184/api/recommended_playlists";
+        //string url = "https://mwsive.com/recommended/playlists/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "http://192.241.129.184/api/recommended/playlists/" + _offset.ToString() + "/" + _limit.ToString();
 
-        Dictionary<string, string> parameters = new Dictionary<string, string>();
+        /*Dictionary<string, string> parameters = new Dictionary<string, string>();
         parameters.Add("type", _type);
         parameters.Add("offset", _offset.ToString());
         parameters.Add("limit", _limit.ToString());
 
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);
+        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);*/
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -1451,7 +1453,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch recommended playlists result: " + jsonResult);
-                    MwsiveRecommendedPlaylistsRoot mwsiveRecommendedPlaylistRoot = JsonConvert.DeserializeObject<MwsiveRecommendedPlaylistsRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveRecommendedPlaylistsRoot mwsiveRecommendedPlaylistRoot = JsonConvert.DeserializeObject<MwsiveRecommendedPlaylistsRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveRecommendedPlaylistRoot });
                     yield break;
                 }
@@ -1466,15 +1469,16 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/recommended_tracks";
-        string url = "http://192.241.129.184/api/recommended_tracks";
+        //string url = "https://mwsive.com/recommended/tracks/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "http://192.241.129.184/api/recommended/tracks/" + _offset.ToString() + " / " + _limit.ToString();
 
-        Dictionary<string, string> parameters = new Dictionary<string, string>();
+
+        /*Dictionary<string, string> parameters = new Dictionary<string, string>();
         parameters.Add("type", _type);
         parameters.Add("offset", _offset.ToString());
         parameters.Add("limit", _limit.ToString());
 
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);
+        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);*/
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -1503,7 +1507,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch recommended tracks result: " + jsonResult);
-                    MwsiveRecommendedTracksRoot mwsiveRecommendedTrackRoot = JsonConvert.DeserializeObject<MwsiveRecommendedTracksRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveRecommendedTracksRoot mwsiveRecommendedTrackRoot = JsonConvert.DeserializeObject<MwsiveRecommendedTracksRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveRecommendedTrackRoot });
                     yield break;
                 }
@@ -1518,15 +1523,15 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/recommended_albums";
-        string url = "http://192.241.129.184/api/recommended_albums";
+        //string url = "https://mwsive.com/recommended/albums/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "http://192.241.129.184/api/recommended/albums/" + _offset.ToString() + "/" + _limit.ToString();
 
-        Dictionary<string, string> parameters = new Dictionary<string, string>();
+        /*Dictionary<string, string> parameters = new Dictionary<string, string>();
         parameters.Add("type", _type);
         parameters.Add("offset", _offset.ToString());
         parameters.Add("limit", _limit.ToString());
 
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);
+        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);*/
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -1555,7 +1560,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch recommended albums result: " + jsonResult);
-                    MwsiveRecommendedAlbumsRoot mwsiveRecommendedAlbumRoot = JsonConvert.DeserializeObject<MwsiveRecommendedAlbumsRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveRecommendedAlbumsRoot mwsiveRecommendedAlbumRoot = JsonConvert.DeserializeObject<MwsiveRecommendedAlbumsRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveRecommendedAlbumRoot });
                     yield break;
                 }
