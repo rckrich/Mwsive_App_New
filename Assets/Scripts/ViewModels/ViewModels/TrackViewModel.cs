@@ -23,7 +23,6 @@ public class TrackViewModel : ViewModel
     public Transform instanceParent;
     public int objectsToNotDestroyIndex;
     public string artista;
-    int index = 0;
     public HolderManager holderManager;
     public string stringUrl;
 
@@ -51,9 +50,13 @@ public class TrackViewModel : ViewModel
         TrackRoot trackRoot = (TrackRoot)_value[1];
         displayName.text = trackRoot.name;
         trackID = trackRoot.external_urls.spotify;
-        foreach(Artist artist in trackRoot.artists) { artistName.text += artist.name + ", ";  index++; }
 
-        seed_artists = new string[index];
+        foreach(Artist artist in trackRoot.artists) {
+            artistName.text += artist.name + ", ";
+        }
+
+        seed_artists = new string[trackRoot.artists.Count];
+
         for(int i = 0; i < seed_artists.Length; i++)
         {
             seed_artists[i] = trackRoot.artists[i].id;

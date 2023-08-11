@@ -24,6 +24,7 @@ public class ButtonSurfPlaylist : ViewModel
     public string externalURL;
 
     public MwsiveButton mwsiveButton;
+    public GameObject loadingAnimGameObject;
 
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
     {
@@ -78,14 +79,14 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void PlayAudioPreview()
     {
-        StartSearch();
+        //StartSearch();
         SpotifyPreviewAudioManager.instance.GetTrack(previewURL, Callback_GetTrack);
     }
 
     private void Callback_GetTrack(object[] _list)
     {
-        Debug.Log("End Search");
-        EndSearch();
+        loadingAnimGameObject.SetActive(false);
+        //EndSearch();
     }
 
     public void OnClic_StopAudioPreview()
