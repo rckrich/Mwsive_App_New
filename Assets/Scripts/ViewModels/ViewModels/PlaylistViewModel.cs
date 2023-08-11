@@ -31,13 +31,14 @@ public class PlaylistViewModel : ViewModel
    
     void Start()
     {
-        GetPlaylist();
+        //GetPlaylist();
     }
 
     public void GetPlaylist()
     {
         if (!id.Equals(""))
         {
+            Debug.Log("cupidddd");
             SpotifyConnectionManager.instance.GetPlaylist(id, Callback_GetPlaylist);
 
         }
@@ -116,7 +117,7 @@ public class PlaylistViewModel : ViewModel
 
     public void OnClick_SurfButton(){
         GameObject SurfInstance = Instantiate(PF_SURF, transform.position, Quaternion.identity);
-        SurfInstance.transform.SetParent(GameObject.Find("Main Canvas").transform);
+        SurfInstance.transform.SetParent(GameObject.Find("SpawnableCanvas").transform);
         SurfInstance.transform.localScale = new Vector3(1,1,1);
         SurfInstance.GetComponent<RectTransform>().offsetMin = new Vector2(0,0);
         SurfInstance.GetComponent<RectTransform>().offsetMax = new Vector2(0,0);

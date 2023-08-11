@@ -38,6 +38,7 @@ public class SurfManager : Manager
     public bool CanGetRecomendations = false;
     private SearchedPlaylist searchedPlaylist;
     private RecommendationsRoot recommendationsRoot;
+    private AlbumRoot albumroot;
 
     [HideInInspector]
     public bool canSwipe = true;
@@ -47,6 +48,7 @@ public class SurfManager : Manager
     private int PrefabPosition = 0;
     private bool HasSwipeEnded = true;
     private bool Success = false;
+    private bool SpawnedBuffer = false;
     private float lastClickTime;
   
     private void Start()
@@ -138,9 +140,12 @@ public class SurfManager : Manager
             UIAniManager.instance.SurfSide(MwsiveSongs[CurrentPosition],var, -MaxRotation, Fade,false);
             UIAniManager.instance.SurfAddSong(AddSong, var);
 
-            UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[0], var);
-            UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+2], RestPositions[1], var);
-            UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[2], var);
+            if(CurrentPosition < MwsiveSongs.Count-4){
+                UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[0], var);
+                UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+2], RestPositions[1], var);
+                UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[2], var);
+            }
+            
         Success = false;
     }
 
@@ -178,11 +183,13 @@ public class SurfManager : Manager
 
             UIAniManager.instance.SurfVerticalDown(MwsiveSongs[CurrentPosition],var*-.5f, MaxRotation, Fade,false);
 
-            
+            if(CurrentPosition < MwsiveSongs.Count-4){
+                UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[0], VAR2*.25f);
+                UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+2], RestPositions[1], VAR2*.25f);
+                UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[2], VAR2*.25f);
+            }
 
-            UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[0], VAR2*.25f);
-            UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+2], RestPositions[1], VAR2*.25f);
-            UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[2], VAR2*.25f);
+            
         Success = false;
             
             
@@ -218,7 +225,7 @@ public class SurfManager : Manager
         Controller.horizontal =true;
         Controller.vertical =true;
         Controller.transform.position = new Vector2(ControllerPostion.x,ControllerPostion.y);
-        if(CurrentPosition < MwsiveSongs.Count){
+        if(CurrentPosition < MwsiveSongs.Count-4){
             DOTween.CompleteAll(true);
             UIAniManager.instance.SurfSide(MwsiveSongs[CurrentPosition],1, -MaxRotation,0,true);
             UIAniManager.instance.CompleteSurfAddSong(AddSong, 1.5f);
@@ -236,10 +243,15 @@ public class SurfManager : Manager
             ResetValue();
         }
         
-        if(CurrentPosition == PrefabPosition+3){
+        if(CurrentPosition == PrefabPosition-4 && CanGetRecomendations){
             SpawnRecommendations();
-            
+        }else if(CurrentPosition == PrefabPosition-4 && !CanGetRecomendations && !SpawnedBuffer){
+            SpawnPrefab();
+            SpawnPrefab();
+            SpawnPrefab();
+            SpawnedBuffer = true;
         }
+
         
         HasSwipeEnded = true;
         Debug.Log("SideScrollSuccess");
@@ -296,8 +308,14 @@ public class SurfManager : Manager
                 ResetValue();
             }
             
-            if (CurrentPosition == PrefabPosition -4){
+            if (CurrentPosition == PrefabPosition -4 && CanGetRecomendations){
                 SpawnRecommendations();
+            }else if(CurrentPosition == PrefabPosition-4 && !CanGetRecomendations && !SpawnedBuffer){
+                SpawnPrefab();
+                SpawnPrefab();
+                SpawnPrefab();
+                SpawnPrefab();
+                SpawnedBuffer = true;
             }
             
 
@@ -374,11 +392,10 @@ public class SurfManager : Manager
         return _Instance;
     }
 
-        public void DynamicPrefabSpawnerRecommendations(object[] _value)
+    public void DynamicPrefabSpawnerRecommendations(object[] _value)
     {
-        RecommendationsRoot recommendationsRoot = (RecommendationsRoot)_value[0];
+        recommendationsRoot = (RecommendationsRoot)_value[0];
 
-        Debug.Log(recommendationsRoot);
         GameObject FirstInstance = null;
         
         foreach (var item in recommendationsRoot.tracks)
@@ -404,18 +421,83 @@ public class SurfManager : Manager
                 instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.name, item.album.name, artists, item.album.images[0].url, item.id, item.uri, item.preview_url, item.external_urls.spotify);
 
             }
-            
-            
-            
-            
+        }
+    }
+
+    public void DynamicPrefabSpawnerAlbum(object[] _value)
+    {
+        albumroot = (AlbumRoot)_value[0];
+
+        GameObject FirstInstance = null;
+
+        
+        foreach (var item in albumroot.tracks.items)
+        {
+            if (item.track.preview_url != null)
+            {
+                GameObject instance = SpawnPrefab();
+                if (FirstInstance == null)
+                {
+                    FirstInstance = instance;
+                }
+
+                string artists = "";
+
+                foreach (Artist artist in item.track.artists)
+                {
+                    artists = artists + artist.name + ", ";
+                }
+
+                artists = artists.Remove(artists.Length - 2);
+
+                instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.track.name, item.track.album.name, artists, item.track.album.images[0].url, item.track.id, item.track.uri, item.track.preview_url, item.track.external_urls.spotify);
+
+            }
+           
         }
 
+        FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+    }
+
+
+    public void DynamicPrefabSpawnerSong(object[] _value)
+    {
+        recommendationsRoot = (RecommendationsRoot)_value[0];
+
+        GameObject FirstInstance = null;
+        
+        foreach (var item in recommendationsRoot.tracks)
+        {
+            
+                    if (item.preview_url != null)
+            {
+                GameObject instance = SpawnPrefab();
+                if (FirstInstance == null)
+                {
+                    FirstInstance = instance;
+                }
+
+                string artists = "";
+
+                foreach (Artist artist in item.artists)
+                {
+                    artists = artists + artist.name + ", ";
+                }
+
+                artists = artists.Remove(artists.Length - 2);
+
+                instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.name, item.album.name, artists, item.album.images[0].url, item.id, item.uri, item.preview_url, item.external_urls.spotify);
+
+            }
+        }
+        FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+        
     }
 
     public void DynamicPrefabSpawnerPL(object[] _value)
     {
         searchedPlaylist = (SearchedPlaylist)_value[0];
-
+        Debug.Log("----------------------------" + searchedPlaylist.tracks.items.Count);
         int i = 0;
         GameObject FirstInstance = null;
 
@@ -441,12 +523,13 @@ public class SurfManager : Manager
                 instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.track.name, item.track.album.name, artists, item.track.album.images[0].url, item.track.id, item.track.uri, item.track.preview_url, item.track.external_urls.spotify);
 
             }
-            if ( i == 5){
-                break;
-            }
-            i++;
         }
-
+        if(searchedPlaylist.tracks.items.Count < 5){
+            SpawnPrefab();
+            SpawnPrefab();
+            SpawnPrefab();
+            SpawnedBuffer = true;
+        }
         FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
     }
 
