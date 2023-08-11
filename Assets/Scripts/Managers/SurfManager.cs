@@ -314,7 +314,6 @@ public class SurfManager : Manager
                 SpawnPrefab();
                 SpawnPrefab();
                 SpawnPrefab();
-                SpawnPrefab();
                 SpawnedBuffer = true;
             }
             
@@ -455,6 +454,12 @@ public class SurfManager : Manager
             }
            
         }
+        if(albumroot.tracks.items.Count < 5){
+            SpawnPrefab();
+            SpawnPrefab();
+            SpawnPrefab();
+            SpawnedBuffer = true;
+        }
 
         FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
     }
@@ -498,7 +503,7 @@ public class SurfManager : Manager
     {
         searchedPlaylist = (SearchedPlaylist)_value[0];
         Debug.Log("----------------------------" + searchedPlaylist.tracks.items.Count);
-        int i = 0;
+
         GameObject FirstInstance = null;
 
         foreach (var item in searchedPlaylist.tracks.items)

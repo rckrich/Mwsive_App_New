@@ -121,7 +121,12 @@ public class PlaylistViewModel : ViewModel
         SurfInstance.transform.localScale = new Vector3(1,1,1);
         SurfInstance.GetComponent<RectTransform>().offsetMin = new Vector2(0,0);
         SurfInstance.GetComponent<RectTransform>().offsetMax = new Vector2(0,0);
-        SurfInstance.GetComponentInChildren<SurfManager>().DynamicPrefabSpawnerPL(new object[] { searchedPlaylist });
+        if(searchedPlaylist.tracks.items.Count == 0){
+            UIMessage.instance.UIMessageInstanciate("Esta Playlist no tiene contenido");
+        }else{
+            SurfInstance.GetComponentInChildren<SurfManager>().DynamicPrefabSpawnerPL(new object[] { searchedPlaylist });
+        }
+        
         
     }
 }
