@@ -52,6 +52,7 @@ public class TrackViewModel : ViewModel
         displayName.text = trackRoot.name;
         trackID = trackRoot.external_urls.spotify;
         foreach(Artist artist in trackRoot.artists) { artistName.text += artist.name + ", ";  index++; }
+
         seed_artists = new string[index];
         for(int i = 0; i < seed_artists.Length; i++)
         {
