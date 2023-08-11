@@ -34,13 +34,15 @@ public class MwsiveButton : MonoBehaviour
             UIAniManager.instance.FadeIn(AñadirColorButton, AnimationDuration);
             AñadirColorButton.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), .3f).OnComplete(() => {AñadirColorButton.transform.DOScale(new Vector3(1f, 1f, 1f), .3f);});
             IsItAñadirColorButtonActive = true;
-        }else{
-            UIAniManager.instance.FadeOut(AñadirColorButton, AnimationDuration);
-            AñadirColorButton.transform.DOScale(new Vector3(0f, 0f, 0f), .3f);
-            IsItAñadirColorButtonActive = false;
-        }  
+        } 
     }
 
+    public void AddToPlaylistButtonColorButtonColorAgain(float AnimationDuration) 
+    {    
+      UIAniManager.instance.FadeOut(AñadirColorButton, AnimationDuration);
+      AñadirColorButton.transform.DOScale(new Vector3(0f, 0f, 0f), .3f);
+      IsItAñadirColorButtonActive = false;        
+    }
 
     public void OnClickCompartirButton(float AnimationDuration){
         if(!IsItCompartirColorButtonActive){
