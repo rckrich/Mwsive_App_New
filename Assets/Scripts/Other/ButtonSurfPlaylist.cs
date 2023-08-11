@@ -25,7 +25,6 @@ public class ButtonSurfPlaylist : ViewModel
 
     public MwsiveButton mwsiveButton;
 
-
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
     {
         playlistName = _playlistName;
