@@ -6,6 +6,7 @@ public static class WebCallsUtils
 {
     public static long SUCCESS_RESPONSE_CODE { get { return 200; } }
     public static long AUTHORIZATION_FAILED_RESPONSE_CODE { get { return 401; } }
+    public static long SERVICE_NOT_AVAILABLE_RESPONSE_CODE { get { return 503; } }
 
     public static string AddParametersToURI(string _uri, Dictionary<string, string> _parameters)
     {
@@ -85,5 +86,19 @@ public static class WebCallsUtils
         RenderTexture.ReleaseTemporary(rt);
 
         return readableTexture;
+    }
+
+    public static bool CheckIfServerServiceIsAvailable(long _responseCode)
+    {
+        if(_responseCode == SERVICE_NOT_AVAILABLE_RESPONSE_CODE)
+        {
+            NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
+            PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+            popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, "Servicio no disponible", "El servidor de Spotify no puede responder en estos momentos. Volver a intetnar en un rato.", "Aceptar");
+            popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); });
+            return true;
+        }
+
+        return false;
     }
 }
