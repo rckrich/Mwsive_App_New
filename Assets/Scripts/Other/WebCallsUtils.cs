@@ -90,12 +90,15 @@ public static class WebCallsUtils
 
     public static bool CheckIfServerServiceIsAvailable(long _responseCode)
     {
-        if(_responseCode == SERVICE_NOT_AVAILABLE_RESPONSE_CODE)
+        if (_responseCode.Equals(WebCallsUtils.SERVICE_NOT_AVAILABLE_RESPONSE_CODE))
         {
+            NewScreenManager.instance.GetCurrentView().EndSearch();
+
             NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
             PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
             popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, "Servicio no disponible", "El servidor de Spotify no puede responder en estos momentos. Volver a intetnar en un rato.", "Aceptar");
             popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); });
+
             return true;
         }
 
