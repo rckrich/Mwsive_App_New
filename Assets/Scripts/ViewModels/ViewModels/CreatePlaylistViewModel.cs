@@ -51,7 +51,11 @@ public class CreatePlaylistViewModel : ViewModel
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
-        if(surfMiPlaylistViewModel != null)
+        CreatedPlaylistRoot createdPlaylistRoot = (CreatedPlaylistRoot)_value[1];
+
+        SpotifyConnectionManager.instance.PutChangePlaylistCoverImage(createdPlaylistRoot.id, WebCallsUtils.MWSIVE_COVER_BASECODE64);
+
+        if (surfMiPlaylistViewModel != null)
         {
             surfMiPlaylistViewModel.RefreshPlaylistList();
             surfMiPlaylistViewModel = null;
