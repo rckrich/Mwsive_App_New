@@ -490,7 +490,7 @@ public class SpotifyConnectionManager : Manager
         Debug.Log((SearchRoot)_value[1]);
     }
 
-    public void CR_GetGenres(string _query, string[] _types, SpotifyWebCallback _callback = null)
+    public void GetGenres(string _query, string[] _types, SpotifyWebCallback _callback = null)
     {
         _callback += Callback_CR_GetGenres;
         StartCoroutine(SpotifyWebCalls.CR_GetGenres(oAuthHandler.GetSpotifyToken().AccessToken, _callback));
@@ -507,7 +507,7 @@ public class SpotifyConnectionManager : Manager
         Debug.Log((GenresRoot)_value[1]);
     }
 
-    public void CR_PutChangePlaylistCoverImage(string _playlist_id, string _jpgBase64Code, SpotifyWebCallback _callback = null)
+    public void PutChangePlaylistCoverImage(string _playlist_id, string _jpgBase64Code, SpotifyWebCallback _callback = null)
     {
         _callback += Callback_ChangePlaylistCoverImage;
         StartCoroutine(SpotifyWebCalls.CR_ChangePlaylistCoverImage(oAuthHandler.GetSpotifyToken().AccessToken, _callback, _playlist_id, _jpgBase64Code));
