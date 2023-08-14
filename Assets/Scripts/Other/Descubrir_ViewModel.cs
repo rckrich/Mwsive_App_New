@@ -90,7 +90,6 @@ public class Descubrir_ViewModel : ViewModel
         foreach(Curator curator in mwsiveRecommendedCuratorsRoot.curators){           
             GameObject curatorInstance = GameObject.Instantiate(curatorPrefab, curatorScrollContent);
             curatorInstance.GetComponent<CuratorAppObject>().Initialize(curator.mwsive_user);
-            
         }
 
         MwsiveConnectionManager.instance.GetRecommendedArtists(Callback_GetRecommendedArtists);
@@ -106,7 +105,6 @@ public class Descubrir_ViewModel : ViewModel
         {
             
             artists_ids[i] = mwsiveRecommendedArtistsRoot.artists[i].spotify_id;
-            Debug.Log(artists_ids[i]);
         }
         Debug.Log(artists_ids);
         SpotifyConnectionManager.instance.GetSeveralArtists(artists_ids, Callback_GetSeveralArtists);
@@ -114,14 +112,13 @@ public class Descubrir_ViewModel : ViewModel
 
     private void Callback_GetSeveralArtists(object[] _list)
     {
-        Debug.Log("Llllllll");
         SeveralArtistRoot severalArtistRoot = (SeveralArtistRoot)_list[1];
-        Debug.Log("RRRrRRRRRRR");
 
         foreach (Artist artist in severalArtistRoot.artists)
         {
-            GameObject artistInstance = GameObject.Instantiate(curatorPrefab, curatorScrollContent);
-            artistInstance.GetComponent<ArtistAppObject>().Initialize(artist);
+            GameObject artistInstance = GameObject.Instantiate(artistPrefab, artistScrollContent);
+            ArtistAppObject artists = artistInstance.GetComponent<ArtistAppObject>();
+            artists.Initialize(artist);
         }
 
         //MwsiveConnectionManager.instance.GetRecommendedPlaylists(Callback_GetRecommendedPlaylists);
@@ -136,13 +133,13 @@ public class Descubrir_ViewModel : ViewModel
     private void Callback_GetRecommendedTracks(object[] _list)
     {
         MwsiveRecommendedTracksRoot mwsiveRecommendedTracksRoot = (MwsiveRecommendedTracksRoot)_list[1];
-        Debug.Log("TTTTTTTTTT");
+
         string[] tracks_ids = new string[mwsiveRecommendedTracksRoot.tracks.Count];
 
         for (int i = 0; i < mwsiveRecommendedTracksRoot.tracks.Count; i++)
         {
             //TODO AVISAR A EDITH QUE LOS ID DE SPOTIFY DE TRACKS SON STRINGS
-            tracks_ids[i] = mwsiveRecommendedTracksRoot.tracks[i].id;
+            tracks_ids[i] = mwsiveRecommendedTracksRoot.tracks[i].mwsive_track.spotify_track_id;
         }
 
         SpotifyConnectionManager.instance.GetSeveralTracks(tracks_ids, Callback_GetSeveralTracks);
@@ -155,7 +152,7 @@ public class Descubrir_ViewModel : ViewModel
 
         foreach (Track track in severalTrackRoot.tracks)
         {
-            GameObject trackInstance = GameObject.Instantiate(curatorPrefab, curatorScrollContent);
+            GameObject trackInstance = GameObject.Instantiate(trackPrefab, trackScrollContent);
             trackInstance.GetComponent<TrackAppObject>().Initialize(track);
         }
 
@@ -172,7 +169,7 @@ public class Descubrir_ViewModel : ViewModel
         for (int i = 0; i < mwsiveRecommendedAlbumsRoot.albums.Count; i++)
         {
             //TODO AVISAR A EDITH QUE LOS ID DE SPOTIFY DE ALBUMS SON STRINGS
-            albums_ids[i] = mwsiveRecommendedAlbumsRoot.albums[i].id;
+            albums_ids[i] = mwsiveRecommendedAlbumsRoot.albums[i].spotify_id;
         }
 
         SpotifyConnectionManager.instance.GetSeveralAlbums(albums_ids, Callback_GetSeveralAlbums);
@@ -185,7 +182,7 @@ public class Descubrir_ViewModel : ViewModel
 
         foreach (Album album in severalAlbumRoot.albums)
         {
-            GameObject trackInstance = GameObject.Instantiate(curatorPrefab, curatorScrollContent);
+            GameObject trackInstance = GameObject.Instantiate(albumPrefab, albumScrollContent);
             trackInstance.GetComponent<AlbumAppObject>().Initialize(album);
         }
 
