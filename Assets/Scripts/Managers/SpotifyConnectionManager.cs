@@ -507,6 +507,21 @@ public class SpotifyConnectionManager : Manager
         Debug.Log((GenresRoot)_value[1]);
     }
 
+    public void CR_PutChangePlaylistCoverImage(string _playlist_id, string _jpgBase64Code, SpotifyWebCallback _callback = null)
+    {
+        _callback += Callback_ChangePlaylistCoverImage;
+        StartCoroutine(SpotifyWebCalls.CR_ChangePlaylistCoverImage(oAuthHandler.GetSpotifyToken().AccessToken, _callback, _playlist_id, _jpgBase64Code));
+    }
+
+    private void Callback_ChangePlaylistCoverImage(object[] _value)
+    {
+        if (CheckReauthenticateUser((long)_value[0]))
+        {
+            StartReauthentication();
+            return;
+        }
+    }
+
     #endregion
 
     #region Private Methods
