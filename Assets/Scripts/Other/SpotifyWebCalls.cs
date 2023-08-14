@@ -32,6 +32,8 @@ public static class SpotifyWebCalls
                     WebCallsUtils.ReauthenticateUser(_callback);
                 }
 
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
+
                 Debug.Log("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
@@ -76,6 +78,8 @@ public static class SpotifyWebCalls
                 {
                     WebCallsUtils.ReauthenticateUser(_callback);
                 }
+
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
                 Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
@@ -128,6 +132,8 @@ public static class SpotifyWebCalls
                 {
                     WebCallsUtils.ReauthenticateUser(_callback);
                 }
+
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
                 Debug.Log("Protocol Error or Connection Error on fetch top tracks. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
@@ -191,6 +197,8 @@ public static class SpotifyWebCalls
                     WebCallsUtils.ReauthenticateUser(_callback);
                 }
 
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
+
                 Debug.Log("Protocol Error or Connection Error on fetch top artist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
@@ -241,6 +249,8 @@ public static class SpotifyWebCalls
                 {
                     WebCallsUtils.ReauthenticateUser(_callback);
                 }
+
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
                 Debug.Log("Protocol Error or Connection Error on fetch playlists. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
@@ -293,6 +303,8 @@ public static class SpotifyWebCalls
                     WebCallsUtils.ReauthenticateUser(_callback);
                 }
 
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
+
                 Debug.Log("Protocol Error or Connection Error on fetch playlists. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
@@ -343,6 +355,8 @@ public static class SpotifyWebCalls
                     WebCallsUtils.ReauthenticateUser(_callback);
                 }
 
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
+
                 Debug.Log("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
@@ -392,6 +406,8 @@ public static class SpotifyWebCalls
                 {
                     WebCallsUtils.ReauthenticateUser(_callback);
                 }
+
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
                 Debug.Log("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
@@ -445,6 +461,8 @@ public static class SpotifyWebCalls
                     WebCallsUtils.ReauthenticateUser(_callback);
                 }
 
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
+
                 Debug.Log("Protocol Error or Connection Error on fetch playlists' items. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
@@ -489,6 +507,8 @@ public static class SpotifyWebCalls
                 {
                     WebCallsUtils.ReauthenticateUser(_callback);
                 }
+
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
                 Debug.Log("Protocol Error or Connection Error on fetch playlist by url. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
@@ -539,6 +559,8 @@ public static class SpotifyWebCalls
                 {
                     WebCallsUtils.ReauthenticateUser(_callback);
                 }
+
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
                 Debug.Log("Protocol Error or Connection Error on fetch track. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
@@ -591,6 +613,8 @@ public static class SpotifyWebCalls
                 {
                     WebCallsUtils.ReauthenticateUser(_callback);
                 }
+
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
                 Debug.Log("Protocol Error or Connection Error on fetch several tracks. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
@@ -650,6 +674,8 @@ public static class SpotifyWebCalls
                 {
                     WebCallsUtils.ReauthenticateUser(_callback);
                 }
+
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
                 Debug.Log("Protocol Error or Connection Error on create playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
@@ -722,6 +748,8 @@ public static class SpotifyWebCalls
                     WebCallsUtils.ReauthenticateUser(_callback);
                 }
 
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
+
                 Debug.Log("Protocol Error or Connection Error on change playlist's details. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
@@ -792,6 +820,8 @@ public static class SpotifyWebCalls
                     WebCallsUtils.ReauthenticateUser(_callback);
                 }
 
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
+
                 Debug.Log("Protocol Error or Connection Error on add items to playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
@@ -855,6 +885,8 @@ public static class SpotifyWebCalls
                     WebCallsUtils.ReauthenticateUser(_callback);
                 }
 
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
+
                 Debug.Log("Protocol Error or Connection Error on remove items to playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
@@ -911,6 +943,8 @@ public static class SpotifyWebCalls
                 {
                     WebCallsUtils.ReauthenticateUser(_callback);
                 }
+
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
                 Debug.Log("Protocol Error or Connection Error on fetch recommendations. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
@@ -970,6 +1004,8 @@ public static class SpotifyWebCalls
                     WebCallsUtils.ReauthenticateUser(_callback);
                 }
 
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
+
                 Debug.Log("Protocol Error or Connection Error on search for items. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
@@ -1015,6 +1051,8 @@ public static class SpotifyWebCalls
                 {
                     WebCallsUtils.ReauthenticateUser(_callback);
                 }
+
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
                 Debug.Log("Protocol Error or Connection Error on fetch genres. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;

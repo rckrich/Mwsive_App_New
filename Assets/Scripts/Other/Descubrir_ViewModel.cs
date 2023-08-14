@@ -13,6 +13,9 @@ public class Descubrir_ViewModel : ViewModel
     public TMP_InputField Searchbar;
     public List<ScrollRect> Scrollbar = new List<ScrollRect>(); 
     public List<List<GameObject>> ListOfLists = new List<List<GameObject>>();
+    [Header("Curators Gameobject References")]
+    public GameObject curatorPrefab;
+    public Transform curatorScrollContent;
 
     private string SearchText;
     private GameObject Instance;
@@ -44,7 +47,8 @@ public class Descubrir_ViewModel : ViewModel
     public override void Initialize(params object[] list)
     {
         StartSearch();
-        MwsiveConnectionManager.instance.GetChallenges(Callback_GetChallenges);
+        //MwsiveConnectionManager.instance.GetChallenges(Callback_GetChallenges);
+        MwsiveConnectionManager.instance.GetRecommendedCurators(Callback_GetRecommendedCurators);
     }
 
     private void Callback_GetChallenges(object[] _list) {
@@ -53,32 +57,42 @@ public class Descubrir_ViewModel : ViewModel
 
     private void Callback_GetAdvertasing(object[] _list)
     {
-        MwsiveConnectionManager.instance.GetRecommendedCurators("", Callback_GetRecommendedCurators);
+        MwsiveConnectionManager.instance.GetRecommendedCurators(Callback_GetRecommendedCurators);
     }
 
     private void Callback_GetRecommendedCurators(object[] _list)
     {
-        MwsiveConnectionManager.instance.GetRecommendedArtists("", Callback_GetRecommendedArtists);
+
+        MwsiveRecommendedCuratorsRoot mwsiveRecommendedCuratorsRoot = (MwsiveRecommendedCuratorsRoot)_list[1];
+
+        GameObject curatorInstance = GameObject.Instantiate(curatorPrefab, curatorScrollContent);
+
+        foreach(Curator curator in mwsiveRecommendedCuratorsRoot.curators){
+            curatorInstance.GetComponent<CuratorAppObject>().Initialize(curator.mwsive_user.platform_id);
+        }
+
+        MwsiveConnectionManager.instance.GetRecommendedArtists(Callback_GetRecommendedArtists);
     }
 
     private void Callback_GetRecommendedArtists(object[] _list)
     {
-        MwsiveConnectionManager.instance.GetRecommendedPlaylists("", Callback_GetRecommendedPlaylists);
+        //MwsiveConnectionManager.instance.GetRecommendedPlaylists(Callback_GetRecommendedPlaylists);
+        MwsiveConnectionManager.instance.GetRecommendedTracks(Callback_GetRecommendedTracks);
     }
 
     private void Callback_GetRecommendedPlaylists(object[] _list)
     {
-        MwsiveConnectionManager.instance.GetRecommendedTracks("", Callback_GetRecommendedTracks);
+        MwsiveConnectionManager.instance.GetRecommendedTracks(Callback_GetRecommendedTracks);
     }
 
     private void Callback_GetRecommendedTracks(object[] _list)
     {
-        MwsiveConnectionManager.instance.GetRecommendedAlbums("", Callback_GetRecommendedAlbums);
+        MwsiveConnectionManager.instance.GetRecommendedAlbums(Callback_GetRecommendedAlbums);
     }
 
     private void Callback_GetRecommendedAlbums(object[] _list)
     {
-        MwsiveConnectionManager.instance.GetGenres("", Callback_GetGenres);
+        //MwsiveConnectionManager.instance.GetGenres(Callback_GetGenres);
     }
 
     private void Callback_GetGenres(object[] _list)
