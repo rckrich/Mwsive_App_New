@@ -1233,7 +1233,6 @@ public static class SpotifyWebCalls
 
         using (UnityWebRequest webRequest = UnityWebRequest.Put(url, _jpgBase64Code))
         {
-            webRequest.SetRequestHeader("Accept", "application/json");
             webRequest.SetRequestHeader("Content-Type", "image/jpeg");
             webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
 
