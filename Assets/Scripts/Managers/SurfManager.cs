@@ -477,8 +477,7 @@ public class SurfManager : Manager
         
         foreach (var item in recommendationsRoot.tracks)
         {
-            
-                    if (item.preview_url != null)
+            if (item.preview_url != null)
             {
                 GameObject instance = SpawnPrefab();
                 if (FirstInstance == null)

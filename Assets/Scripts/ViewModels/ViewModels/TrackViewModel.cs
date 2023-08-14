@@ -70,6 +70,7 @@ public class TrackViewModel : ViewModel
     public void GetRecommendations()
     {
         seed_tracks[0] = trackID;
+        Debug.Log("aa");
         //seed_genres[0] = genre;
         //seed_artists[0] = artistId;
         if ((seed_artists.Length + /*seed_genres.Length +*/ seed_tracks.Length) > 5)
@@ -84,7 +85,7 @@ public class TrackViewModel : ViewModel
     private void Callback_GetRecommendations(object[] _value)
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
-
+        
         RecommendationsRoot recommendationsRoot = (RecommendationsRoot)_value[1];
         recommendations = recommendationsRoot;
         InstanceTrackObjects(recommendationsRoot.tracks);

@@ -111,6 +111,16 @@ public class ButtonSurfPlaylist : ViewModel
     private void Callback_GetTrack(object[] _list)
     {
         loadingAnimGameObject.SetActive(false);
+        
+        if (SurfManager.instance.isActiveAndEnabled == false)
+        {
+            if (NewScreenManager.instance.GetCurrentView().GetViewID() != ViewID.SurfViewModel)
+            {
+                SpotifyPreviewAudioManager.instance.StopTrack();
+            }
+            
+        }
+        
         //EndSearch();
     }
 

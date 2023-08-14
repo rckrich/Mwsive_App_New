@@ -135,8 +135,6 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
         Instance.transform.localScale = new Vector3(1,1,1);
 
         Instance.GetComponent<TrackViewModel>().trackID = SpotifyID;
-        Instance.GetComponent<TrackViewModel>().GetTrack();
-        Instance.GetComponent<TrackViewModel>().GetRecommendations();
     }
 
 
@@ -149,7 +147,6 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
         Instance.transform.localScale = new Vector3(1,1,1);
 
         Instance.GetComponent<AlbumViewModel>().id = SpotifyID;
-        Instance.GetComponent<AlbumViewModel>().GetAlbum();
         
     }
 
