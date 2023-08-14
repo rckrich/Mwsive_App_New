@@ -23,7 +23,6 @@ public class TrackViewModel : ViewModel
     public Transform instanceParent;
     public int objectsToNotDestroyIndex;
     public string artista;
-    public HolderManager holderManager;
     public string stringUrl;
 
     private RecommendationsRoot recommendations;
