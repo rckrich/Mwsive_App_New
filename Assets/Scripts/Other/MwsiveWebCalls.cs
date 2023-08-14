@@ -51,7 +51,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on create profile");
                 yield break;
             }
             else
