@@ -25,7 +25,7 @@ public class AlbumViewModel : ViewModel
     public ExternalUrls url;
     public string stringUrl;
 
-
+    private AlbumRoot _Album;
     private string image;
    
     void Start()
@@ -63,7 +63,7 @@ public class AlbumViewModel : ViewModel
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
-        AlbumRoot _Album = (AlbumRoot)_value[1];
+        _Album = (AlbumRoot)_value[1];
         if(_Album.images[0].url != null){
             image = _Album.images[0].url;
         }
@@ -111,11 +111,20 @@ public class AlbumViewModel : ViewModel
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
+        SpotifyPreviewAudioManager.instance.StopTrack();
     }
 
     public void OnClick_Surf()
     {
-        NewScreenManager.instance.ChangeToSpawnedView("surf");
+        if(_Album.tracks.items.Count == 0){
+            UIMessage.instance.UIMessageInstanciate("Este Album no tiene contenido");
+        }else{
 
+            NewScreenManager.instance.ChangeToSpawnedView("surf");
+            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<SurfManager>().DynamicPrefabSpawnerAlbum(new object[] { _Album });
+        }
+        
     }
+
+    
 }

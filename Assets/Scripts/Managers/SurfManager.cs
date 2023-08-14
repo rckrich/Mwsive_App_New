@@ -245,7 +245,6 @@ public class SurfManager : Manager
 
         
         HasSwipeEnded = true;
-        Debug.Log("SideScrollSuccess");
     }
     private void UpScrollSuccess(){
         Controller.enabled =false;
@@ -276,7 +275,6 @@ public class SurfManager : Manager
 
         
         HasSwipeEnded = true;
-        Debug.Log("UpScrollSuccess");
     }
     private void DownScrollSuccess(){
 
@@ -310,7 +308,6 @@ public class SurfManager : Manager
             
 
             HasSwipeEnded = true;
-            Debug.Log("DownScrollSuccess");
     }
            
 
@@ -350,7 +347,6 @@ public class SurfManager : Manager
 
     public void ResetValue(){
         if(!Success){
-            Debug.Log("Reset");
             Controller.horizontal =true;
             Controller.vertical =true;
             HasSwipeEnded = true;
@@ -489,13 +485,11 @@ public class SurfManager : Manager
         
         searchedPlaylist = (SearchedPlaylist)_value[0];
 
-        Debug.Log(MwsiveSongs.Count);
         Debug.Log("----------------------------" + searchedPlaylist.tracks.items.Count);
         GameObject FirstInstance = null;
 
         foreach (var item in searchedPlaylist.tracks.items)
         {
-            Debug.Log(MwsiveSongs.Count);
             if (item.track.preview_url != null)
             {
                 GameObject instance = SpawnPrefab();
@@ -529,7 +523,6 @@ public class SurfManager : Manager
 
 
     private GameObject SpawnPrefab(){
-        Debug.Log(CurrentPosition);
         GameObject Instance;
         if(PrefabPosition < 4){
             Instance = Instantiate(Prefab,RestPositions[PrefabPosition].transform.position, Quaternion.identity);
