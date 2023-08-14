@@ -129,6 +129,11 @@ public class SpotifyConnectionManager : Manager
         return _responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE);
     }
 
+    public bool ServerServiceIsNotAvailable(long _responseCode)
+    {
+        return _responseCode.Equals(WebCallsUtils.SERVICE_NOT_AVAILABLE_RESPONSE_CODE);
+    }
+
     #region Spotify API Call Methods
 
     public void GetUserProfile(string _user_id, SpotifyWebCallback _callback = null)
