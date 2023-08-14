@@ -115,18 +115,16 @@ public class PlaylistViewModel : ViewModel
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
+        SpotifyPreviewAudioManager.instance.StopTrack();
     }
 
     public void OnClick_SurfButton(){
         if(searchedPlaylist.tracks.items.Count == 0){
             UIMessage.instance.UIMessageInstanciate("Esta Playlist no tiene contenido");
         }else{
-            GameObject SurfInstance = Instantiate(PF_SURF, transform.position, Quaternion.identity);
-            SurfInstance.transform.SetParent(GameObject.Find("SpawnableCanvas").transform);
-            SurfInstance.transform.localScale = new Vector3(1,1,1);
-            SurfInstance.GetComponent<RectTransform>().offsetMin = new Vector2(0,0);
-            SurfInstance.GetComponent<RectTransform>().offsetMax = new Vector2(0,0);
-            SurfInstance.GetComponentInChildren<SurfManager>().DynamicPrefabSpawnerPL(new object[] { searchedPlaylist });
+
+            NewScreenManager.instance.ChangeToSpawnedView("surf");
+            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<SurfManager>().DynamicPrefabSpawnerPL(new object[] { searchedPlaylist });
         }
         
     }

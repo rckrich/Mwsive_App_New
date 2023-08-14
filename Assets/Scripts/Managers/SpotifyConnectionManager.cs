@@ -263,7 +263,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((PlaylistRoot)_value[1]);
+        Debug.Log((AlbumRoot)_value[1]);
     }
 
     public void GetPlaylistItems(string _playlistID, SpotifyWebCallback _callback = null, string _market = "ES", int _limit = 20, int _offset = 0)

@@ -113,10 +113,21 @@ public class TrackViewModel : ViewModel
     public void OnClick_ButtonBack()
     {
         NewScreenManager.instance.BackToPreviousView();
+        SpotifyPreviewAudioManager.instance.StopTrack();
     }
 
     public void OnClick_Surf()
     {
-        SurfManager.instance.DynamicPrefabSpawnerSong((new object[] { recommendations }));
+        
+
+        if(recommendations.tracks.Count == 0){
+            UIMessage.instance.UIMessageInstanciate("No hay recomendaciones");
+        }else{
+
+            NewScreenManager.instance.ChangeToSpawnedView("surf");
+            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<SurfManager>().DynamicPrefabSpawnerSong(new object[] { recommendations });
+        }
+        
     }
+    
 }
