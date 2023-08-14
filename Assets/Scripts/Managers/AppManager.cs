@@ -90,8 +90,14 @@ public class AppManager : Manager
     {
         ProfileRoot profileRoot = (ProfileRoot)_value[1];
         profileID = profileRoot.id;
-        Debug.Log(profileRoot.images[0].url);
-        ImageManager.instance.GetImage(profileRoot.images[0].url, profilePicture, (RectTransform)surfTransform);
+        if(profileRoot.images != null)
+        {
+            if (profileRoot.images.Count > 0) {
+                Debug.Log(profileRoot.images[0].url);
+                ImageManager.instance.GetImage(profileRoot.images[0].url, profilePicture, (RectTransform)surfTransform);
+            }
+        }
+
         SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_GetCurrentMwsiveUserPlaylist);
     }
 

@@ -1258,7 +1258,7 @@ public static class SpotifyWebCalls
 
                 if (webRequest.isDone)
                 {
-                    Debug.Log("Change playlist cover");
+                    Debug.Log("Change playlist cover" + webRequest.responseCode);
                     _callback(new object[] { webRequest.responseCode });
                     yield break;
                 }
