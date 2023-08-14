@@ -88,13 +88,26 @@ public class AppManager : Manager
 
     private void Callback_GetUserProfile(object[] _value)
     {
+        bool profileImageSetted = false;
+
         ProfileRoot profileRoot = (ProfileRoot)_value[1];
         profileID = profileRoot.id;
         if(profileRoot.images != null)
         {
             if (profileRoot.images.Count > 0) {
-                Debug.Log(profileRoot.images[0].url);
-                ImageManager.instance.GetImage(profileRoot.images[0].url, profilePicture, (RectTransform)surfTransform);
+
+                foreach(SpotifyImage image in profileRoot.images)
+                {
+                    if(image.height == 300 && image.width == 300)
+                    {
+                        ImageManager.instance.GetImage(image.url, profilePicture, (RectTransform)surfTransform);
+                        profileImageSetted = true;
+                        break;
+                    }
+                }
+
+                if(!profileImageSetted)
+                    ImageManager.instance.GetImage(profileRoot.images[0].url, profilePicture, (RectTransform)surfTransform);
             }
         }
 
