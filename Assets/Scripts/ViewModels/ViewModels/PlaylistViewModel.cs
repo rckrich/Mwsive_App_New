@@ -42,12 +42,6 @@ public class PlaylistViewModel : ViewModel
             
 
         }
-        /*
-        if (!@public)
-        {  
-            button.GetComponent<ChangeImage>().OnClickToggle();
-        }
-        */
     }
     private void InstanceTrackObjects(Tracks _tracks)
     {
