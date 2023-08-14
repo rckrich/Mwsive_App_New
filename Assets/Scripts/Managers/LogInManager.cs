@@ -181,6 +181,8 @@ public class LogInManager : Manager
 
         SetCurrentPlaylist(playlistid);
 
+        SpotifyConnectionManager.instance.PutChangePlaylistCoverImage(playlistid, WebCallsUtils.MWSIVE_COVER_BASECODE64);
+
         MwsiveConnectionManager.instance.PostLogin(email, profileid, Callback_PostLogInAfterCreatingUser);
     }
 
