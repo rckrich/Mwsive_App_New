@@ -379,7 +379,7 @@ public static class SpotifyWebCalls
     {
         string jsonResult = "";
 
-        string url = "https://api.spotify.com/v1/albums" + _artists_id;
+        string url = "https://api.spotify.com/v1/artists";
 
         url = WebCallsUtils.AddMultipleParameterToUri(url + "?", "ids", _artists_id);
 
@@ -480,7 +480,7 @@ public static class SpotifyWebCalls
     {
         string jsonResult = "";
 
-        string url = "https://api.spotify.com/v1/albums" + _albums_id;
+        string url = "https://api.spotify.com/v1/albums";
 
         url = WebCallsUtils.AddMultipleParameterToUri(url + "?", "ids", _albums_id);
 
