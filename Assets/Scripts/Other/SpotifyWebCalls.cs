@@ -328,7 +328,103 @@ public static class SpotifyWebCalls
         }
     }
 
-        public static IEnumerator CR_GetAlbum(string _token, SpotifyWebCallback _callback, string _album_id, string _market = "ES")
+    public static IEnumerator CR_GetArtist(string _token, SpotifyWebCallback _callback, string _artist_id)
+    {
+        string jsonResult = "";
+
+        string url = "https://api.spotify.com/v1/artists/" + _artist_id;
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            webRequest.SetRequestHeader("Accept", "application/json");
+            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
+            {
+                //Catch response code for multiple requests to the server in a short timespan.
+
+                if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
+                {
+                    WebCallsUtils.ReauthenticateUser(_callback);
+                }
+
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
+
+                Debug.Log("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                yield break;
+            }
+            else
+            {
+                while (!webRequest.isDone) { yield return null; }
+
+                if (webRequest.isDone)
+                {
+                    jsonResult = webRequest.downloadHandler.text;
+                    Debug.Log("Fetch artist result: " + jsonResult);
+                    ArtistRoot artistRoot = JsonConvert.DeserializeObject<ArtistRoot>(jsonResult);
+                    _callback(new object[] { webRequest.responseCode, artistRoot });
+                    yield break;
+                }
+            }
+
+            Debug.Log("Failed on fetch artist: " + jsonResult);
+            yield break;
+
+        }
+    }
+
+    public static IEnumerator CR_GetSeveralArtists(string _token, SpotifyWebCallback _callback, string[] _artists_id)
+    {
+        string jsonResult = "";
+
+        string url = "https://api.spotify.com/v1/albums" + _artists_id;
+
+        url = WebCallsUtils.AddMultipleParameterToUri(url + "?", "ids", _artists_id);
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            webRequest.SetRequestHeader("Accept", "application/json");
+            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
+            {
+                //Catch response code for multiple requests to the server in a short timespan.
+
+                if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
+                {
+                    WebCallsUtils.ReauthenticateUser(_callback);
+                }
+
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
+
+                Debug.Log("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                yield break;
+            }
+            else
+            {
+                while (!webRequest.isDone) { yield return null; }
+
+                if (webRequest.isDone)
+                {
+                    jsonResult = webRequest.downloadHandler.text;
+                    Debug.Log("Fetch several artist result: " + jsonResult);
+                    SeveralArtistRoot severalArtistRoot = JsonConvert.DeserializeObject<SeveralArtistRoot>(jsonResult);
+                    _callback(new object[] { webRequest.responseCode, severalArtistRoot });
+                    yield break;
+                }
+            }
+
+            Debug.Log("Failed on fetch several artists: " + jsonResult);
+            yield break;
+
+        }
+    }
+
+    public static IEnumerator CR_GetAlbum(string _token, SpotifyWebCallback _callback, string _album_id, string _market = "ES")
     {
         string jsonResult = "";
 
@@ -375,6 +471,60 @@ public static class SpotifyWebCalls
             }
 
             Debug.Log("Failed on fetch album: " + jsonResult);
+            yield break;
+
+        }
+    }
+
+    public static IEnumerator CR_GetSeveralAlbums(string _token, SpotifyWebCallback _callback, string[] _albums_id, string _market = "ES")
+    {
+        string jsonResult = "";
+
+        string url = "https://api.spotify.com/v1/albums" + _albums_id;
+
+        url = WebCallsUtils.AddMultipleParameterToUri(url + "?", "ids", _albums_id);
+
+        Dictionary<string, string> parameters = new Dictionary<string, string>();
+        parameters.Add("market", _market);
+
+        url = WebCallsUtils.AddParametersToURI(url + "&", parameters);
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            webRequest.SetRequestHeader("Accept", "application/json");
+            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
+            {
+                //Catch response code for multiple requests to the server in a short timespan.
+
+                if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
+                {
+                    WebCallsUtils.ReauthenticateUser(_callback);
+                }
+
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
+
+                Debug.Log("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                yield break;
+            }
+            else
+            {
+                while (!webRequest.isDone) { yield return null; }
+
+                if (webRequest.isDone)
+                {
+                    jsonResult = webRequest.downloadHandler.text;
+                    Debug.Log("Fetch several albums result: " + jsonResult);
+                    SeveralAlbumRoot severalAlbumRoot = JsonConvert.DeserializeObject<SeveralAlbumRoot>(jsonResult);
+                    _callback(new object[] { webRequest.responseCode, severalAlbumRoot });
+                    yield break;
+                }
+            }
+
+            Debug.Log("Failed on fetch several albums: " + jsonResult);
             yield break;
 
         }

@@ -156,14 +156,14 @@ public class UserLink
 
 public class RecommendedCurator
 {
-    public int id { get; set; }
+    public string id { get; set; }
     public int order { get; set; }
     public MwsiveUser mwsiveUser { get; set; }
 }
 
 public class RecommendedArtist
 {
-    public int id { get; set; }
+    public string id { get; set; }
     public int order { get; set; }
     public string spotify_id { get; set; }
     public string name { get; set; }
@@ -173,7 +173,7 @@ public class RecommendedArtist
 
 public class RecommendedPlaylist
 {
-    public int id { get; set; }
+    public string id { get; set; }
     public string name { get; set; }
     public int order { get; set; }
     public MwsiveTrack[] tracks { get; set; }
@@ -181,7 +181,7 @@ public class RecommendedPlaylist
 
 public class RecommendedTrack
 {
-    public int id { get; set; }
+    public string id { get; set; }
     public int order { get; set; }
     public int mwsive_track_id { get; set; }
     public DateTime created_at { get; set; }
@@ -191,7 +191,7 @@ public class RecommendedTrack
 
 public class RecommendedAlbum
 {
-    public int id { get; set; }
+    public string id { get; set; }
     public int order { get; set; }
     public string spotify_id { get; set; }
     public string name { get; set; }

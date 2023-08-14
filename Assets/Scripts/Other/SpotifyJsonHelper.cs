@@ -139,6 +139,7 @@ public class Artist
     public string previous { get; set; }
     public int total { get; set; }
     public List<Item> items { get; set; }
+
 }
 
 public class Artists
@@ -467,6 +468,16 @@ public class SeveralTrackRoot
     public List<Track> tracks { get; set; }
 }
 
+public class SeveralArtistRoot
+{
+    public List<Artist> artists { get; set; }
+}
+
+public class SeveralAlbumRoot
+{
+    public List<Album> albums { get; set; }
+}
+
 [System.Serializable]
 public class AddItemsToPlaylistRoot
 {
@@ -520,6 +531,21 @@ public class AlbumRoot{
     public int popularity { get; set; }
     public List<Artist> artists { get; set; }
     public Tracks tracks { get; set; }
+}
+
+[System.Serializable]
+public class ArtistRoot
+{
+    public ExternalUrls external_urls { get; set; }
+    public Followers followers { get; set; }
+    public List<string> genres { get; set; }
+    public string href { get; set; }
+    public string id { get; set; }
+    public List<SpotifyImage> images { get; set; }
+    public string name { get; set; }
+    public int popularity { get; set; }
+    public string type { get; set; }
+    public string uri { get; set; }
 }
 
 [System.Serializable]
