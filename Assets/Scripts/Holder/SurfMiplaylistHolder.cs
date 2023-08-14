@@ -72,8 +72,6 @@ public class SurfMiplaylistHolder : ViewModel
     {
         playlistViewModel.playlistName.text = playlistName.text;
         playlistViewModel.id = spotifyID;
-        //playlistViewModel.@public = @public;
-        //holderManager.playlistExternalUrl = url;
         NewScreenManager.instance.ChangeToSpawnedView("playlist");
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }

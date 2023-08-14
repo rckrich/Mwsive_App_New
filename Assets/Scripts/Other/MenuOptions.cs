@@ -22,6 +22,7 @@ public class MenuOptions : ViewModel
                 
                 SurfManager.instance.SetActive(false);
                 SpotifyPreviewAudioManager.instance.StopTrack();
+                
                 explorar.GetComponent<Image>().GetComponent<Graphic>().color = Color.white;
                 descubrir.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
                 ranking.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
@@ -55,6 +56,11 @@ public class MenuOptions : ViewModel
 
     private void OpenView(ViewID _value)
     {
-        NewScreenManager.instance.ChangeToMainView(_value, false);        
+        NewScreenManager.instance.ChangeToMainView(_value, false);   
+        
+        if(_value == ViewID.ExploreViewModel)
+        {
+            NewScreenManager.instance.GetCurrentView().GetComponent<Descubrir_ViewModel>().Initialize();
+        }
     }
 }

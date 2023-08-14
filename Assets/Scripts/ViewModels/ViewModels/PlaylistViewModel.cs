@@ -19,7 +19,6 @@ public class PlaylistViewModel : ViewModel
     public bool @public;
     public GameObject button, PF_SURF;
     public string artists;
-    public HolderManager holderManager;
     public float end;
     public int offset = 1;
     int onlyone = 0;
@@ -43,12 +42,6 @@ public class PlaylistViewModel : ViewModel
             
 
         }
-        /*
-        if (!@public)
-        {  
-            button.GetComponent<ChangeImage>().OnClickToggle();
-        }
-        */
     }
     private void InstanceTrackObjects(Tracks _tracks)
     {

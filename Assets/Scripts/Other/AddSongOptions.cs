@@ -13,7 +13,6 @@ public class AddSongOptions : ViewModel
     public GameObject trackHolderPrefab;
     public Transform instanceParent;
     public int objectsToNotDestroyIndex;
-    public HolderManager holderManager;
     public TrackViewModel trackViewModel;
     public string url;
     public string uri;
@@ -49,7 +48,7 @@ public class AddSongOptions : ViewModel
     public void ListenOnSpotify()
     {
        url = AppManager.instance.url;
-        Application.OpenURL(url);
+       Application.OpenURL(url);
     }
     public void OnClick_BackButton()
     {

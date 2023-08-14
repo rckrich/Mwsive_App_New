@@ -15,6 +15,7 @@ public class ArtistAppObject : AppObject
 
     public override void Initialize(params object[] list)
     {
+        Debug.Log("33333333");
         artist = (Artist)list[0];
 
         displayName.text = artist.name;

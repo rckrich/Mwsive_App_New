@@ -12,12 +12,12 @@ public class TrackHolder : ViewModel
     public TrackViewModel trackViewModel;
     public string uri;
     public AddSongOptions songOptions;
-    public HolderManager holderManager;
     private string trackSpotifyID;
     private string genre;
     private string artistId;
     private string previewURL;
     private string mp3URL;
+    public AddSongOptions addSongOptions;
     public GameObject playSimbol;
     public ExternalUrls url;
 
@@ -66,17 +66,9 @@ public class TrackHolder : ViewModel
     
     public void OnClickSongOptions()
     {
+        addSongOptions.trackID = trackSpotifyID;
         AppManager.instance.GetTrack(trackSpotifyID);
         NewScreenManager.instance.ChangeToSpawnedView("listaDeOpciones");
-        //REVISAR CON DYLAN
-        /*GameObject Instance = NewScreenManager.instance.GetCurrentView().gameObject;
-        if(Instance != null)
-        {
-            Instance.transform.SetParent(GameObject.Find("MainCanvas").transform);
-            Instance.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
-            Instance.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
-            Instance.transform.localScale = new Vector3(1, 1, 1);
-            Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
-        }*/
+     
     }
 }

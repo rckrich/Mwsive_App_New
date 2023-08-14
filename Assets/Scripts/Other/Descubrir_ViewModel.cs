@@ -84,12 +84,13 @@ public class Descubrir_ViewModel : ViewModel
 
     private void Callback_GetRecommendedCurators(object[] _list)
     {
-
+        
         MwsiveRecommendedCuratorsRoot mwsiveRecommendedCuratorsRoot = (MwsiveRecommendedCuratorsRoot)_list[1];
 
-        foreach(Curator curator in mwsiveRecommendedCuratorsRoot.curators){
+        foreach(Curator curator in mwsiveRecommendedCuratorsRoot.curators){           
             GameObject curatorInstance = GameObject.Instantiate(curatorPrefab, curatorScrollContent);
-            curatorInstance.GetComponent<CuratorAppObject>().Initialize(curator.mwsive_user.platform_id);
+            curatorInstance.GetComponent<CuratorAppObject>().Initialize(curator.mwsive_user);
+            
         }
 
         MwsiveConnectionManager.instance.GetRecommendedArtists(Callback_GetRecommendedArtists);
@@ -98,21 +99,24 @@ public class Descubrir_ViewModel : ViewModel
     private void Callback_GetRecommendedArtists(object[] _list)
     {
         MwsiveRecommendedArtistsRoot mwsiveRecommendedArtistsRoot = (MwsiveRecommendedArtistsRoot)_list[1];
-
+        
         string[] artists_ids = new string[mwsiveRecommendedArtistsRoot.artists.Count];
-
+        
         for (int i = 0; i < mwsiveRecommendedArtistsRoot.artists.Count; i++)
         {
+            
             artists_ids[i] = mwsiveRecommendedArtistsRoot.artists[i].spotify_id;
+            Debug.Log(artists_ids[i]);
         }
-
+        Debug.Log(artists_ids);
         SpotifyConnectionManager.instance.GetSeveralArtists(artists_ids, Callback_GetSeveralArtists);
     }
 
     private void Callback_GetSeveralArtists(object[] _list)
     {
-
+        Debug.Log("Llllllll");
         SeveralArtistRoot severalArtistRoot = (SeveralArtistRoot)_list[1];
+        Debug.Log("RRRrRRRRRRR");
 
         foreach (Artist artist in severalArtistRoot.artists)
         {
@@ -132,7 +136,7 @@ public class Descubrir_ViewModel : ViewModel
     private void Callback_GetRecommendedTracks(object[] _list)
     {
         MwsiveRecommendedTracksRoot mwsiveRecommendedTracksRoot = (MwsiveRecommendedTracksRoot)_list[1];
-
+        Debug.Log("TTTTTTTTTT");
         string[] tracks_ids = new string[mwsiveRecommendedTracksRoot.tracks.Count];
 
         for (int i = 0; i < mwsiveRecommendedTracksRoot.tracks.Count; i++)

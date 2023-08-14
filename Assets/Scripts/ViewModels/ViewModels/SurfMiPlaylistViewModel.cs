@@ -23,6 +23,8 @@ public class SurfMiPlaylistViewModel : ViewModel
 
     private void InitializePlaylistList()
     {
+        SpotifyPreviewAudioManager.instance.StopTrack();
+        Debug.Log("ffffff");
         StartSearch();
         SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_OnClick_GetCurrentUserPlaylists);
     }
