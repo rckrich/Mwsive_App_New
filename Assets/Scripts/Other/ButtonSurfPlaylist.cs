@@ -25,6 +25,7 @@ public class ButtonSurfPlaylist : ViewModel
 
     public MwsiveButton mwsiveButton;
     public GameObject loadingAnimGameObject;
+    public DurationBar durationBar;
 
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
     {
@@ -85,6 +86,7 @@ public class ButtonSurfPlaylist : ViewModel
 
     private void Callback_GetTrack(object[] _list)
     {
+        durationBar.canPlay = true;
         loadingAnimGameObject.SetActive(false);
         //EndSearch();
     }

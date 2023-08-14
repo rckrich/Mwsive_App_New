@@ -1308,7 +1308,7 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_GetRecommendedCurators(string _token, string _type, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    public static IEnumerator CR_GetRecommendedCurators(string _token, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
 
@@ -1316,7 +1316,6 @@ public class MwsiveWebCalls : MonoBehaviour
         string url = "http://192.241.129.184/api/recommended/curators/" + _offset.ToString() + "/" + _limit.ToString();
 
         /*Dictionary<string, string> parameters = new Dictionary<string, string>();
-        parameters.Add("type", _type);
         parameters.Add("offset", _offset.ToString());
         parameters.Add("limit", _limit.ToString());
 
@@ -1361,7 +1360,7 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_GetRecommendedArtists(string _token, string _type, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    public static IEnumerator CR_GetRecommendedArtists(string _token, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
 
@@ -1369,7 +1368,7 @@ public class MwsiveWebCalls : MonoBehaviour
         string url = "http://192.241.129.184/api/recommended/artists/" + _offset.ToString() + "/" + _limit.ToString();
 
         /*Dictionary<string, string> parameters = new Dictionary<string, string>();
-        parameters.Add("type", _type);
+
         parameters.Add("offset", _offset.ToString());
         parameters.Add("limit", _limit.ToString());
 
@@ -1414,7 +1413,7 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_GetRecommendedPlaylists(string _token, string _type, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    public static IEnumerator CR_GetRecommendedPlaylists(string _token, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
 
@@ -1422,7 +1421,7 @@ public class MwsiveWebCalls : MonoBehaviour
         string url = "http://192.241.129.184/api/recommended/playlists/" + _offset.ToString() + "/" + _limit.ToString();
 
         /*Dictionary<string, string> parameters = new Dictionary<string, string>();
-        parameters.Add("type", _type);
+
         parameters.Add("offset", _offset.ToString());
         parameters.Add("limit", _limit.ToString());
 
@@ -1467,7 +1466,7 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_GetRecommendedTracks(string _token, string _type, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    public static IEnumerator CR_GetRecommendedTracks(string _token, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
 
@@ -1476,7 +1475,6 @@ public class MwsiveWebCalls : MonoBehaviour
 
 
         /*Dictionary<string, string> parameters = new Dictionary<string, string>();
-        parameters.Add("type", _type);
         parameters.Add("offset", _offset.ToString());
         parameters.Add("limit", _limit.ToString());
 
@@ -1521,7 +1519,7 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_GetRecommendedAlbums(string _token, string _type, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    public static IEnumerator CR_GetRecommendedAlbums(string _token, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
 
@@ -1529,7 +1527,6 @@ public class MwsiveWebCalls : MonoBehaviour
         string url = "http://192.241.129.184/api/recommended/albums/" + _offset.ToString() + "/" + _limit.ToString();
 
         /*Dictionary<string, string> parameters = new Dictionary<string, string>();
-        parameters.Add("type", _type);
         parameters.Add("offset", _offset.ToString());
         parameters.Add("limit", _limit.ToString());
 
@@ -1574,7 +1571,7 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_GetGenres(string _token, string _type, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    public static IEnumerator CR_GetGenres(string _token, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
 
@@ -1582,7 +1579,6 @@ public class MwsiveWebCalls : MonoBehaviour
         string url = "https://mwsive.com/genres";
 
         Dictionary<string, string> parameters = new Dictionary<string, string>();
-        parameters.Add("type", _type);
         parameters.Add("offset", _offset.ToString());
         parameters.Add("limit", _limit.ToString());
 
