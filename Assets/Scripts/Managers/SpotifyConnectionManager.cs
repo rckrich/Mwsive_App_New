@@ -254,6 +254,40 @@ public class SpotifyConnectionManager : Manager
         Debug.Log((SearchedPlaylist)_value[1]);
     }
 
+    public void GetArtist(string _playlistID, SpotifyWebCallback _callback = null, string _market = "ES")
+    {
+        _callback += Callback_GetArtist;
+        StartCoroutine(SpotifyWebCalls.CR_GetArtist(oAuthHandler.GetSpotifyToken().AccessToken, _callback, _playlistID));
+    }
+
+    private void Callback_GetArtist(object[] _value)
+    {
+        if (CheckReauthenticateUser((long)_value[0]))
+        {
+            StartReauthentication();
+            return;
+        }
+
+        Debug.Log((ArtistRoot)_value[1]);
+    }
+
+    public void GetSeveralArtists(string[] _artists_ids, SpotifyWebCallback _callback = null)
+    {
+        _callback += Callback_GetSeveralArtists;
+        StartCoroutine(SpotifyWebCalls.CR_GetSeveralArtists(oAuthHandler.GetSpotifyToken().AccessToken, _callback, _artists_ids));
+    }
+
+    private void Callback_GetSeveralArtists(object[] _value)
+    {
+        if (CheckReauthenticateUser((long)_value[0]))
+        {
+            StartReauthentication();
+            return;
+        }
+
+        Debug.Log((SeveralArtistRoot)_value[1]);
+    }
+
     public void GetAlbum(string _playlistID, SpotifyWebCallback _callback = null, string _market = "ES")
     {
         _callback += Callback_GetAlbum;
@@ -269,6 +303,23 @@ public class SpotifyConnectionManager : Manager
         }
 
         Debug.Log((AlbumRoot)_value[1]);
+    }
+
+    public void GetSeveralAlbums(string[] _albums_ids, SpotifyWebCallback _callback = null, string _market = "ES")
+    {
+        _callback += Callback_GetSeveralAlbums;
+        StartCoroutine(SpotifyWebCalls.CR_GetSeveralAlbums(oAuthHandler.GetSpotifyToken().AccessToken, _callback, _albums_ids, _market));
+    }
+
+    private void Callback_GetSeveralAlbums(object[] _value)
+    {
+        if (CheckReauthenticateUser((long)_value[0]))
+        {
+            StartReauthentication();
+            return;
+        }
+
+        Debug.Log((SeveralAlbumRoot)_value[1]);
     }
 
     public void GetPlaylistItems(string _playlistID, SpotifyWebCallback _callback = null, string _market = "ES", int _limit = 20, int _offset = 0)
@@ -454,6 +505,21 @@ public class SpotifyConnectionManager : Manager
         }
 
         Debug.Log((GenresRoot)_value[1]);
+    }
+
+    public void CR_PutChangePlaylistCoverImage(string _playlist_id, string _jpgBase64Code, SpotifyWebCallback _callback = null)
+    {
+        _callback += Callback_ChangePlaylistCoverImage;
+        StartCoroutine(SpotifyWebCalls.CR_ChangePlaylistCoverImage(oAuthHandler.GetSpotifyToken().AccessToken, _callback, _playlist_id, _jpgBase64Code));
+    }
+
+    private void Callback_ChangePlaylistCoverImage(object[] _value)
+    {
+        if (CheckReauthenticateUser((long)_value[0]))
+        {
+            StartReauthentication();
+            return;
+        }
     }
 
     #endregion
