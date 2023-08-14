@@ -387,7 +387,7 @@ public class SurfManager : Manager
         foreach (var item in recommendationsRoot.tracks)
         {
             
-                    if (item.preview_url != null)
+            if (item.preview_url != null)
             {
                 GameObject instance = SpawnPrefab();
                 if (FirstInstance == null)
@@ -408,6 +408,12 @@ public class SurfManager : Manager
 
             }
         }
+        if(recommendationsRoot.tracks.Count < 5){
+            SpawnPrefab();
+            SpawnPrefab();
+            SpawnPrefab();
+            SpawnedBuffer = true;
+        }
     }
 
     public void DynamicPrefabSpawnerAlbum(object[] _value)
@@ -415,34 +421,51 @@ public class SurfManager : Manager
         albumroot = (AlbumRoot)_value[0];
 
         GameObject FirstInstance = null;
-
+        
+        string image = albumroot.images[0].url;
+        string albumname = albumroot.name;
         
         foreach (var item in albumroot.tracks.items)
         {
-            if (item.track.preview_url != null)
+
+            if (item.preview_url != null)
             {
+                Debug.Log("bbb");
                 GameObject instance = SpawnPrefab();
+                Debug.Log(FirstInstance);
                 if (FirstInstance == null)
                 {
+                    Debug.Log("aaaaaaaaaaaaaaaaaaaa");
                     FirstInstance = instance;
                 }
 
                 string artists = "";
 
-                foreach (Artist artist in item.track.artists)
+                foreach (Artist artist in item.artists)
                 {
                     artists = artists + artist.name + ", ";
                 }
 
                 artists = artists.Remove(artists.Length - 2);
 
-                instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.track.name, item.track.album.name, artists, item.track.album.images[0].url, item.track.id, item.track.uri, item.track.preview_url, item.track.external_urls.spotify);
+
+
+
+
+
+                instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.name, albumname, artists, image, item.id, item.uri, item.preview_url, item.external_urls.spotify);
 
             }
            
         }
-
+        Debug.Log(FirstInstance);
         FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+        if(albumroot.tracks.items.Count < 5){
+            SpawnPrefab();
+            SpawnPrefab();
+            SpawnPrefab();
+            SpawnedBuffer = true;
+        }
     }
 
 
@@ -477,7 +500,12 @@ public class SurfManager : Manager
             }
         }
         FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
-        
+        if(recommendationsRoot.tracks.Count < 5){
+            SpawnPrefab();
+            SpawnPrefab();
+            SpawnPrefab();
+            SpawnedBuffer = true;
+        } 
     }
 
     public void DynamicPrefabSpawnerPL(object[] _value)

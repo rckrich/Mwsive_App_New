@@ -9,4 +9,8 @@ public class PF_SurfViewModel : ViewModel
         NewScreenManager.instance.BackToPreviousView();
         SpotifyPreviewAudioManager.instance.StopTrack();
     }
+
+    private void OnDestroy() {
+        SpotifyPreviewAudioManager.instance.StopTrack();
+    }
 }

@@ -46,35 +46,60 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void InitializeMwsiveSong(string _playlistName, string _trackname, string _album, string _artist, string _image, string _spotifyid, string _url, string _previewURL, string _externalURL)
     {
-        playlistText.text = _playlistName;
-        playlistName = _playlistName;
-        if (_trackname.Length > 27)
-        {
-            string _text2 = "";
-            for (int i = 0; i < 27; i++)
+        if(_playlistName != null){
+            playlistText.text = _playlistName;
+        }
+        if(_trackname != null){
+            if (_trackname.Length > 27)
             {
-                _text2 = _text2 + _trackname[i];
+                string _text2 = "";
+                for (int i = 0; i < 27; i++)
+                {
+                    _text2 = _text2 + _trackname[i];
+                }
+                _text2 = _text2 + "...";
+                trackName.text = _text2;
             }
-            _text2 = _text2 + "...";
-            trackName.text = _text2;
+            else
+            {
+                trackName.text = _trackname;
+            }
         }
-        else
-        {
-            trackName.text = _trackname;
+        
+        if(_album != null){
+            albumName.text = _album;
         }
-        albumName.text = _album;
-        artistName.text = _artist;
-        ImageManager.instance.GetImage(_image, trackCover, (RectTransform)this.transform);
-        trackID = _spotifyid;
-        uris[0] = _url;
-        previewURL = _previewURL;
-        externalURL = _externalURL;
+        if(_artist != null){
+            artistName.text = _artist;
+        }
+        
+        if(_image != null){
+            ImageManager.instance.GetImage(_image, trackCover, (RectTransform)this.transform);
+        }
+        
+        if(_spotifyid != null){
+            trackID = _spotifyid;
+            if (AppManager.instance.SearchTrackOnCurrentPlaylist(_spotifyid))
+            {
+                mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
+                //Pintar de morado el que está en playlist
+            }
+        }
+        
+        if(_url != null){
+            uris[0] = _url;
+        }
+        
+        if(_previewURL != null){
+            previewURL = _previewURL;
+        }
+        
+        if(_externalURL != null){
+            externalURL = _externalURL;
+        }
+        
 
-        if (AppManager.instance.SearchTrackOnCurrentPlaylist(_spotifyid))
-        {
-            mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
-            //Pintar de morado el que está en playlist
-        }
+        
     }
 
     public void PlayAudioPreview()
