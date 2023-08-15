@@ -39,6 +39,13 @@ public class ProfileViewModel : ViewModel
                 NewScreenManager.instance.BackToPreviousView();
             });
         }
+
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => { OnClick_BackButton(); });
+        }
+#endif
     }
 
     private void Callback_ProfileViewModelInitialize(object[] list)
