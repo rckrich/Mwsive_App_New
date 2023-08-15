@@ -27,8 +27,7 @@ public class AddSongOptions : ViewModel
     public void OnClick_AddItemsToPlaylist()
     {
          
-        uri = AppManager.instance.uri;
-        
+        uri = AppManager.instance.uri;      
         NewScreenManager.instance.ChangeToSpawnedView("songMiPlaylist");
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }

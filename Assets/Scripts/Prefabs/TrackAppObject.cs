@@ -10,7 +10,9 @@ public class TrackAppObject : AppObject
 
     public TextMeshProUGUI displayName;
     public Image trackPicture;
+    public TextMeshProUGUI displayAutor;
 
+    private string artists;
     private Track track;
 
 
@@ -18,7 +20,42 @@ public class TrackAppObject : AppObject
     {
         track = (Track)list[0];
 
-        displayName.text = track.name;
+        if (track.name.Length > 27)
+        {
+            string _text2 = "";
+            for (int k = 0; k < 27; k++)
+            {
+
+                _text2 = _text2 + track.name[k];
+
+            }
+            _text2 = _text2 + "...";
+            displayName.text = _text2;
+        }
+        else
+        {
+            displayName.text = track.name;
+        }
+
+        artists = "";
+        foreach (Artist artist in track.artists) { artists += artist.name + ", "; }
+
+        if (artists.Length > 27)
+        {
+            string _text2 = "";
+            for (int k = 0; k < 27; k++)
+            {
+
+                _text2 = _text2 + artists[k];
+
+            }
+            _text2 = _text2 + "...";
+            displayAutor.text = _text2;
+        }
+        else
+        {
+            displayAutor.text = artists;
+        }
 
         if (track.album == null) return;
 

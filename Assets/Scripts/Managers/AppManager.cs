@@ -26,6 +26,7 @@ public class AppManager : Manager
     public string trackID;
     public string uri;
     public string url;
+    public bool isSelected;
 
     public SelectedPlaylistNameAppObject appObject;
     public ButtonSurfPlaylist buttonSurfPlaylist;
@@ -137,7 +138,9 @@ public class AppManager : Manager
     {
         TrackRoot trackRoot = (TrackRoot)_value[1];
         url = trackRoot.external_urls.spotify;
-        uri = trackRoot.uri;
+        uri = trackRoot.uri;       
+        NewScreenManager.instance.ChangeToSpawnedView("listaDeOpciones");
+        EndSearch();
     }
 
     public void RefreshCurrentPlaylistInformation(SpotifyWebCallback _callback)

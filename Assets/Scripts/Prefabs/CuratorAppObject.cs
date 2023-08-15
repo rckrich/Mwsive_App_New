@@ -13,8 +13,24 @@ public class CuratorAppObject : AppObject
 
     public override void Initialize(params object[] list) {
         mwsiveUser = (MwsiveUser)list[0];
-        displayName.text = mwsiveUser.display_name;
-        if(mwsiveUser.image != null)
+
+        if (mwsiveUser.display_name.Length > 27)
+        {
+            string _text2 = "";
+            for (int k = 0; k < 27; k++)
+            {
+
+                _text2 = _text2 + mwsiveUser.display_name[k];
+
+            }
+            _text2 = _text2 + "...";
+            displayName.text = _text2;
+        }
+        else
+        {
+            displayName.text = mwsiveUser.display_name;
+        }
+        if (mwsiveUser.image != null)
             ImageManager.instance.GetImage(mwsiveUser.image, profilePicture, (RectTransform)this.transform);
     }
 

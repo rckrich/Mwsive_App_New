@@ -15,10 +15,23 @@ public class ArtistAppObject : AppObject
 
     public override void Initialize(params object[] list)
     {
-        Debug.Log("33333333");
         artist = (Artist)list[0];
+        if (artist.name.Length > 27)
+        {
+            string _text2 = "";
+            for (int k = 0; k < 27; k++)
+            {
 
-        displayName.text = artist.name;
+                _text2 = _text2 + artist.name[k];
+
+            }
+            _text2 = _text2 + "...";
+            displayName.text = _text2;
+        }
+        else
+        {
+            displayName.text = artist.name;
+        }
 
         if (artist.images != null)
         {
