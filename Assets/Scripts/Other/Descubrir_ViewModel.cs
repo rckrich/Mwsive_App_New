@@ -1000,4 +1000,14 @@ public class Descubrir_ViewModel : ViewModel
         }
 
     }
+
+    public void OnClick_VerMasAlbum()
+    {
+        NewScreenManager.instance.ChangeToMainView(ViewID.TopAlbumViewModel);
+    }
+
+    public void OnClick_VerMasArtist()
+    {
+        NewScreenManager.instance.ChangeToMainView(ViewID.TopArtistViewModel);
+    }
 }

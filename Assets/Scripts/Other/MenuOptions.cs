@@ -8,6 +8,8 @@ public class MenuOptions : ViewModel
     public GameObject descubrir;
     public GameObject explorar;
     public GameObject ranking;
+
+    private bool exploreChange = false;
     void Start()
     {
         explorar.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
@@ -58,9 +60,10 @@ public class MenuOptions : ViewModel
     {
         NewScreenManager.instance.ChangeToMainView(_value, false);   
         
-        if(_value == ViewID.ExploreViewModel)
+        if(_value == ViewID.ExploreViewModel && !exploreChange)
         {
             NewScreenManager.instance.GetCurrentView().GetComponent<Descubrir_ViewModel>().Initialize();
+            exploreChange = true;
         }
     }
 }

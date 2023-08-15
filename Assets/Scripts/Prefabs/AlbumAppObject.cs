@@ -11,7 +11,7 @@ public class AlbumAppObject : AppObject
     public TextMeshProUGUI displayName;
     public Image albumPicture;
     public TextMeshProUGUI displayAutor;
-
+    
     private string artists;
     private Album album;
 
@@ -68,4 +68,6 @@ public class AlbumAppObject : AppObject
     {
         //NewScreenManager.instance.ChangeToSpawnedView("album");
     }
+
+    
 }
