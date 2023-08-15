@@ -208,7 +208,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveFollowingRoot)_value[1]));
+        Debug.Log(((MwsiveFollowedRoot)_value[1]));
     }
 
     public void PostFollow(string _user_id, MwsiveWebCallback _callback = null)

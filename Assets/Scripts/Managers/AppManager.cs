@@ -58,8 +58,9 @@ public class AppManager : Manager
         {
             if (Input.GetKey(KeyCode.Escape))
             {
-                if(androidBackAction != null)
+                if (androidBackAction != null) {
                     androidBackAction();
+                }
             }
         }
     }
@@ -67,6 +68,11 @@ public class AppManager : Manager
     public void SetAndroidBackAction(System.Action action)
     {
         this.androidBackAction = action;
+    }
+
+    public void ResetAndroidBackAction()
+    {
+        this.androidBackAction = null;
     }
 #endif
 
