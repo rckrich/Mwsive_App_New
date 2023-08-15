@@ -11,7 +11,7 @@ public class PlaylistViewModel : ViewModel
     //public TextMeshProUGUI publicText;
 
     [Header("Instance Referecnes")]
-    public GameObject trackHolderPrefab;
+    public GameObject trackHolderPrefab, SurfButton;
     public Transform instanceParent;
    //public int objectsToNotDestroyIndex;
     public string id;
@@ -27,6 +27,7 @@ public class PlaylistViewModel : ViewModel
     public string stringUrl;
 
     private SearchedPlaylist searchedPlaylist;
+    private int NumberofTracks;
    
     void Start()
     {
@@ -37,7 +38,6 @@ public class PlaylistViewModel : ViewModel
     {
         if (!id.Equals(""))
         {
-            Debug.Log("cupidddd");
             SpotifyConnectionManager.instance.GetPlaylist(id, Callback_GetPlaylist);
             
 
@@ -45,16 +45,25 @@ public class PlaylistViewModel : ViewModel
     }
     private void InstanceTrackObjects(Tracks _tracks)
     {
-
+        NumberofTracks = 0;
         foreach (Item item in _tracks.items)
         {
             TrackHolder instance = GameObject.Instantiate(trackHolderPrefab, instanceParent).GetComponent<TrackHolder>();
             artists = "";
+            Debug.Log(item.track.name);
+            Debug.Log(item.track.artists[0].name);
             foreach(Artist artist in item.track.artists) { artists += artist.name + ", "; }
             instance.Initialize(item.track.name, artists, item.track.id, item.track.artists[0].id, item.track.uri, item.track.preview_url, item.track.external_urls); 
             if (item.track.album.images != null && item.track.album.images.Count > 0)
                 instance.SetImage(item.track.album.images[0].url);
+                if(item.track.preview_url == null){
+                    instance.PreviewUrlGrey();
+                    NumberofTracks++;
+                }
             offset++;
+        }
+        if(NumberofTracks == _tracks.items.Count){
+            SurfButton.SetActive(false);
         }
     }
     
@@ -84,18 +93,30 @@ public class PlaylistViewModel : ViewModel
     }
     private void Callback_GetMorePLaylist(object[] _value)
     {
+        Debug.Log("more");
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
         PlaylistRoot playlistRoot = (PlaylistRoot)_value[1];
-
+        NumberofTracks = 0;
+        
         foreach (Item item in playlistRoot.items)
         {
+            Debug.Log(item.name);
             TrackHolder instance = GameObject.Instantiate(trackHolderPrefab, instanceParent).GetComponent<TrackHolder>();
             artists = "";
             foreach (Artist artist in item.track.artists) { artists += artist.name + ", "; }
             instance.Initialize(item.track.name, artists, item.track.id, item.track.artists[0].id, item.track.uri, item.track.preview_url, item.track.external_urls);
-            if (item.track.album.images != null && item.track.album.images.Count > 0)
+            if (item.track.album.images != null && item.track.album.images.Count > 0){
                 instance.SetImage(item.track.album.images[0].url);
+                if(item.track.preview_url == null){
+                    instance.PreviewUrlGrey();
+                    NumberofTracks++;
+                }
+            }
+            if(NumberofTracks == playlistRoot.items.Count){
+                SurfButton.SetActive(false);
+            }
+
         }
         onlyone = 0;
 
