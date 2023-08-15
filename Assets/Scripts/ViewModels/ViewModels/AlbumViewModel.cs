@@ -11,7 +11,7 @@ public class AlbumViewModel : ViewModel
     //public TextMeshProUGUI publicText;
 
     [Header("Instance Referecnes")]
-    public GameObject trackHolderPrefab;
+    public GameObject trackHolderPrefab, SurfButton;
     public Transform instanceParent;
    //public int objectsToNotDestroyIndex;
     public string id;
@@ -27,6 +27,7 @@ public class AlbumViewModel : ViewModel
 
     private AlbumRoot _Album;
     private string image;
+    private int NumberofTracks = 0;
    
     void Start()
     {
@@ -42,7 +43,7 @@ public class AlbumViewModel : ViewModel
     }
     private void InstanceTrackObjects(Tracks _tracks)
     {
-        Debug.Log(_tracks.items.Count);
+        NumberofTracks = 0;
         foreach (Item item in _tracks.items)
         {
 
@@ -54,8 +55,17 @@ public class AlbumViewModel : ViewModel
             instance.Initialize(item.name, artists, item.id, item.artists[0].id, item.uri, item.preview_url, item.external_urls); 
             
             instance.SetImage(image);
+            if(item.preview_url == null){
+                    instance.PreviewUrlGrey();
+                    NumberofTracks++;
+                }
             offset++;
         }
+        if(NumberofTracks == _tracks.items.Count){
+            SurfButton.SetActive(false);
+        }
+        
+
     }
     
 
@@ -87,6 +97,7 @@ public class AlbumViewModel : ViewModel
     }
     private void Callback_GetMorePLaylist(object[] _value)
     {
+        NumberofTracks = 0;
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
         PlaylistRoot playlistRoot = (PlaylistRoot)_value[1];
@@ -99,8 +110,15 @@ public class AlbumViewModel : ViewModel
             instance.Initialize(item.track.name, artists, item.track.id, item.track.artists[0].id, item.track.uri, item.track.preview_url, item.track.external_urls);
             if (item.track.album.images != null && item.track.album.images.Count > 0)
                 instance.SetImage(item.track.album.images[0].url);
+                if(item.track.preview_url == null){
+                    instance.PreviewUrlGrey();
+                    NumberofTracks++;
+                }
         }
         onlyone = 0;
+        if(NumberofTracks == playlistRoot.items.Count){
+            SurfButton.SetActive(false);
+        }
 
     }
     public void OnClickListenInSpotify()
