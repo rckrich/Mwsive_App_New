@@ -87,10 +87,32 @@ public class ProfileViewModel : ViewModel
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
+        bool profileImageSetted = false;
+
         ProfileRoot profileRoot = (ProfileRoot)_value[1];
         displayName.text = profileRoot.display_name;
         profileId = profileRoot.id;
-        ImageManager.instance.GetImage(profileRoot.images[0].url, profilePicture, (RectTransform)this.transform);
+
+        if (profileRoot.images != null)
+        {
+            if (profileRoot.images.Count > 0)
+            {
+
+                foreach (SpotifyImage image in profileRoot.images)
+                {
+                    if (image.height == 300 && image.width == 300)
+                    {
+                        ImageManager.instance.GetImage(image.url, profilePicture, (RectTransform)this.transform);
+                        profileImageSetted = true;
+                        break;
+                    }
+                }
+
+                if (!profileImageSetted)
+                    ImageManager.instance.GetImage(profileRoot.images[0].url, profilePicture, (RectTransform)this.transform);
+            }
+        }
+
         GetCurrentUserPlaylists();
     }
 

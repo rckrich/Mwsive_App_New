@@ -65,9 +65,9 @@ public class AddedBy
 
 public class SpotifyImage
 {
-    public object height { get; set; }
+    public int? height { get; set; }
     public string url { get; set; }
-    public object width { get; set; }
+    public int? width { get; set; }
 }
 
 public class ProfileRoot
