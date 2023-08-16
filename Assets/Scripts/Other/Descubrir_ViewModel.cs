@@ -5,7 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 
 public class Descubrir_ViewModel : ViewModel
-{ 
+{
+    private const int MAXIMUM_HORIZONTAL_SCROLL_SPAWNS = 20;
+
     public DescubrirPaginas Descubrir;
     public List<GameObject> Prefabs = new List<GameObject>();    
     public List<GameObject> LastPosition = new List<GameObject>();   
@@ -68,9 +70,29 @@ public class Descubrir_ViewModel : ViewModel
 
     public override void Initialize(params object[] list)
     {
-        StartSearch();
+        //StartSearch();
         //MwsiveConnectionManager.instance.GetChallenges(Callback_GetChallenges);
         MwsiveConnectionManager.instance.GetRecommendedCurators(Callback_GetRecommendedCurators);
+        MwsiveConnectionManager.instance.GetRecommendedArtists(Callback_GetRecommendedArtists);
+        //MwsiveConnectionManager.instance.GetRecommendedPlaylists(Callback_GetRecommendedPlaylists);
+        MwsiveConnectionManager.instance.GetRecommendedTracks(Callback_GetRecommendedTracks);
+        MwsiveConnectionManager.instance.GetRecommendedAlbums(Callback_GetRecommendedAlbums);
+        MwsiveConnectionManager.instance.GetGenres(Callback_GetGenres);
+
+
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    GameObject.FindObjectOfType<MenuOptions>().OnClick(1);
+                }
+                AppManager.instance.SetAndroidBackAction(null);
+            });
+        }
+#endif
+
     }
 
     private void Callback_GetChallenges(object[] _list) {
@@ -87,12 +109,17 @@ public class Descubrir_ViewModel : ViewModel
         
         MwsiveRecommendedCuratorsRoot mwsiveRecommendedCuratorsRoot = (MwsiveRecommendedCuratorsRoot)_list[1];
 
-        foreach(Curator curator in mwsiveRecommendedCuratorsRoot.curators){           
-            GameObject curatorInstance = GameObject.Instantiate(curatorPrefab, curatorScrollContent);
-            curatorInstance.GetComponent<CuratorAppObject>().Initialize(curator.mwsive_user);
-        }
+        int maxSpawnCounter = 0;
 
-        MwsiveConnectionManager.instance.GetRecommendedArtists(Callback_GetRecommendedArtists);
+        foreach(Curator curator in mwsiveRecommendedCuratorsRoot.curators){
+
+            if(maxSpawnCounter < MAXIMUM_HORIZONTAL_SCROLL_SPAWNS)
+            {
+                GameObject curatorInstance = GameObject.Instantiate(curatorPrefab, curatorScrollContent);
+                curatorInstance.GetComponent<CuratorAppObject>().Initialize(curator.mwsive_user);
+                maxSpawnCounter++;
+            }
+        }
     }
 
     private void Callback_GetRecommendedArtists(object[] _list)
@@ -100,14 +127,22 @@ public class Descubrir_ViewModel : ViewModel
         MwsiveRecommendedArtistsRoot mwsiveRecommendedArtistsRoot = (MwsiveRecommendedArtistsRoot)_list[1];
         
         string[] artists_ids = new string[mwsiveRecommendedArtistsRoot.artists.Count];
-        
+
+        int maxSpawnCounter = 0;
+
         for (int i = 0; i < mwsiveRecommendedArtistsRoot.artists.Count; i++)
         {
-            
-            artists_ids[i] = mwsiveRecommendedArtistsRoot.artists[i].spotify_id;
+            if (maxSpawnCounter < MAXIMUM_HORIZONTAL_SCROLL_SPAWNS)
+            {
+                artists_ids[i] = mwsiveRecommendedArtistsRoot.artists[i].spotify_id;
+                maxSpawnCounter++;
+            }
         }
-        Debug.Log(artists_ids);
-        SpotifyConnectionManager.instance.GetSeveralArtists(artists_ids, Callback_GetSeveralArtists);
+
+        if(artists_ids.Length > 0)
+        {
+            SpotifyConnectionManager.instance.GetSeveralArtists(artists_ids, Callback_GetSeveralArtists);
+        }
     }
 
     private void Callback_GetSeveralArtists(object[] _list)
@@ -120,9 +155,6 @@ public class Descubrir_ViewModel : ViewModel
             ArtistAppObject artists = artistInstance.GetComponent<ArtistAppObject>();
             artists.Initialize(artist);
         }
-
-        //MwsiveConnectionManager.instance.GetRecommendedPlaylists(Callback_GetRecommendedPlaylists);
-        MwsiveConnectionManager.instance.GetRecommendedTracks(Callback_GetRecommendedTracks);
     }
 
     private void Callback_GetRecommendedPlaylists(object[] _list)
@@ -136,13 +168,21 @@ public class Descubrir_ViewModel : ViewModel
 
         string[] tracks_ids = new string[mwsiveRecommendedTracksRoot.tracks.Count];
 
+        int maxSpawnCounter = 0;
+
         for (int i = 0; i < mwsiveRecommendedTracksRoot.tracks.Count; i++)
         {
-            //TODO AVISAR A EDITH QUE LOS ID DE SPOTIFY DE TRACKS SON STRINGS
-            tracks_ids[i] = mwsiveRecommendedTracksRoot.tracks[i].mwsive_track.spotify_track_id;
+            if (maxSpawnCounter < MAXIMUM_HORIZONTAL_SCROLL_SPAWNS)
+            {
+                tracks_ids[i] = mwsiveRecommendedTracksRoot.tracks[i].mwsive_track.spotify_track_id;
+                maxSpawnCounter++;
+            }
         }
 
-        SpotifyConnectionManager.instance.GetSeveralTracks(tracks_ids, Callback_GetSeveralTracks);
+        if (tracks_ids.Length > 0)
+        {
+            SpotifyConnectionManager.instance.GetSeveralTracks(tracks_ids, Callback_GetSeveralTracks);
+        }
     }
 
     private void Callback_GetSeveralTracks(object[] _list)
@@ -155,8 +195,6 @@ public class Descubrir_ViewModel : ViewModel
             GameObject trackInstance = GameObject.Instantiate(trackPrefab, trackScrollContent);
             trackInstance.GetComponent<TrackAppObject>().Initialize(track);
         }
-
-        MwsiveConnectionManager.instance.GetRecommendedAlbums(Callback_GetRecommendedAlbums);
     }
 
     private void Callback_GetRecommendedAlbums(object[] _list)
@@ -166,13 +204,20 @@ public class Descubrir_ViewModel : ViewModel
 
         string[] albums_ids = new string[mwsiveRecommendedAlbumsRoot.albums.Count];
 
+        int maxSpawnCounter = 0;
+
         for (int i = 0; i < mwsiveRecommendedAlbumsRoot.albums.Count; i++)
         {
-            //TODO AVISAR A EDITH QUE LOS ID DE SPOTIFY DE ALBUMS SON STRINGS
-            albums_ids[i] = mwsiveRecommendedAlbumsRoot.albums[i].spotify_id;
+            if (maxSpawnCounter < MAXIMUM_HORIZONTAL_SCROLL_SPAWNS)
+            {
+                albums_ids[i] = mwsiveRecommendedAlbumsRoot.albums[i].spotify_id;
+                maxSpawnCounter++;
+            }
         }
 
-        SpotifyConnectionManager.instance.GetSeveralAlbums(albums_ids, Callback_GetSeveralAlbums);
+        if (albums_ids.Length > 0) {
+            SpotifyConnectionManager.instance.GetSeveralAlbums(albums_ids, Callback_GetSeveralAlbums);
+        }
     }
 
     private void Callback_GetSeveralAlbums(object[] _list)
@@ -185,16 +230,11 @@ public class Descubrir_ViewModel : ViewModel
             GameObject trackInstance = GameObject.Instantiate(albumPrefab, albumScrollContent);
             trackInstance.GetComponent<AlbumAppObject>().Initialize(album);
         }
-
-        //MwsiveConnectionManager.instance.GetGenres(Callback_GetGenres);
-
-        //TODO DELETE AFTER GENRES IS DONE
-        EndSearch();
     }
 
-        private void Callback_GetGenres(object[] _list)
+    private void Callback_GetGenres(object[] _list)
     {
-        EndSearch();
+
     }
 
     public void Search(){

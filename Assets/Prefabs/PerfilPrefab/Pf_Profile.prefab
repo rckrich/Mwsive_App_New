@@ -693,11 +693,14 @@ MonoBehaviour:
   viewID: 9
   networkLoadingCanvas: {fileID: 0}
   scrollViewContent: {fileID: 0}
+  finishedLoading: 1
   displayName: {fileID: 3774412407067128482}
   profilePicture: {fileID: 3774412408475884542}
   playlistHolderPrefab: {fileID: 3494807364923777904, guid: 4ce0b37c9db9f9548871d172d2aeb103, type: 3}
   instanceParent: {fileID: 3774412406964433979}
   surfManager: {fileID: 0}
+  followersText: {fileID: 3774412408397873354}
+  followedText: {fileID: 3774412408527376603}
 --- !u!1 &3774412406764249053
 GameObject:
   m_ObjectHideFlags: 0
@@ -2377,7 +2380,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 9164906719753957777}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:

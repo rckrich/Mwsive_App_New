@@ -383,7 +383,7 @@ public class SurfManager : Manager
         recommendationsRoot = (RecommendationsRoot)_value[0];
 
         GameObject FirstInstance = null;
-        
+        int SpawnedSongs = 0;
         foreach (var item in recommendationsRoot.tracks)
         {
             
@@ -405,10 +405,11 @@ public class SurfManager : Manager
                 artists = artists.Remove(artists.Length - 2);
 
                 instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.name, item.album.name, artists, item.album.images[0].url, item.id, item.uri, item.preview_url, item.external_urls.spotify);
-
+                
+                SpawnedSongs++;
             }
         }
-        if(recommendationsRoot.tracks.Count < 5){
+        if(SpawnedSongs < 5 && SpawnedSongs > 0){
             SpawnPrefab();
             SpawnPrefab();
             SpawnPrefab();
@@ -424,13 +425,14 @@ public class SurfManager : Manager
         
         string image = albumroot.images[0].url;
         string albumname = albumroot.name;
+        int SpawnedSongs = 0;
         
         foreach (var item in albumroot.tracks.items)
         {
-
+            
             if (item.preview_url != null)
             {
-                Debug.Log("bbb");
+                
                 GameObject instance = SpawnPrefab();
                 Debug.Log(FirstInstance);
                 if (FirstInstance == null)
@@ -448,19 +450,15 @@ public class SurfManager : Manager
 
                 artists = artists.Remove(artists.Length - 2);
 
-
-
-
-
-
                 instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.name, albumname, artists, image, item.id, item.uri, item.preview_url, item.external_urls.spotify);
 
+                SpawnedSongs++;
             }
            
         }
         Debug.Log(FirstInstance);
         FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
-        if(albumroot.tracks.items.Count < 5){
+        if(SpawnedSongs < 5 && SpawnedSongs > 0){
             SpawnPrefab();
             SpawnPrefab();
             SpawnPrefab();
@@ -475,6 +473,7 @@ public class SurfManager : Manager
 
         GameObject FirstInstance = null;
         
+        int SpawnedSongs = 0;
         foreach (var item in recommendationsRoot.tracks)
         {
             if (item.preview_url != null)
@@ -495,11 +494,12 @@ public class SurfManager : Manager
                 artists = artists.Remove(artists.Length - 2);
 
                 instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.name, item.album.name, artists, item.album.images[0].url, item.id, item.uri, item.preview_url, item.external_urls.spotify);
+                SpawnedSongs++;
 
             }
         }
         FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
-        if(recommendationsRoot.tracks.Count < 5){
+        if(SpawnedSongs < 5 && SpawnedSongs > 0){
             SpawnPrefab();
             SpawnPrefab();
             SpawnPrefab();
@@ -515,30 +515,35 @@ public class SurfManager : Manager
         Debug.Log("----------------------------" + searchedPlaylist.tracks.items.Count);
         GameObject FirstInstance = null;
 
+        int SpawnedSongs = 0;
         foreach (var item in searchedPlaylist.tracks.items)
         {
-            if (item.track.preview_url != null)
+            if(item.track != null)
             {
-                GameObject instance = SpawnPrefab();
-                if (FirstInstance == null)
+                if (item.track.preview_url != null)
                 {
-                    FirstInstance = instance;
+                    GameObject instance = SpawnPrefab();
+                    if (FirstInstance == null)
+                    {
+                        FirstInstance = instance;
+                    }
+
+                    string artists = "";
+
+                    foreach (Artist artist in item.track.artists)
+                    {
+                        artists = artists + artist.name + ", ";
+                    }
+
+                    artists = artists.Remove(artists.Length - 2);
+
+                    instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.track.name, item.track.album.name, artists, item.track.album.images[0].url, item.track.id, item.track.uri, item.track.preview_url, item.track.external_urls.spotify);
+                    SpawnedSongs++;
                 }
-
-                string artists = "";
-
-                foreach (Artist artist in item.track.artists)
-                {
-                    artists = artists + artist.name + ", ";
-                }
-
-                artists = artists.Remove(artists.Length - 2);
-
-                instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.track.name, item.track.album.name, artists, item.track.album.images[0].url, item.track.id, item.track.uri, item.track.preview_url, item.track.external_urls.spotify);
-
             }
+            
         }
-        if(searchedPlaylist.tracks.items.Count < 5){
+        if(SpawnedSongs < 5 && SpawnedSongs > 0){
             SpawnPrefab();
             SpawnPrefab();
             SpawnPrefab();

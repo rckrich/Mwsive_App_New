@@ -79,6 +79,12 @@ public class TrackHolder : ViewModel
     {
         ImageManager.instance.GetImage(_pictureURL, trackPicture, (RectTransform)this.transform);
     }
+    public void PreviewUrlGrey(){
+        Color32 Grey = new Color32(135, 135, 135, 255); 
+        trackPicture.color = Grey;
+        trackName.color = Grey;
+        artistName.color = Grey;
+    }
 
     public void OnClick_PlayAudioPreview()
     {

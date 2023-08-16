@@ -34,8 +34,10 @@ public class MenuOptions : ViewModel
 
             if(numero == 1)
             {
-                
-                explorar.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
+#if PLATFORM_ANDROID
+            AppManager.instance.ResetAndroidBackAction();
+#endif
+            explorar.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
                 descubrir.GetComponent<Image>().GetComponent<Graphic>().color = Color.white;
                 ranking.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
                 OpenView(ViewID.SurfViewModel);

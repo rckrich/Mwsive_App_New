@@ -7,6 +7,7 @@ public class RankingViewModel : ScrollViewModel
 {
     public GameObject selectTimePanel;
     public TextMeshProUGUI timeTypeText;
+    public SurfManager surfManager;
 
     private string timeType = "AllTime";
 
@@ -16,6 +17,19 @@ public class RankingViewModel : ScrollViewModel
         StartSearch();
         ChangeTimeType(timeType);
         MwsiveConnectionManager.instance.GetRanking(timeType, Callback_GetRanking);
+
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    GameObject.FindObjectOfType<MenuOptions>().OnClick(1);
+                }
+                AppManager.instance.SetAndroidBackAction(null);
+            });
+        }
+#endif
     }
 
     private void Callback_GetRanking(object[] _list)
