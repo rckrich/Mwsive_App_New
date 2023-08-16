@@ -26018,6 +26018,7 @@ GameObject:
   m_Component:
   - component: {fileID: 923902655}
   - component: {fileID: 923902658}
+  - component: {fileID: 923902659}
   - component: {fileID: 923902657}
   - component: {fileID: 923902656}
   m_Layer: 5
@@ -26045,8 +26046,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 30, y: -34}
-  m_SizeDelta: {x: 57.4, y: 37}
+  m_AnchoredPosition: {x: 62.1, y: -34}
+  m_SizeDelta: {x: 91.2377, y: 37}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &923902656
 Animator:
@@ -26133,6 +26134,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 923902654}
   m_CullTransparentMesh: 1
+--- !u!114 &923902659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923902654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 01d1591d6823a430689014e5c9b7454b, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &931911444
 GameObject:
   m_ObjectHideFlags: 0
@@ -42607,8 +42638,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 32.68317, y: 0}
-  m_SizeDelta: {x: 38.9663, y: 12}
+  m_AnchoredPosition: {x: 17.1, y: 0}
+  m_SizeDelta: {x: 63.9245, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1541074791
 MonoBehaviour:
@@ -42630,7 +42661,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Perfil
+  m_text: Descubrir
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 78bbef901bf1aa74f8b0d11d4a9fcba7, type: 2}
   m_sharedMaterial: {fileID: 2553850583369153244, guid: 78bbef901bf1aa74f8b0d11d4a9fcba7, type: 2}
@@ -49341,7 +49372,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 3.8999023, y: 1.5896997}
+  m_AnchoredPosition: {x: 3.89991, y: 1.5896997}
   m_SizeDelta: {x: 0, y: -6.1793}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1805170843
@@ -56862,7 +56893,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -28.062307, y: 0}
   m_SizeDelta: {x: 24, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2120745643
@@ -61385,7 +61416,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5794007413415257779}
         m_TargetAssemblyTypeName: ProfileViewModel, Scripts
-        m_MethodName: OnClick_BackButton
+        m_MethodName: OnClick_BackButtonSurf
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
