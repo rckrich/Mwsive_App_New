@@ -77,7 +77,7 @@ public class Descubrir_ViewModel : ViewModel
         MwsiveConnectionManager.instance.GetRecommendedPlaylists(Callback_GetRecommendedPlaylists);
         MwsiveConnectionManager.instance.GetRecommendedTracks(Callback_GetRecommendedTracks);
         MwsiveConnectionManager.instance.GetRecommendedAlbums(Callback_GetRecommendedAlbums);
-        //MwsiveConnectionManager.instance.GetGenres(Callback_GetGenres);
+        MwsiveConnectionManager.instance.GetGenres(Callback_GetGenres);
 
 
 #if PLATFORM_ANDROID
@@ -247,7 +247,20 @@ public class Descubrir_ViewModel : ViewModel
 
     private void Callback_GetGenres(object[] _list)
     {
+        MwsiveGenresRoot mwsiveGenresRoot = (MwsiveGenresRoot)_list[1];
 
+        int maxSpawnCounter = 0;
+
+        for (int i = 0; i < mwsiveGenresRoot.genres.Count; i++)
+        {
+            if (maxSpawnCounter < MAXIMUM_HORIZONTAL_SCROLL_SPAWNS)
+            {
+                GameObject playlistInstance = GameObject.Instantiate(genrePrefab, genreScrollContent);
+                GenreAppObject genre = playlistInstance.GetComponent<GenreAppObject>();
+                genre.Initialize(mwsiveGenresRoot.genres[i].genre.name, mwsiveGenresRoot.genres[i].mwsive_tracks);
+                maxSpawnCounter++;
+            }
+        }
     }
 
     public void Search(){

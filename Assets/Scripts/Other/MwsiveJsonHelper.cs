@@ -218,12 +218,23 @@ public class RecommendedAlbum
     public DateTime updated_at { get; set; }
 }
 
+public class MwsiveGenre
+{
+    public int id { get; set; }
+    public int order { get; set; }
+    public int genre_id { get; set; }
+    public DateTime created_at { get; set; }
+    public DateTime updated_at { get; set; }
+    public List<MwsiveTrack> mwsive_tracks { get; set; }
+    public Genre genre { get; set; }
+}
+
 public class Genre
 {
     public int id { get; set; }
     public string name { get; set; }
-    public int order { get; set; }
-    public MwsiveTrack[] tracks { get; set; }
+    public DateTime created_at { get; set; }
+    public DateTime? updated_at { get; set; }
 }
 
 #endregion
@@ -320,7 +331,7 @@ public class MwsiveRecommendedAlbumsRoot
 
 public class MwsiveGenresRoot
 {
-    public List<Genre> genres { get; set; }
+    public List<MwsiveGenre> genres { get; set; }
 }
 
 public class TrackActionRoot
