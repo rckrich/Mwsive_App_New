@@ -42,6 +42,7 @@ public class ArtistAppObject : AppObject
 
     public void OnClick_ArtistAppObject()
     {
-        //NewScreenManager.instance.ChangeToSpawnedView("artist");
+        if(artist != null && artist.external_urls != null && !artist.external_urls.spotify.Equals(""))
+            Application.OpenURL(artist.external_urls.spotify);
     }
 }
