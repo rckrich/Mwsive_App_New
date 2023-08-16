@@ -74,10 +74,10 @@ public class Descubrir_ViewModel : ViewModel
         //MwsiveConnectionManager.instance.GetChallenges(Callback_GetChallenges);
         MwsiveConnectionManager.instance.GetRecommendedCurators(Callback_GetRecommendedCurators);
         MwsiveConnectionManager.instance.GetRecommendedArtists(Callback_GetRecommendedArtists);
-        //MwsiveConnectionManager.instance.GetRecommendedPlaylists(Callback_GetRecommendedPlaylists);
+        MwsiveConnectionManager.instance.GetRecommendedPlaylists(Callback_GetRecommendedPlaylists);
         MwsiveConnectionManager.instance.GetRecommendedTracks(Callback_GetRecommendedTracks);
         MwsiveConnectionManager.instance.GetRecommendedAlbums(Callback_GetRecommendedAlbums);
-        MwsiveConnectionManager.instance.GetGenres(Callback_GetGenres);
+        //MwsiveConnectionManager.instance.GetGenres(Callback_GetGenres);
 
 
 #if PLATFORM_ANDROID
@@ -159,7 +159,20 @@ public class Descubrir_ViewModel : ViewModel
 
     private void Callback_GetRecommendedPlaylists(object[] _list)
     {
-        MwsiveConnectionManager.instance.GetRecommendedTracks(Callback_GetRecommendedTracks);
+        MwsiveRecommendedPlaylistsRoot mwsiveRecommendedPlaylistsRoot = (MwsiveRecommendedPlaylistsRoot)_list[1];
+
+        int maxSpawnCounter = 0;
+
+        for (int i = 0; i < mwsiveRecommendedPlaylistsRoot.playlists.Count; i++)
+        {
+            if (maxSpawnCounter < MAXIMUM_HORIZONTAL_SCROLL_SPAWNS)
+            {
+                GameObject playlistInstance = GameObject.Instantiate(playlistPrefab, playlistScrollContent);
+                PlaylistAppObject playlist = playlistInstance.GetComponent<PlaylistAppObject>();
+                playlist.Initialize(mwsiveRecommendedPlaylistsRoot.playlists[i].name, mwsiveRecommendedPlaylistsRoot.playlists[i].mwsive_tracks);
+                maxSpawnCounter++;
+            }
+        }
     }
 
     private void Callback_GetRecommendedTracks(object[] _list)
@@ -181,11 +194,11 @@ public class Descubrir_ViewModel : ViewModel
 
         if (tracks_ids.Length > 0)
         {
-            SpotifyConnectionManager.instance.GetSeveralTracks(tracks_ids, Callback_GetSeveralTracks);
+            SpotifyConnectionManager.instance.GetSeveralTracks(tracks_ids, Callback_GetSeveralTracksForRecommendedTracks);
         }
     }
 
-    private void Callback_GetSeveralTracks(object[] _list)
+    private void Callback_GetSeveralTracksForRecommendedTracks(object[] _list)
     {
 
         SeveralTrackRoot severalTrackRoot = (SeveralTrackRoot)_list[1];

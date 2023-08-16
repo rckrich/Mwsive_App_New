@@ -68,6 +68,23 @@ public class MwsiveTrack
     public DateTime created_at { get; set; }
     public DateTime updated_at { get; set; }
     public object track { get; set; }
+    public Pivot pivot { get; set; }
+}
+
+public class MwsivePlaylist
+{
+    public int id { get; set; }
+    public string name { get; set; }
+    public int order { get; set; }
+    public DateTime created_at { get; set; }
+    public DateTime updated_at { get; set; }
+    public List<MwsiveTrack> mwsive_tracks { get; set; }
+}
+
+public class Pivot
+{
+    public int playlist_id { get; set; }
+    public int mwsive_track_id { get; set; }
 }
 
 public class Action
@@ -173,10 +190,12 @@ public class RecommendedArtist
 
 public class RecommendedPlaylist
 {
-    public string id { get; set; }
+    public int id { get; set; }
     public string name { get; set; }
     public int order { get; set; }
-    public MwsiveTrack[] tracks { get; set; }
+    public DateTime created_at { get; set; }
+    public DateTime updated_at { get; set; }
+    public List<MwsiveTrack> mwsive_tracks { get; set; }
 }
 
 public class RecommendedTrack

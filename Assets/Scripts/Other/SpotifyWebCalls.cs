@@ -14,7 +14,7 @@ public static class SpotifyWebCalls
     {
         string jsonResult = "";
 
-        string url = "https://api.spotify.com/v1/playlists/" + _user_id;
+        string url = "https://api.spotify.com/v1/users/" + _user_id;
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
