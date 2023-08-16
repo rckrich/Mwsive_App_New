@@ -1055,4 +1055,9 @@ public class Descubrir_ViewModel : ViewModel
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.TopCuratorsViewModel);
     }
+
+    public void OnClick_VerMasSongs()
+    {
+        NewScreenManager.instance.ChangeToMainView(ViewID.TopSongsViewModel);
+    }
 }
