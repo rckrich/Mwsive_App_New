@@ -70,9 +70,15 @@ public class Descubrir_ViewModel : ViewModel
 
     public override void Initialize(params object[] list)
     {
-        StartSearch();
+        //StartSearch();
         //MwsiveConnectionManager.instance.GetChallenges(Callback_GetChallenges);
         MwsiveConnectionManager.instance.GetRecommendedCurators(Callback_GetRecommendedCurators);
+        MwsiveConnectionManager.instance.GetRecommendedArtists(Callback_GetRecommendedArtists);
+        //MwsiveConnectionManager.instance.GetRecommendedPlaylists(Callback_GetRecommendedPlaylists);
+        MwsiveConnectionManager.instance.GetRecommendedTracks(Callback_GetRecommendedTracks);
+        MwsiveConnectionManager.instance.GetRecommendedAlbums(Callback_GetRecommendedAlbums);
+        MwsiveConnectionManager.instance.GetGenres(Callback_GetGenres);
+
 
 #if PLATFORM_ANDROID
         if (Application.platform == RuntimePlatform.Android)
@@ -114,8 +120,6 @@ public class Descubrir_ViewModel : ViewModel
                 maxSpawnCounter++;
             }
         }
-
-        MwsiveConnectionManager.instance.GetRecommendedArtists(Callback_GetRecommendedArtists);
     }
 
     private void Callback_GetRecommendedArtists(object[] _list)
@@ -135,8 +139,10 @@ public class Descubrir_ViewModel : ViewModel
             }
         }
 
-        Debug.Log(artists_ids);
-        SpotifyConnectionManager.instance.GetSeveralArtists(artists_ids, Callback_GetSeveralArtists);
+        if(artists_ids.Length > 0)
+        {
+            SpotifyConnectionManager.instance.GetSeveralArtists(artists_ids, Callback_GetSeveralArtists);
+        }
     }
 
     private void Callback_GetSeveralArtists(object[] _list)
@@ -149,9 +155,6 @@ public class Descubrir_ViewModel : ViewModel
             ArtistAppObject artists = artistInstance.GetComponent<ArtistAppObject>();
             artists.Initialize(artist);
         }
-
-        //MwsiveConnectionManager.instance.GetRecommendedPlaylists(Callback_GetRecommendedPlaylists);
-        MwsiveConnectionManager.instance.GetRecommendedTracks(Callback_GetRecommendedTracks);
     }
 
     private void Callback_GetRecommendedPlaylists(object[] _list)
@@ -176,7 +179,10 @@ public class Descubrir_ViewModel : ViewModel
             }
         }
 
-        SpotifyConnectionManager.instance.GetSeveralTracks(tracks_ids, Callback_GetSeveralTracks);
+        if (tracks_ids.Length > 0)
+        {
+            SpotifyConnectionManager.instance.GetSeveralTracks(tracks_ids, Callback_GetSeveralTracks);
+        }
     }
 
     private void Callback_GetSeveralTracks(object[] _list)
@@ -189,8 +195,6 @@ public class Descubrir_ViewModel : ViewModel
             GameObject trackInstance = GameObject.Instantiate(trackPrefab, trackScrollContent);
             trackInstance.GetComponent<TrackAppObject>().Initialize(track);
         }
-
-        MwsiveConnectionManager.instance.GetRecommendedAlbums(Callback_GetRecommendedAlbums);
     }
 
     private void Callback_GetRecommendedAlbums(object[] _list)
@@ -211,7 +215,9 @@ public class Descubrir_ViewModel : ViewModel
             }
         }
 
-        SpotifyConnectionManager.instance.GetSeveralAlbums(albums_ids, Callback_GetSeveralAlbums);
+        if (albums_ids.Length > 0) {
+            SpotifyConnectionManager.instance.GetSeveralAlbums(albums_ids, Callback_GetSeveralAlbums);
+        }
     }
 
     private void Callback_GetSeveralAlbums(object[] _list)
@@ -224,16 +230,11 @@ public class Descubrir_ViewModel : ViewModel
             GameObject trackInstance = GameObject.Instantiate(albumPrefab, albumScrollContent);
             trackInstance.GetComponent<AlbumAppObject>().Initialize(album);
         }
-
-        //MwsiveConnectionManager.instance.GetGenres(Callback_GetGenres);
-
-        //TODO DELETE AFTER GENRES IS DONE
-        EndSearch();
     }
 
-        private void Callback_GetGenres(object[] _list)
+    private void Callback_GetGenres(object[] _list)
     {
-        EndSearch();
+
     }
 
     public void Search(){
