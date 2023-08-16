@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ArtistAppObject : AppObject
+public class TopArtistAppObject : AppObject
 {
     private const int IMAGES_NOT_NULL_INDEX = 0;
 
     public TextMeshProUGUI displayName;
     public Image artistPicture;
+    public TextMeshProUGUI rank;
 
     private Artist artist;
 
@@ -38,6 +39,9 @@ public class ArtistAppObject : AppObject
             if(artist.images.Count > IMAGES_NOT_NULL_INDEX)
                 ImageManager.instance.GetImage(artist.images[0].url, artistPicture, (RectTransform)this.transform);
         }
+
+        rank.text = AppManager.instance.countTopArtist.ToString();
+        AppManager.instance.countTopArtist++;
     }
 
     public void OnClick_ArtistAppObject()

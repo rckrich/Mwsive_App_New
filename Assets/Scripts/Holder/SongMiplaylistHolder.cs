@@ -13,7 +13,7 @@ public class SongMiplaylistHolder : ViewModel
     public TextMeshProUGUI playlistOwner;
     private string spotifyID;
     public PlaylistViewModel playlistViewModel;
-    public SurfMiPlaylistViewModel miPlaylistViewModel;
+    public SongMiPlaylistViewModel miPlaylistViewModel;
     public bool @public;
     public HolderManager holderManager;
     private bool isEnabled;
@@ -32,6 +32,7 @@ public class SongMiplaylistHolder : ViewModel
     }
     public void Initialize(string _playlistName, string _spotifyID, string _owner, ExternalUrls _url)
     {
+
         playlistName.text = _playlistName;
         spotifyID = _spotifyID;
         playlistOwner.text = _owner;      
@@ -72,10 +73,11 @@ public class SongMiplaylistHolder : ViewModel
     public void OnClickSelected()
     {
         if (!isSelected)
-        {
+        {           
             AppManager.instance.ChangeCurrentPlaylist(spotifyID);
             selected.SetActive(true);
             isSelected = true;
+            AppManager.instance.isSelected = isSelected;
         }       
         else
         {

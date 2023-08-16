@@ -10,7 +10,9 @@ public class AlbumAppObject : AppObject
 
     public TextMeshProUGUI displayName;
     public Image albumPicture;
-
+    public TextMeshProUGUI displayAutor;
+    
+    private string artists;
     private Album album;
 
 
@@ -18,7 +20,42 @@ public class AlbumAppObject : AppObject
     {
         album = (Album)list[0];
 
-        displayName.text = album.name;
+        if (album.name.Length > 27)
+        {
+            string _text2 = "";
+            for (int k = 0; k < 27; k++)
+            {
+
+                _text2 = _text2 + album.name[k];
+
+            }
+            _text2 = _text2 + "...";
+            displayName.text = _text2;
+        }
+        else
+        {
+            displayName.text = album.name;
+        }
+
+        artists = "";
+        foreach (Artist artist in album.artists) { artists += artist.name + ", "; }
+
+        if (artists.Length > 27)
+        {
+            string _text2 = "";
+            for (int k = 0; k < 27; k++)
+            {
+
+                _text2 = _text2 + artists[k];
+
+            }
+            _text2 = _text2 + "...";
+            displayAutor.text = _text2;
+        }
+        else
+        {
+            displayAutor.text = artists;
+        }
 
         if (album.images != null)
         {
@@ -31,4 +68,6 @@ public class AlbumAppObject : AppObject
     {
         //NewScreenManager.instance.ChangeToSpawnedView("album");
     }
+
+    
 }

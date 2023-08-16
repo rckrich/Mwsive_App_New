@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class CuratorAppObject : AppObject
+public class TopCuratorAppObject : AppObject
 {
     public TextMeshProUGUI displayName;
     public Image profilePicture;
+    public TextMeshProUGUI rank;
 
     private MwsiveUser mwsiveUser;
 
@@ -32,6 +33,9 @@ public class CuratorAppObject : AppObject
         }
         if (mwsiveUser.image != null)
             ImageManager.instance.GetImage(mwsiveUser.image, profilePicture, (RectTransform)this.transform);
+
+        rank.text = AppManager.instance.countTopCurators.ToString();
+        AppManager.instance.countTopCurators++;
     }
 
     public void OnClick_CuratorAppObject(){

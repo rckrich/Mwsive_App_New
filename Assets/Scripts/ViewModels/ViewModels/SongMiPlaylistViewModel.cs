@@ -14,7 +14,7 @@ public class SongMiPlaylistViewModel : ViewModel
     int onlyone = 0;
     public List<Image> imagenes;
     public List<string> uri;
-    public bool isSelected;
+    public bool isSelected = false;
     
    
 
@@ -57,11 +57,10 @@ public class SongMiPlaylistViewModel : ViewModel
         
     }
      public void OnClickDone()
-    {
-
-        uri[0] = AppManager.instance.uri;
-        isSelected = playlistHolderPrefab.GetComponent<SongMiplaylistHolder>().isSelected;
-        if (!uri[0].Equals("")&& isSelected)
+     {
+        isSelected = AppManager.instance.isSelected;
+        uri[0] = AppManager.instance.uri;       
+        if (!uri[0].Equals("") && isSelected)
         {
             SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uri, Callback_OnCLick_AddItemsToPlaylist);
         }

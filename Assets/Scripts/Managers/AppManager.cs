@@ -27,6 +27,9 @@ public class AppManager : Manager
     public string trackID;
     public string uri;
     public string url;
+    public bool isSelected;
+    public int countTopArtist = 1;
+    public int countTopCurators = 1;
 
 #if PLATFORM_ANDROID
     private System.Action androidBackAction;
@@ -167,7 +170,9 @@ public class AppManager : Manager
     {
         TrackRoot trackRoot = (TrackRoot)_value[1];
         url = trackRoot.external_urls.spotify;
-        uri = trackRoot.uri;
+        uri = trackRoot.uri;       
+        NewScreenManager.instance.ChangeToSpawnedView("listaDeOpciones");
+        EndSearch();
     }
 
     public void RefreshCurrentPlaylistInformation(SpotifyWebCallback _callback)
@@ -188,4 +193,6 @@ public class AppManager : Manager
 
         refreshPlaylistCallback = null;
     }
+
+
 }

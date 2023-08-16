@@ -741,7 +741,7 @@ MonoBehaviour:
   playlistPicture: {fileID: 161412431966382164}
   playlistOwner: {fileID: 6585883793682995579}
   playlistViewModel: {fileID: 3057724479777381238, guid: 81304c47fd2486649b8e8aad023976f5, type: 3}
-  miPlaylistViewModel: {fileID: 1960618545465120682, guid: b80971bbb1c8c6b479bed7bab95de964, type: 3}
+  miPlaylistViewModel: {fileID: 7080279966217288309, guid: b80971bbb1c8c6b479bed7bab95de964, type: 3}
   public: 0
   holderManager: {fileID: 2692963331336141333, guid: 55d500d6e41ab1a48bbb098ee7f2fa5a, type: 3}
   selected: {fileID: 1616517798733214845}
@@ -985,7 +985,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3530620719169401618}
+  - component: {fileID: 1039720688622713811}
   - component: {fileID: 1737875099128480819}
+  - component: {fileID: 7695607902421083464}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1015,6 +1017,36 @@ RectTransform:
   m_AnchoredPosition: {x: 130.5, y: 0}
   m_SizeDelta: {x: 242.95, y: 42.5}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1039720688622713811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8839725010818023963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 01d1591d6823a430689014e5c9b7454b, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &1737875099128480819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1055,7 +1087,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 1039720688622713811}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -1083,3 +1115,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!222 &7695607902421083464
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8839725010818023963}
+  m_CullTransparentMesh: 1

@@ -10,7 +10,7 @@ public class ArrowButtonOnClick : MonoBehaviour
     public Animator animator;
     public int count = 0;
     public GameObject opciones;
-    public GameObject animationManager;
+    
     public List<GameObject> opcionesList;
     void Start()
     {
@@ -40,7 +40,7 @@ public class ArrowButtonOnClick : MonoBehaviour
             count++;
             foreach (var opcion in opcionesList)
             {
-                animationManager.GetComponent<UIAniManager>().FadeIn(opcion);
+                UIAniManager.instance.FadeIn(opcion);
             }
             // animationManager.GetComponent<UIAniManager>().FadeIn(opciones);
             opciones.SetActive(true);

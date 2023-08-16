@@ -28,7 +28,10 @@ public enum ViewID
     EditProfileViewModel,
     RankingViewModel,
     DangerZoneViewModel,
-    ExploreViewModel
+    ExploreViewModel,
+    TopAlbumViewModel,
+    TopArtistViewModel,
+    TopCuratorsViewModel
 }
 
 public enum HTTPMethods

@@ -82,7 +82,23 @@ public class PlaylistViewModel : ViewModel
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
         searchedPlaylist = (SearchedPlaylist)_value[1];
-        playlistName.text = searchedPlaylist.name;
+
+        if (searchedPlaylist.name.Length > 27)
+        {
+            string _text2 = "";
+            for (int k = 0; k < 27; k++)
+            {
+
+                _text2 = _text2 + searchedPlaylist.name[k];
+
+            }
+            _text2 = _text2 + "...";
+            playlistName.text = _text2;
+        }
+        else
+        {
+            playlistName.text = searchedPlaylist.name;
+        }
         InstanceTrackObjects(searchedPlaylist.tracks);
         stringUrl = searchedPlaylist.external_urls.spotify;
        
