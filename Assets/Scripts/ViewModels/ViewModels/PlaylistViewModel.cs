@@ -68,9 +68,6 @@ public class PlaylistViewModel : ViewModel
             }
             
         }
-        Debug.Log(NumberofTracks);
-        Debug.Log(NumberofTracksToCompare);
-
         if (NumberofTracks == NumberofTracksToCompare)
         {
             
@@ -110,6 +107,7 @@ public class PlaylistViewModel : ViewModel
 
         PlaylistRoot playlistRoot = (PlaylistRoot)_value[1];
         NumberofTracks = 0;
+        NumberofTracksToCompare = 0;
         
         foreach (Item item in playlistRoot.items)
         {
@@ -128,10 +126,12 @@ public class PlaylistViewModel : ViewModel
                         NumberofTracks++;
                     }
                 }
-                if (NumberofTracks == playlistRoot.items.Count)
+                NumberofTracksToCompare++;
+                if (NumberofTracks == NumberofTracksToCompare)
                 {
                     SurfButton.SetActive(false);
                 }
+                
             }
             
 

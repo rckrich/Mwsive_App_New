@@ -28,6 +28,7 @@ public class AlbumViewModel : ViewModel
     private AlbumRoot _Album;
     private string image;
     private int NumberofTracks = 0;
+    private int NumberofTracksToCompare = 0;
    
     void Start()
     {
@@ -44,24 +45,29 @@ public class AlbumViewModel : ViewModel
     private void InstanceTrackObjects(Tracks _tracks)
     {
         NumberofTracks = 0;
+        NumberofTracksToCompare = 0;
         foreach (Item item in _tracks.items)
         {
+            if(item != null){
+                TrackHolder instance = GameObject.Instantiate(trackHolderPrefab, instanceParent).GetComponent<TrackHolder>();
+                artists = "";
+                foreach(Artist artist in item.artists) { artists += artist.name + ", "; }
+                
 
-            TrackHolder instance = GameObject.Instantiate(trackHolderPrefab, instanceParent).GetComponent<TrackHolder>();
-            artists = "";
-            foreach(Artist artist in item.artists) { artists += artist.name + ", "; }
-            
-
-            instance.Initialize(item.name, artists, item.id, item.artists[0].id, item.uri, item.preview_url, item.external_urls); 
-            
-            instance.SetImage(image);
-            if(item.preview_url == null){
+                instance.Initialize(item.name, artists, item.id, item.artists[0].id, item.uri, item.preview_url, item.external_urls); 
+                
+                instance.SetImage(image);
+                if(item.preview_url == null){
                     instance.PreviewUrlGrey();
                     NumberofTracks++;
                 }
-            offset++;
+
+                NumberofTracksToCompare++;
+                offset++;
+            }
+            
         }
-        if(NumberofTracks == _tracks.items.Count){
+        if(NumberofTracks == NumberofTracksToCompare){
             SurfButton.SetActive(false);
         }
         
@@ -101,22 +107,32 @@ public class AlbumViewModel : ViewModel
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
         PlaylistRoot playlistRoot = (PlaylistRoot)_value[1];
-
+        
         foreach (Item item in playlistRoot.items)
         {
-            TrackHolder instance = GameObject.Instantiate(trackHolderPrefab, instanceParent).GetComponent<TrackHolder>();
-            artists = "";
-            foreach (Artist artist in item.track.artists) { artists += artist.name + ", "; }
-            instance.Initialize(item.track.name, artists, item.track.id, item.track.artists[0].id, item.track.uri, item.track.preview_url, item.track.external_urls);
-            if (item.track.album.images != null && item.track.album.images.Count > 0)
-                instance.SetImage(item.track.album.images[0].url);
+            if(item != null){
+                TrackHolder instance = GameObject.Instantiate(trackHolderPrefab, instanceParent).GetComponent<TrackHolder>();
+                artists = "";
+                foreach (Artist artist in item.track.artists) { artists += artist.name + ", "; }
+                
+                instance.Initialize(item.track.name, artists, item.track.id, item.track.artists[0].id, item.track.uri, item.track.preview_url, item.track.external_urls);
+                
+                if (item.track.album.images != null && item.track.album.images.Count > 0){
+                    instance.SetImage(item.track.album.images[0].url);
+                }
+                    
+
                 if(item.track.preview_url == null){
                     instance.PreviewUrlGrey();
                     NumberofTracks++;
                 }
+                NumberofTracksToCompare++;
+            }
+            
         }
+
         onlyone = 0;
-        if(NumberofTracks == playlistRoot.items.Count){
+        if(NumberofTracks == NumberofTracksToCompare){
             SurfButton.SetActive(false);
         }
 
