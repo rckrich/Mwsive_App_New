@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TopPlaylistViewModel : ViewModel
+public class TopAlbumViewModel : ViewModel
 {
     public GameObject albumPrefab;
     public Transform albumScrollContent;
