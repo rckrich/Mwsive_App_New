@@ -33,15 +33,13 @@ public class TopArtistViewModel : ViewModel
         foreach (Artist artist in severalArtistRoot.artists)
         {
             GameObject artistInstance = GameObject.Instantiate(artistPrefab, artistScrollContent);
-            TopArtistViewModel artists = artistInstance.GetComponent<TopArtistViewModel>();
+            TopArtistAppObject artists = artistInstance.GetComponent<TopArtistAppObject>();
             artists.Initialize(artist);
-            artistPrefab.GetComponent<TopArtistViewModel>().count = count;
-            count++;
         }
     }
 
     public void OnClick_BackButton()
     {
-        NewScreenManager.instance.BackToPreviousView();
+        NewScreenManager.instance.ChangeToMainView(ViewID.ExploreViewModel);
     }
 }

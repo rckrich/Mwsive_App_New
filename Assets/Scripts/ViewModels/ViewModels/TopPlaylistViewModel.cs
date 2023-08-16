@@ -50,6 +50,6 @@ public class TopPlaylistViewModel : ViewModel
 
     public void OnClick_BackButton()
     {
-        NewScreenManager.instance.BackToPreviousView();
+        NewScreenManager.instance.ChangeToMainView(ViewID.ExploreViewModel);
     }
 }

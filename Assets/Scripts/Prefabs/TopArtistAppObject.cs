@@ -11,7 +11,7 @@ public class TopArtistAppObject : AppObject
     public TextMeshProUGUI displayName;
     public Image artistPicture;
     public TextMeshProUGUI rank;
-    public int rankInt;
+
     private Artist artist;
 
     public override void Initialize(params object[] list)
@@ -40,7 +40,8 @@ public class TopArtistAppObject : AppObject
                 ImageManager.instance.GetImage(artist.images[0].url, artistPicture, (RectTransform)this.transform);
         }
 
-        rank.text = rankInt.ToString();
+        rank.text = AppManager.instance.countTopArtist.ToString();
+        AppManager.instance.countTopArtist++;
     }
 
     public void OnClick_ArtistAppObject()

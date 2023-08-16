@@ -27,6 +27,8 @@ public class AppManager : Manager
     public string uri;
     public string url;
     public bool isSelected;
+    public int countTopArtist = 1;
+    public int countTopCurators = 1;
 
     public SelectedPlaylistNameAppObject appObject;
     public ButtonSurfPlaylist buttonSurfPlaylist;
@@ -161,4 +163,6 @@ public class AppManager : Manager
 
         refreshPlaylistCallback = null;
     }
+
+
 }
