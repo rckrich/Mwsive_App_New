@@ -10336,6 +10336,7 @@ MonoBehaviour:
   viewID: 25
   networkLoadingCanvas: {fileID: 0}
   scrollViewContent: {fileID: 0}
+  finishedLoading: 1
 --- !u!1 &435387935
 GameObject:
   m_ObjectHideFlags: 0
@@ -12350,6 +12351,7 @@ MonoBehaviour:
   viewID: 22
   networkLoadingCanvas: {fileID: 0}
   scrollViewContent: {fileID: 0}
+  finishedLoading: 1
   scrollRect: {fileID: 0}
   offset: 1
   FollowersHolderPrefab: {fileID: 0}
@@ -13902,6 +13904,7 @@ MonoBehaviour:
   viewID: 21
   networkLoadingCanvas: {fileID: 0}
   scrollViewContent: {fileID: 0}
+  finishedLoading: 1
 --- !u!1 &575412073
 GameObject:
   m_ObjectHideFlags: 0
@@ -23193,6 +23196,7 @@ MonoBehaviour:
   viewID: 1
   networkLoadingCanvas: {fileID: 0}
   scrollViewContent: {fileID: 1735840733}
+  finishedLoading: 1
   messageOnlyPopUpTitleText: {fileID: 964595292}
   messageOnlyPopUpBodyText: {fileID: 297901089}
   messageOnlyPopUpActionButtonText: {fileID: 1602508124}
@@ -33173,6 +33177,7 @@ MonoBehaviour:
   viewID: 23
   networkLoadingCanvas: {fileID: 0}
   scrollViewContent: {fileID: 0}
+  finishedLoading: 1
 --- !u!1 &1371825007
 GameObject:
   m_ObjectHideFlags: 0
@@ -39325,12 +39330,14 @@ MonoBehaviour:
   viewID: 24
   networkLoadingCanvas: {fileID: 0}
   scrollViewContent: {fileID: 640084402}
+  finishedLoading: 1
   instanceParentTransform: {fileID: 0}
   instancePrefabReference: {fileID: 0}
   nothingOnListMessageReference: {fileID: 0}
   instancesGroupReference: {fileID: 0}
   selectTimePanel: {fileID: 1052664336}
   timeTypeText: {fileID: 779512247}
+  surfManager: {fileID: 0}
 --- !u!1 &1597375745
 GameObject:
   m_ObjectHideFlags: 0
@@ -42111,6 +42118,7 @@ MonoBehaviour:
   viewID: 17
   networkLoadingCanvas: {fileID: 0}
   scrollViewContent: {fileID: 0}
+  finishedLoading: 1
   descubrir: {fileID: 1710936932}
   explorar: {fileID: 172834490}
   ranking: {fileID: 1085437837}
@@ -44523,7 +44531,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 3.89991, y: 1.5896997}
+  m_AnchoredPosition: {x: 3.8999023, y: 1.5896997}
   m_SizeDelta: {x: 0, y: -6.1793}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1805170843
@@ -49740,6 +49748,7 @@ MonoBehaviour:
   viewID: 26
   networkLoadingCanvas: {fileID: 0}
   scrollViewContent: {fileID: 0}
+  finishedLoading: 1
   Descubrir: {fileID: 1945955473}
   Prefabs:
   - {fileID: 6457824725715141589, guid: b638ae79de9f8414f986c3e29d0a71e5, type: 3}
@@ -50659,11 +50668,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3774412406713809916, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300.32086
+      value: 276.92307
       objectReference: {fileID: 0}
     - target: {fileID: 3774412406713809916, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 150.16043
+      value: 138.46153
       objectReference: {fileID: 0}
     - target: {fileID: 3774412406713809916, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -50771,7 +50780,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3774412406772402502, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300.32086
+      value: 276.92307
       objectReference: {fileID: 0}
     - target: {fileID: 3774412406772402502, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_SizeDelta.y
@@ -50779,7 +50788,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3774412406772402502, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 150.16043
+      value: 138.46153
       objectReference: {fileID: 0}
     - target: {fileID: 3774412406772402502, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -50795,11 +50804,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3774412406853419431, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300.32086
+      value: 276.92307
       objectReference: {fileID: 0}
     - target: {fileID: 3774412406853419431, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 150.16043
+      value: 138.46153
       objectReference: {fileID: 0}
     - target: {fileID: 3774412406853419431, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -50815,11 +50824,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3774412406859455431, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300.32086
+      value: 276.92307
       objectReference: {fileID: 0}
     - target: {fileID: 3774412406859455431, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 150.16043
+      value: 138.46153
       objectReference: {fileID: 0}
     - target: {fileID: 3774412406859455431, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -50870,6 +50879,10 @@ PrefabInstance:
       value: Back_Button
       objectReference: {fileID: 0}
     - target: {fileID: 3774412407232534451, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
+      propertyPath: m_TargetGraphic
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3774412407232534451, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2090215644}
@@ -50887,11 +50900,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3774412407383860948, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300.32086
+      value: 276.92307
       objectReference: {fileID: 0}
     - target: {fileID: 3774412407383860948, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 150.16043
+      value: 138.46153
       objectReference: {fileID: 0}
     - target: {fileID: 3774412407383860948, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -50935,11 +50948,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3774412407923393879, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300.32086
+      value: 276.92307
       objectReference: {fileID: 0}
     - target: {fileID: 3774412407923393879, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 150.16043
+      value: 138.46153
       objectReference: {fileID: 0}
     - target: {fileID: 3774412407923393879, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -50983,7 +50996,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3774412408229786248, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300.32086
+      value: 276.92307
       objectReference: {fileID: 0}
     - target: {fileID: 3774412408229786248, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_SizeDelta.y
@@ -50991,7 +51004,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3774412408229786248, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 150.16043
+      value: 138.46153
       objectReference: {fileID: 0}
     - target: {fileID: 3774412408229786248, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -50999,7 +51012,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3774412408279276663, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 503.2589
+      value: 503.25897
       objectReference: {fileID: 0}
     - target: {fileID: 3774412408397873355, guid: 56a96ace9c397b846ae78219074ac4fd, type: 3}
       propertyPath: m_SizeDelta.y
@@ -53256,6 +53269,7 @@ MonoBehaviour:
   viewID: 18
   networkLoadingCanvas: {fileID: 0}
   scrollViewContent: {fileID: 0}
+  finishedLoading: 1
   surfManager: {fileID: 477183352}
   profilePicture: {fileID: 5666101168672591407}
   buttonSurfPlaylist: {fileID: 3127403020811223483, guid: d3d8010569ce88c42889d1ec0cddc425, type: 3}

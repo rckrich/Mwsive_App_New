@@ -12,6 +12,9 @@ public class ProfileViewModel : ViewModel
     public Transform instanceParent;
     public GameObject surfManager;
 
+    public TextMeshProUGUI followersText;
+    public TextMeshProUGUI followedText;
+
     private string profileId = "";
 
     public override void Initialize(params object[] list)
@@ -21,7 +24,6 @@ public class ProfileViewModel : ViewModel
 
         if (ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted)
         {
-            
             GetUserBasedOnEmptyProfileID(profileId);
         }
         else
@@ -39,6 +41,18 @@ public class ProfileViewModel : ViewModel
                 NewScreenManager.instance.BackToPreviousView();
             });
         }
+
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading) {
+                    OnClick_BackButton();
+                }
+                AppManager.instance.SetAndroidBackAction(null);
+            });
+        }
+#endif
     }
 
     private void Callback_ProfileViewModelInitialize(object[] list)
@@ -113,7 +127,10 @@ public class ProfileViewModel : ViewModel
             }
         }
 
+        MwsiveConnectionManager.instance.GetFollowers(Callback_GetFollowers);
+        MwsiveConnectionManager.instance.GetFollowed(Callback_GetFollowed);
         GetCurrentUserPlaylists();
+
     }
 
     public void GetCurrentUserPlaylists()
@@ -135,8 +152,26 @@ public class ProfileViewModel : ViewModel
             if (playlistRoot.items[i].images != null && playlistRoot.items[i].images.Count > 0)
                 instance.SetImage(playlistRoot.items[i].images[0].url);
         }
+
         EndSearch();
     }
+
+    private void Callback_GetFollowers(object[] _value)
+    {
+        MwsiveFollowersRoot mwsiveFollowersRoot = (MwsiveFollowersRoot)_value[1];
+
+        followersText.text = (mwsiveFollowersRoot.followers != null) ? mwsiveFollowersRoot.followers.Count.ToString() : "-";
+
+    }
+
+    private void Callback_GetFollowed(object[] _value)
+    {
+        MwsiveFollowedRoot mwsiveFollowingRoot = (MwsiveFollowedRoot)_value[1];
+
+        followedText.text = (mwsiveFollowingRoot.followed != null) ? mwsiveFollowingRoot.followed.Count.ToString() : "-";
+
+    }
+
     public void OnClick_BackButton()
     {
         surfManager.SetActive(true);

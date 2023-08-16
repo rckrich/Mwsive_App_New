@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class AppManager : Manager
 {
@@ -27,6 +28,10 @@ public class AppManager : Manager
     public string uri;
     public string url;
 
+#if PLATFORM_ANDROID
+    private System.Action androidBackAction;
+#endif
+
     public SelectedPlaylistNameAppObject appObject;
     public ButtonSurfPlaylist buttonSurfPlaylist;
 
@@ -45,6 +50,31 @@ public class AppManager : Manager
             SpotifyConnectionManager.instance.GetPlaylist(TOP_GLOBAL_PLAYLIST_ID, Callback_GetTopPlaylist);
         }
     }
+
+#if PLATFORM_ANDROID
+    public void Update()
+    {
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                if (androidBackAction != null) {
+                    androidBackAction();
+                }
+            }
+        }
+    }
+
+    public void SetAndroidBackAction(System.Action action)
+    {
+        this.androidBackAction = action;
+    }
+
+    public void ResetAndroidBackAction()
+    {
+        this.androidBackAction = null;
+    }
+#endif
 
     public void ChangeCurrentPlaylist(SearchedPlaylist _searchedPlaylist)
     {

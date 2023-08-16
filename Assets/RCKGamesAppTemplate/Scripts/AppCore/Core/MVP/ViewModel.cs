@@ -17,6 +17,8 @@ public abstract class ViewModel : AppObject
 
     [SerializeField]
     public System.Action backAction;
+    [HideInInspector]
+    public bool finishedLoading = true;
 
     protected Presenter presenter;
 
@@ -82,13 +84,16 @@ public abstract class ViewModel : AppObject
 
     protected virtual IEnumerator CR_StartSearch()
     {
-        if(networkLoadingCanvas == null)
+        finishedLoading = false;
+
+        if (networkLoadingCanvas == null)
             networkLoadingCanvas = GameObject.FindWithTag("NetworkLoadingCanvas");
 
         if (networkLoadingCanvas != null)
         {
             networkLoadingCanvas.transform.GetChild(0).gameObject.SetActive(true);
         }
+
         yield return null;
     }
 
@@ -113,6 +118,8 @@ public abstract class ViewModel : AppObject
                 
         }
 
+        finishedLoading = true;
+
         yield return null;
     }
 
@@ -126,6 +133,8 @@ public abstract class ViewModel : AppObject
             networkLoadingCanvas.transform.GetChild(0).gameObject.SetActive(false);
             CallPopUP(PopUpViewModelTypes.MessageOnly, popUpTitle, popUpMessage);
         }
+
+        finishedLoading = true;
 
         yield return null;
     }

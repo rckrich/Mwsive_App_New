@@ -538,7 +538,8 @@ public class SpotifyConnectionManager : Manager
 
         if (ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted)
         {
-            ResetToken();
+            //Uncomment if it doesn't work with refresh token
+            //ResetToken();
             StartConnection();
         }
         else

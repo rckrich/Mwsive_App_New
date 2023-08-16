@@ -497,8 +497,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/me/followers" + _offset.ToString() + "/" + _limit.ToString();
-        string url = "http://192.241.129.184/api/me/followers" + _offset.ToString() + "/" + _limit.ToString();
+        //string url = "https://mwsive.com/me/followers/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "http://192.241.129.184/api/me/followers/" + _offset.ToString() + "/" + _limit.ToString();
 
         /*Dictionary<string, string> parameters = new Dictionary<string, string>();
         parameters.Add("offset", _offset.ToString());
@@ -549,8 +549,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/me/following" + _offset.ToString() + "/" + _limit.ToString();
-        string url = "http://192.241.129.184/api/me/following" + _offset.ToString() + "/" + _limit.ToString();
+        //string url = "https://mwsive.com/me/followed/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "http://192.241.129.184/api/me/followed/" + _offset.ToString() + "/" + _limit.ToString();
 
         /*Dictionary<string, string> parameters = new Dictionary<string, string>();
         parameters.Add("offset", _offset.ToString());
@@ -585,8 +585,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch Mwsive followers result: " + jsonResult);
-                    MwsiveFollowingRoot mwsiveFollowingRoot = JsonConvert.DeserializeObject<MwsiveFollowingRoot>(jsonResult);
-                    _callback(new object[] { webRequest.responseCode, mwsiveFollowingRoot });
+                    MwsiveFollowedRoot mwsiveFollowedRoot = JsonConvert.DeserializeObject<MwsiveFollowedRoot>(jsonResult);
+                    _callback(new object[] { webRequest.responseCode, mwsiveFollowedRoot });
                     yield break;
                 }
             }

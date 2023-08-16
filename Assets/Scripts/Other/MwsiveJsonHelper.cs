@@ -238,9 +238,9 @@ public class MwsiveFollowersRoot
     public List<MwsiveUser> followers { get; set; }
 }
 
-public class MwsiveFollowingRoot
+public class MwsiveFollowedRoot
 {
-    public List<MwsiveUser> followers { get; set; }
+    public List<MwsiveUser> followed { get; set; }
 }
 
 public class MwsiveBadgesRoot
