@@ -23,23 +23,23 @@ public class TrackHolder : ViewModel
 
     public void Initialize(string _trackName, string _artistName, string _trackSpotifyID, string _artistId, string _uri, string _previewURL, ExternalUrls _url)
     {
-        if (_trackName.Length > 27)
-        {
-            string _text2 = "";
-            for (int k = 0; k < 27; k++)
+        if(_trackName != null){
+            if (_trackName.Length > 27)
             {
-
-                _text2 = _text2 + _trackName[k];
-
+                string _text2 = "";
+                for (int i = 0; i < 27; i++)
+                {
+                    _text2 = _text2 + _trackName[i];
+                }
+                _text2 = _text2 + "...";
+                trackName.text = _text2;
             }
-            _text2 = _text2 + "...";
-            trackName.text = _text2;
+            else
+            {
+                trackName.text = _trackName;
+            }
         }
-        else
-        {
-            trackName.text = _trackName;
-        }
-        trackName.text = _trackName;
+        
         artistName.text = _artistName;
         trackSpotifyID = _trackSpotifyID;
         artistId = _artistId;
@@ -50,21 +50,21 @@ public class TrackHolder : ViewModel
 
     public void Initialize(string _trackName, string _artistName,  string _artistId, string _uri, string _previewURL, string _trackSpotifyID, ExternalUrls _url,string _pictureURL)
     {
-        if (_trackName.Length > 27)
-        {
-            string _text2 = "";
-            for (int k = 0; k < 27; k++)
+        if(_trackName != null){
+            if (_trackName.Length > 27)
             {
-
-                _text2 = _text2 + _trackName[k];
-
+                string _text2 = "";
+                for (int i = 0; i < 27; i++)
+                {
+                    _text2 = _text2 + _trackName[i];
+                }
+                _text2 = _text2 + "...";
+                trackName.text = _text2;
             }
-            _text2 = _text2 + "...";
-            trackName.text = _text2;
-        }
-        else
-        {
-            trackName.text = _trackName;
+            else
+            {
+                trackName.text = _trackName;
+            }
         }
         artistName.text = _artistName;
         trackSpotifyID = _trackSpotifyID;
@@ -105,7 +105,7 @@ public class TrackHolder : ViewModel
     {
         addSongOptions.trackID = trackSpotifyID;
         AppManager.instance.GetTrack(trackSpotifyID);
-        StartSearch();
+        NewScreenManager.instance.ChangeToSpawnedView("listaDeOpciones");
      
     }
 }

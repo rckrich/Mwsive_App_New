@@ -197,6 +197,7 @@ public class ProfileViewModel : ViewModel
     {
         
         OpenView(ViewID.SurfViewModel);
+        
     }
 
     private void OpenView(ViewID _value)
