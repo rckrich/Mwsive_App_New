@@ -70,9 +70,10 @@ public class PlaylistViewModel : ViewModel
         }
         if (NumberofTracks == NumberofTracksToCompare)
         {
-            
-
             SurfButton.SetActive(false);
+        }
+        if(_tracks.items.Count == 0){
+            UIMessage.instance.UIMessageInstanciate("Esta Playlist esta vacia");
         }
     }
     

@@ -34,15 +34,19 @@ public class SpotifyPreviewAudioManager : MonoBehaviour
 
     public void StopTrack()
     {
+
+        Debug.Log("STOPSTOPSTOPSTPOSTOPSTOPSTOP");
         if (audioSource.isPlaying)
         {
             audioSource.Stop();
+            isPaused = true;
             
         }
     }
 
     public void Pause()
     {
+        Debug.Log(isPaused);
         if (isPaused)
         {
             audioSource.Play();
@@ -81,6 +85,7 @@ public class SpotifyPreviewAudioManager : MonoBehaviour
                 audioSource.clip = audioClip;
                 audioSource.time = 0f;
                 audioSource.Play();
+                isPaused = false;   
 
                 if (_callback != null)
                     _callback(new object[] { audioClip.length });

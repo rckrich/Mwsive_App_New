@@ -253,7 +253,7 @@ public class SurfManager : Manager
         Controller.transform.position = new Vector2(ControllerPostion.x,ControllerPostion.y);
         if(CurrentPosition > 0){
             Success = true;
-            DOTween.CompleteAll(true);
+            
             UIAniManager.instance.SurfVerticalUp(MwsiveSongs[CurrentPosition],1, MaxRotation, 0,false);
             
             UIAniManager.instance.SurfTransitionBackSong(MwsiveSongs[CurrentPosition-1], RestPositions[0]);
@@ -283,11 +283,13 @@ public class SurfManager : Manager
             Controller.vertical =true;
             Controller.transform.position = new Vector2(ControllerPostion.x,ControllerPostion.y);
             if(CurrentPosition < MwsiveSongs.Count-4){
-                 Success = true;
+                Success = true;
+                
                 UIAniManager.instance.SurfVerticalDown(MwsiveSongs[CurrentPosition],1, -MaxRotation, 0,true);
 
                 UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[0], 1);
                 UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+2], RestPositions[1], 1);
+                
                 UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[2], 1);
                 
                 CurrentPosition++;
@@ -635,7 +637,9 @@ public class SurfManager : Manager
         }
     }
 
-
+    public void MainSceneProfile_OnClick(){
+        GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+    }
 
     public void CheckDoubleClick(){
         /*

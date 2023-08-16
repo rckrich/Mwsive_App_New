@@ -599,6 +599,7 @@ public class UIAniManager : MonoBehaviour
 
 
     public void SurfTransitionOtherSongs(GameObject GA, GameObject Position, float var){
+        DOTween.Kill(GA);
         float fade = Mathf.Clamp(var*2, 0, 1);
         GA.SetActive(true);
         GA.transform.DOMove(Position.transform.position, SurfTransitionDuration, false);

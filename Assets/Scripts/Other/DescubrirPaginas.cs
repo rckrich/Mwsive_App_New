@@ -14,9 +14,11 @@ public class DescubrirPaginas : MonoBehaviour
     public int numEnpantalla;
     
     public List<GameObject> images = new List<GameObject>();
+    public List<GameObject> ResultsText = new List<GameObject>();
     
     public Sprite sprite;
     public Sprite sprite2;
+    public Descubrir_ViewModel _Descubrir;
 
     public void ChangeWindow()
     {
@@ -35,12 +37,14 @@ public class DescubrirPaginas : MonoBehaviour
     {
         if(numero != numEnpantalla)
         {
+            _Descubrir.KillPrefablist(numEnpantalla);
             numEnpantalla = numero;
             for(int i = 0; i < 7; i++)
             {
                 images[i].GetComponent<Image>().color = new Color(0.3f, 0.3f, 0.3f);
                 images[i].GetComponent<Image>().sprite = sprite;
                 scenes[i].SetActive(false);
+                ResultsText[i].SetActive(false);
             }
             switch (numero)
             {
@@ -80,9 +84,14 @@ public class DescubrirPaginas : MonoBehaviour
                     images[6].GetComponent<Image>().sprite = sprite2;
                     break;
             }
-        }        
+        } 
+        _Descubrir.Searchbar.text = "";     
     }
 
+    public void HideShowText(bool val){
+       
+        ResultsText[numEnpantalla].SetActive(val);
+    }
 
 
     

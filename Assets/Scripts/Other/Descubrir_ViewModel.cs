@@ -241,9 +241,9 @@ public class Descubrir_ViewModel : ViewModel
         int lastnum= numEnpantalla;
         numEnpantalla = Descubrir.GetCurrentEscena();
         SearchText = Searchbar.text;
-
+        
         if(SearchText.Length >= 3 || EnableSerach){
-
+            Descubrir.HideShowText(true);
             if(numEnpantalla != lastnum){
                 KillPrefablist(lastnum);
             }
@@ -856,7 +856,7 @@ public class Descubrir_ViewModel : ViewModel
     
     public void CheckForSpawn(){
         
-        if(ListOfLists[numEnpantalla].Count != 0 && CheckForSpawnHasEnded){
+        if(ListOfLists[numEnpantalla].Count != 0 && CheckForSpawnHasEnded && Searchbar.text != ""){
             
             if(Scrollbar[numEnpantalla].verticalNormalizedPosition  <= ScrollbarVerticalPos){
                 
