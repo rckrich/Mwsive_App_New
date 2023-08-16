@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TopArtistViewModel : ViewModel
 {
     public GameObject artistPrefab;
     public Transform artistScrollContent;
-    public int count = 1;
+    public int count;
+    public ScrollRect scrollRect;
+
+    private float end = -0.01f;
+
     void Start()
     {
         MwsiveConnectionManager.instance.GetRecommendedArtists(Callback_GetRecommendedArtists);
@@ -22,6 +27,7 @@ public class TopArtistViewModel : ViewModel
         {
 
             artists_ids[i] = mwsiveRecommendedArtistsRoot.artists[i].spotify_id;
+            count++;
         }
         SpotifyConnectionManager.instance.GetSeveralArtists(artists_ids, Callback_GetSeveralArtists);
     }
@@ -35,6 +41,14 @@ public class TopArtistViewModel : ViewModel
             GameObject artistInstance = GameObject.Instantiate(artistPrefab, artistScrollContent);
             TopArtistAppObject artists = artistInstance.GetComponent<TopArtistAppObject>();
             artists.Initialize(artist);
+        }
+    }
+
+    public void OnReachEnd()
+    {
+        if (scrollRect.verticalNormalizedPosition <= end)
+        {
+            MwsiveConnectionManager.instance.GetRecommendedArtists(Callback_GetRecommendedArtists, count, 20);
         }
     }
 

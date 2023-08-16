@@ -8,12 +8,14 @@ public class CuratorAppObject : AppObject
 {
     public TextMeshProUGUI displayName;
     public Image profilePicture;
+    public string mwsiveId;
 
     private MwsiveUser mwsiveUser;
 
     public override void Initialize(params object[] list) {
         mwsiveUser = (MwsiveUser)list[0];
 
+        mwsiveId = mwsiveUser.id.ToString();
         if (mwsiveUser.display_name.Length > 27)
         {
             string _text2 = "";
@@ -35,6 +37,8 @@ public class CuratorAppObject : AppObject
     }
 
     public void OnClick_CuratorAppObject(){
-        //NewScreenManager.instance.ChangeToSpawnedView("curators");
+
+        NewScreenManager.instance.ChangeToSpawnedView("profile");
+        NewScreenManager.instance.GetCurrentView().Initialize(mwsiveId);
     }
 }

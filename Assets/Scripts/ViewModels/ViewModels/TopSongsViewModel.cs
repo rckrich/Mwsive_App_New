@@ -9,6 +9,10 @@ public class TopSongsViewModel : ViewModel
     public GameObject trackPrefab;
     public Transform trackScrollContent;
     public int count;
+    public ScrollRect scrollRect;
+
+    private float end = -0.01f;
+    
 
     void Start()
     {
@@ -24,6 +28,7 @@ public class TopSongsViewModel : ViewModel
         for (int i = 0; i < mwsiveRecommendedTracksRoot.tracks.Count; i++)
         {
             tracks_ids[i] = mwsiveRecommendedTracksRoot.tracks[i].mwsive_track.spotify_track_id;
+            count++;
         }
 
         SpotifyConnectionManager.instance.GetSeveralTracks(tracks_ids, Callback_GetSeveralTracks);
@@ -42,5 +47,16 @@ public class TopSongsViewModel : ViewModel
 
     }
 
-   
+    public void OnReachEnd()
+    {
+        if (scrollRect.verticalNormalizedPosition <= end)
+        {
+            MwsiveConnectionManager.instance.GetRecommendedTracks(Callback_GetRecommendedTracks, count, 20);
+        }
+    }
+
+    public void OnClick_BackButton()
+    {
+        NewScreenManager.instance.ChangeToMainView(ViewID.ExploreViewModel);
+    }
 }

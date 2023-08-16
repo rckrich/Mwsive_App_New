@@ -9,6 +9,9 @@ public class TopAlbumViewModel : ViewModel
     public GameObject albumPrefab;
     public Transform albumScrollContent;
     public int count;
+    public ScrollRect scrollRect;
+
+    private float end = -0.01f;
 
     void Start()
     {
@@ -45,7 +48,11 @@ public class TopAlbumViewModel : ViewModel
 
     public void GetMorePlaylist()
     {
-        MwsiveConnectionManager.instance.GetRecommendedAlbums(Callback_GetRecommendedAlbums, count, 20);
+        if (scrollRect.verticalNormalizedPosition <= end)
+        {
+            MwsiveConnectionManager.instance.GetRecommendedAlbums(Callback_GetRecommendedAlbums, count, 20);
+        }
+           
     }
 
     public void OnClick_BackButton()
