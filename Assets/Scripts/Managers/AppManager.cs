@@ -151,7 +151,57 @@ public class AppManager : Manager
     {
         SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
         currentPlaylist = searchedPlaylist;
-        SpotifyConnectionManager.instance.GetPlaylist(TOP_GLOBAL_PLAYLIST_ID, Callback_GetTopPlaylist);
+        //SpotifyConnectionManager.instance.GetPlaylist(TOP_GLOBAL_PLAYLIST_ID, Callback_GetTopPlaylist);
+        SpotifyConnectionManager.instance.GetCurrentUserTopTracks(Callback_GetUserTopTracks);
+    }
+
+    private void Callback_GetUserTopTracks(object[] _value)
+    {
+        UserTopItemsRoot userTopItemsRoot = (UserTopItemsRoot)_value[1];
+
+        if(userTopItemsRoot.total <= 5)
+        {
+            SpotifyConnectionManager.instance.GetPlaylist(TOP_GLOBAL_PLAYLIST_ID, Callback_GetGlobalTopTracks);
+            return;
+        }
+
+        string[] trackSeeds = new string[5];
+
+        for(int i = 0; i < trackSeeds.Length; i++)
+        {
+            trackSeeds[i] = userTopItemsRoot.items[Random.Range(0, userTopItemsRoot.items.Count)].id;
+        }
+
+        SpotifyConnectionManager.instance.GetRecommendations(new string[] { }, trackSeeds, Callback_GetPersonalRecommendations);
+    }
+
+    private void Callback_GetGlobalTopTracks(object[] _value)
+    {
+        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
+
+        string[] trackSeeds = new string[5];
+
+        for (int i = 0; i < trackSeeds.Length; i++)
+        {
+            if(searchedPlaylist.tracks.items[Random.Range(0, searchedPlaylist.tracks.items.Count)].track != null)
+                trackSeeds[i] = searchedPlaylist.tracks.items[Random.Range(0, searchedPlaylist.tracks.items.Count)].track.id;
+        }
+
+        SpotifyConnectionManager.instance.GetRecommendations(new string[] { }, trackSeeds, Callback_GetTopRecommendations);
+    }
+
+    private void Callback_GetPersonalRecommendations(object[] _value)
+    {
+        EndSearch();
+        RecommendationsRoot recommendationsRoot = (RecommendationsRoot)_value[1];
+        SurfManager.instance.DynamicPrefabSpawnerSong(new object[] { recommendationsRoot });
+    }
+
+    private void Callback_GetTopRecommendations(object[] _value)
+    {
+        EndSearch();
+        RecommendationsRoot recommendationsRoot = (RecommendationsRoot)_value[1];
+        SurfManager.instance.DynamicPrefabSpawnerSong(new object[] { recommendationsRoot });
     }
 
     private void Callback_GetTopPlaylist(object[] _value)
