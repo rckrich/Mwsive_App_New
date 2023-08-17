@@ -14,6 +14,7 @@ public class DescubrirButton : MonoBehaviour
     public GameObject CancelarButton;
     public GameObject BuscarRestPosition;
     public GameObject BuscarPosPosition;
+    public DescubrirPaginas Descubrir;
 
     public void OnClick_BuscarButton(GameObject ScrollView){
         float twenable = 0f;
@@ -26,6 +27,7 @@ public class DescubrirButton : MonoBehaviour
     }
 
     public void OnClick_CancelarButton(GameObject ScrollView){
+        Descubrir.HideAllText();
         float twenable = -70f;
         CancelarButton.SetActive(false);
             UIAniManager.instance.FadeOut(ScrollView, 0.5f);

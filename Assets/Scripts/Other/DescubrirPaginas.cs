@@ -93,6 +93,12 @@ public class DescubrirPaginas : MonoBehaviour
         ResultsText[numEnpantalla].SetActive(val);
     }
 
+    public void HideAllText(){
+        foreach (GameObject item in ResultsText)
+        {
+            item.SetActive(false);
+        }
+    }
 
     
 
