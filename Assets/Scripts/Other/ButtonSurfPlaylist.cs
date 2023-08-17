@@ -111,6 +111,8 @@ public class ButtonSurfPlaylist : ViewModel
 
     private void Callback_GetTrack(object[] _list)
     {
+        
+
         durationBar.canPlay = true;
         loadingAnimGameObject.SetActive(false);
         
@@ -168,10 +170,12 @@ public class ButtonSurfPlaylist : ViewModel
 
     private void Callback_AddToPlaylist(object[] _value)
     {
+        
         AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
             mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
             UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");
         });
+        
     }
 
     private void Callback_RemoveToPlaylist(object[] _value)
