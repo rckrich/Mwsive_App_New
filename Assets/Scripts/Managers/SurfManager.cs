@@ -103,7 +103,7 @@ public class SurfManager : Manager
     }
     
     public void ValChange(){
-        /*
+        
         if(Controller.transform.position.x > ControllerPostion.x*1.1){
             Controller.vertical =false;
            SideScrollAnimation();
@@ -114,7 +114,7 @@ public class SurfManager : Manager
             Controller.horizontal =false;
             DownScrollAnimation();
         }
-        */
+        
 
     }
 
@@ -285,7 +285,7 @@ public class SurfManager : Manager
             if(CurrentPosition < MwsiveSongs.Count-4){
                 Success = true;
                 
-                UIAniManager.instance.SurfVerticalUp(MwsiveSongs[CurrentPosition],1, MaxRotation, 0,false);
+                UIAniManager.instance.SurfVerticalUp(MwsiveSongs[CurrentPosition],1, MaxRotation, 0,true);
                 
 
                 UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[0], 1);

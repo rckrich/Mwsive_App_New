@@ -590,10 +590,11 @@ public class UIAniManager : MonoBehaviour
     public void SurfTransitionBackSongDown(GameObject GA, GameObject Position){
 
         DOTween.Kill(GA);
+        Debug.Log(GA.transform.position);
         GA.transform.DOMove(Position.transform.position, SurfTransitionDuration, false);
         GA.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha, SurfTransitionDuration);
         GA.transform.DOScale(Position.transform.localScale, SurfTransitionDuration);
-
+        Debug.Log(GA.transform.position);
 
         GA.transform.DORotate(new Vector3(0,0,0), SurfTransitionDuration);
         
