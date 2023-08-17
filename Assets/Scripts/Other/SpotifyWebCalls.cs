@@ -960,11 +960,18 @@ public static class SpotifyWebCalls
             webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
 
             yield return webRequest.SendWebRequest();
+            if(webRequest.result == UnityWebRequest.Result.ProtocolError && webRequest.responseCode == 403 || webRequest.result == UnityWebRequest.Result.ProtocolError && webRequest.responseCode == 404)
+            {
+                UIMessage.instance.UIMessageInstanciate("Playlist no propia o inexistente");
 
+                yield break;
+            }
             if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
             {
-                //Catch response code for multiple requests to the server in a short timespan.
+                
 
+                
+                //Catch response code for multiple requests to the server in a short timespan.
                 if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
                 {
                     WebCallsUtils.ReauthenticateUser(_callback);
