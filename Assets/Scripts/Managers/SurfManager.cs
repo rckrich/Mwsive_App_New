@@ -103,7 +103,7 @@ public class SurfManager : Manager
     }
     
     public void ValChange(){
-
+        /*
         if(Controller.transform.position.x > ControllerPostion.x*1.1){
             Controller.vertical =false;
            SideScrollAnimation();
@@ -114,6 +114,7 @@ public class SurfManager : Manager
             Controller.horizontal =false;
             DownScrollAnimation();
         }
+        */
 
     }
 
@@ -141,7 +142,7 @@ public class SurfManager : Manager
     }
 
 
-    private void UpScrollAnimation(){
+    private void DownScrollAnimation(){
         DOTween.Kill(MwsiveSongs[CurrentPosition], true);
         DOTween.Kill(MwsiveSongs[CurrentPosition+1], true);
         DOTween.Kill(MwsiveSongs[CurrentPosition+2], true);
@@ -149,19 +150,18 @@ public class SurfManager : Manager
             float var = Controller.transform.position.y/ControllerPostion.y;
             float Fade =ControllerPostion.y/Controller.transform.position.y;
 
-            UIAniManager.instance.SurfVerticalUp(MwsiveSongs[CurrentPosition],var*.5f, MaxRotation, Fade,false);
-
+            UIAniManager.instance.SurfVerticalDown(MwsiveSongs[CurrentPosition],var*-.5f, MaxRotation, Fade,true);
             
             UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[1], var*.25f);
             UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+2], RestPositions[2], var*.25f);
         Success = false;
             
 
-           
+         Debug.Log("DownScrollAnimation");     
     }
 
 
-    private void DownScrollAnimation(){
+    private void UpScrollAnimation(){
         DOTween.Kill(MwsiveSongs[CurrentPosition], true);
         DOTween.Kill(MwsiveSongs[CurrentPosition+1], true);
         DOTween.Kill(MwsiveSongs[CurrentPosition+2], true);
@@ -171,8 +171,8 @@ public class SurfManager : Manager
             float Fade = Controller.transform.position.y/ControllerPostion.y;
             float VAR2  =ControllerPostion.y/Controller.transform.position.y;
             
-
-            UIAniManager.instance.SurfVerticalDown(MwsiveSongs[CurrentPosition],var*-.5f, MaxRotation, Fade,false);
+            UIAniManager.instance.SurfVerticalUp(MwsiveSongs[CurrentPosition],var*.5f, MaxRotation, Fade,false);
+            
 
             if(CurrentPosition < MwsiveSongs.Count-4){
                 UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[0], VAR2*.25f);
@@ -182,8 +182,8 @@ public class SurfManager : Manager
 
             
         Success = false;
-            
-            
+        
+          Debug.Log("UpScrollAnimation");     
     }
 
     public void OnEndDrag(){
@@ -246,20 +246,20 @@ public class SurfManager : Manager
         
         HasSwipeEnded = true;
     }
-    private void UpScrollSuccess(){
+    private void DownScrollSuccess(){
         Controller.enabled =false;
         Controller.horizontal =true;
         Controller.vertical =true;
         Controller.transform.position = new Vector2(ControllerPostion.x,ControllerPostion.y);
         if(CurrentPosition > 0){
             Success = true;
-            
-            UIAniManager.instance.SurfVerticalUp(MwsiveSongs[CurrentPosition],1, MaxRotation, 0,false);
+            UIAniManager.instance.SurfVerticalDown(MwsiveSongs[CurrentPosition],1, -MaxRotation, 0,true);
             
             UIAniManager.instance.SurfTransitionBackSong(MwsiveSongs[CurrentPosition-1], RestPositions[0]);
-            UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition], RestPositions[1], 1);
+            UIAniManager.instance.SurfTransitionBackSongDown(MwsiveSongs[CurrentPosition], RestPositions[1]);
             UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[2], 1);
             UIAniManager.instance.SurfTransitionBackHideSong(MwsiveSongs[CurrentPosition+2], RestPositions[3], 1);
+            
 
             UIAniManager.instance.SurfAddSongReset(AddSong);
 
@@ -273,10 +273,10 @@ public class SurfManager : Manager
             ResetValue();
         }
 
-        
+         Debug.Log("DownScrollSucess");  
         HasSwipeEnded = true;
     }
-    private void DownScrollSuccess(){
+    private void UpScrollSuccess(){
 
             Controller.enabled =false;
             Controller.horizontal =true;
@@ -285,12 +285,14 @@ public class SurfManager : Manager
             if(CurrentPosition < MwsiveSongs.Count-4){
                 Success = true;
                 
-                UIAniManager.instance.SurfVerticalDown(MwsiveSongs[CurrentPosition],1, -MaxRotation, 0,true);
+                UIAniManager.instance.SurfVerticalUp(MwsiveSongs[CurrentPosition],1, MaxRotation, 0,false);
+                
 
                 UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[0], 1);
                 UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+2], RestPositions[1], 1);
                 
                 UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[2], 1);
+                
                 
                 CurrentPosition++;
                 GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
@@ -308,7 +310,7 @@ public class SurfManager : Manager
                 SpawnedBuffer = true;
             }
             
-
+            Debug.Log("UpScrollSuccess"); 
             HasSwipeEnded = true;
     }
            
@@ -348,7 +350,9 @@ public class SurfManager : Manager
     }
 
     public void ResetValue(){
+
         if(!Success){
+            Debug.Log("Reset");
             Controller.horizontal =true;
             Controller.vertical =true;
             HasSwipeEnded = true;
