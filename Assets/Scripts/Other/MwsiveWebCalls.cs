@@ -388,7 +388,7 @@ public class MwsiveWebCalls : MonoBehaviour
         string jsonResult = "";
 
         //string url = "https://mwsive.com/track/" + _track_id + "/curators/" + _offset.ToString() + "/" + _limit.ToString();
-        string url = "https://mwsive.com/track/" + _track_id + "/curators/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "http://192.241.129.184/api/track/" + _track_id + "/curators/" + _offset.ToString() + "/" + _limit.ToString();
 
         /*Dictionary<string, string> parameters = new Dictionary<string, string>();
         parameters.Add("track_id", _track_id);
