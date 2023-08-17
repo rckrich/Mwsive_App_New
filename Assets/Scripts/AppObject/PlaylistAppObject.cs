@@ -11,7 +11,7 @@ public class PlaylistAppObject : AppObject
     public Image playlistCoverImage;
 
     private List<MwsiveTrack> mwsiveTrackList = new List<MwsiveTrack>();
-
+    private List<string> trackID = new List<string>();
     public override void Initialize(params object[] list)
     {
         playlistText.text = (string)list[0];
@@ -24,5 +24,16 @@ public class PlaylistAppObject : AppObject
     public void OnSelectedPlaylistClick()
     {
         InvokeEvent<OnSelectedPlaylistClick>(new OnSelectedPlaylistClick(isEnabled));
+    }
+
+    public void OnClick_Playlist()
+    {
+        for(int i = 0; i < mwsiveTrackList.Count; i++)
+        {
+            trackID.Add(mwsiveTrackList[i].spotify_track_id);
+        }
+
+        NewScreenManager.instance.ChangeToSpawnedView("playlist");
+        NewScreenManager.instance.GetCurrentView().GetComponent<PlaylistViewModel>().GetSeveralTracks(trackID.ToArray());
     }
 }

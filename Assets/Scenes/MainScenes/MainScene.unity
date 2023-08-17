@@ -2402,6 +2402,7 @@ MonoBehaviour:
   - {fileID: 1722238768}
   - {fileID: 1587419708}
   - {fileID: 2031201409}
+  - {fileID: 1964169426}
   - {fileID: 572242784}
   - {fileID: 434830240}
   - {fileID: 931911446}
@@ -15670,7 +15671,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 32.68317, y: 0}
+  m_AnchoredPosition: {x: 8.9, y: 0}
   m_SizeDelta: {x: 38.9663, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &596301550
@@ -21245,7 +21246,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 769940376}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2051662606}
+        m_TargetAssemblyTypeName: Descubrir_ViewModel, Scripts
+        m_MethodName: OnClick_VerMasPlaylist
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &769940376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25478,6 +25491,7 @@ GameObject:
   m_Component:
   - component: {fileID: 907610793}
   - component: {fileID: 907610796}
+  - component: {fileID: 907610797}
   - component: {fileID: 907610795}
   - component: {fileID: 907610794}
   m_Layer: 5
@@ -25505,8 +25519,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 30, y: -34}
-  m_SizeDelta: {x: 57.4, y: 37}
+  m_AnchoredPosition: {x: 58.6, y: -34}
+  m_SizeDelta: {x: 82.2235, y: 37}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &907610794
 Animator:
@@ -25572,7 +25586,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1964169426}
+        m_TargetAssemblyTypeName: TopPlaylistViewModel, Scripts
+        m_MethodName: OnClick_BackButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &907610796
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -25581,6 +25607,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 907610792}
   m_CullTransparentMesh: 1
+--- !u!114 &907610797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 907610792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 01d1591d6823a430689014e5c9b7454b, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &912173343
 GameObject:
   m_ObjectHideFlags: 0
@@ -27898,8 +27954,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 145.94595, y: -31.0365}
-  m_SizeDelta: {x: 291.8919, y: 52.073}
+  m_AnchoredPosition: {x: 150.13599, y: -31.0365}
+  m_SizeDelta: {x: 300.27197, y: 52.073}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1010259449
 GameObject:
@@ -35599,7 +35655,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -23.783169, y: 0}
   m_SizeDelta: {x: 24, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1294973398
@@ -52806,13 +52862,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a48fdf0157fcd48b857fb39bf2c8d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewID: 0
+  viewID: 31
   networkLoadingCanvas: {fileID: 0}
   scrollViewContent: {fileID: 0}
   finishedLoading: 1
-  playlistPrefab: {fileID: 0}
-  playlistScrollContent: {fileID: 0}
-  scrollRect: {fileID: 0}
+  playlistPrefab: {fileID: 6274640530719956470, guid: 89bed75c65c9c244ea37e331ca7739cc, type: 3}
+  playlistScrollContent: {fileID: 459753015}
+  scrollRect: {fileID: 837465034}
   end: -0.01
 --- !u!1 &1976574679
 GameObject:

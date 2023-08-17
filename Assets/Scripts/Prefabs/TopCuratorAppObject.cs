@@ -11,9 +11,14 @@ public class TopCuratorAppObject : AppObject
     public TextMeshProUGUI rank;
 
     private MwsiveUser mwsiveUser;
+    private string mwsiveID;
+    private string spotifyID;
 
     public override void Initialize(params object[] list) {
         mwsiveUser = (MwsiveUser)list[0];
+
+        mwsiveID = mwsiveUser.id.ToString();
+        spotifyID = mwsiveUser.platform_id.ToString();
 
         if (mwsiveUser.display_name.Length > 27)
         {
@@ -39,6 +44,7 @@ public class TopCuratorAppObject : AppObject
     }
 
     public void OnClick_CuratorAppObject(){
-        //NewScreenManager.instance.ChangeToSpawnedView("curators");
+        NewScreenManager.instance.ChangeToSpawnedView("profile");
+        NewScreenManager.instance.GetCurrentView().Initialize(spotifyID, mwsiveID);
     }
 }

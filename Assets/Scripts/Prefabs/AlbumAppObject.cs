@@ -14,6 +14,7 @@ public class AlbumAppObject : AppObject
     
     private string artists;
     private Album album;
+    private string spotifyID;
 
 
     public override void Initialize(params object[] list)
@@ -62,11 +63,14 @@ public class AlbumAppObject : AppObject
             if (album.images.Count > IMAGES_NOT_NULL_INDEX)
                 ImageManager.instance.GetImage(album.images[0].url, albumPicture, (RectTransform)this.transform);
         }
+
+        spotifyID = album.id;
     }
 
     public void OnClick_AlbumAppObject()
     {
-        //NewScreenManager.instance.ChangeToSpawnedView("album");
+        NewScreenManager.instance.ChangeToSpawnedView("album");
+        NewScreenManager.instance.GetCurrentView().GetComponent<AlbumViewModel>().id = spotifyID;
     }
 
     
