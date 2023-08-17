@@ -14,6 +14,7 @@ public class TrackAppObject : AppObject
 
     private string artists;
     private Track track;
+    private string trackID;
 
 
     public override void Initialize(params object[] list)
@@ -64,10 +65,13 @@ public class TrackAppObject : AppObject
             if (track.album.images.Count > IMAGES_NOT_NULL_INDEX)
                 ImageManager.instance.GetImage(track.album.images[0].url, trackPicture, (RectTransform)this.transform);
         }
+
+        trackID = track.id;
     }
 
     public void OnClick_TrackAppObject()
     {
-        //NewScreenManager.instance.ChangeToSpawnedView("track");
+        NewScreenManager.instance.ChangeToSpawnedView("cancion");
+        NewScreenManager.instance.GetCurrentView().GetComponent<TrackViewModel>().trackID = trackID;
     }
 }
