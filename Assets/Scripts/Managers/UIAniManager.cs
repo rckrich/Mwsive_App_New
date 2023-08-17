@@ -541,8 +541,6 @@ public class UIAniManager : MonoBehaviour
 
     public void SurfVerticalUp(GameObject GA,float var, float MaxRotation, float fade, bool IsItFinished){
         SetPosition();
-        
-
         if(IsItFinished){
             GA.transform.DOMove(new Vector2(RestPositionUp.x, RestPositionUp.y*var), SurfTransitionDuration, false).OnComplete(() => {GA.SetActive(false);});
         }else{
@@ -563,10 +561,10 @@ public class UIAniManager : MonoBehaviour
         
         if(IsItFinished){
             
-            GA.transform.DOMove(new Vector2(RestPositionDown.x, RestPositionDown.y*var), SurfTransitionDuration+.5f, false);
+            //GA.transform.DOMove(new Vector2(RestPositionDown.x, RestPositionDown.y*var), SurfTransitionDuration+.5f, false);
         }else{
             
-            GA.transform.DOMove(new Vector2(RestPositionDown.x, RestPositionDown.y*var), SurfTransitionDuration, false);
+            //GA.transform.DOMove(new Vector2(RestPositionDown.x, RestPositionDown.y*var), SurfTransitionDuration, false);
         }
 
         GA.transform.DORotate(new Vector3 (0f,0f ,MaxRotation*var), SurfTransitionDuration);
@@ -590,12 +588,9 @@ public class UIAniManager : MonoBehaviour
     public void SurfTransitionBackSongDown(GameObject GA, GameObject Position){
 
         DOTween.Kill(GA);
-        Debug.Log(GA.transform.position);
         GA.transform.DOMove(Position.transform.position, SurfTransitionDuration, false);
         GA.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha, SurfTransitionDuration);
         GA.transform.DOScale(Position.transform.localScale, SurfTransitionDuration);
-        Debug.Log(GA.transform.position);
-
         GA.transform.DORotate(new Vector3(0,0,0), SurfTransitionDuration);
         
 
@@ -612,9 +607,10 @@ public class UIAniManager : MonoBehaviour
 
     }
 
-    public void SurfTransitionBackSong(GameObject GA, GameObject Position){
+    public void SurfTransitionBackSong(GameObject GA, GameObject Position, float Maxrotation){
 
         GA.SetActive(true);
+        GA.transform.eulerAngles = new Vector3(0f, 0f, Maxrotation);
         GA.transform.DOMove(Position.transform.position, SurfTransitionDuration, false);
         GA.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha, SurfTransitionDuration);
         GA.transform.DOScale(Position.transform.localScale, SurfTransitionDuration);
