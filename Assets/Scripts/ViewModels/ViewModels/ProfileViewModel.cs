@@ -47,7 +47,7 @@ public class ProfileViewModel : ViewModel
         {
             AppManager.instance.SetAndroidBackAction(() => {
                 if (finishedLoading) {
-                    OnClick_BackButton();
+                    OnClick_BackButtonSurf();
                 }
                 AppManager.instance.SetAndroidBackAction(null);
             });
@@ -172,7 +172,7 @@ public class ProfileViewModel : ViewModel
 
     }
 
-    public void OnClick_BackButton()
+    public void OnClick_BackButtonSurf()
     {
         surfManager.SetActive(true);
         OpenView(ViewID.SurfViewModel);
@@ -209,6 +209,11 @@ public class ProfileViewModel : ViewModel
         NewScreenManager.instance.ChangeToMainView(_value, false);
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
 
+    }
+
+    public void OnClick_BackButtonPrefab()
+    {
+        NewScreenManager.instance.BackToPreviousView();
     }
 }
 
