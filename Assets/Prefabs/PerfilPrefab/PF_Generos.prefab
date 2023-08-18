@@ -293,6 +293,7 @@ MonoBehaviour:
   scrollViewContent: {fileID: 0}
   finishedLoading: 1
   trackHolderPrefab: {fileID: 4969784576469249356, guid: 4e85625fa6d8d7e4fa6875d2d8ad526e, type: 3}
+  surfButton: {fileID: 0}
   instanceParent: {fileID: 7304116162080293833}
   artists: 
   name: {fileID: 6091619207375227298}
@@ -1468,7 +1469,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2214223169872159946}
+        m_TargetAssemblyTypeName: GenreViewModel, Scripts
+        m_MethodName: OnClick_SurfButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &3370171535345095321
 Animator:
   serializedVersion: 5

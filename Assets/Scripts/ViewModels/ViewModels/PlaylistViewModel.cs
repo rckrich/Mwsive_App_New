@@ -25,7 +25,9 @@ public class PlaylistViewModel : ViewModel
     public ScrollRect scrollRect;
     public ExternalUrls url;
     public string stringUrl;
+    public bool isExplore = false;
 
+    private List<Track> trackList = new List<Track>();
     private SearchedPlaylist searchedPlaylist;
     private int NumberofTracks, NumberofTracksToCompare;
 
@@ -45,10 +47,13 @@ public class PlaylistViewModel : ViewModel
 
         }
     }
+
     private void InstanceTrackObjects(Tracks _tracks)
     {
+        
         NumberofTracks = 0;
         NumberofTracksToCompare = 0;
+        
         foreach (Item item in _tracks.items)
         {
             if(item.track != null)
@@ -171,18 +176,34 @@ public class PlaylistViewModel : ViewModel
     }
 
     public void OnClick_SurfButton(){
-        if(searchedPlaylist.tracks.items.Count == 0){
-            UIMessage.instance.UIMessageInstanciate("Esta Playlist no tiene contenido");
-        }else{
 
+        Debug.Log(isExplore);
+        if (isExplore)
+        {
             NewScreenManager.instance.ChangeToSpawnedView("surf");
-            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<SurfManager>().DynamicPrefabSpawnerPL(new object[] { searchedPlaylist });
+            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<SurfManager>().DynamicPrefabSpawnerSeveralTracks(trackList);
+            isExplore = false;
         }
+        else
+        {
+            if (searchedPlaylist.tracks.items.Count == 0)
+            {
+                UIMessage.instance.UIMessageInstanciate("Esta Playlist no tiene contenido");
+            }
+            else
+            {
+
+                NewScreenManager.instance.ChangeToSpawnedView("surf");
+                NewScreenManager.instance.GetCurrentView().GetComponentInChildren<SurfManager>().DynamicPrefabSpawnerPL(new object[] { searchedPlaylist });
+            }
+        }
+        
         
     }
 
     public void GetSeveralTracks(string[] _tracksID)
     {
+        isExplore = true;
         SpotifyConnectionManager.instance.GetSeveralTracks(_tracksID, Callback_GetSeveralTracks);
     }
 
@@ -194,6 +215,7 @@ public class PlaylistViewModel : ViewModel
         {
             if (track != null)
             {
+                trackList.Add(track);
                 TrackHolder instance = GameObject.Instantiate(trackHolderPrefab, instanceParent).GetComponent<TrackHolder>();
                 artists = "";
                 foreach (Artist artist in track.artists) { artists += artist.name + ", "; }

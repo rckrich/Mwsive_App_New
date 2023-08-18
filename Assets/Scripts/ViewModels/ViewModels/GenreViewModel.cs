@@ -6,10 +6,12 @@ using UnityEngine;
 public class GenreViewModel : ViewModel
 {
     [Header("Instance Referecnes")]
-    public GameObject trackHolderPrefab;
+    public GameObject trackHolderPrefab, surfButton;
     public Transform instanceParent;
     public string artists;
     public TextMeshProUGUI name;
+
+    private SeveralTrackRoot severalTrackRoot;
 
     void Start()
     {
@@ -24,7 +26,7 @@ public class GenreViewModel : ViewModel
 
     public void Callback_GetSeveralTracks(object[] _value)
     {
-        SeveralTrackRoot severalTrackRoot = (SeveralTrackRoot)_value[1];
+        severalTrackRoot = (SeveralTrackRoot)_value[1];
 
         foreach (Track track in severalTrackRoot.tracks)
         {
@@ -49,5 +51,11 @@ public class GenreViewModel : ViewModel
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.ExploreViewModel);
+    }
+
+    public void OnClick_SurfButton()
+    {
+        NewScreenManager.instance.ChangeToSpawnedView("surf");
+        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<SurfManager>().DynamicPrefabSpawnerSeveralTracks(severalTrackRoot.tracks);
     }
 }
