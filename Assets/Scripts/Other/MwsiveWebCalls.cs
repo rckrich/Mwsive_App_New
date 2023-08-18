@@ -237,13 +237,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/user";
-        string url = "http://192.241.129.184/api/user";
-
-        Dictionary<string, string> parameters = new Dictionary<string, string>();
-        parameters.Add("user_id", _user_id);
-
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);
+        //string url = "https://mwsive.com/user/" + _user_id;
+        string url = "http://192.241.129.184/api/user/" + _user_id;
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -601,16 +596,20 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        WWWForm form = new WWWForm();
-
-        form.AddField("user_id", _user_id);
-
         //string url = "https://mwsive.com/me/follow";
         string url = "http://192.241.129.184/api/me/follow";
 
-        using (UnityWebRequest webRequest = UnityWebRequest.Post(url, form))
+        PostFollowRoot postFollowRoot = new PostFollowRoot
         {
-            webRequest.SetRequestHeader("Accept", "application/json");
+            user_id = _user_id
+        };
+
+        string jsonRaw = JsonConvert.SerializeObject(postFollowRoot);
+
+        Debug.Log("Body request for creating a playlist is:" + jsonRaw);
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonRaw, "application/json"))
+        {
             webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
 
             yield return webRequest.SendWebRequest();
