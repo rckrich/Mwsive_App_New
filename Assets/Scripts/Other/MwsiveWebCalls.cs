@@ -611,6 +611,7 @@ public class MwsiveWebCalls : MonoBehaviour
         using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonRaw, "application/json"))
         {
             webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
+            webRequest.SetRequestHeader("Accept", "application/json");
 
             yield return webRequest.SendWebRequest();
 
