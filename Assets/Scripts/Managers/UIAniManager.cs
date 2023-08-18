@@ -517,7 +517,10 @@ public class UIAniManager : MonoBehaviour
 
     //Surf Animations-------------------------------------------------------------------------------------------------------------------------------------------------
 
-    
+    public Vector2 GetRestPositionShare(){
+        SetPosition();
+        return RestPositionDown;
+    }
 
     public void SurfSide(GameObject GA,float var, float MaxRotation, float fade, bool IsItFinished){
         SetPosition();
