@@ -565,7 +565,47 @@ public class SurfManager : Manager
         FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
     }
 
+    public void DynamicPrefabSpawnerSeveralTracks(List<Track> tracks)
+    {
+        
+        GameObject FirstInstance = null;
 
+        int SpawnedSongs = 0;
+        foreach (var item in tracks)
+        {
+            if(item != null)
+            {
+                if (item.preview_url != null)
+                {
+                    GameObject instance = SpawnPrefab();
+                    if (FirstInstance == null)
+                    {
+                        FirstInstance = instance;
+                    }
+
+                    string artists = "";
+
+                    foreach (Artist artist in item.artists)
+                    {
+                        artists = artists + artist.name + ", ";
+                    }
+
+                    artists = artists.Remove(artists.Length - 2);
+
+                    instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.name, item.album.name, artists, item.album.images[0].url, item.id, item.uri, item.preview_url, item.external_urls.spotify);
+                    SpawnedSongs++;
+                }
+            }
+            
+        }
+        if(SpawnedSongs < 5 && SpawnedSongs > 0){
+            SpawnPrefab();
+            SpawnPrefab();
+            SpawnPrefab();
+            SpawnedBuffer = true;
+        }
+        FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+    }
 
     private GameObject SpawnPrefab(){
         GameObject Instance;
