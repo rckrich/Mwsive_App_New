@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GenreViewModel : ViewModel
@@ -8,15 +9,17 @@ public class GenreViewModel : ViewModel
     public GameObject trackHolderPrefab;
     public Transform instanceParent;
     public string artists;
+    public TextMeshProUGUI name;
 
     void Start()
     {
         
     }
 
-    public void GetSeveralTracks(string[] _genreID)
+    public void GetSeveralTracks(string[] _genreID, string _name)
     {
         SpotifyConnectionManager.instance.GetSeveralTracks(_genreID, Callback_GetSeveralTracks);
+        name.text = _name;
     }
 
     public void Callback_GetSeveralTracks(object[] _value)
@@ -40,5 +43,11 @@ public class GenreViewModel : ViewModel
             }
 
         }
+    }
+
+
+    public void OnClick_BackButton()
+    {
+        NewScreenManager.instance.ChangeToMainView(ViewID.ExploreViewModel);
     }
 }

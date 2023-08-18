@@ -1092,4 +1092,9 @@ public class Descubrir_ViewModel : ViewModel
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.TopPlaylistViewModel);
     }
+
+    public void OnClick_VerMasGenre()
+    {
+        NewScreenManager.instance.ChangeToMainView(ViewID.TopGenreViewModel);
+    }
 }
