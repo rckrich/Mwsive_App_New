@@ -62,7 +62,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Create Mwsive user " + jsonResult);
-                    MwsiveCreatedRoot mwsiveCreatedRoot = JsonConvert.DeserializeObject<MwsiveCreatedRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveCreatedRoot mwsiveCreatedRoot = JsonConvert.DeserializeObject<MwsiveCreatedRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveCreatedRoot });
                     yield break;
                 }
@@ -425,7 +426,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch Mwsive Curators result: " + jsonResult);
-                    MwsiveCuratorsRoot mwsiveCuratorsRoot = JsonConvert.DeserializeObject<MwsiveCuratorsRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveCuratorsRoot mwsiveCuratorsRoot = JsonConvert.DeserializeObject<MwsiveCuratorsRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveCuratorsRoot });
                     yield break;
                 }
@@ -528,7 +530,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch Mwsive followers result: " + jsonResult);
-                    MwsiveFollowersRoot mwsiveFollowersRoot = JsonConvert.DeserializeObject<MwsiveFollowersRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveFollowersRoot mwsiveFollowersRoot = JsonConvert.DeserializeObject<MwsiveFollowersRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveFollowersRoot });
                     yield break;
                 }
@@ -580,7 +583,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch Mwsive followers result: " + jsonResult);
-                    MwsiveFollowedRoot mwsiveFollowedRoot = JsonConvert.DeserializeObject<MwsiveFollowedRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveFollowedRoot mwsiveFollowedRoot = JsonConvert.DeserializeObject<MwsiveFollowedRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveFollowedRoot });
                     yield break;
                 }
@@ -684,7 +688,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch Badges result: " + jsonResult);
-                    MwsiveBadgesRoot mwsiveBadgesRoot = JsonConvert.DeserializeObject<MwsiveBadgesRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveBadgesRoot mwsiveBadgesRoot = JsonConvert.DeserializeObject<MwsiveBadgesRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveBadgesRoot });
                     yield break;
                 }
@@ -1050,7 +1055,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch ranking result: " + jsonResult);
-                    MwsiveRankingRoot mwsiveRankingRoot = JsonConvert.DeserializeObject<MwsiveRankingRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveRankingRoot mwsiveRankingRoot = JsonConvert.DeserializeObject<MwsiveRankingRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveRankingRoot });
                     yield break;
                 }
@@ -1095,7 +1101,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch settings result: " + jsonResult);
-                    MwsiveSettingsRoot mwsiveSettingsRoot = JsonConvert.DeserializeObject<MwsiveSettingsRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveSettingsRoot mwsiveSettingsRoot = JsonConvert.DeserializeObject<MwsiveSettingsRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveSettingsRoot });
                     yield break;
                 }
@@ -1146,7 +1153,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch challenges result: " + jsonResult);
-                    MwsiveChallengesRoot mwsiveChallengesRoot = JsonConvert.DeserializeObject<MwsiveChallengesRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveChallengesRoot mwsiveChallengesRoot = JsonConvert.DeserializeObject<MwsiveChallengesRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveChallengesRoot });
                     yield break;
                 }
@@ -1197,7 +1205,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch complete challenges result: " + jsonResult);
-                    MwsiveChallengesRoot mwsiveChallengesRoot = JsonConvert.DeserializeObject<MwsiveChallengesRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveChallengesRoot mwsiveChallengesRoot = JsonConvert.DeserializeObject<MwsiveChallengesRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveChallengesRoot });
                     yield break;
                 }
@@ -1297,7 +1306,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch advertasing result: " + jsonResult);
-                    MwsiveAdvertisingRoot mwsiveAdvertisingRoot = JsonConvert.DeserializeObject<MwsiveAdvertisingRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveAdvertisingRoot mwsiveAdvertisingRoot = JsonConvert.DeserializeObject<MwsiveAdvertisingRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveAdvertisingRoot });
                     yield break;
                 }
@@ -1611,7 +1621,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch genres result: " + jsonResult);
-                    MwsiveGenresRoot mwsiveGenresRoot = JsonConvert.DeserializeObject<MwsiveGenresRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveGenresRoot mwsiveGenresRoot = JsonConvert.DeserializeObject<MwsiveGenresRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveGenresRoot });
                     yield break;
                 }
