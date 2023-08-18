@@ -358,4 +358,9 @@ public class LogInMwsiveRoot
     public string user_id { get; set; }
 }
 
+public class PostFollowRoot
+{
+    public string user_id { get; set; }
+}
+
 #endregion
