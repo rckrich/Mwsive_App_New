@@ -1576,7 +1576,7 @@ public class MwsiveWebCalls : MonoBehaviour
         string jsonResult = "";
 
         //string url = "https://mwsive.com/genres/" + _offset.ToString() + "/" + _limit.ToString();
-        string url = "https://mwsive.com/genres/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "http://192.241.129.184/api/recommended/genres/" + _offset.ToString() + "/" + _limit.ToString();
 
         Dictionary<string, string> parameters = new Dictionary<string, string>();
         parameters.Add("offset", _offset.ToString());

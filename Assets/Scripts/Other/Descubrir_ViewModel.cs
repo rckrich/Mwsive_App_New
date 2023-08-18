@@ -247,6 +247,7 @@ public class Descubrir_ViewModel : ViewModel
 
     private void Callback_GetGenres(object[] _list)
     {
+        Debug.Log("RRRRRRRRR");
         MwsiveGenresRoot mwsiveGenresRoot = (MwsiveGenresRoot)_list[1];
 
         int maxSpawnCounter = 0;
