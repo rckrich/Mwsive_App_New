@@ -66,6 +66,8 @@ public class ProfileViewModel : ViewModel
         {
             StartSearch();
             SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
+            MwsiveConnectionManager.instance.GetFollowers(Callback_GetFollowers);
+            MwsiveConnectionManager.instance.GetFollowed(Callback_GetFollowed);
         }
         else
         {
@@ -106,6 +108,10 @@ public class ProfileViewModel : ViewModel
         ProfileRoot profileRoot = (ProfileRoot)_value[1];
         displayName.text = profileRoot.display_name;
         profileId = profileRoot.id;
+        if (followersText.text.Equals("-"))
+        {
+            followersText.text = profileRoot.followers.ToString();
+        }
 
         if (profileRoot.images != null)
         {
@@ -127,8 +133,7 @@ public class ProfileViewModel : ViewModel
             }
         }
 
-        MwsiveConnectionManager.instance.GetFollowers(Callback_GetFollowers);
-        MwsiveConnectionManager.instance.GetFollowed(Callback_GetFollowed);
+        
         GetCurrentUserPlaylists();
 
     }
@@ -214,6 +219,11 @@ public class ProfileViewModel : ViewModel
     public void OnClick_BackButtonPrefab()
     {
         NewScreenManager.instance.BackToPreviousView();
+    }
+
+    public void OnClick_Follow()
+    {
+        MwsiveConnectionManager.instance.PostFollow(profileId);
     }
 }
 

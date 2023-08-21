@@ -11,6 +11,7 @@ public class GenreAppObject : AppObject
     public Image genreCoverImage;
 
     private List<MwsiveTrack> mwsiveTrackList = new List<MwsiveTrack>();
+    private List<string> genreID = new List<string>();
 
     public override void Initialize(params object[] list)
     {
@@ -25,5 +26,16 @@ public class GenreAppObject : AppObject
     {
         InvokeEvent<OnSelectedPlaylistClick>(new OnSelectedPlaylistClick(isEnabled));
 
+    }
+
+    public void OnClick_Genre()
+    {
+        for (int i = 0; i < mwsiveTrackList.Count; i++)
+        {
+            genreID.Add(mwsiveTrackList[i].spotify_track_id);
+        }
+
+        NewScreenManager.instance.ChangeToSpawnedView("genre");
+        NewScreenManager.instance.GetCurrentView().GetComponent<GenreViewModel>().GetSeveralTracks(genreID.ToArray(), genreText.text);
     }
 }

@@ -247,6 +247,7 @@ public class Descubrir_ViewModel : ViewModel
 
     private void Callback_GetGenres(object[] _list)
     {
+        Debug.Log("RRRRRRRRR");
         MwsiveGenresRoot mwsiveGenresRoot = (MwsiveGenresRoot)_list[1];
 
         int maxSpawnCounter = 0;
@@ -1090,5 +1091,10 @@ public class Descubrir_ViewModel : ViewModel
     public void OnClick_VerMasPlaylist()
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.TopPlaylistViewModel);
+    }
+
+    public void OnClick_VerMasGenre()
+    {
+        NewScreenManager.instance.ChangeToMainView(ViewID.TopGenreViewModel);
     }
 }

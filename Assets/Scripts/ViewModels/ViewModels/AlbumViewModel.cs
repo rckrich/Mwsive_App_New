@@ -160,5 +160,4 @@ public class AlbumViewModel : ViewModel
         
     }
 
-    
 }

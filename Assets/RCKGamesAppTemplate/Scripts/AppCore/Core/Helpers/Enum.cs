@@ -29,11 +29,13 @@ public enum ViewID
     RankingViewModel,
     DangerZoneViewModel,
     ExploreViewModel,
+    GenreViewModel,
     TopAlbumViewModel,
     TopArtistViewModel,
     TopCuratorsViewModel,
     TopSongsViewModel,
-    TopPlaylistViewModel
+    TopPlaylistViewModel,
+    TopGenreViewModel
 }
 
 public enum HTTPMethods

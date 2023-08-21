@@ -30,7 +30,7 @@ public class AppManager : Manager
     public bool isSelected;
     public int countTopArtist = 1;
     public int countTopCurators = 1;
-
+    
 #if PLATFORM_ANDROID
     private System.Action androidBackAction;
 #endif
