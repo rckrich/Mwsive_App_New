@@ -238,8 +238,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/user/" + _user_id;
-        string url = "http://192.241.129.184/api/user/" + _user_id;
+        //string url = "https://mwsive.com/users/" + _user_id;
+        string url = "http://192.241.129.184/api/users/" + _user_id;
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
