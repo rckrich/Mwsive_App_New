@@ -962,8 +962,7 @@ public static class SpotifyWebCalls
             yield return webRequest.SendWebRequest();
             if(webRequest.result == UnityWebRequest.Result.ProtocolError && webRequest.responseCode == 403 || webRequest.result == UnityWebRequest.Result.ProtocolError && webRequest.responseCode == 404)
             {
-                UIMessage.instance.UIMessageInstanciate("Playlist no propia o inexistente");
-
+                _callback(new object[] { webRequest.result });
                 yield break;
             }
             if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
