@@ -266,11 +266,13 @@ public class MwsiveCuratorsRoot
 public class MwsiveFollowersRoot
 {
     public List<MwsiveUser> followers { get; set; }
+    public int total_folloer { get; set; }
 }
 
 public class MwsiveFollowedRoot
 {
     public List<MwsiveUser> followed { get; set; }
+    public int total_folloer { get; set; }
 }
 
 public class MwsiveBadgesRoot

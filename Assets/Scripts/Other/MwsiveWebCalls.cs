@@ -324,6 +324,49 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
+    public static IEnumerator CR_PutLastSavedPlaylist(string _token, string _playlist_id, MwsiveWebCallback _callback)
+    {
+        string jsonResult = "";
+
+        //string url = "https://mwsive.com/me/last-selected-playlist";
+        string url = "http://192.241.129.184/api/me/last-selected-playlist";
+
+          using (UnityWebRequest webRequest = UnityWebRequest.Put(url, _playlist_id))
+        {
+            webRequest.SetRequestHeader("Accept", "application/json");
+            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
+            {
+                //Catch response code for multiple requests to the server in a short timespan.
+
+                if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
+                {
+                    //TODO Response when unauthorized
+                }
+
+                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                yield break;
+            }
+            else
+            {
+                while (!webRequest.isDone) { yield return null; }
+
+                if (webRequest.isDone)
+                {
+                    Debug.Log("Put Last Saved Playlist " + jsonResult);
+                    _callback(new object[] { webRequest.responseCode, _playlist_id });
+                    yield break;
+                }
+            }
+
+            Debug.Log("Failed on put Last Saved Playlist " + jsonResult);
+            yield break;
+        }
+    }
+
     public static IEnumerator CR_PostTrackAction(string _token, int _user_id, int _track_id, string _action, float _duration, MwsiveWebCallback _callback)
     {
         string jsonResult = "";
@@ -596,6 +639,100 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
+        public static IEnumerator CR_GetUserFollowers(string _token, string _user_id, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    {
+        string jsonResult = "";
+
+        //string url = "https://mwsive.com/users/" +_user_id + "/followers/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "http://192.241.129.184/api/users/" + _user_id + "/followers/" + _offset.ToString() + "/" + _limit.ToString();
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            webRequest.SetRequestHeader("Accept", "application/json");
+            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
+            {
+                //Catch response code for multiple requests to the server in a short timespan.
+
+                if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
+                {
+                    //TODO Response when unauthorized
+                }
+
+                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                yield break;
+            }
+            else
+            {
+                while (!webRequest.isDone) { yield return null; }
+
+                if (webRequest.isDone)
+                {
+                    jsonResult = webRequest.downloadHandler.text;
+                    Debug.Log("Fetch Mwsive followers result: " + jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveFollowersRoot mwsiveFollowersRoot = JsonConvert.DeserializeObject<MwsiveFollowersRoot>(jsonResult, settings);
+                    _callback(new object[] { webRequest.responseCode, mwsiveFollowersRoot });
+                    yield break;
+                }
+            }
+
+            Debug.Log("Failed fetch Mwsive followers result: " + jsonResult);
+            yield break;
+
+        }
+    }
+
+    public static IEnumerator CR_GetUserFollowed(string _token, string _user_id, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    {
+        string jsonResult = "";
+
+         //string url = "https://mwsive.com/users/" +_user_id + "/followed/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "http://192.241.129.184/api/users/" + _user_id + "/followed/" + _offset.ToString() + "/" + _limit.ToString();
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            webRequest.SetRequestHeader("Accept", "application/json");
+            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
+            {
+                //Catch response code for multiple requests to the server in a short timespan.
+
+                if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
+                {
+                    //TODO Response when unauthorized
+                }
+
+                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                yield break;
+            }
+            else
+            {
+                while (!webRequest.isDone) { yield return null; }
+
+                if (webRequest.isDone)
+                {
+                    jsonResult = webRequest.downloadHandler.text;
+                    Debug.Log("Fetch Mwsive followers result: " + jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveFollowedRoot mwsiveFollowedRoot = JsonConvert.DeserializeObject<MwsiveFollowedRoot>(jsonResult, settings);
+                    _callback(new object[] { webRequest.responseCode, mwsiveFollowedRoot });
+                    yield break;
+                }
+            }
+
+            Debug.Log("Failed fetch Mwsive followers result: " + jsonResult);
+            yield break;
+
+        }
+    }
+
     public static IEnumerator CR_PostFollow(string _token, string _user_id, MwsiveWebCallback _callback)
     {
         string jsonResult = "";
@@ -648,6 +785,53 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
+        public static IEnumerator CR_GetCuratorsByName(string _token, string _name, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    {
+        string jsonResult = "";
+
+        //string url = "https://mwsive.com/me/users/"+ _name;
+        string url = "http://192.241.129.184/api/users/" + _name;
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            webRequest.SetRequestHeader("Accept", "application/json");
+            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
+            {
+                //Catch response code for multiple requests to the server in a short timespan.
+
+                if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
+                {
+                    //TODO Response when unauthorized
+                }
+
+                Debug.Log("Protocol Error or Connection Error on fetch curators by name");
+                yield break;
+            }
+            else
+            {
+                while (!webRequest.isDone) { yield return null; }
+
+                if (webRequest.isDone)
+                {
+                    jsonResult = webRequest.downloadHandler.text;
+                    Debug.Log("Fetch Curators by name result: " + jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveCuratorsRoot mwsiveCuratorsRoot = JsonConvert.DeserializeObject<MwsiveCuratorsRoot>(jsonResult, settings);
+                    _callback(new object[] { webRequest.responseCode, mwsiveCuratorsRoot });
+                    yield break;
+                }
+            }
+
+            Debug.Log("Failed fetch curators by name result: " + jsonResult);
+            yield break;
+
+        }
+    }
+    
     public static IEnumerator CR_GetBadges(string _token, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";

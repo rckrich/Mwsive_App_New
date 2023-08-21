@@ -119,6 +119,20 @@ public class MwsiveConnectionManager : MonoBehaviour
         Debug.Log(((MwsiveUserRoot)_value[1]));
     }
 
+    public void PutLastSavedPlaylist(string _playlist_id, MwsiveWebCallback _callback = null)
+    {
+        _callback += Callback_PutLastSavedPlaylist;
+        StartCoroutine(MwsiveWebCalls.CR_PutLastSavedPlaylist(ProgressManager.instance.progress.userDataPersistance.access_token, _playlist_id, _callback));
+    }
+
+    private void Callback_PutLastSavedPlaylist(object[] _value)
+    {
+        if (CheckResponse((long)_value[0]))
+        {
+            return;
+        }
+    }
+
     public void PostDeleteUser(MwsiveWebCallback _callback = null)
     {
         _callback += Callback_PostDeleteUser;
@@ -211,6 +225,38 @@ public class MwsiveConnectionManager : MonoBehaviour
         Debug.Log(((MwsiveFollowedRoot)_value[1]));
     }
 
+    public void GetUserFollowers(string _user_id, MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
+    {
+        _callback += Callback_GetUserFollowers;
+        StartCoroutine(MwsiveWebCalls.CR_GetUserFollowers(ProgressManager.instance.progress.userDataPersistance.access_token, _user_id, _callback, _offset, _limit));
+    }
+
+    private void Callback_GetUserFollowers(object[] _value)
+    {
+        if (CheckResponse((long)_value[0]))
+        {
+            return;
+        }
+
+        Debug.Log(((MwsiveFollowersRoot)_value[1]));
+    }
+
+    public void GetUserFollowed(string _user_id, MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
+    {
+        _callback += Callback_GetUserFollowed;
+        StartCoroutine(MwsiveWebCalls.CR_GetUserFollowed(ProgressManager.instance.progress.userDataPersistance.access_token, _user_id, _callback, _offset, _limit));
+    }
+
+    private void Callback_GetUserFollowed(object[] _value)
+    {
+        if (CheckResponse((long)_value[0]))
+        {
+            return;
+        }
+
+        Debug.Log(((MwsiveFollowedRoot)_value[1]));
+    }
+
     public void PostFollow(string _user_id, MwsiveWebCallback _callback = null)
     {
         _callback += Callback_PostFollow;
@@ -223,6 +269,22 @@ public class MwsiveConnectionManager : MonoBehaviour
         {
             return;
         }
+    }
+
+    public void GetCuratorsByName(string _name, MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
+    {
+        _callback += Callback_GetCuratorsByName;
+        StartCoroutine(MwsiveWebCalls.CR_GetCuratorsByName(ProgressManager.instance.progress.userDataPersistance.access_token, _name, _callback, _offset, _limit));
+    }
+
+    private void Callback_GetCuratorsByName(object[] _value)
+    {
+        if (CheckResponse((long)_value[0]))
+        {
+            return;
+        }
+
+        Debug.Log(((MwsiveBadgesRoot)_value[1]));
     }
 
     public void GetBadges(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
