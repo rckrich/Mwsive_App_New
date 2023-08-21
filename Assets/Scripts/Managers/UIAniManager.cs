@@ -608,7 +608,6 @@ public class UIAniManager : MonoBehaviour
     }
 
     public void SurfTransitionBackSong(GameObject GA, GameObject Position, float Maxrotation){
-
         GA.SetActive(true);
         GA.transform.eulerAngles = new Vector3(0f, 0f, Maxrotation);
         GA.transform.DOMove(Position.transform.position, SurfTransitionDuration, false);
@@ -617,6 +616,7 @@ public class UIAniManager : MonoBehaviour
         GA.transform.DORotate(new Vector3(0,0,0), SurfTransitionDuration);
 
     }
+    
 
 
     public void SurfTransitionOtherSongs(GameObject GA, GameObject Position, float var){
@@ -634,7 +634,7 @@ public class UIAniManager : MonoBehaviour
     }
 
     public void SurfTransitionBackHideSong(GameObject GA, GameObject Position, float var){
-        Debug.Log(GA.name);
+     
         float fade = Mathf.Clamp(var*2, 0, 1);
         GA.transform.DOMove(Position.transform.position, SurfTransitionDuration, false);
         GA.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha*fade, SurfTransitionDuration).OnComplete(() => {GA.SetActive(false);});
@@ -680,7 +680,11 @@ public class UIAniManager : MonoBehaviour
         GA.GetComponent<CanvasGroup>().DOFade(0, .3f).OnComplete(() => {Destroy(GA);});
     }
 
-
+    public void SurfShareSpawn(GameObject GA)
+    {
+        SetPosition();
+        GA.transform.position = RestPositionUp;
+    }
     
     public void UIMessage(GameObject GA){
         SetPosition();

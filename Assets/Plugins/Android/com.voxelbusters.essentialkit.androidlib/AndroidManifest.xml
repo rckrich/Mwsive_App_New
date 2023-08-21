@@ -3,17 +3,11 @@
   <queries />
   <application>
     <activity android:name="com.voxelbusters.essentialkit.deeplinkservices.DeepLinkRedirectActivity" android:label="Mwsive_App" android:exported="true">
-      <intent-filter android:label="identifier" android:autoVerify="true">
-        <action android:name="android.intent.action.VIEW" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <category android:name="android.intent.category.BROWSABLE" />
-        <data android:scheme="" />
-      </intent-filter>
       <intent-filter android:label="identifier">
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
-        <data android:scheme="" />
+        <data android:scheme="rck" android:host="mwsive" android:pathPrefix="/song" />
       </intent-filter>
     </activity>
   </application>
