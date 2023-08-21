@@ -170,7 +170,13 @@ public class ButtonSurfPlaylist : ViewModel
 
     private void Callback_AddToPlaylist(object[] _value)
     {
-        
+        string webcode = ((long)_value[0]).ToString();
+        if(webcode == "404" || webcode == "403")
+        {
+            UIMessage.instance.UIMessageInstanciate("Playlist no propia o inexistente");
+            playlistText.color = Color.red;
+            Debug.Log("Hola");
+        }
         AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
             mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
             UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");
@@ -186,21 +192,6 @@ public class ButtonSurfPlaylist : ViewModel
         });
     }
 
-    public void BackSwipe()
-    {
-        
-    }
-
-    public void CallBack_BackSwipe()
-    {
-
-    }
-
-    public void Callback_CurrentUserPlaylist(object[] _value)
-    {
-         
-
-    }
 
     public void SelectedPlaylistNameEventListener(SelectedPlaylistNameAppEvent _event)
     {
@@ -214,10 +205,18 @@ public class ButtonSurfPlaylist : ViewModel
         {
             mwsiveButton.AddToPlaylistButtonColorButtonColorAgain(0.5f);
         }
+
+
+        
     }
 
     public void OnClick_PlayOnSpotify()
     {
         Application.OpenURL(externalURL);
+    }
+
+    public void BackSwipe()
+    {
+
     }
 }
