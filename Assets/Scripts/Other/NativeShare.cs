@@ -52,7 +52,8 @@ public class NativeShare : MonoBehaviour
         
     }
 
-    public void TestShare(string a){
+    public void TestShare(){
+        string a = "rck://mwsive/song/6kFDvPj3FVpQ90HZ5PacxE>";
         string[] Link = a.Split("/");
 
         for (int i = 0; i < Link.Length; i++)
