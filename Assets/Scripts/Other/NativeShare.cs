@@ -52,6 +52,20 @@ public class NativeShare : MonoBehaviour
         
     }
 
+    public void TestShare(string a){
+        string[] Link = a.Split("/");
+
+        for (int i = 0; i < Link.Length; i++)
+        {
+            Debug.Log(Link[i]);
+            if(Link[i] == "song"){
+                
+                Surf.SpawnSharePrefab(Link[i+1]);
+                NewScreenManager.instance.ChangeToMainView(ViewID.SurfViewModel);
+            }
+        }
+    }
+
     private void OnUniversalLinkOpen (DeepLinkServicesDynamicLinkOpenResult result)
     {
         Debug.Log("Handle deep link : " + result.Url);
