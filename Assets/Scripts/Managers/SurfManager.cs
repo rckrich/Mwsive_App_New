@@ -615,11 +615,12 @@ public class SurfManager : Manager
 
     private void Callback_SpawnSharePrefab(object[] _value){
         TrackRoot trackRoot = (TrackRoot)_value[1];
-        if(trackRoot != null || trackRoot.preview_url != null){
+        int SiblingIndex = GetCurrentPrefab().transform.GetSiblingIndex();
+        if (trackRoot != null || trackRoot.preview_url != null){
             GameObject Instance;
-            UIAniManager.instance.GetRestPositionShare();
+            
 
-            Instance = Instantiate(Prefab,new Vector3(UIAniManager.instance.GetRestPositionShare().x, 0, UIAniManager.instance.GetRestPositionShare().y), Quaternion.identity);
+            Instance = Instantiate(Prefab,new Vector3(0,0,0), Quaternion.identity);
             Instance.SetActive(false);
             Instance.transform.SetParent(MwsiveContainer.transform);
             Instance.transform.localScale = new Vector3 (1f,1f,1f);
@@ -627,8 +628,9 @@ public class SurfManager : Manager
             Instance.GetComponent<RectTransform>().offsetMax = new Vector2 (LeftRightOffset.y,0);
 
             MwsiveSongs.Insert(MwsiveSongs.IndexOf(GetCurrentPrefab()), Instance);
-           
-            Instance.transform.SetSiblingIndex(GetCurrentPrefab().transform.GetSiblingIndex());
+          
+            Instance.transform.SetSiblingIndex(SiblingIndex+1);
+            
             
 
             string artists = "";
@@ -640,8 +642,25 @@ public class SurfManager : Manager
             artists = artists.Remove(artists.Length - 2);
             Instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, trackRoot.name, trackRoot.album.name, artists, trackRoot.album.images[0].url, trackRoot.id, trackRoot.uri, trackRoot.preview_url, trackRoot.external_urls.spotify);
             PrefabPosition++;
-            DownScrollSuccess();
-        }else{
+
+            UIAniManager.instance.SurfShareSpawn(Instance);
+            if(CurrentPosition > 0)
+            {
+               ResetValue();
+                UIAniManager.instance.SurfTransitionBackSong(Instance, RestPositions[0], MaxRotation);
+                Instance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+
+            }
+            else
+            {
+                DownScrollSuccess();
+                UIAniManager.instance.SurfTransitionBackSong(Instance, RestPositions[0], MaxRotation);
+                Instance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+            }
+            
+
+        }
+        else{
             UIMessage.instance.UIMessageInstanciate("Esta canción no esta disponible");
         }
         

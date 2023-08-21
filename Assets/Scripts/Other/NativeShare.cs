@@ -53,18 +53,8 @@ public class NativeShare : MonoBehaviour
     }
 
     public void TestShare(){
-        string a = "rck://mwsive/song/6kFDvPj3FVpQ90HZ5PacxE>";
-        string[] Link = a.Split("/");
-
-        for (int i = 0; i < Link.Length; i++)
-        {
-            Debug.Log(Link[i]);
-            if(Link[i] == "song"){
-                
-                Surf.SpawnSharePrefab(Link[i+1]);
-                NewScreenManager.instance.ChangeToMainView(ViewID.SurfViewModel);
-            }
-        }
+        Surf.SpawnSharePrefab("6kFDvPj3FVpQ90HZ5PacxE");
+        NewScreenManager.instance.ChangeToMainView(ViewID.SurfViewModel);
     }
 
     private void OnUniversalLinkOpen (DeepLinkServicesDynamicLinkOpenResult result)

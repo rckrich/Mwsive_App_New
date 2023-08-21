@@ -46,7 +46,7 @@ public class SpotifyPreviewAudioManager : MonoBehaviour
 
     public void Pause()
     {
-        Debug.Log(isPaused);
+        
         if (isPaused)
         {
             audioSource.Play();
