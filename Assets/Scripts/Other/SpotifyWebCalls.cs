@@ -962,7 +962,7 @@ public static class SpotifyWebCalls
             yield return webRequest.SendWebRequest();
             if(webRequest.result == UnityWebRequest.Result.ProtocolError && webRequest.responseCode == 403 || webRequest.result == UnityWebRequest.Result.ProtocolError && webRequest.responseCode == 404)
             {
-                _callback(new object[] { webRequest.result });
+                _callback(new object[] { webRequest.responseCode, null });
                 yield break;
             }
             if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)

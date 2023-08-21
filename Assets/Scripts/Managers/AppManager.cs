@@ -28,6 +28,7 @@ public class AppManager : Manager
     public string uri;
     public string url;
     public bool isSelected;
+    public bool yours = true;
     public int countTopArtist = 1;
     public int countTopCurators = 1;
     
