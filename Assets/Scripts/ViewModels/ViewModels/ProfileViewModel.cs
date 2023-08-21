@@ -28,7 +28,7 @@ public class ProfileViewModel : ViewModel
         }
         else
         {
-            CallPopUP(PopUpViewModelTypes.OptionChoice, "Neceseitas permiso", "Necesitas crear una cuenta de Mwsive para poder realizar está acción, preisona Crear Cuenta para hacer una.", "Crear Cuenta");
+            CallPopUP(PopUpViewModelTypes.OptionChoice, "Neceseitas permiso", "Necesitas crear una cuenta de Mwsive para poder realizar está acción, presiona Crear Cuenta para hacer una.", "Crear Cuenta");
             PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
 
             popUpViewModel.SetPopUpCancelAction(() => {
@@ -224,6 +224,11 @@ public class ProfileViewModel : ViewModel
     public void OnClick_Follow()
     {
         MwsiveConnectionManager.instance.PostFollow(profileId);
+    }
+
+    public void OnClick_Share(){
+        Debug.Log(profileId);
+        NativeShareManager.instance.OnClickShareMwsiveProfile(profileId);
     }
 }
 

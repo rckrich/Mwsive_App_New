@@ -9,6 +9,12 @@
         <category android:name="android.intent.category.BROWSABLE" />
         <data android:scheme="rck" android:host="mwsive" android:pathPrefix="/song" />
       </intent-filter>
+      <intent-filter android:label="identifier">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="rck" android:host="mwsive" android:pathPrefix="/profile" />
+      </intent-filter>
     </activity>
   </application>
 </manifest>

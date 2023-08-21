@@ -8,11 +8,25 @@ using VoxelBusters.CoreLibrary;
 using VoxelBusters.CoreLibrary.NativePlugins;
 using VoxelBusters.EssentialKit;
 // internal namespace
-public class NativeShare : MonoBehaviour
+public class NativeShareManager : MonoBehaviour
 {
 
+    private static NativeShareManager _instance;
+
+    public static NativeShareManager instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = GameObject.FindObjectOfType<NativeShareManager>();
+            }
+            return _instance;
+        }
+    }
     private bool boolswitch = true;
     public SurfManager Surf;
+    public MenuOptions Menu;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +61,11 @@ public class NativeShare : MonoBehaviour
                 
                 Surf.SpawnSharePrefab(Link[i+1]);
                 NewScreenManager.instance.ChangeToMainView(ViewID.SurfViewModel);
+                Menu.OnClick(1);
+            }
+            if(Link[i] == "profile"){
+                NewScreenManager.instance.ChangeToSpawnedView("profile");
+                NewScreenManager.instance.GetCurrentView().Initialize(Link[i+1]);
             }
         }
         
@@ -66,7 +85,7 @@ public class NativeShare : MonoBehaviour
         {
             Debug.Log(Link[i]);
             if(Link[i] == "song"){
-                Debug.Log("aa");
+                
                 Surf.SpawnSharePrefab(Link[i+1]);
                 NewScreenManager.instance.ChangeToMainView(ViewID.SurfViewModel);
             }
@@ -86,6 +105,18 @@ public class NativeShare : MonoBehaviour
        
         }
         boolswitch = !boolswitch;
+    }
+
+    public void OnClickShareMwsiveProfile(string profileid){
+        if(boolswitch){
+            ShareSheet shareSheet = ShareSheet.CreateInstance();
+        shareSheet.AddText("rck://mwsive/profile" + profileid);
+        shareSheet.AddURL(URLString.URLWithPath("rck://mwsive/profile" + profileid));
+        shareSheet.SetCompletionCallback((result, error) => {
+            Debug.Log("Share Sheet was closed. Result code: " + result.ResultCode);
+        });
+        shareSheet.Show();
+        }
     }
     
 }

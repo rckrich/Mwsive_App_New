@@ -910,7 +910,6 @@ GameObject:
   - component: {fileID: 7396740250254444388}
   - component: {fileID: 7400070989877605678}
   - component: {fileID: 3577394219102972297}
-  - component: {fileID: 2037196111186618842}
   m_Layer: 0
   m_Name: SurfManager
   m_TagString: Untagged
@@ -987,18 +986,6 @@ MonoBehaviour:
   _sensetivity: 3
   _continuousDetection: 0
   _swipeDetectionMode: 2
---- !u!114 &2037196111186618842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1764207971196844601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecaaaeddeae92ce4591d4db952b3cc05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1964677882829966216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1132,7 +1119,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -53.585022, y: -188.7}
+  m_AnchoredPosition: {x: -53.585022, y: -166.9}
   m_SizeDelta: {x: 22.83, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4879193969533838047
@@ -1234,18 +1221,6 @@ MonoBehaviour:
       - m_Target: {fileID: 2332646682604628738}
         m_TargetAssemblyTypeName: MwsiveControllerButtons, Scripts
         m_MethodName: OnClickCompartirButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2037196111186618842}
-        m_TargetAssemblyTypeName: NativeShare, Scripts
-        m_MethodName: OnClickShareMwsiveSong
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1560,7 +1535,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -53.585, y: -144.7}
+  m_AnchoredPosition: {x: -53.585, y: -124.4}
   m_SizeDelta: {x: 22.83, y: 22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5605749844300417010
@@ -3239,7 +3214,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -54.40712, y: -96.19999}
+  m_AnchoredPosition: {x: -54.40712, y: -78.9}
   m_SizeDelta: {x: 30.0811, y: 18}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8350155843045200013
