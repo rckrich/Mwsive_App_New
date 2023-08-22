@@ -39,7 +39,7 @@ public class AppManager : Manager
     public SelectedPlaylistNameAppObject appObject;
     public ButtonSurfPlaylist buttonSurfPlaylist;
 
-    private SearchedPlaylist currentPlaylist = null;
+    private SpotifyPlaylistRoot currentPlaylist = null;
     private SpotifyWebCallback refreshPlaylistCallback;
 
     void Start()
@@ -84,7 +84,7 @@ public class AppManager : Manager
 
     #region Playlist Settings
 
-    public void ChangeCurrentPlaylist(SearchedPlaylist _searchedPlaylist)
+    public void ChangeCurrentPlaylist(SpotifyPlaylistRoot _searchedPlaylist)
     {
         currentPlaylist = _searchedPlaylist;
     }
@@ -97,7 +97,7 @@ public class AppManager : Manager
 
     public void Callback_OnSpotifyPlaylistChange(object[] _value)
     {
-        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
+        SpotifyPlaylistRoot searchedPlaylist = (SpotifyPlaylistRoot)_value[1];
         currentPlaylist = searchedPlaylist;
         ProgressManager.instance.progress.userDataPersistance.current_playlist = searchedPlaylist.id;
         ProgressManager.instance.save();
@@ -109,7 +109,7 @@ public class AppManager : Manager
         EndSearch();
     }
 
-    public SearchedPlaylist GetCurrentPlaylist()
+    public SpotifyPlaylistRoot GetCurrentPlaylist()
     {
         return currentPlaylist;
     }
@@ -134,7 +134,7 @@ public class AppManager : Manager
 
     private void Callback_RefreshCurrentPlaylist(object[] _value)
     {
-        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
+        SpotifyPlaylistRoot searchedPlaylist = (SpotifyPlaylistRoot)_value[1];
         currentPlaylist = searchedPlaylist;
 
         if (refreshPlaylistCallback != null)
@@ -143,6 +143,8 @@ public class AppManager : Manager
         }
 
         refreshPlaylistCallback = null;
+
+        MwsiveConnectionManager.instance.PutLastSavedPlaylist(searchedPlaylist.id);
     }
 
     #endregion
@@ -185,39 +187,19 @@ public class AppManager : Manager
             return;
         }
 
-        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
+        SpotifyPlaylistRoot searchedPlaylist = (SpotifyPlaylistRoot)_value[1];
         currentPlaylist = searchedPlaylist;
+        MwsiveConnectionManager.instance.PutLastSavedPlaylist(searchedPlaylist.id);
 
         SpotifyConnectionManager.instance.GetCurrentUserTopTracks(Callback_GetUserTopTracks_LogInFlow);
     }
 
     private void Callback_CreatePlaylist_LogInFlow(object[] _value)
     {
-        CreatedPlaylistRoot createdPlaylistRoot = (CreatedPlaylistRoot)_value[1];
+        SpotifyPlaylistRoot spotifyPlaylistRoot = (SpotifyPlaylistRoot)_value[1];
 
-        SearchedPlaylist newlySearchedPlaylistRoot = new SearchedPlaylist
-        {
-            collaborative = createdPlaylistRoot.collaborative,
-            description = createdPlaylistRoot.description,
-            external_urls = createdPlaylistRoot.external_urls,
-            followers = createdPlaylistRoot.followers,
-            href = createdPlaylistRoot.href,
-            id = createdPlaylistRoot.id,
-            name = createdPlaylistRoot.name,
-            owner = createdPlaylistRoot.owner,
-            @public = createdPlaylistRoot.@public,
-            snapshot_id = createdPlaylistRoot.snapshot_id,
-            tracks = createdPlaylistRoot.tracks,
-            type = createdPlaylistRoot.type,
-            uri = createdPlaylistRoot.uri
-        };
-
-        foreach(SpotifyImage image in createdPlaylistRoot.images)
-        {
-            newlySearchedPlaylistRoot.images.Add(image);
-        }
-
-        currentPlaylist = newlySearchedPlaylistRoot;
+        currentPlaylist = spotifyPlaylistRoot;
+        MwsiveConnectionManager.instance.PutLastSavedPlaylist(spotifyPlaylistRoot.id);
 
         SpotifyConnectionManager.instance.GetCurrentUserTopTracks(Callback_GetUserTopTracks_LogInFlow);
     }
@@ -244,7 +226,7 @@ public class AppManager : Manager
 
     private void Callback_GetGlobalTopTracks_LogInFlow(object[] _value)
     {
-        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
+        SpotifyPlaylistRoot searchedPlaylist = (SpotifyPlaylistRoot)_value[1];
 
         string[] trackSeeds = new string[5];
 
@@ -278,7 +260,7 @@ public class AppManager : Manager
     private void Callback_GetTopPlaylist_NoLogInFLow(object[] _value)
     {
         EndSearch();
-        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
+        SpotifyPlaylistRoot searchedPlaylist = (SpotifyPlaylistRoot)_value[1];
         SurfManager.instance.DynamicPrefabSpawnerPL(new object[] { searchedPlaylist });
     }
 

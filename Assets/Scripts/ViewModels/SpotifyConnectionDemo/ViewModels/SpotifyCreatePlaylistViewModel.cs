@@ -39,14 +39,14 @@ public class SpotifyCreatePlaylistViewModel : MonoBehaviour
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
-        CreatedPlaylistRoot createdPlaylistRoot = (CreatedPlaylistRoot)_value[1];
-        playListName.text = createdPlaylistRoot.name;
-        creatorName.text = createdPlaylistRoot.owner.display_name;
-        descriptionText.text = createdPlaylistRoot.description;
-        spotifyID.text = createdPlaylistRoot.id;
-        isPublicText.text = createdPlaylistRoot.@public.ToString();
+        SpotifyPlaylistRoot spotifyPlaylistRoot = (SpotifyPlaylistRoot)_value[1];
+        playListName.text = spotifyPlaylistRoot.name;
+        creatorName.text = spotifyPlaylistRoot.owner.display_name;
+        descriptionText.text = spotifyPlaylistRoot.description;
+        spotifyID.text = spotifyPlaylistRoot.id;
+        isPublicText.text = spotifyPlaylistRoot.@public.ToString();
 
-        if(createdPlaylistRoot.images != null && createdPlaylistRoot.images.Count > 0)
-            ImageManager.instance.GetImage(createdPlaylistRoot.images[0].url, playListPicture, (RectTransform)this.transform);
+        if(spotifyPlaylistRoot.images != null && spotifyPlaylistRoot.images.Count > 0)
+            ImageManager.instance.GetImage(spotifyPlaylistRoot.images[0].url, playListPicture, (RectTransform)this.transform);
     }
 }

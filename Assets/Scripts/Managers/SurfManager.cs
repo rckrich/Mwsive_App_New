@@ -33,7 +33,7 @@ public class SurfManager : Manager
     public Vector2 LeftRightOffset;
     public float doubleClickTime = .1f;
     public bool CanGetRecomendations = false;
-    private SearchedPlaylist searchedPlaylist;
+    private SpotifyPlaylistRoot searchedPlaylist;
     private RecommendationsRoot recommendationsRoot;
     private AlbumRoot albumroot;
 
@@ -523,7 +523,7 @@ public class SurfManager : Manager
     public void DynamicPrefabSpawnerPL(object[] _value)
     {
         
-        searchedPlaylist = (SearchedPlaylist)_value[0];
+        searchedPlaylist = (SpotifyPlaylistRoot)_value[0];
 
         Debug.Log("----------------------------" + searchedPlaylist.tracks.items.Count);
         GameObject FirstInstance = null;

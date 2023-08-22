@@ -570,7 +570,8 @@ public static class SpotifyWebCalls
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch playlist result: " + jsonResult);
-                    SearchedPlaylist searchedPlaylist = JsonConvert.DeserializeObject<SearchedPlaylist>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    SpotifyPlaylistRoot searchedPlaylist = JsonConvert.DeserializeObject<SpotifyPlaylistRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, searchedPlaylist });
                     yield break;
                 }
@@ -838,8 +839,8 @@ public static class SpotifyWebCalls
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Playlist created " + jsonResult);
-                    CreatedPlaylistRoot createdPlaylistRoot = JsonConvert.DeserializeObject<CreatedPlaylistRoot>(jsonResult);
-                    _callback(new object[] { webRequest.responseCode, createdPlaylistRoot });
+                    SpotifyPlaylistRoot spotifyPlaylistRoot = JsonConvert.DeserializeObject<SpotifyPlaylistRoot>(jsonResult);
+                    _callback(new object[] { webRequest.responseCode, spotifyPlaylistRoot });
                     yield break;
                 }
             }

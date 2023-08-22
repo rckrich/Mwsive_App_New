@@ -38,6 +38,7 @@ public class MwsiveUser : Instanceable
     public string platform_id { get; set; }
     public int total_followers { get; set; }
     public int total_followed { get; set; }
+    public string? last_selected_playlist { get; set; }
 }
 
 public class Curator

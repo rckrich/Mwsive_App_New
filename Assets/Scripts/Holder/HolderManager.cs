@@ -23,7 +23,7 @@ public class HolderManager : MonoBehaviour
     private void Callback_OnCLick_GetPlaylist(object[] _value)
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
-        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
+        SpotifyPlaylistRoot searchedPlaylist = (SpotifyPlaylistRoot)_value[1];
         playlistName = searchedPlaylist.name;
         Debug.Log(playlistName);
 

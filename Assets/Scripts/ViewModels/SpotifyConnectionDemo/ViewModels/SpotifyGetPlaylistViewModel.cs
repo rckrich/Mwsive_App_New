@@ -34,7 +34,7 @@ public class SpotifyGetPlaylistViewModel : MonoBehaviour
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
-        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
+        SpotifyPlaylistRoot searchedPlaylist = (SpotifyPlaylistRoot)_value[1];
         displayName.text = searchedPlaylist.name;
         spotifyID.text = searchedPlaylist.id;
         creatorName.text = searchedPlaylist.owner.display_name;

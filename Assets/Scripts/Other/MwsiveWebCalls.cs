@@ -331,8 +331,9 @@ public class MwsiveWebCalls : MonoBehaviour
         //string url = "https://mwsive.com/me/last-selected-playlist";
         string url = "http://192.241.129.184/api/me/last-selected-playlist";
 
-          using (UnityWebRequest webRequest = UnityWebRequest.Put(url, _playlist_id))
+        using (UnityWebRequest webRequest = UnityWebRequest.Put(url, _playlist_id))
         {
+            webRequest.SetRequestHeader("Content-Type", "application/json");
             webRequest.SetRequestHeader("Accept", "application/json");
             webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
 

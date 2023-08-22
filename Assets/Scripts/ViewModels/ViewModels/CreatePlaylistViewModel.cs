@@ -51,9 +51,9 @@ public class CreatePlaylistViewModel : ViewModel
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
-        CreatedPlaylistRoot createdPlaylistRoot = (CreatedPlaylistRoot)_value[1];
+        SpotifyPlaylistRoot spotifyPlaylistRoot = (SpotifyPlaylistRoot)_value[1];
 
-        SpotifyConnectionManager.instance.PutChangePlaylistCoverImage(createdPlaylistRoot.id, WebCallsUtils.MWSIVE_COVER_BASECODE64, Callback_ChangePLaylistCover);
+        SpotifyConnectionManager.instance.PutChangePlaylistCoverImage(spotifyPlaylistRoot.id, WebCallsUtils.MWSIVE_COVER_BASECODE64, Callback_ChangePLaylistCover);
     }
 
     private void Callback_ChangePLaylistCover(object[] _value) {
