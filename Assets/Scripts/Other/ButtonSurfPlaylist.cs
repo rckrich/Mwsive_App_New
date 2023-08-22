@@ -22,27 +22,47 @@ public class ButtonSurfPlaylist : ViewModel
     public string mp3URL;
     public bool isAdd = false;
     public string externalURL;
+    public bool changeColor = false;
 
     public MwsiveButton mwsiveButton;
     public GameObject loadingAnimGameObject;
     public DurationBar durationBar;
+    public GameObject buttonColor;
 
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
     {
         playlistName = _playlistName;
+
+    }
+    public void SetChangeColorAppEvent(Color _color)
+    {
+        buttonColor.GetComponent<Image>().color = _color;
+        playlistText.color = _color;
     }
     public string GetSelectedPlaylistNameAppEvent() { return playlistName; }
+
+    public string GetChangeColorAppEvent() { return playlistText.text;  }
 
     private void OnEnable()
     {
         playlistText.text = playlistName;
+        AddEventListener<ChangeColorAppEvent>(ChangeEventListener);
         AddEventListener<SelectedPlaylistNameAppEvent>(SelectedPlaylistNameEventListener);
         playlistText.text = AppManager.instance.GetCurrentPlaylist().name;
+        if (!AppManager.instance.yours)
+        {
+            buttonColor.GetComponent<Image>().color = Color.red;
+        }
+        else
+        {
+            buttonColor.GetComponent<Image>().color = Color.black;
+        }
     }
 
     private void OnDisable()
     {
         RemoveEventListener<SelectedPlaylistNameAppEvent>(SelectedPlaylistNameEventListener);
+        RemoveEventListener<ChangeColorAppEvent>(ChangeEventListener);
     }
 
     public void InitializeMwsiveSong(string _playlistName, string _trackname, string _album, string _artist, string _image, string _spotifyid, string _url, string _previewURL, string _externalURL)
@@ -98,9 +118,7 @@ public class ButtonSurfPlaylist : ViewModel
         if(_externalURL != null){
             externalURL = _externalURL;
         }
-        
 
-        
     }
 
     public void PlayAudioPreview()
@@ -136,6 +154,8 @@ public class ButtonSurfPlaylist : ViewModel
     public void OnClick_OpenPlaylist()
     {
         SurfManager.instance.SetActive(false);
+        AppManager.instance.yours = true;
+        InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(Color.black));
         NewScreenManager.instance.ChangeToSpawnedView("surfMiPlaylist");
     }
 
@@ -174,13 +194,21 @@ public class ButtonSurfPlaylist : ViewModel
         if(webcode == "404" || webcode == "403")
         {
             UIMessage.instance.UIMessageInstanciate("Playlist no propia o inexistente");
-            playlistText.color = Color.red;
+            AppManager.instance.yours = false;
+            InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(Color.red));
             Debug.Log("Hola");
         }
-        AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
-            mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
-            UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");
-        });
+        else
+        {
+            AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
+                mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
+                UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");
+            });
+
+            AppManager.instance.yours = true;
+            InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(Color.black));
+        }
+        
         
     }
 
@@ -205,8 +233,6 @@ public class ButtonSurfPlaylist : ViewModel
         {
             mwsiveButton.AddToPlaylistButtonColorButtonColorAgain(0.5f);
         }
-
-
         
     }
 
@@ -218,5 +244,19 @@ public class ButtonSurfPlaylist : ViewModel
     public void BackSwipe()
     {
 
+    }
+
+    public void ChangeEventListener(ChangeColorAppEvent _event)
+    {
+        if (!AppManager.instance.yours)
+        {
+            buttonColor.GetComponent<Image>().color = Color.red;
+            playlistText.color = Color.red;
+        }
+        else
+        {
+            buttonColor.GetComponent<Image>().color = Color.black;
+            playlistText.color = Color.black;
+        }
     }
 }
