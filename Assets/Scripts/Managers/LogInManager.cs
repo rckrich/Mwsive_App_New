@@ -28,6 +28,7 @@ public class LogInManager : Manager
     private string playlistid;
     private string[] itemIDs;
     private ProfileRoot profile;
+    private MwsiveUser mwsiveUser;
 
     private LogInCallback previousAction;
 
@@ -84,7 +85,20 @@ public class LogInManager : Manager
             itemIDs[i] = playlistRoot.items[i].id;
         }
 
-        SetCurrentPlaylist(itemIDs[0]);
+        if (mwsiveUser != null) {
+            if(mwsiveUser.last_selected_playlist != null && !mwsiveUser.last_selected_playlist.Equals(""))
+            {
+                SetCurrentPlaylist(mwsiveUser.last_selected_playlist);
+            }
+            else
+            {
+                SetCurrentPlaylist(itemIDs[0]);
+            }
+        }
+        else
+        {
+            SetCurrentPlaylist(itemIDs[0]);
+        }
 
         NewScreenManager.instance.GetCurrentView().EndSearch();
 
@@ -118,6 +132,9 @@ public class LogInManager : Manager
         if (webcode == "204" || webcode == "200")
         {
             MwsiveLoginRoot mwsiveLoginRoot = (MwsiveLoginRoot)_value[1];
+
+            mwsiveUser = mwsiveLoginRoot.user;
+
             Debug.Log(mwsiveLoginRoot);
 
             SetMwsiveToken(mwsiveLoginRoot.access_token, DateTime.Now.AddHours(1));
@@ -169,15 +186,15 @@ public class LogInManager : Manager
 
     private void Callback_PostCreateUser(object[] _value)
     {
-        MwsiveCreatedRoot mwsiveCreatenRoot = (MwsiveCreatedRoot)_value[1];
+        MwsiveCreatedRoot mwsiveCreatedRoot = (MwsiveCreatedRoot)_value[1];
         SpotifyConnectionManager.instance.CreatePlaylist(profileid, Callback_CreatePlaylist);
     }
 
     private void Callback_CreatePlaylist(object[] _value)
     {
-        CreatedPlaylistRoot createdPlaylistRoot = (CreatedPlaylistRoot)_value[1];
+        SpotifyPlaylistRoot spotifyPlaylistRoot = (SpotifyPlaylistRoot)_value[1];
 
-        playlistid = createdPlaylistRoot.id;
+        playlistid = spotifyPlaylistRoot.id;
 
         SetCurrentPlaylist(playlistid);
 
@@ -209,6 +226,8 @@ public class LogInManager : Manager
     {
         ProgressManager.instance.progress.userDataPersistance.current_playlist = _value;
         ProgressManager.instance.save();
+
+        MwsiveConnectionManager.instance.PutLastSavedPlaylist(_value);
     }
 
     private void SetMwsiveToken(string _value, DateTime _expire_date)

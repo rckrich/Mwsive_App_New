@@ -36,6 +36,9 @@ public class MwsiveUser : Instanceable
     public int age { get; set; }
     public string playlists { get; set; }
     public string platform_id { get; set; }
+    public int total_followers { get; set; }
+    public int total_followed { get; set; }
+    public string? last_selected_playlist { get; set; }
 }
 
 public class Curator
@@ -266,11 +269,13 @@ public class MwsiveCuratorsRoot
 public class MwsiveFollowersRoot
 {
     public List<MwsiveUser> followers { get; set; }
+    public int total_folloer { get; set; }
 }
 
 public class MwsiveFollowedRoot
 {
     public List<MwsiveUser> followed { get; set; }
+    public int total_folloer { get; set; }
 }
 
 public class MwsiveBadgesRoot

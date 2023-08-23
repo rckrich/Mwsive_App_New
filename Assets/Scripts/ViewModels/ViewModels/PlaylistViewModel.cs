@@ -28,7 +28,7 @@ public class PlaylistViewModel : ViewModel
     public bool isExplore = false;
 
     private List<Track> trackList = new List<Track>();
-    private SearchedPlaylist searchedPlaylist;
+    private SpotifyPlaylistRoot searchedPlaylist;
     private int NumberofTracks, NumberofTracksToCompare;
 
    
@@ -90,7 +90,7 @@ public class PlaylistViewModel : ViewModel
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
-        searchedPlaylist = (SearchedPlaylist)_value[1];
+        searchedPlaylist = (SpotifyPlaylistRoot)_value[1];
 
         if (searchedPlaylist.name.Length > 27)
         {

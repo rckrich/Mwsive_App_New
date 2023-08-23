@@ -28,6 +28,7 @@ public class AppManager : Manager
     public string uri;
     public string url;
     public bool isSelected;
+    public bool yours = true;
     public int countTopArtist = 1;
     public int countTopCurators = 1;
     
@@ -38,7 +39,7 @@ public class AppManager : Manager
     public SelectedPlaylistNameAppObject appObject;
     public ButtonSurfPlaylist buttonSurfPlaylist;
 
-    private SearchedPlaylist currentPlaylist = null;
+    private SpotifyPlaylistRoot currentPlaylist = null;
     private SpotifyWebCallback refreshPlaylistCallback;
 
     void Start()
@@ -46,11 +47,13 @@ public class AppManager : Manager
         StartSearch();
         if (ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted)
         {
-            SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
+            // Normal Spotify Login flow
+            SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile_LogInFlow);
         }
         else
         {
-            SpotifyConnectionManager.instance.GetPlaylist(TOP_GLOBAL_PLAYLIST_ID, Callback_GetTopPlaylist);
+            // No Spotify Login flow
+            SpotifyConnectionManager.instance.GetPlaylist(TOP_GLOBAL_PLAYLIST_ID, Callback_GetTopPlaylist_NoLogInFLow);
         }
     }
 
@@ -79,7 +82,9 @@ public class AppManager : Manager
     }
 #endif
 
-    public void ChangeCurrentPlaylist(SearchedPlaylist _searchedPlaylist)
+    #region Playlist Settings
+
+    public void ChangeCurrentPlaylist(SpotifyPlaylistRoot _searchedPlaylist)
     {
         currentPlaylist = _searchedPlaylist;
     }
@@ -87,22 +92,24 @@ public class AppManager : Manager
     public void ChangeCurrentPlaylist(string _playlistID)
     {
         StartSearch();
-        SpotifyConnectionManager.instance.GetPlaylist(_playlistID, Callback_OnPlaylistChange);
+        SpotifyConnectionManager.instance.GetPlaylist(_playlistID, Callback_OnSpotifyPlaylistChange);
     }
 
-    public void Callback_OnPlaylistChange(object[] _value)
+    public void Callback_OnSpotifyPlaylistChange(object[] _value)
     {
-        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
+        SpotifyPlaylistRoot searchedPlaylist = (SpotifyPlaylistRoot)_value[1];
         currentPlaylist = searchedPlaylist;
         ProgressManager.instance.progress.userDataPersistance.current_playlist = searchedPlaylist.id;
         ProgressManager.instance.save();
+
+        MwsiveConnectionManager.instance.PutLastSavedPlaylist(searchedPlaylist.id);
 
         InvokeEvent<SelectedPlaylistNameAppEvent>(new SelectedPlaylistNameAppEvent(searchedPlaylist.name));
 
         EndSearch();
     }
 
-    public SearchedPlaylist GetCurrentPlaylist()
+    public SpotifyPlaylistRoot GetCurrentPlaylist()
     {
         return currentPlaylist;
     }
@@ -119,7 +126,32 @@ public class AppManager : Manager
         return false;
     }
 
-    private void Callback_GetUserProfile(object[] _value)
+    public void RefreshCurrentPlaylistInformation(SpotifyWebCallback _callback)
+    {
+        refreshPlaylistCallback = _callback;
+        SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_RefreshCurrentPlaylist);
+    }
+
+    private void Callback_RefreshCurrentPlaylist(object[] _value)
+    {
+        SpotifyPlaylistRoot searchedPlaylist = (SpotifyPlaylistRoot)_value[1];
+        currentPlaylist = searchedPlaylist;
+
+        if (refreshPlaylistCallback != null)
+        {
+            refreshPlaylistCallback(null);
+        }
+
+        refreshPlaylistCallback = null;
+
+        MwsiveConnectionManager.instance.PutLastSavedPlaylist(searchedPlaylist.id);
+    }
+
+    #endregion
+
+    #region Log In FLow
+
+    private void Callback_GetUserProfile_LogInFlow(object[] _value)
     {
         bool profileImageSetted = false;
 
@@ -144,24 +176,41 @@ public class AppManager : Manager
             }
         }
 
-        SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_GetCurrentMwsiveUserPlaylist);
+        SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_GetCurrentMwsiveUserPlaylist_LogInFlow);
     }
 
-    private void Callback_GetCurrentMwsiveUserPlaylist(object[] _value)
+    private void Callback_GetCurrentMwsiveUserPlaylist_LogInFlow(object[] _value)
     {
-        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
+        if (WebCallsUtils.IsResponseItemNotFound((long)_value[0])){
+
+            SpotifyConnectionManager.instance.CreatePlaylist(profileID, Callback_CreatePlaylist_LogInFlow);
+            return;
+        }
+
+        SpotifyPlaylistRoot searchedPlaylist = (SpotifyPlaylistRoot)_value[1];
         currentPlaylist = searchedPlaylist;
-        //SpotifyConnectionManager.instance.GetPlaylist(TOP_GLOBAL_PLAYLIST_ID, Callback_GetTopPlaylist);
-        SpotifyConnectionManager.instance.GetCurrentUserTopTracks(Callback_GetUserTopTracks);
+        MwsiveConnectionManager.instance.PutLastSavedPlaylist(searchedPlaylist.id);
+
+        SpotifyConnectionManager.instance.GetCurrentUserTopTracks(Callback_GetUserTopTracks_LogInFlow);
     }
 
-    private void Callback_GetUserTopTracks(object[] _value)
+    private void Callback_CreatePlaylist_LogInFlow(object[] _value)
+    {
+        SpotifyPlaylistRoot spotifyPlaylistRoot = (SpotifyPlaylistRoot)_value[1];
+
+        currentPlaylist = spotifyPlaylistRoot;
+        MwsiveConnectionManager.instance.PutLastSavedPlaylist(spotifyPlaylistRoot.id);
+
+        SpotifyConnectionManager.instance.GetCurrentUserTopTracks(Callback_GetUserTopTracks_LogInFlow);
+    }
+
+    private void Callback_GetUserTopTracks_LogInFlow(object[] _value)
     {
         UserTopItemsRoot userTopItemsRoot = (UserTopItemsRoot)_value[1];
 
         if(userTopItemsRoot.total <= 5)
         {
-            SpotifyConnectionManager.instance.GetPlaylist(TOP_GLOBAL_PLAYLIST_ID, Callback_GetGlobalTopTracks);
+            SpotifyConnectionManager.instance.GetPlaylist(TOP_GLOBAL_PLAYLIST_ID, Callback_GetGlobalTopTracks_LogInFlow);
             return;
         }
 
@@ -172,12 +221,12 @@ public class AppManager : Manager
             trackSeeds[i] = userTopItemsRoot.items[Random.Range(0, userTopItemsRoot.items.Count)].id;
         }
 
-        SpotifyConnectionManager.instance.GetRecommendations(new string[] { }, trackSeeds, Callback_GetPersonalRecommendations);
+        SpotifyConnectionManager.instance.GetRecommendations(new string[] { }, trackSeeds, Callback_GetPersonalRecommendations_LogInFlow);
     }
 
-    private void Callback_GetGlobalTopTracks(object[] _value)
+    private void Callback_GetGlobalTopTracks_LogInFlow(object[] _value)
     {
-        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
+        SpotifyPlaylistRoot searchedPlaylist = (SpotifyPlaylistRoot)_value[1];
 
         string[] trackSeeds = new string[5];
 
@@ -187,29 +236,35 @@ public class AppManager : Manager
                 trackSeeds[i] = searchedPlaylist.tracks.items[Random.Range(0, searchedPlaylist.tracks.items.Count)].track.id;
         }
 
-        SpotifyConnectionManager.instance.GetRecommendations(new string[] { }, trackSeeds, Callback_GetTopRecommendations);
+        SpotifyConnectionManager.instance.GetRecommendations(new string[] { }, trackSeeds, Callback_GetTopRecommendations_LogInFlow);
     }
 
-    private void Callback_GetPersonalRecommendations(object[] _value)
+    private void Callback_GetPersonalRecommendations_LogInFlow(object[] _value)
     {
         EndSearch();
         RecommendationsRoot recommendationsRoot = (RecommendationsRoot)_value[1];
         SurfManager.instance.DynamicPrefabSpawnerSong(new object[] { recommendationsRoot });
     }
 
-    private void Callback_GetTopRecommendations(object[] _value)
+    private void Callback_GetTopRecommendations_LogInFlow(object[] _value)
     {
         EndSearch();
         RecommendationsRoot recommendationsRoot = (RecommendationsRoot)_value[1];
         SurfManager.instance.DynamicPrefabSpawnerSong(new object[] { recommendationsRoot });
     }
 
-    private void Callback_GetTopPlaylist(object[] _value)
+    #endregion
+
+    #region No LogIn Flow
+
+    private void Callback_GetTopPlaylist_NoLogInFLow(object[] _value)
     {
         EndSearch();
-        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
+        SpotifyPlaylistRoot searchedPlaylist = (SpotifyPlaylistRoot)_value[1];
         SurfManager.instance.DynamicPrefabSpawnerPL(new object[] { searchedPlaylist });
     }
+
+    #endregion
 
     public void GetTrack(string _trackId)
     {
@@ -224,25 +279,5 @@ public class AppManager : Manager
         NewScreenManager.instance.ChangeToSpawnedView("listaDeOpciones");
         EndSearch();
     }
-
-    public void RefreshCurrentPlaylistInformation(SpotifyWebCallback _callback)
-    {
-        refreshPlaylistCallback = _callback;
-        SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_RefreshCurrentPlaylist);
-    }
-
-    private void Callback_RefreshCurrentPlaylist(object[] _value)
-    {
-        SearchedPlaylist searchedPlaylist = (SearchedPlaylist)_value[1];
-        currentPlaylist = searchedPlaylist;
-
-        if(refreshPlaylistCallback != null)
-        {
-            refreshPlaylistCallback(null);
-        }
-
-        refreshPlaylistCallback = null;
-    }
-
 
 }

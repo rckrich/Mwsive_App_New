@@ -251,7 +251,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((SearchedPlaylist)_value[1]);
+        Debug.Log((SpotifyPlaylistRoot)_value[1]);
     }
 
     public void GetArtist(string _playlistID, SpotifyWebCallback _callback = null, string _market = "ES")
@@ -404,7 +404,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((CreatedPlaylistRoot)_value[1]);
+        Debug.Log((SpotifyPlaylistRoot)_value[1]);
     }
 
     public void ChangePlaylistDetails(string _playlist_id, SpotifyWebCallback _callback = null, string _playlist_name = "Mwsive Playlist", string _playlist_description = "New Mwsive playlist", bool _public = false)
