@@ -49,7 +49,6 @@ public class Descubrir_ViewModel : ViewModel
     private float ScrollbarVerticalPos =-0.001f;
     private bool CheckForSpawnHasEnded = true;
     private string[] types = new string[] {"album", "artist", "playlist", "track"};
-    private MwsiveCuratorsRoot _mwsivecurator;
 
     void Start()
     {
@@ -248,7 +247,6 @@ public class Descubrir_ViewModel : ViewModel
 
     private void Callback_GetGenres(object[] _list)
     {
-        
         MwsiveGenresRoot mwsiveGenresRoot = (MwsiveGenresRoot)_list[1];
 
         int maxSpawnCounter = 0;
@@ -295,13 +293,12 @@ public class Descubrir_ViewModel : ViewModel
         {
             case 0:
                 types = new string[] { "album", "artist", "playlist", "track" };
-                MwsiveConnectionManager.instance.GetCuratorsByName(SearchText, Callback_Mwsive_OnCLick_SearchForItem, 0, Mathf.RoundToInt(MaxPrefabsinScreen/3));
+                
                 SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_SearchForItem, "ES", Mathf.RoundToInt(MaxPrefabsinScreen/3));
                 break;
             case 1:
                 
-                MwsiveConnectionManager.instance.GetCuratorsByName(SearchText, Callback_Mwsive_OnCLick_SearchForItem, 0, MaxPrefabsinScreen);
-                
+                //MWsive DataBase
                 break;
             case 2:
                 types = new string[] { "track" };
@@ -335,48 +332,8 @@ public class Descubrir_ViewModel : ViewModel
         //ScrollBar.verticalNormalizedPosition = 1;
     }
 
-    private void Callback_Mwsive_OnCLick_SearchForItem(object[] _value){
-        MwsiveCuratorsRoot mwsiveCuratorsRoot = (MwsiveCuratorsRoot)_value[1];
-        switch (numEnpantalla)
-        {
-            case 0:
-           
-            _mwsivecurator = mwsiveCuratorsRoot;
-            break;
-
-
-            case 1:
-            if(mwsiveCuratorsRoot != null){
-
-                foreach (MwsiveUser item in mwsiveCuratorsRoot.curators)
-                {
-                    
-                    try
-                    {
-                        if(item.image != null){ 
-                            CustomSpawnPrefab(false, 0).GetComponent<DynamicSearchPrefabInitializer>().InitializeMwsiveUserwithImage(item.display_name, item.platform_id .ToString(), item.image);
-                        }else{
-                            CustomSpawnPrefab(false, 0).GetComponent<DynamicSearchPrefabInitializer>().InitializeMwsiveUser(item.display_name, item.platform_id .ToString());
-                        }
-                            
-                    }
-                    catch (System.NullReferenceException)
-                    {
-                        
-                        CustomSpawnPrefab(false, 0).GetComponent<DynamicSearchPrefabInitializer>().InitializeMwsiveUser(item.display_name, item.platform_id .ToString());
-                    }
-                }
-            }
-            LastPosition[numEnpantalla].transform.SetAsLastSibling();
-            break;
-
-
-        }
-    }
-
     private void Callback_OnCLick_SearchForItem(object[] _value)
     {
-        
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
         SearchRoot searchRoot = (SearchRoot)_value[1];
@@ -401,27 +358,6 @@ public class Descubrir_ViewModel : ViewModel
                         catch (System.ArgumentOutOfRangeException)
                         {
                             CustomSpawnPrefab(false, 2).GetComponent<DynamicSearchPrefabInitializer>().InitializeDouble(item.name, item.artists[0].name, item.id, item.external_urls.spotify);
-                        }
-                    }
-                }
-
-                if(_mwsivecurator.curators !=null){
-                    foreach (MwsiveUser item in _mwsivecurator.curators)
-                    {
-                        try
-                        {
-                            if(item.image != null){ 
-                                CustomSpawnPrefab(false, 1).GetComponent<DynamicSearchPrefabInitializer>().InitializeMwsiveUserwithImage(item.display_name, item.platform_id .ToString(), item.image);
-                            }else{
-                                CustomSpawnPrefab(false, 1).GetComponent<DynamicSearchPrefabInitializer>().InitializeMwsiveUser(item.display_name, item.platform_id .ToString());
-                            }
-                                
-                        }
-                        catch (System.NullReferenceException)
-                        {
-
-                           
-                            CustomSpawnPrefab(false, 1).GetComponent<DynamicSearchPrefabInitializer>().InitializeMwsiveUser(item.display_name, item.platform_id.ToString());
                         }
                     }
                 }
@@ -487,8 +423,6 @@ public class Descubrir_ViewModel : ViewModel
             
                 break;
 
-            
-
             case 2:
                 if (searchRoot.tracks != null){
                     for (int i = 0; i < searchRoot.tracks.items.Count; i++)
@@ -508,7 +442,6 @@ public class Descubrir_ViewModel : ViewModel
                         }                           
                     }
                 }
-                
                 break;
 
             case 3:
@@ -960,8 +893,6 @@ public class Descubrir_ViewModel : ViewModel
                         string GenreText =SearchText +"%20genre:" + SearchText;
                         SpotifyConnectionManager.instance.SearchForItem(GenreText, types, Callback_OnCLick_CheckForSpawn, "ES", Mathf.RoundToInt(MaxPrefabsinScreen/3), PositionInSearch);
                     }else{
-                        _mwsivecurator = null;
-                        MwsiveConnectionManager.instance.GetCuratorsByName(SearchText, Callback_Mwsive_OnCLick_SearchForItem, PositionInSearch, Mathf.RoundToInt(MaxPrefabsinScreen/3));
                         SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_CheckForSpawn, "ES", Mathf.RoundToInt(MaxPrefabsinScreen/3), PositionInSearch);
                     }
                     
@@ -1024,14 +955,6 @@ public class Descubrir_ViewModel : ViewModel
         switch (numEnpantalla){
             case 0:
                 switch (scene){
-                    case 1:
-                    Instance = Instantiate(Prefabs[1],PrefabsPosition.transform.position, Quaternion.identity);
-                    Instance.transform.SetParent(GameObject.Find("PF_ResultadosdeBusqueda_Container").transform);
-                    Instance.transform.localScale = new Vector3(1,1,1);  
-                    Instance.SetActive(IsVisible);
-                    ListOfLists[numEnpantalla].Add(Instance);
-                    return Instance;
-                    
                 case 2:
                     Instance = Instantiate(Prefabs[2],PrefabsPosition.transform.position, Quaternion.identity);
                     Instance.transform.SetParent(GameObject.Find("PF_ResultadosdeBusqueda_Container").transform);
@@ -1063,15 +986,6 @@ public class Descubrir_ViewModel : ViewModel
                     return Instance;
             }
             return null;
-
-            case 1:
-                Instance = Instantiate(Prefabs[1],PrefabsPosition.transform.position, Quaternion.identity);
-                Instance.transform.SetParent(GameObject.Find("PF_Curadores_Container").transform);
-                Instance.transform.localScale = new Vector3(1,1,1);  
-                Instance.SetActive(IsVisible);
-                ListOfLists[numEnpantalla].Add(Instance);
-                return Instance;
-
             case 6:
                 switch (scene){
                 case 2:

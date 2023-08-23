@@ -32,7 +32,8 @@ public class ProfileViewModel : ViewModel
             PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
 
             popUpViewModel.SetPopUpCancelAction(() => {
-                OnClick_BackButtonSurf();
+                NewScreenManager.instance.BackToPreviousView();
+                NewScreenManager.instance.BackToPreviousView();
             });
 
             popUpViewModel.SetPopUpAction(() => {
@@ -63,16 +64,14 @@ public class ProfileViewModel : ViewModel
     {
         if (_profileId.Equals(""))           
         {
-            StartSearch();
-            SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
-            MwsiveConnectionManager.instance.GetFollowers(Callback_GetFollowers);
-            MwsiveConnectionManager.instance.GetFollowed(Callback_GetFollowed);
+            StartSearch();           
+            //MwsiveConnectionManager.instance.GetFollowers(Callback_GetFollowers);
+            //MwsiveConnectionManager.instance.GetFollowed(Callback_GetFollowed);
+            MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser);
         }
         else
         {
-            Debug.Log(profileId);
-            SpotifyConnectionManager.instance.GetUserProfile(profileId, Callback_GetUserProfile);
-            
+            MwsiveConnectionManager.instance.GetMwsiveUser(_profileId, Callback_GetMwsiveUser);                     
         }
     }
 
@@ -108,10 +107,10 @@ public class ProfileViewModel : ViewModel
         ProfileRoot profileRoot = (ProfileRoot)_value[1];
         displayName.text = profileRoot.display_name;
         profileId = profileRoot.id;
-        if (followersText.text.Equals("-"))
+       /* if (followersText.text.Equals("-"))
         {
             followersText.text = profileRoot.followers.ToString();
-        }
+        }*/
 
         if (profileRoot.images != null)
         {
@@ -157,7 +156,8 @@ public class ProfileViewModel : ViewModel
             if (playlistRoot.items[i].images != null && playlistRoot.items[i].images.Count > 0)
                 instance.SetImage(playlistRoot.items[i].images[0].url);
         }
-
+       
+        
         EndSearch();
     }
 
@@ -189,10 +189,35 @@ public class ProfileViewModel : ViewModel
         OpenView(ViewID.OptionsViewModel);
     }
 
-    public void OnClick_FollowFollowers()
+    public void OnClick_Followers()
     {
         OpenView(ViewID.FollowersViewModel);
+        if (profileId.Equals(""))
+        {
+            NewScreenManager.instance.GetCurrentView().GetComponent<FollowersViewModel>().ProfileIDReset_GetFollowers();
+            
+        }
+        else
+        {
+            NewScreenManager.instance.GetCurrentView().GetComponent<FollowersViewModel>().GetFollowers(profileId);
+        }
+            
     }
+
+    public void OnClick_Followed()
+    {
+        OpenView(ViewID.FollowersViewModel);
+        if (profileId.Equals(""))
+        {
+            NewScreenManager.instance.GetCurrentView().GetComponent<FollowersViewModel>().ProfileIDReset_GetFollowed();
+            
+        }
+        else
+        {
+            NewScreenManager.instance.GetCurrentView().GetComponent<FollowersViewModel>().GetFollowed(profileId);
+        }
+    }
+    
 
     public void OnClick_EditProfile()
     {
@@ -219,21 +244,33 @@ public class ProfileViewModel : ViewModel
     public void OnClick_BackButtonPrefab()
     {
         NewScreenManager.instance.BackToPreviousView();
-       if(NewScreenManager.instance.GetCurrentView().viewID == ViewID.SurfViewModel){
-            SurfManager.instance.canSwipe = true;
-            SurfManager.instance.GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
-       } 
-
     }
 
     public void OnClick_Follow()
     {
         MwsiveConnectionManager.instance.PostFollow(profileId);
+        MwsiveConnectionManager.instance.GetMwsiveUser(profileId, Callback_GetMwsiveUser);
     }
 
     public void OnClick_Share(){
         Debug.Log(profileId);
         NativeShareManager.instance.OnClickShareMwsiveProfile(profileId);
+    }
+
+    public void Callback_GetCurrentMwsiveUser(object[] _value)
+    {
+        MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
+        followersText.text = mwsiveUserRoot.user.total_followers.ToString();
+        followedText.text = mwsiveUserRoot.user.total_followed.ToString();
+        SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
+    }
+
+    public void Callback_GetMwsiveUser(object[] _value)
+    {
+        MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
+        followersText.text = mwsiveUserRoot.user.total_followers.ToString();
+        followedText.text = mwsiveUserRoot.user.total_followed.ToString();
+        SpotifyConnectionManager.instance.GetUserProfile(profileId, Callback_GetUserProfile);
     }
 }
 
