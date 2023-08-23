@@ -29,6 +29,20 @@ public class SurfMiPlaylistViewModel : ViewModel
         {
             StartSearch();
             SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_OnClick_GetCurrentUserPlaylists);
+
+#if PLATFORM_ANDROID
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                AppManager.instance.SetAndroidBackAction(() => {
+                    if (finishedLoading)
+                    {
+                        OnClick_BackButton();
+                    }
+                    AppManager.instance.SetAndroidBackAction(null);
+                });
+            }
+#endif
+
         }
         else {
             CallPopUP(PopUpViewModelTypes.OptionChoice, "Neceseitas permiso", "Necesitas crear una cuenta de Mwsive para poder realizar está acción, presiona Crear Cuenta para hacer una.", "Crear Cuenta");
@@ -43,24 +57,26 @@ public class SurfMiPlaylistViewModel : ViewModel
                 LogInManager.instance.StartLogInProcess(Callback_MiPlaylistViewModelInitialize);
                 NewScreenManager.instance.BackToPreviousView();
             });
-        }
 
 #if PLATFORM_ANDROID
-        if (Application.platform == RuntimePlatform.Android)
-        {
-            AppManager.instance.SetAndroidBackAction(() => {
-                if (finishedLoading)
-                {
-                    OnClick_BackButton();
-                }
-                AppManager.instance.SetAndroidBackAction(null);
-            });
-        }
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                AppManager.instance.SetAndroidBackAction(() => {
+                    if (finishedLoading)
+                    {
+                        NewScreenManager.instance.BackToPreviousView();
+                        OnClick_BackButton();
+                    }
+                    AppManager.instance.SetAndroidBackAction(null);
+                });
+            }
 #endif
+        }
     }
 
     private void Callback_MiPlaylistViewModelInitialize(object[] _value)
     {
+        AppManager.instance.StartAppProcessFromOutside();
         StartSearch();
         SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_OnClick_GetCurrentUserPlaylists);
     }

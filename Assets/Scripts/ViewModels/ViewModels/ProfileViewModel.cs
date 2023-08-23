@@ -56,6 +56,7 @@ public class ProfileViewModel : ViewModel
 
     private void Callback_ProfileViewModelInitialize(object[] list)
     {
+        AppManager.instance.StartAppProcessFromOutside();
         GetUserBasedOnEmptyProfileID(profileId);
     }
 

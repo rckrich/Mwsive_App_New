@@ -46,18 +46,34 @@ public class AppManager : Manager
 
     void Start()
     {
+        StartAppProcess();
+    }
+
+    public void StartAppProcess()
+    {
         StartSearch();
         if (ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted)
         {
             // Normal Spotify Login flow
-            _isLogInMode = true;
+            SetLogInMode(true);
             SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile_LogInFlow);
         }
         else
         {
             // No Spotify Login flow
-            _isLogInMode = false;
+            SetLogInMode(false);
             SpotifyConnectionManager.instance.GetPlaylist(TOP_GLOBAL_PLAYLIST_ID, Callback_GetTopPlaylist_NoLogInFLow);
+        }
+    }
+
+    public void StartAppProcessFromOutside()
+    {
+        StartSearch();
+        if (ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted)
+        {
+            // Normal Spotify Login flow
+            SetLogInMode(true);
+            SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile_OutsideLogInFlow);
         }
     }
 
@@ -285,6 +301,64 @@ public class AppManager : Manager
 
     #endregion
 
+    #region Outside LogIn Flow
+    private void Callback_GetUserProfile_OutsideLogInFlow(object[] _value)
+    {
+        bool profileImageSetted = false;
+
+        ProfileRoot profileRoot = (ProfileRoot)_value[1];
+        profileID = profileRoot.id;
+        if (profileRoot.images != null)
+        {
+            if (profileRoot.images.Count > 0)
+            {
+
+                foreach (SpotifyImage image in profileRoot.images)
+                {
+                    if (image.height == 300 && image.width == 300)
+                    {
+                        ImageManager.instance.GetImage(image.url, profilePicture, (RectTransform)surfTransform);
+                        profileImageSetted = true;
+                        break;
+                    }
+                }
+
+                if (!profileImageSetted)
+                    ImageManager.instance.GetImage(profileRoot.images[0].url, profilePicture, (RectTransform)surfTransform);
+            }
+        }
+
+        SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_GetCurrentMwsiveUserPlaylist_OutsideLogInFlow);
+    }
+
+    private void Callback_GetCurrentMwsiveUserPlaylist_OutsideLogInFlow(object[] _value)
+    {
+        if (WebCallsUtils.IsResponseItemNotFound((long)_value[0]))
+        {
+
+            SpotifyConnectionManager.instance.CreatePlaylist(profileID, Callback_CreatePlaylist_OutsideLogInFlow);
+            return;
+        }
+
+        SpotifyPlaylistRoot searchedPlaylist = (SpotifyPlaylistRoot)_value[1];
+        currentPlaylist = searchedPlaylist;
+        MwsiveConnectionManager.instance.PutLastSavedPlaylist(searchedPlaylist.id);
+
+        EndSearch();
+    }
+
+    private void Callback_CreatePlaylist_OutsideLogInFlow(object[] _value)
+    {
+        SpotifyPlaylistRoot spotifyPlaylistRoot = (SpotifyPlaylistRoot)_value[1];
+
+        currentPlaylist = spotifyPlaylistRoot;
+        MwsiveConnectionManager.instance.PutLastSavedPlaylist(spotifyPlaylistRoot.id);
+
+        EndSearch();
+    }
+
+    #endregion
+
     public void GetTrack(string _trackId)
     {
         SpotifyConnectionManager.instance.GetTrack(_trackId, Callback_GetTrack);
@@ -297,6 +371,11 @@ public class AppManager : Manager
         uri = trackRoot.uri;       
         NewScreenManager.instance.ChangeToSpawnedView("listaDeOpciones");
         EndSearch();
+    }
+
+    public void SetLogInMode(bool _value)
+    {
+        _isLogInMode = _value;
     }
 
 }
