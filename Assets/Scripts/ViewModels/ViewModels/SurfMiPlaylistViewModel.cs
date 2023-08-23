@@ -6,14 +6,12 @@ using UnityEngine.UI;
 
 public class SurfMiPlaylistViewModel : ViewModel 
 {
-    // Start is called before the first frame update
     public GameObject playlistHolderPrefab;
     public Transform instanceParent;
     public ScrollRect scrollRect;
     public float end;
     public int offset = 21;
-    int onlyone = 0;
-    //public HolderManager holderManager;
+    int onlyOne = 0;
     public List<Image> imagenes;
     
     void Start()
@@ -109,14 +107,14 @@ public class SurfMiPlaylistViewModel : ViewModel
 
     public void OnReachEnd()
     {
-        if (onlyone == 0)
+        if (onlyOne == 0)
         {
             if (scrollRect.verticalNormalizedPosition <= end)
             {
                 StartSearch();
                 SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_GetMoreUserPlaylists, 20, offset);
                 offset += 20;
-                onlyone = 1;
+                onlyOne = 1;
             }
         }
     }
@@ -144,7 +142,7 @@ public class SurfMiPlaylistViewModel : ViewModel
                 instance.SetImage(item.images[0].url);
             
         }
-        onlyone = 0;
+        onlyOne = 0;
 
         EndSearch();
     }
