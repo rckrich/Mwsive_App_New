@@ -71,6 +71,7 @@ public class ProfileViewModel : ViewModel
         }
         else
         {
+            Debug.Log(profileId);
             SpotifyConnectionManager.instance.GetUserProfile(profileId, Callback_GetUserProfile);
             
         }
@@ -219,6 +220,11 @@ public class ProfileViewModel : ViewModel
     public void OnClick_BackButtonPrefab()
     {
         NewScreenManager.instance.BackToPreviousView();
+       if(NewScreenManager.instance.GetCurrentView().viewID == ViewID.SurfViewModel){
+            SurfManager.instance.canSwipe = true;
+            SurfManager.instance.GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+       } 
+
     }
 
     public void OnClick_Follow()

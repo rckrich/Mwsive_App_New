@@ -19,7 +19,7 @@ public class MwsiveControllerButtons : MonoBehaviour
     public void OnClickCompartirButton() {
         GameObject Instance = Surf.GetCurrentPrefab();
         Instance.GetComponentInChildren<MwsiveButton>().OnClickCompartirButton(AnimationDuration);
-        NativeShareManager.instance.OnClickShareMwsiveSong(Instance.GetComponent<ButtonSurfPlaylist>().trackID);
+        NativeShareManager.instance.OnClickShareMwsiveSong(Instance.GetComponent<ButtonSurfPlaylist>().trackID, Instance.GetComponentInChildren<MwsiveButton>().GetIsItCompartirActive() );
     }
 
     public bool IsItOlaColorButtonActive() {

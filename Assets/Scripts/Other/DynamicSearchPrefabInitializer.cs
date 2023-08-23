@@ -15,6 +15,43 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
 
     // Start is called before the first frame update
 
+    public void InitializeMwsiveUser(string _text, string id){
+        if(_text.Length > 27){
+            string _text2 = "";
+            for (int i = 0; i < 27; i++)
+            {
+                
+                _text2 =_text2 + _text[i];
+                
+            }
+            _text2 = _text2 + "...";
+            Title.text = _text2;
+        }else{
+            Title.text = _text;
+        }
+        gameObject.SetActive(true);
+        SpotifyID = id;
+    }
+
+    public void InitializeMwsiveUserwithImage(string _text, string id, string _image){
+        if(_text.Length > 27){
+            string _text2 = "";
+            for (int i = 0; i < 27; i++)
+            {
+                
+                _text2 =_text2 + _text[i];
+                
+            }
+            _text2 = _text2 + "...";
+            Title.text = _text2;
+        }else{
+            Title.text = _text;
+        }
+        gameObject.SetActive(true);
+        SpotifyID = id;
+        ImageManager.instance.GetImage(_image, Portada, (RectTransform)this.transform);
+    }
+
     public void InitializeSingle(string _text, string id, string Url){
         if(_text.Length > 27){
             string _text2 = "";
@@ -148,6 +185,12 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
 
         Instance.GetComponent<AlbumViewModel>().id = SpotifyID;
         
+    }
+    public void OnClickInitializeCurator(){
+        NewScreenManager.instance.ChangeToSpawnedView("profile");
+        GameObject Instance = NewScreenManager.instance.GetCurrentView().gameObject;
+        Debug.Log(SpotifyID);
+        Instance.GetComponent<ProfileViewModel>().Initialize(SpotifyID);
     }
 
 

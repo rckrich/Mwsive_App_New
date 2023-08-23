@@ -29,6 +29,10 @@ public class MwsiveButton : MonoBehaviour
         return IsItOlaColorButtonActive;
     }
 
+    public bool GetIsItCompartirActive(){
+        return IsItCompartirColorButtonActive;
+    }
+
     public void ChangeAddToPlaylistButtonColor(float AnimationDuration){
         if(!IsItAñadirColorButtonActive){
             UIAniManager.instance.FadeIn(AñadirColorButton, AnimationDuration);

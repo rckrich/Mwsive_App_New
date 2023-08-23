@@ -21,11 +21,13 @@ public class ADNDynamicScroll : MonoBehaviour
     public TypeOfADN ADN;
     public TextMeshProUGUI Title, Subtitle; 
     public List<GameObject> Prefabs = new List<GameObject>(); 
+    public bool Editable;
     private string PlaceHolderText;
     private GameObject PrefabToSet;
-    public int Type, Max, Min, CurrentPrefabs;
+    private int Type, Max, Min, CurrentPrefabs;
     private float ScrollPosition = -0.3f;
     private bool IsAllPlacesComplete = true;
+    
 
 
     // Start is called before the first frame update
@@ -35,8 +37,10 @@ public class ADNDynamicScroll : MonoBehaviour
         switch(ADN){
             case TypeOfADN.OnRepeat:
                 Title.text = "ON REPEAT";
-                Subtitle.text = "Escribe tus cancion favorita";
-                PlaceHolderText = "Buscar Canción";
+                if(Editable){
+                    Subtitle.text = "Escribe tus cancion favorita";
+                    PlaceHolderText = "Buscar Canción";
+                }
                 PrefabToSet = Prefabs[1];
                 Max = 1;
                 Min = 1;
@@ -46,8 +50,13 @@ public class ADNDynamicScroll : MonoBehaviour
                 break;
             case TypeOfADN.Artistaquereviviria:
                 Title.text = "ARTISTA QUE REVIVIRIA";
-                Subtitle.text = "Escribe tus artistas favoritos";
-                PlaceHolderText = "Buscar Artista";
+                if(Editable){
+                    Subtitle.text = "Escribe tus artistas favoritos";
+                    PlaceHolderText = "Buscar Artista";
+                }else{
+                    Subtitle.text = "";
+                    PlaceHolderText = "";
+                }
                 PrefabToSet = Prefabs[0];
                 Max = 5;
                 Min = 1;
@@ -56,8 +65,13 @@ public class ADNDynamicScroll : MonoBehaviour
                 break;
             case TypeOfADN.GustoCulposo:
                 Title.text = "GUSTO CULPOSO";
-                Subtitle.text = "Escribe tus canciones favoritas";
-                PlaceHolderText = "Buscar Canción";
+                if(Editable){
+                    Subtitle.text = "Escribe tus canciones favoritas";
+                    PlaceHolderText = "Buscar Canción";
+                }else{
+                    Subtitle.text = "";
+                    PlaceHolderText = "";
+                }
                 PrefabToSet = Prefabs[1];
                 Max = 5;
                 Min = 1;
@@ -66,8 +80,13 @@ public class ADNDynamicScroll : MonoBehaviour
                 break;
             case TypeOfADN.DeAmor:
                 Title.text = "DE AMOR";
-                Subtitle.text = "Escribe tus canciones favoritas";
-                PlaceHolderText = "Buscar Canción";
+                if(Editable){
+                    Subtitle.text = "Escribe tus canciones favoritas";
+                    PlaceHolderText = "Buscar Canción";
+                }else{
+                    Subtitle.text = "";
+                    PlaceHolderText = "";
+                }
                 PrefabToSet = Prefabs[1];
                 Max = 5;
                 Min = 1;
@@ -76,8 +95,13 @@ public class ADNDynamicScroll : MonoBehaviour
                 break;
             case TypeOfADN.UltimoDescubrimiento:
                 Title.text = "ULTIMO DESCUBRIMIENTO";
-                Subtitle.text = "Escribe tus canciones favoritas";
-                PlaceHolderText = "Buscar Canción";
+                if(Editable){
+                    Subtitle.text = "Escribe tus canciones favoritas";
+                    PlaceHolderText = "Buscar Canción";
+                }else{
+                    Subtitle.text = "";
+                    PlaceHolderText = "";
+                }
                 Max = 5;
                 Min = 1;
                 PrefabToSet = Prefabs[1];
@@ -86,8 +110,13 @@ public class ADNDynamicScroll : MonoBehaviour
                 break;
             case TypeOfADN.GOAT:
                 Title.text = "GOAT";
-                Subtitle.text = "Escribe tus artista favorito";
-                PlaceHolderText = "Buscar Artista";
+                if(Editable){
+                    Subtitle.text = "Escribe tus artista favorito";
+                    PlaceHolderText = "Buscar Artista";
+                }else{
+                    Subtitle.text = "";
+                    PlaceHolderText = "";
+                }
                 PrefabToSet = Prefabs[0];
                 Max = 1;
                 Min = 1;
@@ -97,8 +126,13 @@ public class ADNDynamicScroll : MonoBehaviour
                 break;
             case TypeOfADN.ProximaEstrella:
                 Title.text = "PROXIMA ESTRELLA";
-                Subtitle.text = "Escribe tus artistas favoritos";
-                PlaceHolderText = "Buscar Artista";
+                if(Editable){
+                    Subtitle.text = "Escribe tus artistas favoritos";
+                    PlaceHolderText = "Buscar Artista";
+                }else{
+                    Subtitle.text = "";
+                    PlaceHolderText = "";
+                }
                 PrefabToSet = Prefabs[0];
                 Max = 5;
                 Min = 1;
@@ -107,8 +141,13 @@ public class ADNDynamicScroll : MonoBehaviour
                 break;
             case TypeOfADN.SoundtrackDeMiVida:
                 Title.text = "EL SOUNDTRACK DE MI VIDA";
-                Subtitle.text = "Escribe tus canciones favoritas";
-                PlaceHolderText = "Buscar Canción";
+                if(Editable){
+                    Subtitle.text = "Escribe tus canciones favoritas";
+                    PlaceHolderText = "Buscar Canción";
+                }else{
+                    Subtitle.text = "";
+                    PlaceHolderText = "";
+                }
                 PrefabToSet = Prefabs[1];
                 Max = 18;
                 Min = 4;
@@ -137,6 +176,18 @@ public class ADNDynamicScroll : MonoBehaviour
         CurrentPrefabs = Min;
         GuardarTop.GetComponent<Button>().enabled = false;
         GuardarTop.GetComponent<Image>().color = new Color32 (128,128,128,255);
+
+        if(!Editable){
+            foreach (GameObject item in Instances)
+            {
+                item.GetComponentInChildren<TMP_InputField>().interactable = false;
+                item.GetComponent<PF_ADNMusicalEventSystem>().EraseButton.SetActive(false);
+            }
+            Añadir.SetActive(false);
+            GuardarTop.SetActive(false);
+
+        }
+        
     }
 
     public void HideShowHeader(){

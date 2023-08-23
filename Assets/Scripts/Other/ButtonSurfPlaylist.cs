@@ -150,6 +150,10 @@ public class ButtonSurfPlaylist : ViewModel
     {
         SpotifyPreviewAudioManager.instance.Pause();
     }
+
+    public void OnClickForcePausePreview(){
+        SpotifyPreviewAudioManager.instance.ForcePause();
+    }
   
     public void OnClick_OpenPlaylist()
     {
