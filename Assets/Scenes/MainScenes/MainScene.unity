@@ -2262,6 +2262,7 @@ MonoBehaviour:
   mainViews:
   - {fileID: 3750235779457570381}
   - {fileID: 5794007413415257779}
+  - {fileID: 508385076}
   - {fileID: 1597146226}
   - {fileID: 2051662606}
   - {fileID: 2001289295}
@@ -7405,7 +7406,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 32.68317, y: 0}
+  m_AnchoredPosition: {x: 21.7, y: 0}
   m_SizeDelta: {x: 38.9663, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &294345666
@@ -11660,7 +11661,7 @@ GameObject:
   m_Component:
   - component: {fileID: 457919390}
   - component: {fileID: 457919392}
-  - component: {fileID: 457919391}
+  - component: {fileID: 457919393}
   m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
@@ -11685,10 +11686,18 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -45.000004}
-  m_SizeDelta: {x: 0, y: -89.99999}
+  m_AnchoredPosition: {x: 0, y: -2.0499878}
+  m_SizeDelta: {x: 0, y: -4.1001}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &457919391
+--- !u!222 &457919392
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457919389}
+  m_CullTransparentMesh: 1
+--- !u!114 &457919393
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -11697,7 +11706,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 457919389}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
+  m_Script: {fileID: 11500000, guid: 653281b973f024f459f3edccc4231f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 979220882}
@@ -11711,21 +11720,13 @@ MonoBehaviour:
   m_Viewport: {fileID: 1854622002}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
-  m_HorizontalScrollbarVisibility: 2
-  m_VerticalScrollbarVisibility: 2
-  m_HorizontalScrollbarSpacing: -3
-  m_VerticalScrollbarSpacing: -3
+  m_HorizontalScrollbarVisibility: 0
+  m_VerticalScrollbarVisibility: 0
+  m_HorizontalScrollbarSpacing: 0
+  m_VerticalScrollbarSpacing: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!222 &457919392
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 457919389}
-  m_CullTransparentMesh: 1
 --- !u!1 &459753014
 GameObject:
   m_ObjectHideFlags: 0
@@ -13149,10 +13150,12 @@ MonoBehaviour:
   networkLoadingCanvas: {fileID: 0}
   scrollViewContent: {fileID: 0}
   finishedLoading: 1
-  scrollRect: {fileID: 0}
+  scrollRect: {fileID: 457919393}
   offset: 1
-  FollowersHolderPrefab: {fileID: 0}
-  instanceParent: {fileID: 0}
+  followSelector: {fileID: 1452232916}
+  FollowersHolderPrefab: {fileID: 8931729070424136653, guid: 7acf24df628fd64429b334d8a8839443, type: 3}
+  instanceParent: {fileID: 979220882}
+  content: {fileID: 979220881}
 --- !u!1 &512064405
 GameObject:
   m_ObjectHideFlags: 0
@@ -21735,6 +21738,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 508385076}
+        m_TargetAssemblyTypeName: FollowersViewModel, Scripts
+        m_MethodName: GetCurrentFollowed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -31995,6 +32010,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 508385076}
+        m_TargetAssemblyTypeName: FollowersViewModel, Scripts
+        m_MethodName: GetCurrentFollowers
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &1193683873
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -32402,7 +32429,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -10.9831705, y: 0}
   m_SizeDelta: {x: 24, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1214959787
@@ -41597,7 +41624,7 @@ GameObject:
   - component: {fileID: 1587419707}
   - component: {fileID: 1587419708}
   m_Layer: 5
-  m_Name: Artistas
+  m_Name: _Artistas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44584,7 +44611,7 @@ GameObject:
   - component: {fileID: 1722238767}
   - component: {fileID: 1722238768}
   m_Layer: 5
-  m_Name: TopCanciones
+  m_Name: _TopCanciones
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44736,6 +44763,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1728571573}
   - component: {fileID: 1728571576}
+  - component: {fileID: 1728571577}
   - component: {fileID: 1728571575}
   - component: {fileID: 1728571574}
   m_Layer: 5
@@ -44763,8 +44791,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 29.658691, y: -34.430298}
-  m_SizeDelta: {x: 57.4, y: 37}
+  m_AnchoredPosition: {x: 36.844986, y: -34.430298}
+  m_SizeDelta: {x: 71.7726, y: 37}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1728571574
 Animator:
@@ -44827,10 +44855,22 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 1728571577}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 508385076}
+        m_TargetAssemblyTypeName: FollowersViewModel, Scripts
+        m_MethodName: OnClick_ReturnProfile
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &1728571576
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -44839,6 +44879,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1728571572}
   m_CullTransparentMesh: 1
+--- !u!114 &1728571577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728571572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 01d1591d6823a430689014e5c9b7454b, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1728586861
 GameObject:
   m_ObjectHideFlags: 0
@@ -50340,7 +50410,7 @@ GameObject:
   - component: {fileID: 1964169425}
   - component: {fileID: 1964169426}
   m_Layer: 5
-  m_Name: TopPlayList
+  m_Name: _TopPlayList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51565,7 +51635,7 @@ GameObject:
   - component: {fileID: 2001289294}
   - component: {fileID: 2001289295}
   m_Layer: 5
-  m_Name: TopAlbum
+  m_Name: _TopAlbum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52184,7 +52254,7 @@ GameObject:
   - component: {fileID: 2031201408}
   - component: {fileID: 2031201409}
   m_Layer: 5
-  m_Name: TopCuradores
+  m_Name: _TopCuradores
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53508,7 +53578,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5794007413415257779}
         m_TargetAssemblyTypeName: ProfileViewModel, Scripts
-        m_MethodName: OnClick_FollowFollowers
+        m_MethodName: OnClick_Followers
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -53564,7 +53634,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5794007413415257779}
         m_TargetAssemblyTypeName: ProfileViewModel, Scripts
-        m_MethodName: OnClick_FollowFollowers
+        m_MethodName: OnClick_Followed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -56733,7 +56803,7 @@ GameObject:
   - component: {fileID: 3774412406454745089}
   - component: {fileID: 2090215651}
   m_Layer: 5
-  m_Name: NumberFollow
+  m_Name: NumberFollowed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

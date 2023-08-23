@@ -269,7 +269,7 @@ public class MwsiveCuratorsRoot
 public class MwsiveFollowersRoot
 {
     public List<MwsiveUser> followers { get; set; }
-    public int total_folloer { get; set; }
+    public int total_follower { get; set; }
 }
 
 public class MwsiveFollowedRoot
