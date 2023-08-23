@@ -522,7 +522,7 @@ public class UIAniManager : MonoBehaviour
     public void SurfSide(GameObject GA,float var, float MaxRotation, float fade, bool IsItFinished){
         SetPosition();
         if(IsItFinished){
-            GA.transform.DOMove(new Vector2 (RestPositionSide.x*var, RestPositionSide.y), SurfTransitionDuration, false).OnComplete(() => {GA.SetActive(false); GA.transform.position = RestPositionDown;});
+            GA.transform.DOMove(new Vector2 (RestPositionSide.x*var, RestPositionSide.y), SurfTransitionDuration, false).OnComplete(() => {GA.SetActive(false); GA.transform.position = RestPositionUp;});
         }else{
             GA.transform.DOMove(new Vector2 (RestPositionSide.x*var, RestPositionSide.y), SurfTransitionDuration, false);
         }
