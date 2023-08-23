@@ -328,10 +328,10 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/me/last-selected-playlist";
-        string url = "http://192.241.129.184/api/me/last-selected-playlist";
+        //string url = "https://mwsive.com/me/last-selected-playlist/" + _playlist_id;
+        string url = "http://192.241.129.184/api/me/last-selected-playlist/" + _playlist_id;
 
-        using (UnityWebRequest webRequest = UnityWebRequest.Put(url, _playlist_id))
+        using (UnityWebRequest webRequest = UnityWebRequest.Put(url, ""))
         {
             webRequest.SetRequestHeader("Content-Type", "application/json");
             webRequest.SetRequestHeader("Accept", "application/json");

@@ -190,12 +190,12 @@ GameObject:
   - component: {fileID: 61811570}
   - component: {fileID: 61811569}
   m_Layer: 5
-  m_Name: PopUp
+  m_Name: _PopUpMessageOnly
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &61811568
 RectTransform:
   m_ObjectHideFlags: 0
@@ -598,7 +598,7 @@ GameObject:
   - component: {fileID: 288466007}
   - component: {fileID: 288466006}
   m_Layer: 5
-  m_Name: Gradient
+  m_Name: Action_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -688,7 +688,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 288466008}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1806940617}
+        m_TargetAssemblyTypeName: PopUpViewModel, RCKGamesAppTemplateScripts
+        m_MethodName: ActionButtonOnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &288466008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3338,7 +3350,7 @@ GameObject:
   - component: {fileID: 1806940616}
   - component: {fileID: 1806940617}
   m_Layer: 5
-  m_Name: PopUpViewModel
+  m_Name: _PopUpViewModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3381,15 +3393,15 @@ MonoBehaviour:
   networkLoadingCanvas: {fileID: 1310416290}
   scrollViewContent: {fileID: 0}
   finishedLoading: 1
-  messageOnlyPopUpTitleText: {fileID: 0}
-  messageOnlyPopUpBodyText: {fileID: 0}
-  messageOnlyPopUpActionButtonText: {fileID: 0}
-  messageOnlyObjectToRebuildLayout: {fileID: 0}
+  messageOnlyPopUpTitleText: {fileID: 779179769}
+  messageOnlyPopUpBodyText: {fileID: 587191995}
+  messageOnlyPopUpActionButtonText: {fileID: 168258800}
+  messageOnlyObjectToRebuildLayout: {fileID: 61811568}
   optionChoicePopUpTitleText: {fileID: 0}
   optionChoicePopUpBodyText: {fileID: 0}
   optionChoicePopUpActionButtonText: {fileID: 0}
   optionChoiceObjectToRebuildLayout: {fileID: 0}
-  messageOnlyPopUp: {fileID: 0}
+  messageOnlyPopUp: {fileID: 61811567}
   OptionChoicePopUp: {fileID: 0}
 --- !u!1 &1920432828
 GameObject:
@@ -3522,7 +3534,7 @@ GameObject:
   - component: {fileID: 2055281472}
   - component: {fileID: 2055281473}
   m_Layer: 5
-  m_Name: LogInViewModel
+  m_Name: _LogInViewModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
