@@ -24,7 +24,7 @@ public class NativeShareManager : MonoBehaviour
             return _instance;
         }
     }
-    private bool boolswitch = true;
+    
     public SurfManager Surf;
     public MenuOptions Menu;
     // Start is called before the first frame update
@@ -64,12 +64,16 @@ public class NativeShareManager : MonoBehaviour
                 Menu.OnClick(1);
             }
             if(Link[i] == "profile"){
+                Surf.GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().OnClickForcePausePreview();
+                Surf.canSwipe = false;
                 NewScreenManager.instance.ChangeToSpawnedView("profile");
                 NewScreenManager.instance.GetCurrentView().Initialize(Link[i+1]);
             }
         }
         
     }
+
+
 
     public void TestShare(){
         Surf.SpawnSharePrefab("6kFDvPj3FVpQ90HZ5PacxE");
@@ -92,9 +96,9 @@ public class NativeShareManager : MonoBehaviour
         }
     }
 
-    public void OnClickShareMwsiveSong(string spotifyId){
+    public void OnClickShareMwsiveSong(string spotifyId, bool boolswitch){
         
-        if(boolswitch){
+        if(!boolswitch){
             ShareSheet shareSheet = ShareSheet.CreateInstance();
         shareSheet.AddText("rck://mwsive/song" + spotifyId);
         shareSheet.AddURL(URLString.URLWithPath("rck://mwsive/song" + spotifyId));
@@ -104,11 +108,11 @@ public class NativeShareManager : MonoBehaviour
         shareSheet.Show();
        
         }
-        boolswitch = !boolswitch;
+        
     }
 
     public void OnClickShareMwsiveProfile(string profileid){
-        if(boolswitch){
+       
             ShareSheet shareSheet = ShareSheet.CreateInstance();
         shareSheet.AddText("rck://mwsive/profile" + profileid);
         shareSheet.AddURL(URLString.URLWithPath("rck://mwsive/profile" + profileid));
@@ -116,7 +120,7 @@ public class NativeShareManager : MonoBehaviour
             Debug.Log("Share Sheet was closed. Result code: " + result.ResultCode);
         });
         shareSheet.Show();
-        }
+        
     }
     
 }

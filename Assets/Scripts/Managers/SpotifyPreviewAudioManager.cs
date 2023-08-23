@@ -35,7 +35,6 @@ public class SpotifyPreviewAudioManager : MonoBehaviour
     public void StopTrack()
     {
 
-        Debug.Log("STOPSTOPSTOPSTPOSTOPSTOPSTOP");
         if (audioSource.isPlaying)
         {
             audioSource.Stop();
@@ -57,6 +56,11 @@ public class SpotifyPreviewAudioManager : MonoBehaviour
         }
 
         isPaused = !isPaused;
+    }
+
+    public void ForcePause(){
+        audioSource.Pause();
+        isPaused = true;
     }
 
     public float GetAudioSourceTime() { return audioSource.time; }

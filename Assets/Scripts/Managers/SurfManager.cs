@@ -71,6 +71,8 @@ public class SurfManager : Manager
         swipeListener.OnSwipe.RemoveListener(OnSwipe);
     }
 
+    
+
     private void OnSwipe(string swipe)
     {
         if (!canSwipe)
@@ -711,7 +713,7 @@ public class SurfManager : Manager
     float touchDuration;
     Touch touch;
     void Update() {
-        if(Input.touchCount > 0 && EventSystem.current.currentSelectedGameObject == null){ //if there is any touch
+        if(Input.touchCount > 0 && EventSystem.current.currentSelectedGameObject == null && canSwipe){ //if there is any touch
             touchDuration += Time.deltaTime;
             touch = Input.GetTouch(0);
  
