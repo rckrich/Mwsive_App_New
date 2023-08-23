@@ -8,7 +8,8 @@ public class MwisiveFollowerHolder : ViewModel
 {
     public TextMeshProUGUI name;
     public Image curatorPicture;
-    public void Initialize(string _name)
+    public string profileID;
+    public void Initialize(string _name, string _profileID)
     {
         if (_name != null)
         {
@@ -27,9 +28,11 @@ public class MwisiveFollowerHolder : ViewModel
                 name.text = _name;
             }
         }
+
+        profileID = _profileID;
     }
 
-    public void Initialize(string _name, string _pictureURL)
+    public void Initialize(string _name, string _profileID, string _pictureURL)
     {
         if (_name != null)
         {
@@ -48,13 +51,15 @@ public class MwisiveFollowerHolder : ViewModel
                 name.text = _name;
             }
         }
+
+        profileID = _profileID;
         if (_pictureURL != null)
             ImageManager.instance.GetImage(_pictureURL, curatorPicture, (RectTransform)this.transform);
     }
 
-    /*public void SetImage(string _pictureURL)
+    public void OnClick_profile()
     {
-        Debug.Log("image url: " + _pictureURL);
-        ImageManager.instance.GetImage(_pictureURL, curatorPicture, (RectTransform)this.transform);
-    }*/
+        NewScreenManager.instance.ChangeToSpawnedView("profile");
+        NewScreenManager.instance.GetCurrentView().GetComponent<ProfileViewModel>().Initialize(profileID);
+    }
 }

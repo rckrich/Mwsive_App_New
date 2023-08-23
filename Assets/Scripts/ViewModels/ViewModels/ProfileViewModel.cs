@@ -206,7 +206,7 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_Followed()
     {
-        OpenView(ViewID.FollowersViewModel);
+        NewScreenManager.instance.ChangeToMainView(ViewID.FollowersViewModel, true);
         if (profileId.Equals(""))
         {
             NewScreenManager.instance.GetCurrentView().GetComponent<FollowersViewModel>().ProfileIDReset_GetFollowed();

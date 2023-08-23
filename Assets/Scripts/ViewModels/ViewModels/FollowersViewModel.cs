@@ -30,7 +30,7 @@ public class FollowersViewModel : ViewModel
             foreach(MwsiveUser user in mwsiveFollowersRoot.followers)
             {
                 MwisiveFollowerHolder instance = GameObject.Instantiate(FollowersHolderPrefab, instanceParent).GetComponent<MwisiveFollowerHolder>();
-                instance.Initialize(user.display_name, user.image);
+                instance.Initialize(user.display_name, user.platform_id, user.image);
                 offset++;
             }
         }
@@ -41,7 +41,7 @@ public class FollowersViewModel : ViewModel
             foreach (MwsiveUser user in mwsiveFollowers.followers)
             {
                 MwisiveFollowerHolder instance = GameObject.Instantiate(FollowersHolderPrefab, instanceParent).GetComponent<MwisiveFollowerHolder>();
-                instance.Initialize(user.display_name, user.image);
+                instance.Initialize( user.display_name, user.platform_id, user.image);
                 //instance.SetImage(user.image);
                 offset++;
             }
@@ -107,14 +107,10 @@ public class FollowersViewModel : ViewModel
 
     public void OnClick_BackButton()
     {
-        
+        Debug.Log(NewScreenManager.instance.GetCurrentView());
         NewScreenManager.instance.BackToPreviousView();
     }
 
-    public void OnClick_ReturnProfile()
-    {
-        NewScreenManager.instance.ChangeToMainView(ViewID.ProfileViewModel);
-    }
 
     public void GetCurrentFollowed()
     {
@@ -150,7 +146,7 @@ public class FollowersViewModel : ViewModel
             foreach(MwsiveUser user in mwsiveFollowedRoot.followed)
             {
                 MwisiveFollowerHolder instance = GameObject.Instantiate(FollowersHolderPrefab, instanceParent).GetComponent<MwisiveFollowerHolder>();
-                instance.Initialize(user.display_name, user.image);
+                instance.Initialize(user.display_name, user.platform_id, user.image);
                 //instance.SetImage(user.image);
                 offset++;
             }
@@ -162,7 +158,7 @@ public class FollowersViewModel : ViewModel
             foreach (MwsiveUser user in mwsiveFollowed.followed)
             {
                 MwisiveFollowerHolder instance = GameObject.Instantiate(FollowersHolderPrefab, instanceParent).GetComponent<MwisiveFollowerHolder>();
-                instance.Initialize(user.display_name, user.image);
+                instance.Initialize(user.display_name, user.platform_id, user.image);
                 //instance.SetImage(user.image);
                 offset++;
             }
