@@ -32,8 +32,7 @@ public class ProfileViewModel : ViewModel
             PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
 
             popUpViewModel.SetPopUpCancelAction(() => {
-                NewScreenManager.instance.BackToPreviousView();
-                NewScreenManager.instance.BackToPreviousView();
+                OnClick_BackButtonSurf();
             });
 
             popUpViewModel.SetPopUpAction(() => {

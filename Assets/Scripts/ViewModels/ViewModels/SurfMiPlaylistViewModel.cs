@@ -24,7 +24,42 @@ public class SurfMiPlaylistViewModel : ViewModel
     private void InitializePlaylistList()
     {
         SpotifyPreviewAudioManager.instance.StopTrack();
-        Debug.Log("ffffff");
+
+        if (AppManager.instance.isLogInMode)
+        {
+            StartSearch();
+            SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_OnClick_GetCurrentUserPlaylists);
+        }
+        else {
+            CallPopUP(PopUpViewModelTypes.OptionChoice, "Neceseitas permiso", "Necesitas crear una cuenta de Mwsive para poder realizar está acción, presiona Crear Cuenta para hacer una.", "Crear Cuenta");
+            PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+
+            popUpViewModel.SetPopUpCancelAction(() => {
+                OnClick_BackButton();
+            });
+
+            popUpViewModel.SetPopUpAction(() => {
+                LogInManager.instance.StartLogInProcess(Callback_MiPlaylistViewModelInitialize);
+                NewScreenManager.instance.BackToPreviousView();
+            });
+        }
+
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_BackButton();
+                }
+                AppManager.instance.SetAndroidBackAction(null);
+            });
+        }
+#endif
+    }
+
+    private void Callback_MiPlaylistViewModelInitialize(object[] _value)
+    {
         StartSearch();
         SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_OnClick_GetCurrentUserPlaylists);
     }
