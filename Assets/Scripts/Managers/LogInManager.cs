@@ -43,6 +43,21 @@ public class LogInManager : Manager
 
     private void Callback_StartSpotifyConnection(object[] _value)
     {
+
+
+        if(_value != null)
+        {
+            if(_value.Length > 0 && (((string)_value[0]).Equals("AuthError") || ((string)_value[0]).Equals("RefreshError")))
+            {
+                NewScreenManager.instance.GetCurrentView().EndSearch();
+                NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
+                PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+                popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, "Advertencia", "Ocurrió un error en el proceso de Inicio de Sesión. Volver a intentar.", "Aceptar");
+                popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); });
+                return;
+            }
+        }
+
         MwsiveTokenLogInProcess();
     }
 
@@ -92,25 +107,43 @@ public class LogInManager : Manager
             }
             else
             {
-                SetCurrentPlaylist(itemIDs[0]);
+                PlaylistException(playlistRoot, itemIDs);
+                return;
             }
         }
         else
         {
-            SetCurrentPlaylist(itemIDs[0]);
+            PlaylistException(playlistRoot, itemIDs);
+            return;
         }
 
-        NewScreenManager.instance.GetCurrentView().EndSearch();
+        EndProcess();
+    }
 
-        if (SceneManager.GetActiveScene().name.Equals("LogInScene"))
+    private void PlaylistException(PlaylistRoot _playlistRoot, string[] _itemIDs)
+    {
+        if (_playlistRoot.items.Count <= 0)
         {
-            SceneManager.LoadScene("MainScene");
+            SpotifyConnectionManager.instance.CreatePlaylist(profileid, Callback_CreatePlaylistException);
         }
         else
         {
-            if(previousAction != null)
-                previousAction(null);
+            SetCurrentPlaylist(itemIDs[0]);
+            EndProcess();
         }
+    }
+
+    private void Callback_CreatePlaylistException(object[] _value)
+    {
+        SpotifyPlaylistRoot spotifyPlaylistRoot = (SpotifyPlaylistRoot)_value[1];
+
+        playlistid = spotifyPlaylistRoot.id;
+
+        SetCurrentPlaylist(playlistid);
+
+        SpotifyConnectionManager.instance.PutChangePlaylistCoverImage(playlistid, WebCallsUtils.MWSIVE_COVER_BASECODE64);
+
+        EndProcess();
     }
 
     private void Callback_GetUserProfile(object[] _value)
@@ -145,18 +178,7 @@ public class LogInManager : Manager
             }
             else
             {
-                NewScreenManager.instance.GetCurrentView().EndSearch();
-
-                if (SceneManager.GetActiveScene().name.Equals("LogInScene"))
-                {
-                    SceneManager.LoadScene("MainScene");
-                }
-                else
-                {
-                    if (previousAction != null)
-                        previousAction(null);
-                }
-
+                EndProcess();
             }
         }
         else if (webcode == "404")
@@ -209,17 +231,7 @@ public class LogInManager : Manager
 
         SetMwsiveToken(mwsiveLoginRoot.access_token, DateTime.Now.AddHours(1));
 
-        NewScreenManager.instance.GetCurrentView().EndSearch();
-
-        if (SceneManager.GetActiveScene().name.Equals("LogInScene"))
-        {
-            SceneManager.LoadScene("MainScene");
-        }
-        else
-        {
-            if (previousAction != null)
-                previousAction(null);
-        }
+        EndProcess();
     }
 
     private void SetCurrentPlaylist(string _value)
@@ -253,5 +265,20 @@ public class LogInManager : Manager
     {
         NewScreenManager.instance.ChangeToMainView(_value, false);
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
+    }
+
+    private void EndProcess()
+    {
+        NewScreenManager.instance.GetCurrentView().EndSearch();
+
+        if (SceneManager.GetActiveScene().name.Equals("LogInScene"))
+        {
+            SceneManager.LoadScene("MainScene");
+        }
+        else
+        {
+            if (previousAction != null)
+                previousAction(null);
+        }
     }
 }
