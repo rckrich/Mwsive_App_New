@@ -35,6 +35,7 @@ public class SurfMiPlaylistViewModel : ViewModel
             PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
 
             popUpViewModel.SetPopUpCancelAction(() => {
+                NewScreenManager.instance.BackToPreviousView();
                 OnClick_BackButton();
             });
 
