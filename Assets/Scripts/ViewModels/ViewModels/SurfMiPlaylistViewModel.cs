@@ -153,7 +153,8 @@ public class SurfMiPlaylistViewModel : ViewModel
     public void OnClick_BackButton()
     {
         SurfManager.instance.SetActive(true);
-        NewScreenManager.instance.BackToPreviousView();
+        NewScreenManager.instance.ChangeToMainView(ViewID.SurfViewModel, false);
+        AppManager.instance.ResetAndroidBackAction();
     }
 
     public void OnClick_SpawnCrearPlaylistButton()
