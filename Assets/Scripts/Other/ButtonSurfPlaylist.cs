@@ -48,7 +48,8 @@ public class ButtonSurfPlaylist : ViewModel
         playlistText.text = playlistName;
         AddEventListener<ChangeColorAppEvent>(ChangeEventListener);
         AddEventListener<SelectedPlaylistNameAppEvent>(SelectedPlaylistNameEventListener);
-        playlistText.text = AppManager.instance.GetCurrentPlaylist().name;
+        string currentPLayListName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
+            playlistText.text = currentPLayListName;
         if (!AppManager.instance.yours)
         {
             buttonColor.GetComponent<Image>().color = Color.red;
@@ -149,6 +150,10 @@ public class ButtonSurfPlaylist : ViewModel
     public void OnClic_StopAudioPreview()
     {
         SpotifyPreviewAudioManager.instance.Pause();
+    }
+
+    public void OnClickForcePausePreview(){
+        SpotifyPreviewAudioManager.instance.ForcePause();
     }
   
     public void OnClick_OpenPlaylist()

@@ -37,5 +37,7 @@ public class GenreAppObject : AppObject
 
         NewScreenManager.instance.ChangeToSpawnedView("genre");
         NewScreenManager.instance.GetCurrentView().GetComponent<GenreViewModel>().GetSeveralTracks(genreID.ToArray(), genreText.text);
+
+        genreID.Clear();
     }
 }

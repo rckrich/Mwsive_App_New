@@ -21,7 +21,7 @@ public class AppManager : Manager
     }
 
     public string profileID;
-    public Image profilePicture;   
+    public Image profilePicture;
     public GameObject Container;
     public Transform surfTransform;
     public string trackID;
@@ -31,7 +31,7 @@ public class AppManager : Manager
     public bool yours = true;
     public int countTopArtist = 1;
     public int countTopCurators = 1;
-    
+
 #if PLATFORM_ANDROID
     private System.Action androidBackAction;
 #endif
@@ -41,19 +41,39 @@ public class AppManager : Manager
 
     private SpotifyPlaylistRoot currentPlaylist = null;
     private SpotifyWebCallback refreshPlaylistCallback;
+    private bool _isLogInMode = true;
+    public bool isLogInMode { get { return _isLogInMode; } }
 
     void Start()
+    {
+        StartAppProcess();
+    }
+
+    public void StartAppProcess()
     {
         StartSearch();
         if (ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted)
         {
             // Normal Spotify Login flow
+            SetLogInMode(true);
             SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile_LogInFlow);
         }
         else
         {
             // No Spotify Login flow
+            SetLogInMode(false);
             SpotifyConnectionManager.instance.GetPlaylist(TOP_GLOBAL_PLAYLIST_ID, Callback_GetTopPlaylist_NoLogInFLow);
+        }
+    }
+
+    public void StartAppProcessFromOutside()
+    {
+        StartSearch();
+        if (ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted)
+        {
+            // Normal Spotify Login flow
+            SetLogInMode(true);
+            SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile_OutsideLogInFlow);
         }
     }
 
@@ -116,7 +136,7 @@ public class AppManager : Manager
 
     public bool SearchTrackOnCurrentPlaylist(string _id)
     {
-        if(currentPlaylist != null)
+        if (currentPlaylist != null)
         {
             Item searchedItem = currentPlaylist.tracks.items.Find((x) => x.track.id.Equals(_id));
 
@@ -157,13 +177,13 @@ public class AppManager : Manager
 
         ProfileRoot profileRoot = (ProfileRoot)_value[1];
         profileID = profileRoot.id;
-        if(profileRoot.images != null)
+        if (profileRoot.images != null)
         {
             if (profileRoot.images.Count > 0) {
 
-                foreach(SpotifyImage image in profileRoot.images)
+                foreach (SpotifyImage image in profileRoot.images)
                 {
-                    if(image.height == 300 && image.width == 300)
+                    if (image.height == 300 && image.width == 300)
                     {
                         ImageManager.instance.GetImage(image.url, profilePicture, (RectTransform)surfTransform);
                         profileImageSetted = true;
@@ -171,7 +191,7 @@ public class AppManager : Manager
                     }
                 }
 
-                if(!profileImageSetted)
+                if (!profileImageSetted)
                     ImageManager.instance.GetImage(profileRoot.images[0].url, profilePicture, (RectTransform)surfTransform);
             }
         }
@@ -181,7 +201,7 @@ public class AppManager : Manager
 
     private void Callback_GetCurrentMwsiveUserPlaylist_LogInFlow(object[] _value)
     {
-        if (WebCallsUtils.IsResponseItemNotFound((long)_value[0])){
+        if (WebCallsUtils.IsResponseItemNotFound((long)_value[0])) {
 
             SpotifyConnectionManager.instance.CreatePlaylist(profileID, Callback_CreatePlaylist_LogInFlow);
             return;
@@ -208,7 +228,7 @@ public class AppManager : Manager
     {
         UserTopItemsRoot userTopItemsRoot = (UserTopItemsRoot)_value[1];
 
-        if(userTopItemsRoot.total <= 5)
+        if (userTopItemsRoot.total <= 5)
         {
             SpotifyConnectionManager.instance.GetPlaylist(TOP_GLOBAL_PLAYLIST_ID, Callback_GetGlobalTopTracks_LogInFlow);
             return;
@@ -216,7 +236,7 @@ public class AppManager : Manager
 
         string[] trackSeeds = new string[5];
 
-        for(int i = 0; i < trackSeeds.Length; i++)
+        for (int i = 0; i < trackSeeds.Length; i++)
         {
             trackSeeds[i] = userTopItemsRoot.items[Random.Range(0, userTopItemsRoot.items.Count)].id;
         }
@@ -232,7 +252,7 @@ public class AppManager : Manager
 
         for (int i = 0; i < trackSeeds.Length; i++)
         {
-            if(searchedPlaylist.tracks.items[Random.Range(0, searchedPlaylist.tracks.items.Count)].track != null)
+            if (searchedPlaylist.tracks.items[Random.Range(0, searchedPlaylist.tracks.items.Count)].track != null)
                 trackSeeds[i] = searchedPlaylist.tracks.items[Random.Range(0, searchedPlaylist.tracks.items.Count)].track.id;
         }
 
@@ -259,9 +279,82 @@ public class AppManager : Manager
 
     private void Callback_GetTopPlaylist_NoLogInFLow(object[] _value)
     {
-        EndSearch();
         SpotifyPlaylistRoot searchedPlaylist = (SpotifyPlaylistRoot)_value[1];
-        SurfManager.instance.DynamicPrefabSpawnerPL(new object[] { searchedPlaylist });
+
+        string[] trackSeeds = new string[5];
+
+        for (int i = 0; i < trackSeeds.Length; i++)
+        {
+            if (searchedPlaylist.tracks.items[Random.Range(0, searchedPlaylist.tracks.items.Count)].track != null)
+                trackSeeds[i] = searchedPlaylist.tracks.items[Random.Range(0, searchedPlaylist.tracks.items.Count)].track.id;
+        }
+
+        SpotifyConnectionManager.instance.GetRecommendations(new string[] { }, trackSeeds, Callback_GetTopRecommendations_NoLogInFlow);
+    }
+
+    private void Callback_GetTopRecommendations_NoLogInFlow(object[] _value)
+    {
+        EndSearch();
+        RecommendationsRoot recommendationsRoot = (RecommendationsRoot)_value[1];
+        SurfManager.instance.DynamicPrefabSpawnerSong(new object[] { recommendationsRoot });
+    }
+
+    #endregion
+
+    #region Outside LogIn Flow
+    private void Callback_GetUserProfile_OutsideLogInFlow(object[] _value)
+    {
+        bool profileImageSetted = false;
+
+        ProfileRoot profileRoot = (ProfileRoot)_value[1];
+        profileID = profileRoot.id;
+        if (profileRoot.images != null)
+        {
+            if (profileRoot.images.Count > 0)
+            {
+
+                foreach (SpotifyImage image in profileRoot.images)
+                {
+                    if (image.height == 300 && image.width == 300)
+                    {
+                        ImageManager.instance.GetImage(image.url, profilePicture, (RectTransform)surfTransform);
+                        profileImageSetted = true;
+                        break;
+                    }
+                }
+
+                if (!profileImageSetted)
+                    ImageManager.instance.GetImage(profileRoot.images[0].url, profilePicture, (RectTransform)surfTransform);
+            }
+        }
+
+        SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_GetCurrentMwsiveUserPlaylist_OutsideLogInFlow);
+    }
+
+    private void Callback_GetCurrentMwsiveUserPlaylist_OutsideLogInFlow(object[] _value)
+    {
+        if (WebCallsUtils.IsResponseItemNotFound((long)_value[0]))
+        {
+
+            SpotifyConnectionManager.instance.CreatePlaylist(profileID, Callback_CreatePlaylist_OutsideLogInFlow);
+            return;
+        }
+
+        SpotifyPlaylistRoot searchedPlaylist = (SpotifyPlaylistRoot)_value[1];
+        currentPlaylist = searchedPlaylist;
+        MwsiveConnectionManager.instance.PutLastSavedPlaylist(searchedPlaylist.id);
+
+        EndSearch();
+    }
+
+    private void Callback_CreatePlaylist_OutsideLogInFlow(object[] _value)
+    {
+        SpotifyPlaylistRoot spotifyPlaylistRoot = (SpotifyPlaylistRoot)_value[1];
+
+        currentPlaylist = spotifyPlaylistRoot;
+        MwsiveConnectionManager.instance.PutLastSavedPlaylist(spotifyPlaylistRoot.id);
+
+        EndSearch();
     }
 
     #endregion
@@ -278,6 +371,11 @@ public class AppManager : Manager
         uri = trackRoot.uri;       
         NewScreenManager.instance.ChangeToSpawnedView("listaDeOpciones");
         EndSearch();
+    }
+
+    public void SetLogInMode(bool _value)
+    {
+        _isLogInMode = _value;
     }
 
 }

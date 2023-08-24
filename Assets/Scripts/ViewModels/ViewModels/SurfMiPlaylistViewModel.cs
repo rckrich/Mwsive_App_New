@@ -6,14 +6,12 @@ using UnityEngine.UI;
 
 public class SurfMiPlaylistViewModel : ViewModel 
 {
-    // Start is called before the first frame update
     public GameObject playlistHolderPrefab;
     public Transform instanceParent;
     public ScrollRect scrollRect;
     public float end;
     public int offset = 21;
-    int onlyone = 0;
-    //public HolderManager holderManager;
+    int onlyOne = 0;
     public List<Image> imagenes;
     
     void Start()
@@ -24,7 +22,59 @@ public class SurfMiPlaylistViewModel : ViewModel
     private void InitializePlaylistList()
     {
         SpotifyPreviewAudioManager.instance.StopTrack();
-        Debug.Log("ffffff");
+
+        if (AppManager.instance.isLogInMode)
+        {
+            StartSearch();
+            SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_OnClick_GetCurrentUserPlaylists);
+
+#if PLATFORM_ANDROID
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                AppManager.instance.SetAndroidBackAction(() => {
+                    if (finishedLoading)
+                    {
+                        OnClick_BackButton();
+                    }
+                    AppManager.instance.SetAndroidBackAction(null);
+                });
+            }
+#endif
+
+        }
+        else {
+            CallPopUP(PopUpViewModelTypes.OptionChoice, "Neceseitas permiso", "Necesitas crear una cuenta de Mwsive para poder realizar está acción, presiona Crear Cuenta para hacer una.", "Crear Cuenta");
+            PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+
+            popUpViewModel.SetPopUpCancelAction(() => {
+                NewScreenManager.instance.BackToPreviousView();
+                OnClick_BackButton();
+            });
+
+            popUpViewModel.SetPopUpAction(() => {
+                LogInManager.instance.StartLogInProcess(Callback_MiPlaylistViewModelInitialize);
+                NewScreenManager.instance.BackToPreviousView();
+            });
+
+#if PLATFORM_ANDROID
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                AppManager.instance.SetAndroidBackAction(() => {
+                    if (finishedLoading)
+                    {
+                        NewScreenManager.instance.BackToPreviousView();
+                        OnClick_BackButton();
+                    }
+                    AppManager.instance.SetAndroidBackAction(null);
+                });
+            }
+#endif
+        }
+    }
+
+    private void Callback_MiPlaylistViewModelInitialize(object[] _value)
+    {
+        AppManager.instance.StartAppProcessFromOutside();
         StartSearch();
         SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_OnClick_GetCurrentUserPlaylists);
     }
@@ -57,14 +107,14 @@ public class SurfMiPlaylistViewModel : ViewModel
 
     public void OnReachEnd()
     {
-        if (onlyone == 0)
+        if (onlyOne == 0)
         {
             if (scrollRect.verticalNormalizedPosition <= end)
             {
                 StartSearch();
                 SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_GetMoreUserPlaylists, 20, offset);
                 offset += 20;
-                onlyone = 1;
+                onlyOne = 1;
             }
         }
     }
@@ -92,7 +142,7 @@ public class SurfMiPlaylistViewModel : ViewModel
                 instance.SetImage(item.images[0].url);
             
         }
-        onlyone = 0;
+        onlyOne = 0;
 
         EndSearch();
     }
@@ -101,7 +151,8 @@ public class SurfMiPlaylistViewModel : ViewModel
     public void OnClick_BackButton()
     {
         SurfManager.instance.SetActive(true);
-        NewScreenManager.instance.BackToPreviousView();
+        NewScreenManager.instance.ChangeToMainView(ViewID.SurfViewModel, false);
+        AppManager.instance.ResetAndroidBackAction();
     }
 
     public void OnClick_SpawnCrearPlaylistButton()

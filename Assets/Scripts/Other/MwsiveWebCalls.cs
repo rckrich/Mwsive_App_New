@@ -347,7 +347,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     //TODO Response when unauthorized
                 }
-
+                Debug.Log(webRequest.responseCode);
                 Debug.Log("Protocol Error or Connection Error on fetch profile");
                 yield break;
             }
@@ -790,8 +790,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/me/users/"+ _name;
-        string url = "http://192.241.129.184/api/users/" + _name;
+        //string url = "https://mwsive.com/me/users/search/"+ _name;
+        string url = "http://192.241.129.184/api/users/search/" + _name;
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -806,9 +806,10 @@ public class MwsiveWebCalls : MonoBehaviour
 
                 if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
                 {
+                    
                     //TODO Response when unauthorized
                 }
-
+                Debug.Log(webRequest.responseCode);
                 Debug.Log("Protocol Error or Connection Error on fetch curators by name");
                 yield break;
             }

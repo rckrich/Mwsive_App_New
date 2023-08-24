@@ -71,6 +71,8 @@ public class SurfManager : Manager
         swipeListener.OnSwipe.RemoveListener(OnSwipe);
     }
 
+    
+
     private void OnSwipe(string swipe)
     {
         if (!canSwipe)
@@ -504,7 +506,10 @@ public class SurfManager : Manager
 
                     artists = artists.Remove(artists.Length - 2);
 
-                    instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.name, item.album.name, artists, item.album.images[0].url, item.id, item.uri, item.preview_url, item.external_urls.spotify);
+                    string currentPlaylistName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
+
+                    //TODO filtrar cuando no tienen un elemento
+                    instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(currentPlaylistName, item.name, item.album.name, artists, item.album.images[0].url, item.id, item.uri, item.preview_url, item.external_urls.spotify);
                     SpawnedSongs++;
 
                 }
@@ -550,7 +555,8 @@ public class SurfManager : Manager
 
                     artists = artists.Remove(artists.Length - 2);
 
-                    instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.track.name, item.track.album.name, artists, item.track.album.images[0].url, item.track.id, item.track.uri, item.track.preview_url, item.track.external_urls.spotify);
+                    string currentPlayListName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
+                    instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(currentPlayListName, item.track.name, item.track.album.name, artists, item.track.album.images[0].url, item.track.id, item.track.uri, item.track.preview_url, item.track.external_urls.spotify);
                     SpawnedSongs++;
                 }
             }
@@ -709,7 +715,7 @@ public class SurfManager : Manager
     float touchDuration;
     Touch touch;
     void Update() {
-        if(Input.touchCount > 0 && EventSystem.current.currentSelectedGameObject == null){ //if there is any touch
+        if(Input.touchCount > 0 && EventSystem.current.currentSelectedGameObject == null && canSwipe){ //if there is any touch
             touchDuration += Time.deltaTime;
             touch = Input.GetTouch(0);
  

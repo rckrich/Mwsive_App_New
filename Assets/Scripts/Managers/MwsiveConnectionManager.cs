@@ -284,7 +284,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveBadgesRoot)_value[1]));
+        Debug.Log(((MwsiveCuratorsRoot)_value[1]));
     }
 
     public void GetBadges(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)

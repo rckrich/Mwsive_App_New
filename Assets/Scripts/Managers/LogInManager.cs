@@ -43,8 +43,6 @@ public class LogInManager : Manager
 
     private void Callback_StartSpotifyConnection(object[] _value)
     {
-
-
         if(_value != null)
         {
             if(_value.Length > 0 && (((string)_value[0]).Equals("AuthError") || ((string)_value[0]).Equals("RefreshError")))
