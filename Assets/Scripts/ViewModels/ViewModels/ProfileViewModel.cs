@@ -89,8 +89,18 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_SpawnMiPlaylistButton()
     {
-        NewScreenManager.instance.ChangeToSpawnedView("miPlaylist");
-        Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
+        if (profileId.Equals(""))
+        {
+            NewScreenManager.instance.ChangeToSpawnedView("miPlaylist");
+            NewScreenManager.instance.GetCurrentView().GetComponent<MiPlaylistViewModel>().GetCurrentUserPlaylist();
+            Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
+        }
+        else
+        {
+            NewScreenManager.instance.ChangeToSpawnedView("miPlaylist");
+            NewScreenManager.instance.GetCurrentView().GetComponent<MiPlaylistViewModel>().GetUserPlaylist(profileId);
+        }
+        
     }
     public void OnClick_SpawnPopUpButton()
     {

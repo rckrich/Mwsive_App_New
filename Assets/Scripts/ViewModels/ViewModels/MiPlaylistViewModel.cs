@@ -12,7 +12,14 @@ public class MiPlaylistViewModel : ViewModel
     public float end;
     public int offset = 21;
     int onlyone = 0;
+    public string profileID;
+
     void Start()
+    {
+        
+    }
+
+    public void GetCurrentUserPlaylist()
     {
         SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_OnClick_GetCurrentUserPlaylists);
     }
@@ -32,19 +39,41 @@ public class MiPlaylistViewModel : ViewModel
         }
     }
 
+    public void GetUserPlaylist(string _profileId)
+    {
+        profileID = _profileId;
+        SpotifyConnectionManager.instance.GetUserPlaylists(_profileId, Callback_OnClick_GetCurrentUserPlaylists);
+    }
+
     public void OnReachEnd()
     {
-       
-        if (onlyone == 0)
+        if (profileID.Equals(""))
         {
-            if (scrollRect.verticalNormalizedPosition <= end)
+            if (onlyone == 0)
             {
-                SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_GetMoreUserPlaylists, 20, offset);
-                offset += 20;
-                onlyone = 1;
+                if (scrollRect.verticalNormalizedPosition <= end)
+                {
+                    SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_GetMoreUserPlaylists, 20, offset);
+                    offset += 20;
+                    onlyone = 1;
+                }
             }
         }
+        else
+        {
+            if (onlyone == 0)
+            {
+                if (scrollRect.verticalNormalizedPosition <= end)
+                {
+                    SpotifyConnectionManager.instance.GetUserPlaylists(profileID, Callback_GetMoreUserPlaylists, 20, offset);
+                    offset += 20;
+                    onlyone = 1;
+                }
+            }
+        }
+        
     }
+
     private void Callback_GetMoreUserPlaylists(object[] _value)
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
