@@ -47,6 +47,7 @@ public class LogInManager : Manager
         {
             if(_value.Length > 0 && (((string)_value[0]).Equals("AuthError") || ((string)_value[0]).Equals("RefreshError")))
             {
+                Debug.Log((string)_value[0]);
                 NewScreenManager.instance.GetCurrentView().EndSearch();
                 NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
                 PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);

@@ -230,11 +230,10 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void SelectedPlaylistNameEventListener(SelectedPlaylistNameAppEvent _event)
     {
-        playlistText.text = AppManager.instance.GetCurrentPlaylist().name;
+        playlistText.text = _event.playlistName;
         if (AppManager.instance.SearchTrackOnCurrentPlaylist(trackID))
         {
             mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
-            //Pintar de morado el que está en playlist
         }
         else
         {

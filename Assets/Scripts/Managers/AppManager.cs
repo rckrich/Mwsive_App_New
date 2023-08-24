@@ -344,6 +344,8 @@ public class AppManager : Manager
         currentPlaylist = searchedPlaylist;
         MwsiveConnectionManager.instance.PutLastSavedPlaylist(searchedPlaylist.id);
 
+        InvokeEvent<SelectedPlaylistNameAppEvent>(new SelectedPlaylistNameAppEvent(currentPlaylist.name));
+
         EndSearch();
     }
 
@@ -353,6 +355,8 @@ public class AppManager : Manager
 
         currentPlaylist = spotifyPlaylistRoot;
         MwsiveConnectionManager.instance.PutLastSavedPlaylist(spotifyPlaylistRoot.id);
+
+        InvokeEvent<SelectedPlaylistNameAppEvent>(new SelectedPlaylistNameAppEvent(currentPlaylist.name));
 
         EndSearch();
     }
