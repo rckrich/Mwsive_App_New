@@ -34,10 +34,6 @@ public class TrackViewModel : ViewModel
         GetRecommendations();
     }
 
-    void Update()
-    {
-        
-    }
     public void GetTrack()
     {
         if (!trackID.Equals(""))
@@ -53,6 +49,18 @@ public class TrackViewModel : ViewModel
 
         foreach(Artist artist in trackRoot.artists) {
             artistName.text += artist.name + ", ";
+        }
+        if (artistName.text.Length > 27)
+        {
+            string _text2 = "";
+            for (int k = 0; k < 27; k++)
+            {
+
+                _text2 = _text2 + artistName.text[k];
+
+            }
+            _text2 = _text2 + "...";
+            artistName.text = _text2;
         }
 
         seed_artists = new string[trackRoot.artists.Count];
@@ -99,6 +107,20 @@ public class TrackViewModel : ViewModel
             TrackHolder instance = GameObject.Instantiate(trackHolderPrefab, instanceParent).GetComponent<TrackHolder>();
             artista = "";
             foreach(Artist artist in track.artists) { artista += artist.name + ", "; }
+
+            if (artista.Length > 27)
+            {
+                string _text2 = "";
+                for (int k = 0; k < 27; k++)
+                {
+
+                    _text2 = _text2 + artista[k];
+
+                }
+                _text2 = _text2 + "...";
+                artista = _text2;
+            }
+
             instance.Initialize(track.name, artista, track.id, track.artists[0].id, track.uri, track.preview_url, track.external_urls);
 
             if (track.album.images != null && track.album.images.Count > 0)
