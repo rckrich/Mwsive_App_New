@@ -673,7 +673,6 @@ public class SurfManager : Manager
     }
 
 
-
     private GameObject SpawnPrefab(){
         GameObject Instance;
         if(PrefabPosition < 4){
@@ -752,26 +751,7 @@ public class SurfManager : Manager
         GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
     }
 
-    public void CheckDoubleClick(){
-        /*
-        float timeSinceLastClick = Time.time - lastClickTime;
-        if (timeSinceLastClick <= doubleClickTime){
-            
-            GameObject Instance = Instantiate(MwsiveOla, gameObject.transform.position, Quaternion.identity);
-            Instance.transform.SetParent(GameObject.Find("Main Canvas").transform);
-            UIAniManager.instance.DoubleClickOla(Instance);
-
-            if(!OlaButton.GetComponent<MwsiveControllerButtons>().IsItOlaColorButtonActive()){
-                OlaButton.GetComponent<MwsiveControllerButtons>().OnClickOlaButton();
-                
-            }
-            
-
-        }
-
-        lastClickTime = Time.time;
-        */
-    }
+    
     
 
 }

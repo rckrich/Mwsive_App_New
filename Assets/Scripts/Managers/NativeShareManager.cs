@@ -98,7 +98,7 @@ public class NativeShareManager : MonoBehaviour
 
     public void OnClickShareMwsiveSong(string spotifyId, bool boolswitch){
         
-        if(!boolswitch){
+        if(boolswitch){
             ShareSheet shareSheet = ShareSheet.CreateInstance();
         shareSheet.AddText("rck://mwsive/song" + spotifyId);
         shareSheet.AddURL(URLString.URLWithPath("rck://mwsive/song" + spotifyId));

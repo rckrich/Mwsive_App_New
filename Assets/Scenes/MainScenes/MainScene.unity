@@ -14499,66 +14499,6 @@ MonoBehaviour:
       - m_Target: {fileID: 804697623}
         m_TargetAssemblyTypeName: DescubrirButton, Scripts
         m_MethodName: OnClick_CancelarButton
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1331957339}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 804697622}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 226074871}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 372181375}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1945955473}
-        m_TargetAssemblyTypeName: DescubrirPaginas, Scripts
-        m_MethodName: HideEscena
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2051662606}
-        m_TargetAssemblyTypeName: Descubrir_ViewModel, Assembly-CSharp
-        m_MethodName: KillAllPrefabLists
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -21919,10 +21859,10 @@ MonoBehaviour:
       - m_Target: {fileID: 804697623}
         m_TargetAssemblyTypeName: DescubrirButton, Scripts
         m_MethodName: OnClick_BuscarButton
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 1331957339}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -21985,6 +21925,11 @@ MonoBehaviour:
   BuscarRestPosition: {fileID: 125636326}
   BuscarPosPosition: {fileID: 418001560}
   Descubrir: {fileID: 1945955473}
+  DescubrirVW: {fileID: 2051662606}
+  button: {fileID: 804697622}
+  PlaceHolder: {fileID: 226074871}
+  TextArea: {fileID: 372181375}
+  ScrollView: {fileID: 1331957339}
 --- !u!222 &804697624
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -44770,6 +44715,7 @@ MonoBehaviour:
   descubrir: {fileID: 1710936932}
   explorar: {fileID: 172834490}
   ranking: {fileID: 1085437837}
+  ResetDynamicSearch: {fileID: 804697623}
 --- !u!1 &1727406345
 GameObject:
   m_ObjectHideFlags: 0

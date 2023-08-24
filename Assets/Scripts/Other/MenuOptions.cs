@@ -9,6 +9,8 @@ public class MenuOptions : ViewModel
     public GameObject explorar;
     public GameObject ranking;
 
+    public DescubrirButton ResetDynamicSearch;
+
     private bool exploreChange = false;
     void Start()
     {
@@ -21,7 +23,9 @@ public class MenuOptions : ViewModel
     {                   
             if(numero == 0)
             {
-                
+                if(NewScreenManager.instance.GetCurrentView().viewID == ViewID.ExploreViewModel){
+                    ResetDynamicSearch.OnClick_CancelarButton();
+                }
                 SurfManager.instance.SetActive(false);
                 SpotifyPreviewAudioManager.instance.StopTrack();
                 
@@ -36,7 +40,7 @@ public class MenuOptions : ViewModel
             {
 #if PLATFORM_ANDROID
             AppManager.instance.ResetAndroidBackAction();
-#endif
+#endif      
             explorar.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
                 descubrir.GetComponent<Image>().GetComponent<Graphic>().color = Color.white;
                 ranking.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
@@ -47,7 +51,9 @@ public class MenuOptions : ViewModel
 
             if(numero == 2)
             {
-                
+                if(NewScreenManager.instance.GetCurrentView().viewID == ViewID.ExploreViewModel){
+                    ResetDynamicSearch.OnClick_CancelarButton();
+                }
                 SurfManager.instance.SetActive(false);
                 SpotifyPreviewAudioManager.instance.StopTrack();
                 explorar.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
