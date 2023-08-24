@@ -20,6 +20,7 @@ public class FollowersViewModel : ViewModel
     private const int FOLLOWERS_OPTION = 0;
     private const int FOLLOWED_OPTION = 1;
     private string profileID = "";
+    private bool sceneActive;
 
     private void Callback_GetFollowers(object[] _value)
     {
@@ -55,6 +56,7 @@ public class FollowersViewModel : ViewModel
     {
         RemoveChild();
         followSelector.SelectorFollow(FOLLOWERS_OPTION);
+        sceneActive = true;
         onlyone = 0;
         if (profileID.Equals(""))
         {
@@ -78,33 +80,6 @@ public class FollowersViewModel : ViewModel
 
     }
 
-    public void OnReachEndFollowers()
-    {
-        if (profileID.Equals(""))
-        {
-            if (onlyone == 0)
-            {
-                if (scrollRect.verticalNormalizedPosition <= end)
-                {
-                    MwsiveConnectionManager.instance.GetFollowers(Callback_GetFollowers,offset, 20);
-                    onlyone = 1;
-                }
-            }
-        }
-        else
-        {
-            if (onlyone == 0)
-            {
-                if (scrollRect.verticalNormalizedPosition <= end)
-                {
-                    MwsiveConnectionManager.instance.GetUserFollowers(profileID,Callback_GetFollowers,offset,20);
-                    onlyone = 1;
-                }
-            }
-        }
-        
-    }
-
     public void OnClick_BackButton()
     {
         Debug.Log(NewScreenManager.instance.GetCurrentView());
@@ -116,6 +91,7 @@ public class FollowersViewModel : ViewModel
     {
         RemoveChild();
         followSelector.SelectorFollow(FOLLOWED_OPTION);
+        sceneActive = false;
         onlyone = 0;
         if (profileID.Equals(""))
         {
@@ -166,31 +142,60 @@ public class FollowersViewModel : ViewModel
         
     }
 
-    public void OnReachEndFollowed()
+    public void OnReachEnd()
     {
-        if (profileID.Equals(""))
+        if (sceneActive)
         {
-            if (onlyone == 0)
+            if (profileID.Equals(""))
             {
-                if (scrollRect.verticalNormalizedPosition <= end)
+                if (onlyone == 0)
                 {
-                    MwsiveConnectionManager.instance.GetFollowed(Callback_GetFollowed, 20, offset);
-                    onlyone = 1;
+                    if (scrollRect.verticalNormalizedPosition <= end)
+                    {
+                        MwsiveConnectionManager.instance.GetFollowers(Callback_GetFollowers, offset, 20);
+                        onlyone = 1;
+                    }
+                }
+            }
+            else
+            {
+                if (onlyone == 0)
+                {
+                    if (scrollRect.verticalNormalizedPosition <= end)
+                    {
+                        MwsiveConnectionManager.instance.GetUserFollowers(profileID, Callback_GetFollowers, offset, 20);
+                        onlyone = 1;
+                    }
                 }
             }
         }
         else
         {
-            if (onlyone == 0)
+            if (profileID.Equals(""))
             {
-                if (scrollRect.verticalNormalizedPosition <= end)
+                if (onlyone == 0)
                 {
-                    MwsiveConnectionManager.instance.GetUserFollowed(profileID, Callback_GetFollowed, 20, offset);
-                    onlyone = 1;
+                    if (scrollRect.verticalNormalizedPosition <= end)
+                    {
+                        MwsiveConnectionManager.instance.GetFollowed(Callback_GetFollowed, 20, offset);
+                        onlyone = 1;
+                    }
                 }
             }
+            else
+            {
+                if (onlyone == 0)
+                {
+                    if (scrollRect.verticalNormalizedPosition <= end)
+                    {
+                        MwsiveConnectionManager.instance.GetUserFollowed(profileID, Callback_GetFollowed, 20, offset);
+                        onlyone = 1;
+                    }
+                }
 
+            }
         }
+        
         
     }
 

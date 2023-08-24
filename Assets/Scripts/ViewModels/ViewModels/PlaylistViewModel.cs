@@ -13,6 +13,7 @@ public class PlaylistViewModel : ViewModel
     [Header("Instance Referecnes")]
     public GameObject trackHolderPrefab, SurfButton;
     public Transform instanceParent;
+    public GameObject listenOnSpotify;
    //public int objectsToNotDestroyIndex;
     public string id;
     public TextMeshProUGUI playlistName;

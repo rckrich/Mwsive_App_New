@@ -149,15 +149,26 @@ public class ProfileViewModel : ViewModel
 
         PlaylistRoot playlistRoot = (PlaylistRoot)_value[1];
         
-        for(int i = 0; i < 6; i++)
+       if(playlistRoot.items.Count < 6)
         {
-            PlaylisHolder instance = GameObject.Instantiate(playlistHolderPrefab, instanceParent).GetComponent<PlaylisHolder>();
-            instance.Initialize(playlistRoot.items[i].name, playlistRoot.items[i].id, playlistRoot.items[i].owner.display_name, playlistRoot.items[i].@public);           
-            if (playlistRoot.items[i].images != null && playlistRoot.items[i].images.Count > 0)
-                instance.SetImage(playlistRoot.items[i].images[0].url);
+            for (int i = 0; i < playlistRoot.items.Count; i++)
+            {
+                PlaylisHolder instance = GameObject.Instantiate(playlistHolderPrefab, instanceParent).GetComponent<PlaylisHolder>();
+                instance.Initialize(playlistRoot.items[i].name, playlistRoot.items[i].id, playlistRoot.items[i].owner.display_name, playlistRoot.items[i].@public);
+                if (playlistRoot.items[i].images != null && playlistRoot.items[i].images.Count > 0)
+                    instance.SetImage(playlistRoot.items[i].images[0].url);
+            }
         }
-       
-        
+        else
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                PlaylisHolder instance = GameObject.Instantiate(playlistHolderPrefab, instanceParent).GetComponent<PlaylisHolder>();
+                instance.Initialize(playlistRoot.items[i].name, playlistRoot.items[i].id, playlistRoot.items[i].owner.display_name, playlistRoot.items[i].@public);
+                if (playlistRoot.items[i].images != null && playlistRoot.items[i].images.Count > 0)
+                    instance.SetImage(playlistRoot.items[i].images[0].url);
+            }
+        }    
         EndSearch();
     }
 
@@ -191,7 +202,7 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_Followers()
     {
-        OpenView(ViewID.FollowersViewModel);
+        NewScreenManager.instance.ChangeToSpawnedView("followers");
         if (profileId.Equals(""))
         {
             NewScreenManager.instance.GetCurrentView().GetComponent<FollowersViewModel>().ProfileIDReset_GetFollowers();
@@ -206,7 +217,7 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_Followed()
     {
-        NewScreenManager.instance.ChangeToMainView(ViewID.FollowersViewModel, true);
+        NewScreenManager.instance.ChangeToSpawnedView("followers");
         if (profileId.Equals(""))
         {
             NewScreenManager.instance.GetCurrentView().GetComponent<FollowersViewModel>().ProfileIDReset_GetFollowed();
