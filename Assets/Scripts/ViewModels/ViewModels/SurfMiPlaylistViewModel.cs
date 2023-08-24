@@ -6,12 +6,14 @@ using UnityEngine.UI;
 
 public class SurfMiPlaylistViewModel : ViewModel 
 {
+    // Start is called before the first frame update
     public GameObject playlistHolderPrefab;
     public Transform instanceParent;
     public ScrollRect scrollRect;
     public float end;
     public int offset = 21;
-    int onlyOne = 0;
+    int onlyone = 0;
+    //public HolderManager holderManager;
     public List<Image> imagenes;
     
     void Start()
@@ -107,14 +109,14 @@ public class SurfMiPlaylistViewModel : ViewModel
 
     public void OnReachEnd()
     {
-        if (onlyOne == 0)
+        if (onlyone == 0)
         {
             if (scrollRect.verticalNormalizedPosition <= end)
             {
                 StartSearch();
                 SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_GetMoreUserPlaylists, 20, offset);
                 offset += 20;
-                onlyOne = 1;
+                onlyone = 1;
             }
         }
     }
@@ -142,7 +144,7 @@ public class SurfMiPlaylistViewModel : ViewModel
                 instance.SetImage(item.images[0].url);
             
         }
-        onlyOne = 0;
+        onlyone = 0;
 
         EndSearch();
     }
@@ -151,7 +153,8 @@ public class SurfMiPlaylistViewModel : ViewModel
     public void OnClick_BackButton()
     {
         SurfManager.instance.SetActive(true);
-        NewScreenManager.instance.ChangeToMainView(ViewID.SurfViewModel, false);
+        //TODO Saber si es surf principal o no para apagar o prender las tarjetas
+        NewScreenManager.instance.BackToPreviousView();
         AppManager.instance.ResetAndroidBackAction();
     }
 
