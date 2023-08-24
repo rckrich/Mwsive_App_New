@@ -66,6 +66,12 @@ public class OAuthHandler : MonoBehaviour
     public void OnSpotifyAuthError(long errorCode, string errorMessage)
     {
         Debug.Log("Error happened: " + errorCode + " " + errorMessage);
+
+        if (callback != null)
+        {
+            callback(new object[] { "AuthError" });
+            callback = null;
+        }
     }
 
     public void OnSpotifyTokenRefreshed(UniWebViewAuthenticationSpotifyToken _token)
@@ -86,5 +92,11 @@ public class OAuthHandler : MonoBehaviour
     public void OnSpotifyRefreshError(long errorCode, string errorMessage)
     {
         Debug.Log("Error happened: " + errorCode + " " + errorMessage);
+
+        if (callback != null)
+        {
+            callback(new object[] { "RefreshError" });
+            callback = null;
+        }
     }
 }
