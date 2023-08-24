@@ -19,14 +19,17 @@ public class DescubrirPaginas : MonoBehaviour
     public Sprite sprite;
     public Sprite sprite2;
     public Descubrir_ViewModel _Descubrir;
+    public ScrollRect ScrollofImages;
 
     public void ChangeWindow()
     {
 
     }
     public void HideEscena(){
+
         scenes[numEnpantalla].SetActive(false);
-        numEnpantalla = 0;
+        EleccionDeEscena(0);
+        ScrollofImages.horizontalNormalizedPosition = 0;
     }
 
     public int GetCurrentEscena(){
