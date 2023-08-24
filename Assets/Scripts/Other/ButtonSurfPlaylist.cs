@@ -29,15 +29,17 @@ public class ButtonSurfPlaylist : ViewModel
     public DurationBar durationBar;
     public GameObject buttonColor;
 
+    private Color redNew = new Color(0.9411765f, 0.2941177f, 0.4156863f);
+    private Color gray = new Color(0.8f, 0.8f, 0.8f);
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
     {
         playlistName = _playlistName;
 
     }
-    public void SetChangeColorAppEvent(Color _color)
+    public void SetChangeColorAppEvent(Color _color, Color _colorText)
     {
         buttonColor.GetComponent<Image>().color = _color;
-        playlistText.color = _color;
+        playlistText.color = _colorText;
     }
     public string GetSelectedPlaylistNameAppEvent() { return playlistName; }
 
@@ -52,11 +54,11 @@ public class ButtonSurfPlaylist : ViewModel
             playlistText.text = currentPLayListName;
         if (!AppManager.instance.yours)
         {
-            buttonColor.GetComponent<Image>().color = Color.red;
+            buttonColor.GetComponent<Image>().color = redNew;
         }
         else
         {
-            buttonColor.GetComponent<Image>().color = Color.black;
+            buttonColor.GetComponent<Image>().color = gray;
         }
     }
 
@@ -160,7 +162,7 @@ public class ButtonSurfPlaylist : ViewModel
     {
         SurfManager.instance.SetActive(false);
         AppManager.instance.yours = true;
-        InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(Color.black));
+        InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(gray, Color.black));
         NewScreenManager.instance.ChangeToSpawnedView("surfMiPlaylist");
     }
 
@@ -200,7 +202,7 @@ public class ButtonSurfPlaylist : ViewModel
         {
             UIMessage.instance.UIMessageInstanciate("Playlist no propia o inexistente");
             AppManager.instance.yours = false;
-            InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(Color.red));
+            InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(redNew, redNew));
             Debug.Log("Hola");
         }
         else
@@ -211,7 +213,7 @@ public class ButtonSurfPlaylist : ViewModel
             });
 
             AppManager.instance.yours = true;
-            InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(Color.black));
+            InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(gray, Color.black));
         }
         
         
@@ -255,12 +257,12 @@ public class ButtonSurfPlaylist : ViewModel
     {
         if (!AppManager.instance.yours)
         {
-            buttonColor.GetComponent<Image>().color = Color.red;
-            playlistText.color = Color.red;
+            buttonColor.GetComponent<Image>().color = redNew;
+            playlistText.color = redNew;
         }
         else
         {
-            buttonColor.GetComponent<Image>().color = Color.black;
+            buttonColor.GetComponent<Image>().color = gray;
             playlistText.color = Color.black;
         }
     }
