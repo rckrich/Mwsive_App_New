@@ -11,7 +11,7 @@ public class Descubrir_ViewModel : ViewModel
     public DescubrirPaginas Descubrir;
     public List<GameObject> Prefabs = new List<GameObject>();
     public List<GameObject> LastPosition = new List<GameObject>();
-    public GameObject PrefabsPosition, SpawnArea;
+    public GameObject PrefabsPosition, SpawnArea, loading;
     public TMP_InputField Searchbar;
     public List<ScrollRect> Scrollbar = new List<ScrollRect>();
     public List<List<GameObject>> ListOfLists = new List<List<GameObject>>();
@@ -39,7 +39,7 @@ public class Descubrir_ViewModel : ViewModel
     [Header("Genres Gameobject References")]
     public GameObject genrePrefab;
     public Transform genreScrollContent;
-
+    public GameObject cross;
 
     private string SearchText;
     private GameObject Instance;
@@ -53,6 +53,7 @@ public class Descubrir_ViewModel : ViewModel
 
     void Start()
     {
+        Descubrir.ChangeShowText(true);
         foreach (GameObject item in Prefabs)
         {
             ListOfLists.Add(new List<GameObject>());
@@ -276,10 +277,10 @@ public class Descubrir_ViewModel : ViewModel
         int lastnum = numEnpantalla;
         numEnpantalla = Descubrir.GetCurrentEscena();
         SearchText = Searchbar.text;
-
-        if (SearchText.Length >= 3 || EnableSerach)
+        Descubrir.ChangeShowText(true);
+        if (SearchText.Length >= 1 || EnableSerach)
         {
-            Descubrir.HideShowText(true);
+            Descubrir.ChangeShowText(false);
             if (numEnpantalla != lastnum)
             {
                 KillPrefablist(lastnum);
@@ -295,14 +296,21 @@ public class Descubrir_ViewModel : ViewModel
                 KillPrefablist(numEnpantalla);
             }
 
+            cross.SetActive(true);
             SpotifySearch();
+        }
+
+        if(SearchText.Length == 0)
+        {
+            cross.SetActive(false);
+
         }
     }
 
 
     private void SpotifySearch()
     {
-
+        loading.SetActive(true);
         switch (numEnpantalla)
         {
             case 0:
@@ -389,6 +397,7 @@ public class Descubrir_ViewModel : ViewModel
 
 
         }
+        loading.SetActive(false);
     }
 
     private void Callback_OnCLick_SearchForItem(object[] _value)
@@ -726,7 +735,7 @@ public class Descubrir_ViewModel : ViewModel
 
                 break;
         }
-
+        loading.SetActive(false);
     }
 
     private void Callback_OnCLick_CheckForSpawn(object[] _value)
@@ -1061,6 +1070,7 @@ public class Descubrir_ViewModel : ViewModel
         Debug.Log("EndCheck");
         CheckForSpawnHasEnded = true;
         PositionInSearch = PositionInSearch + MaxPrefabsinScreen;
+       
     }
 
 
@@ -1122,7 +1132,6 @@ public class Descubrir_ViewModel : ViewModel
 
         LastPosition[numEnpantalla].transform.SetAsLastSibling();
         Debug.Log("Done Spawn");
-
     }
 
     private void CalculateMaxPrefabToCall()
@@ -1149,6 +1158,7 @@ public class Descubrir_ViewModel : ViewModel
 
     public void KillPrefablist(int scene)
     {
+        loading.SetActive(false);
         foreach (GameObject Prefab in ListOfLists[scene])
         {
             Destroy(Prefab);
@@ -1323,5 +1333,12 @@ public class Descubrir_ViewModel : ViewModel
     public void OnClick_VerMasGenre()
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.TopGenreViewModel);
+    }
+
+    public void OnClick_ClearText()
+    {
+        Searchbar.text = "";
+        KillPrefablist(numEnpantalla);
+        loading.SetActive(false);
     }
 }

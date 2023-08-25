@@ -222,7 +222,7 @@ public class ButtonSurfPlaylist : ViewModel
     private void Callback_RemoveToPlaylist(object[] _value)
     {
         AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
-            mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
+            mwsiveButton.AddToPlaylistButtonColorButtonColorAgain(0.5f);
             UIMessage.instance.UIMessageInstanciate("Canción eliminada de la playlist");
         });
     }
