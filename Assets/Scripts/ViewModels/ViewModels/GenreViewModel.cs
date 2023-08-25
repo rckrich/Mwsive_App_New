@@ -50,7 +50,7 @@ public class GenreViewModel : ViewModel
 
     public void OnClick_BackButton()
     {
-        NewScreenManager.instance.ChangeToMainView(ViewID.ExploreViewModel);
+        NewScreenManager.instance.BackToPreviousView();
     }
 
     public void OnClick_SurfButton()
