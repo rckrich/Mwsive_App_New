@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 using GG.Infrastructure.Utils.Swipe;
+using Codice.CM.Common.Serialization.Replication;
 
 public class SurfManager : Manager
 {
@@ -35,6 +36,7 @@ public class SurfManager : Manager
     public bool CanGetRecomendations = false;
     private SpotifyPlaylistRoot searchedPlaylist;
     private RecommendationsRoot recommendationsRoot;
+    private PlaylistRoot UserPlaylists;
     private AlbumRoot albumroot;
 
     [HideInInspector]
@@ -43,10 +45,13 @@ public class SurfManager : Manager
     private Vector2 ControllerPostion = new Vector2();
     private int CurrentPosition = 0;
     private int PrefabPosition = 0;
+    private int ProfilePlaylistPosition = 0;
     private bool HasSwipeEnded = true;
     private bool Success = false;
     private bool SpawnedBuffer = false;
     private float lastClickTime;
+    private bool SurfProfile = false;
+    private bool IsPlaylistBig = false;
   
     private void Start()
     {
@@ -302,8 +307,10 @@ public class SurfManager : Manager
             }else{
                 ResetValue();
             }
+            if(CurrentPosition == PrefabPosition -4 && IsPlaylistBig){
+                
+            }else if (CurrentPosition == PrefabPosition -4 && CanGetRecomendations){
             
-            if (CurrentPosition == PrefabPosition -4 && CanGetRecomendations){
                 SpawnRecommendations();
             }else if(CurrentPosition == PrefabPosition-4 && !CanGetRecomendations && !SpawnedBuffer){
                 SpawnPrefab();
@@ -747,11 +754,62 @@ public class SurfManager : Manager
         }
     }
 
+
     public void MainSceneProfile_OnClick(){
         GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
     }
 
+
+    public void SurfProfileADN(object[] value = null, string profileId){
+        SpotifyConnectionManager.instance.GetUserPlaylists(profileId, Callback_OnClick_GetUserPlaylists);
+        //Bla bla spawnear cosas de ADN Musical;
+    }
+
+
+    public void SurfProfilePlaylist(){
+        if(SurfProfile && UserPlaylists != null){
+            if(ProfilePlaylistPosition <= UserPlaylists.items.Count){
+                SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylists);
+            }
+        }
+    }
+
+    private void OnCallBack_SpawnUserPlaylists(object[] _value){
+
+    }
+
     
-    
+    private void Callback_OnClick_GetUserPlaylists(object[] _value){
+        UserPlaylists = (PlaylistRoot)_value[1];
+    }
+
+
+    /*
+        Get Songs, y spawnearlas 
+        Cuandos se llegue al final, buscar las playlist del usuario
+        Foreach Playlist spawnear sus canciones, cuando se llega al final spawnear la siguente
+        Si en la Playlist son mas de 50 canciones, paginarlo, una vez que se spawnen todas las canciones de la playlist, pasar a la siguiente.
+        una vez que termine eso it's donde
+
+
+        Para saber que es el Surf de Perfil, se necesita un bool para diferenciarlo de los demas surfs
+        Poder reconocer cuando llega al final para poder hacer la siguiente tarea. 
+        
+        int i = 0;
+        if(ProfileSurf && List de Playlists a Spawnear){
+            if(i < List de Playlist.Count){
+                Spawnear Canciones de la PlayList I;
+                if( Playlist I si tiene mas de 50 Canciones){
+                    Paginarlo()- OnCallBack, volver a llamar a esta función para que cambie de Playlist.
+                }
+                i++;
+            }else{
+                Nada
+            }
+            
+        }
+
+
+    */
 
 }
