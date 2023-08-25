@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 using GG.Infrastructure.Utils.Swipe;
-using Codice.CM.Common.Serialization.Replication;
 
 public class SurfManager : Manager
 {
