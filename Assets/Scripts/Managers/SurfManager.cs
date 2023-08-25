@@ -760,7 +760,7 @@ public class SurfManager : Manager
     }
 
 
-    public void SurfProfileADN(object[] value = null, string profileId){
+    public void SurfProfileADN(string profileId, object[] value = null){
         SpotifyConnectionManager.instance.GetUserPlaylists(profileId, Callback_OnClick_GetUserPlaylists);
         //Bla bla spawnear cosas de ADN Musical;
     }
