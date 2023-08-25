@@ -202,7 +202,9 @@ public class ProfileViewModel : ViewModel
     {
         surfManager.SetActive(true);
         OpenView(ViewID.SurfViewModel);
+#if PLATFORM_ANDROID
         AppManager.instance.ResetAndroidBackAction();
+#endif
     }
 
     public void OnClick_OptionsButton()
@@ -249,7 +251,9 @@ public class ProfileViewModel : ViewModel
     {
         surfManager.SetActive(true);
         OpenView(ViewID.SurfViewModel);
+        #if PLATFORM_ANDROID
         AppManager.instance.ResetAndroidBackAction();
+#endif
     }
 
     private void OpenView(ViewID _value)

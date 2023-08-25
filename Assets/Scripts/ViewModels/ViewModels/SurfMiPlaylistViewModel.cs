@@ -155,7 +155,9 @@ public class SurfMiPlaylistViewModel : ViewModel
         SurfManager.instance.SetActive(true);
         //TODO Saber si es surf principal o no para apagar o prender las tarjetas
         NewScreenManager.instance.BackToPreviousView();
+#if PLATFORM_ANDROID
         AppManager.instance.ResetAndroidBackAction();
+#endif
     }
 
     public void OnClick_SpawnCrearPlaylistButton()
