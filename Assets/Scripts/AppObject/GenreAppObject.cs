@@ -19,15 +19,12 @@ public class GenreAppObject : AppObject
         mwsiveGenre = (Genre)list[0];
         genreText.text = mwsiveGenre.name;
         
-
-
         if (mwsiveGenre.image != null)
-            ImageManager.instance.GetImage(mwsiveGenre.image, genreCoverImage, (RectTransform)this.transform);
+            ImageManager.instance.GetImage(mwsiveGenre.image_url, genreCoverImage, (RectTransform)this.transform);
         
 
         foreach (MwsiveTrack mwsiveTrack in (List<MwsiveTrack>)list[1])
         {
-            
             mwsiveTrackList.Add(mwsiveTrack);
         }
 
