@@ -13,10 +13,6 @@ public class GenreViewModel : ViewModel
 
     private SeveralTrackRoot severalTrackRoot;
 
-    void Start()
-    {
-        
-    }
 
     public void GetSeveralTracks(string[] _genreID, string _name)
     {

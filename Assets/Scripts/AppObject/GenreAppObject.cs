@@ -12,14 +12,25 @@ public class GenreAppObject : AppObject
 
     private List<MwsiveTrack> mwsiveTrackList = new List<MwsiveTrack>();
     private List<string> genreID = new List<string>();
+    private Genre mwsiveGenre;
 
     public override void Initialize(params object[] list)
     {
-        genreText.text = (string)list[0];
+        mwsiveGenre = (Genre)list[0];
+        genreText.text = mwsiveGenre.name;
+        
+
+
+        if (mwsiveGenre.image != null)
+            ImageManager.instance.GetImage(mwsiveGenre.image, genreCoverImage, (RectTransform)this.transform);
+        
+
         foreach (MwsiveTrack mwsiveTrack in (List<MwsiveTrack>)list[1])
         {
+            
             mwsiveTrackList.Add(mwsiveTrack);
         }
+
     }
 
     public void OnSelectedPlaylistClick()

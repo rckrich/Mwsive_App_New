@@ -236,8 +236,10 @@ public class Genre
 {
     public int id { get; set; }
     public string name { get; set; }
+    public string image { get; set; }
     public DateTime created_at { get; set; }
-    public DateTime? updated_at { get; set; }
+    public DateTime updated_at { get; set; }
+    public string image_url { get; set; }
 }
 
 #endregion
