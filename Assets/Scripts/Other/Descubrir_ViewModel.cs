@@ -72,6 +72,25 @@ public class Descubrir_ViewModel : ViewModel
             EnableSerach = false;
         }
     }
+    
+    private void ClearScrolls(Transform _scrolls)
+    {
+        foreach (Transform child in _scrolls.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    public void Clear()
+    {
+        ClearScrolls(advertasingScrollContent);
+        ClearScrolls(curatorScrollContent);
+        ClearScrolls(artistScrollContent);
+        ClearScrolls(playlistScrollContent);
+        ClearScrolls(albumScrollContent);
+        ClearScrolls(genreScrollContent);
+        ClearScrolls(trackScrollContent);
+    }
 
     public override void Initialize(params object[] list)
     {
