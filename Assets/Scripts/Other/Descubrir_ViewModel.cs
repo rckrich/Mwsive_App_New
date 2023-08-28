@@ -77,6 +77,7 @@ public class Descubrir_ViewModel : ViewModel
     {
         //StartSearch();
         //MwsiveConnectionManager.instance.GetChallenges(Callback_GetChallenges);
+        MwsiveConnectionManager.instance.GetAdvertising(Callback_GetAdvertasing);
         MwsiveConnectionManager.instance.GetRecommendedCurators(Callback_GetRecommendedCurators);
         MwsiveConnectionManager.instance.GetRecommendedArtists(Callback_GetRecommendedArtists);
         MwsiveConnectionManager.instance.GetRecommendedPlaylists(Callback_GetRecommendedPlaylists);
@@ -107,7 +108,20 @@ public class Descubrir_ViewModel : ViewModel
 
     private void Callback_GetAdvertasing(object[] _list)
     {
-        MwsiveConnectionManager.instance.GetRecommendedCurators(Callback_GetRecommendedCurators);
+        int maxSpawnCounter = 0;
+        //MwsiveConnectionManager.instance.GetRecommendedCurators(Callback_GetRecommendedCurators);
+        MwsiveAdvertisingRoot mwsiveAdvertisingRoot = (MwsiveAdvertisingRoot)_list[1];
+        foreach (Advertising advertising in mwsiveAdvertisingRoot.advertising)
+        {
+            if (maxSpawnCounter < MAXIMUM_HORIZONTAL_SCROLL_SPAWNS)
+            {
+                GameObject adversitingInstance = GameObject.Instantiate(advertasingPrefab, advertasingScrollContent);
+                AdvertisingAppObject advertsitingAppObj = adversitingInstance.GetComponent<AdvertisingAppObject>();
+                advertsitingAppObj.Initialize(advertising);
+                maxSpawnCounter++;
+            }
+        }
+
     }
 
     private void Callback_GetRecommendedCurators(object[] _list)
@@ -176,7 +190,7 @@ public class Descubrir_ViewModel : ViewModel
             {
                 GameObject playlistInstance = GameObject.Instantiate(playlistPrefab, playlistScrollContent);
                 PlaylistAppObject playlist = playlistInstance.GetComponent<PlaylistAppObject>();
-                playlist.Initialize(mwsiveRecommendedPlaylistsRoot.playlists[i].name, mwsiveRecommendedPlaylistsRoot.playlists[i].mwsive_tracks);
+                playlist.Initialize(mwsiveRecommendedPlaylistsRoot.playlists[i], mwsiveRecommendedPlaylistsRoot.playlists[i].mwsive_tracks);
                 maxSpawnCounter++;
             }
         }

@@ -135,8 +135,14 @@ public class Challenges
 
 public class Advertising
 {
+    public int id { get; set; }
+    public int order { get; set; }
     public string link { get; set; }
-    public Media media { get; set; }
+    public string image { get; set; }
+    public object deleted_at { get; set; }
+    public DateTime created_at { get; set; }
+    public DateTime updated_at { get; set; }
+    public string image_url { get; set; }
 }
 
 public class Ranking
@@ -196,8 +202,10 @@ public class RecommendedPlaylist
     public int id { get; set; }
     public string name { get; set; }
     public int order { get; set; }
+    public string image { get; set; }
     public DateTime created_at { get; set; }
     public DateTime updated_at { get; set; }
+    public string image_url { get; set; }
     public List<MwsiveTrack> mwsive_tracks { get; set; }
 }
 
