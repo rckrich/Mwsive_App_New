@@ -20,7 +20,25 @@ public class MiplaylistHolder : MonoBehaviour
 
     public void Initialize(string _playlistName, string _spotifyID, string _owner, bool _public, ExternalUrls _url)
     {
-        playlistName.text = _playlistName;
+
+        if (_playlistName != null)
+        {
+            if (_playlistName.Length > 27)
+            {
+                string _text2 = "";
+                for (int i = 0; i < 27; i++)
+                {
+                    _text2 = _text2 + _playlistName[i];
+                }
+                _text2 = _text2 + "...";
+                playlistName.text = _text2;
+            }
+            else
+            {
+                playlistName.text = _playlistName;
+            }
+        }
+
         spotifyID = _spotifyID;
         playlistOwner.text = _owner;
         @public = _public;
@@ -29,7 +47,24 @@ public class MiplaylistHolder : MonoBehaviour
 
     public void Initialize(string _playlistName, string _spotifyID, string _owner, bool _public, ExternalUrls _url, string _pictureURL)
     {
-        playlistName.text = _playlistName;
+        if (_playlistName != null)
+        {
+            if (_playlistName.Length > 27)
+            {
+                string _text2 = "";
+                for (int i = 0; i < 27; i++)
+                {
+                    _text2 = _text2 + _playlistName[i];
+                }
+                _text2 = _text2 + "...";
+                playlistName.text = _text2;
+            }
+            else
+            {
+                playlistName.text = _playlistName;
+            }
+        }
+
         spotifyID = _spotifyID;
         playlistOwner.text = _owner;
         @public = _public;

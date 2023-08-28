@@ -14,7 +14,27 @@ public class PlaylistAppObject : AppObject
     private List<string> trackID = new List<string>();
     public override void Initialize(params object[] list)
     {
+
         playlistText.text = (string)list[0];
+
+        if (playlistText.text != null)
+        {
+            if (playlistText.text.Length > 27)
+            {
+                string _text2 = "";
+                for (int i = 0; i < 27; i++)
+                {
+                    _text2 = _text2 + playlistText.text[i];
+                }
+                _text2 = _text2 + "...";
+                playlistText.text = _text2;
+            }
+            else
+            {
+                playlistText.text = playlistText.text;
+            }
+        }
+
         foreach (MwsiveTrack mwsiveTrack in (List<MwsiveTrack>)list[1])
         {
             mwsiveTrackList.Add(mwsiveTrack);
