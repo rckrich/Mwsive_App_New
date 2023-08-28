@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 using GG.Infrastructure.Utils.Swipe;
-using Codice.CM.Common.Serialization.Replication;
+
 
 public class SurfManager : Manager
 {
@@ -32,7 +32,6 @@ public class SurfManager : Manager
     public float MaxRotation = 18f;
     public float SurfSuccessSensitivity = 2.2f;
     public Vector2 LeftRightOffset;
-    public float doubleClickTime = .1f;
     public bool CanGetRecomendations = false;
     private SpotifyPlaylistRoot searchedPlaylist;
     private RecommendationsRoot recommendationsRoot;
@@ -49,9 +48,9 @@ public class SurfManager : Manager
     private bool HasSwipeEnded = true;
     private bool Success = false;
     private bool SpawnedBuffer = false;
-    private float lastClickTime;
     private bool SurfProfile = false;
-    private bool IsPlaylistBig = false;
+    private int SurfProfileOffsetPosition;
+    private int trackstospawn = 0;
   
     private void Start()
     {
@@ -241,14 +240,20 @@ public class SurfManager : Manager
             ResetValue();
         }
         
-        if(CurrentPosition == PrefabPosition-4 && CanGetRecomendations){
-            SpawnRecommendations();
-        }else if(CurrentPosition == PrefabPosition-4 && !CanGetRecomendations && !SpawnedBuffer){
-            SpawnPrefab();
-            SpawnPrefab();
-            SpawnPrefab();
-            SpawnedBuffer = true;
+        if(CurrentPosition == PrefabPosition-4){
+            if(CanGetRecomendations){
+                SpawnRecommendations();
+            }else if(SurfProfile){
+                SurfProfileADN();
+            }else if(!CanGetRecomendations && !SpawnedBuffer){
+                SpawnPrefab();
+                SpawnPrefab();
+                SpawnPrefab();
+                SpawnedBuffer = true;
+            }
         }
+
+        
 
         
         HasSwipeEnded = true;
@@ -307,17 +312,18 @@ public class SurfManager : Manager
             }else{
                 ResetValue();
             }
-            if(CurrentPosition == PrefabPosition -4 && IsPlaylistBig){
-                
-            }else if (CurrentPosition == PrefabPosition -4 && CanGetRecomendations){
-            
-                SpawnRecommendations();
-            }else if(CurrentPosition == PrefabPosition-4 && !CanGetRecomendations && !SpawnedBuffer){
-                SpawnPrefab();
-                SpawnPrefab();
-                SpawnPrefab();
-                SpawnedBuffer = true;
-            }
+            if(CurrentPosition == PrefabPosition-4){
+                if(CanGetRecomendations){
+                    SpawnRecommendations();
+                }else if(SurfProfile){
+                    SurfProfileADN();
+                }else if(!CanGetRecomendations && !SpawnedBuffer){
+                    SpawnPrefab();
+                    SpawnPrefab();
+                    SpawnPrefab();
+                    SpawnedBuffer = true;
+                }
+        }
             
             Debug.Log("UpScrollSuccess"); 
             HasSwipeEnded = true;
@@ -532,7 +538,7 @@ public class SurfManager : Manager
         } 
     }
 
-    public void DynamicPrefabSpawnerPL(object[] _value)
+    public void DynamicPrefabSpawnerPL(object[] _value, bool PlayFirstTrack =true, bool CanSpawnBuffer = true)
     {
         
         searchedPlaylist = (SpotifyPlaylistRoot)_value[0];
@@ -569,16 +575,19 @@ public class SurfManager : Manager
             }
             
         }
-        if(SpawnedSongs < 5 && SpawnedSongs > 0){
+        if(SpawnedSongs < 5 && SpawnedSongs > 0 && SpawnedBuffer == false && CanSpawnBuffer == true){
             SpawnPrefab();
             SpawnPrefab();
             SpawnPrefab();
             SpawnedBuffer = true;
         }
-        FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+        if(PlayFirstTrack){
+            FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+        }
+        
     }
 
-    public void DynamicPrefabSpawnerSeveralTracks(List<Track> tracks)
+    public void DynamicPrefabSpawnerSeveralTracks(List<Track> tracks, bool PlayFirstTrack =true, bool CanSpawnBuffer = true )
     {
         
         GameObject FirstInstance = null;
@@ -611,13 +620,15 @@ public class SurfManager : Manager
             }
             
         }
-        if(SpawnedSongs < 5 && SpawnedSongs > 0){
+        if(SpawnedSongs < 5 && SpawnedSongs > 0 && SpawnedBuffer == false && CanSpawnBuffer == true){
             SpawnPrefab();
             SpawnPrefab();
             SpawnPrefab();
             SpawnedBuffer = true;
         }
-        FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+        if(PlayFirstTrack){
+            FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+        }
     }
 
 
@@ -753,17 +764,69 @@ public class SurfManager : Manager
             }
         }
     }
-
+    
 
     public void MainSceneProfile_OnClick(){
         GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
     }
 
 
-    public void SurfProfileADN(object[] value = null, string profileId){
-        SpotifyConnectionManager.instance.GetUserPlaylists(profileId, Callback_OnClick_GetUserPlaylists);
-        //Bla bla spawnear cosas de ADN Musical;
+    public void SurfProfileADN( string profileId = null, object[] value = null){
+        if(profileId != null){
+            Debug.Log("a");
+            if(value != null){
+                SpotifyConnectionManager.instance.GetUserPlaylists(profileId, Callback_OnClick_GetUserPlaylists);
+            }else{
+                SpotifyConnectionManager.instance.GetUserPlaylists(profileId, Callback_OnClick_GetUserPlaylistsNoADN);
+            }
+            
+            
+        }
+        if(SurfProfile){
+            Debug.Log(ProfilePlaylistPosition);
+            Debug.Log(UserPlaylists.items.Count);
+            if(ProfilePlaylistPosition <= UserPlaylists.items.Count){
+                
+                if(UserPlaylists.items[ProfilePlaylistPosition].tracks.items.Count < 50){
+                    if(searchedPlaylist.tracks.items.Count != 0){
+                        DynamicPrefabSpawnerPL(new object[] { UserPlaylists.items[ProfilePlaylistPosition]}, false, false);
+                        ProfilePlaylistPosition++;
+                    }else{
+                        ProfilePlaylistPosition++;
+                        SurfProfileADN();
+                    }
+                    
+                }else{
+                    
+                    if(trackstospawn + 50 < UserPlaylists.items[ProfilePlaylistPosition].tracks.items.Count){
+                        trackstospawn += 50;
+                    }else{
+                        trackstospawn = UserPlaylists.items[ProfilePlaylistPosition].tracks.items.Count;
+                    }
+
+                    List<Track> ListOfTracksToSpawn = new List<Track>();
+                    for (int i = SurfProfileOffsetPosition; i < trackstospawn; i++)
+                    {
+                        ListOfTracksToSpawn.Add(UserPlaylists.items[ProfilePlaylistPosition].tracks.items[i].track);
+                    }
+
+                    DynamicPrefabSpawnerSeveralTracks(ListOfTracksToSpawn,false, false);
+                    SurfProfileOffsetPosition += trackstospawn;
+                    trackstospawn = 0;
+                    
+                }
+
+            }
+        }
+        if(value != null){
+            SurfProfile = true;
+            //Bla bla spawnear cosas de ADN Musical;
+        }
+        
+
+
     }
+
 
 
     public void SurfProfilePlaylist(){
@@ -780,9 +843,19 @@ public class SurfManager : Manager
 
     
     private void Callback_OnClick_GetUserPlaylists(object[] _value){
+
         UserPlaylists = (PlaylistRoot)_value[1];
+        Debug.Log(UserPlaylists.items.Count);
+        
     }
 
+    private void Callback_OnClick_GetUserPlaylistsNoADN(object[] _value){
+
+        UserPlaylists = (PlaylistRoot)_value[1];
+        Debug.Log(UserPlaylists.items.Count);
+        SurfProfile = true;
+        SurfProfileADN();
+    }
 
     /*
         Get Songs, y spawnearlas 
