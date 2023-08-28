@@ -33,7 +33,7 @@ public class SurfManager : Manager
     public float SurfSuccessSensitivity = 2.2f;
     public Vector2 LeftRightOffset;
     public bool CanGetRecomendations = false;
-    private SpotifyPlaylistRoot searchedPlaylist;
+    private SpotifyPlaylistRoot searchedPlaylist, ProfilePlaylist;
     private RecommendationsRoot recommendationsRoot;
     private PlaylistRoot UserPlaylists;
     private AlbumRoot albumroot;
@@ -783,39 +783,66 @@ public class SurfManager : Manager
             
         }
         if(SurfProfile){
-            Debug.Log(ProfilePlaylistPosition);
-            Debug.Log(UserPlaylists.items.Count);
+
             if(ProfilePlaylistPosition <= UserPlaylists.items.Count){
-                
-                if(UserPlaylists.items[ProfilePlaylistPosition].tracks.items.Count < 50){
-                    if(searchedPlaylist.tracks.items.Count != 0){
-                        DynamicPrefabSpawnerPL(new object[] { UserPlaylists.items[ProfilePlaylistPosition]}, false, false);
+
+
+
+                if(ProfilePlaylist.tracks.items.Count < 50){
+                    if(ProfilePlaylist.tracks.items.Count > 4){
+
+                        DynamicPrefabSpawnerPL(new object[] { ProfilePlaylist }, false, false);
                         ProfilePlaylistPosition++;
-                    }else{
-                        ProfilePlaylistPosition++;
-                        SurfProfileADN();
+                        SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylists);
                     }
+                    else{
+                        if(ProfilePlaylist.tracks.items.Count != 0)
+                        {
+                            DynamicPrefabSpawnerPL(new object[] { ProfilePlaylist }, false, false);
+                        }
+                        ProfilePlaylistPosition++;
+                        SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylistsNoPlaylist);
+
+                    }
+
                     
                 }else{
                     
-                    if(trackstospawn + 50 < UserPlaylists.items[ProfilePlaylistPosition].tracks.items.Count){
+                    if(trackstospawn + 50 < ProfilePlaylist.tracks.items.Count){
                         trackstospawn += 50;
                     }else{
-                        trackstospawn = UserPlaylists.items[ProfilePlaylistPosition].tracks.items.Count;
+                        trackstospawn = ProfilePlaylist.tracks.items.Count;
+                        ProfilePlaylistPosition++;
+                        SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylists);
+                        trackstospawn = 0;
                     }
 
                     List<Track> ListOfTracksToSpawn = new List<Track>();
                     for (int i = SurfProfileOffsetPosition; i < trackstospawn; i++)
                     {
-                        ListOfTracksToSpawn.Add(UserPlaylists.items[ProfilePlaylistPosition].tracks.items[i].track);
+                        ListOfTracksToSpawn.Add(ProfilePlaylist.tracks.items[i].track);
                     }
 
                     DynamicPrefabSpawnerSeveralTracks(ListOfTracksToSpawn,false, false);
-                    SurfProfileOffsetPosition += trackstospawn;
-                    trackstospawn = 0;
+
+                    if (ProfilePlaylist.tracks.items.Count - trackstospawn + 50 < 4)
+                    {
+                        SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylistsNoPlaylist);
+                    }
+
+                    SurfProfileOffsetPosition = trackstospawn;
+                    
+                    
                     
                 }
 
+            }
+            else if(!SpawnedBuffer)
+            {
+                SpawnPrefab();
+                SpawnPrefab();
+                SpawnPrefab();
+                SpawnedBuffer = true;
             }
         }
         if(value != null){
@@ -829,32 +856,32 @@ public class SurfManager : Manager
 
 
 
-    public void SurfProfilePlaylist(){
-        if(SurfProfile && UserPlaylists != null){
-            if(ProfilePlaylistPosition <= UserPlaylists.items.Count){
-                SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylists);
-            }
-        }
-    }
-
     private void OnCallBack_SpawnUserPlaylists(object[] _value){
+        ProfilePlaylist = (SpotifyPlaylistRoot)_value[1];
+
+    }
+    private void OnCallBack_SpawnUserPlaylistsNoPlaylist(object[] _value)
+    {
+        ProfilePlaylist = (SpotifyPlaylistRoot)_value[1];
+        SurfProfileADN();
 
     }
 
-    
+
     private void Callback_OnClick_GetUserPlaylists(object[] _value){
 
         UserPlaylists = (PlaylistRoot)_value[1];
         Debug.Log(UserPlaylists.items.Count);
-        
+        SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylists);
+
     }
 
     private void Callback_OnClick_GetUserPlaylistsNoADN(object[] _value){
 
         UserPlaylists = (PlaylistRoot)_value[1];
         Debug.Log(UserPlaylists.items.Count);
+        SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylistsNoPlaylist);
         SurfProfile = true;
-        SurfProfileADN();
     }
 
     /*
