@@ -111,7 +111,7 @@ public class Descubrir_ViewModel : ViewModel
         int maxSpawnCounter = 0;
         //MwsiveConnectionManager.instance.GetRecommendedCurators(Callback_GetRecommendedCurators);
         MwsiveAdvertisingRoot mwsiveAdvertisingRoot = (MwsiveAdvertisingRoot)_list[1];
-        foreach (Advertising advertising in mwsiveAdvertisingRoot.advertising)
+        foreach (Advertising advertising in mwsiveAdvertisingRoot.advertisements)
         {
             if (maxSpawnCounter < MAXIMUM_HORIZONTAL_SCROLL_SPAWNS)
             {

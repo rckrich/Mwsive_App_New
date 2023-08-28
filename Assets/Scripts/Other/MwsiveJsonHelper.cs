@@ -316,7 +316,7 @@ public class MwsiveCompleteChallengesRoot
 
 public class MwsiveAdvertisingRoot
 {
-    public List<Advertising> advertising { get; set; }
+    public List<Advertising> advertisements { get; set; }
 }
 
 public class MwsiveRecommendedCuratorsRoot
