@@ -353,7 +353,7 @@ public class Descubrir_ViewModel : ViewModel
         switch (numEnpantalla)
         {
             case 0:
-
+                
                 _mwsivecurator = mwsiveCuratorsRoot;
                 break;
 
@@ -361,7 +361,7 @@ public class Descubrir_ViewModel : ViewModel
             case 1:
                 if (mwsiveCuratorsRoot != null)
                 {
-
+                    KillPrefablist(numEnpantalla);
                     foreach (MwsiveUser item in mwsiveCuratorsRoot.curators)
                     {
 
@@ -1075,18 +1075,21 @@ public class Descubrir_ViewModel : ViewModel
 
                 CheckForSpawnHasEnded = false;
                 DynamicPrefabSpawner(MaxPrefabsinScreen);
-                if (numEnpantalla == 6 || numEnpantalla == 0)
+                if (numEnpantalla == 6 || numEnpantalla == 0 || numEnpantalla == 1)
                 {
                     if (numEnpantalla == 6)
                     {
                         string GenreText = SearchText + "%20genre:" + SearchText;
                         SpotifyConnectionManager.instance.SearchForItem(GenreText, types, Callback_OnCLick_CheckForSpawn, "ES", Mathf.RoundToInt(MaxPrefabsinScreen / 3), PositionInSearch);
                     }
-                    else
+                    if (numEnpantalla == 0)
                     {
                         _mwsivecurator = null;
                         MwsiveConnectionManager.instance.GetCuratorsByName(SearchText, Callback_Mwsive_OnCLick_SearchForItem, PositionInSearch, Mathf.RoundToInt(MaxPrefabsinScreen / 3));
                         SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_CheckForSpawn, "ES", Mathf.RoundToInt(MaxPrefabsinScreen / 3), PositionInSearch);
+                    }
+                    if (numEnpantalla == 1){
+                        MwsiveConnectionManager.instance.GetCuratorsByName(SearchText, Callback_Mwsive_OnCLick_SearchForItem, PositionInSearch, MaxPrefabsinScreen);
                     }
 
                 }

@@ -51,6 +51,7 @@ public class SurfManager : Manager
     private bool SurfProfile = false;
     private int SurfProfileOffsetPosition;
     private int trackstospawn = 0;
+    private bool HasFirstPlaylistPlayed = false;
   
     private void Start()
     {
@@ -237,8 +238,16 @@ public class SurfManager : Manager
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
             Success = true;
         }else{
-            ResetValue();
+            Controller.horizontal =true;
+            Controller.vertical =true;
+            HasSwipeEnded = true;
+            Controller.transform.position = new Vector2(ControllerPostion.x,ControllerPostion.y);
+            UIAniManager.instance.SurfSideLastPosition(MwsiveSongs[CurrentPosition],RestPositions[0],1, -MaxRotation,0,true);
         }
+
+
+
+
         
         if(CurrentPosition == PrefabPosition-4){
             if(CanGetRecomendations){
@@ -772,6 +781,8 @@ public class SurfManager : Manager
 
 
     public void SurfProfileADN( string profileId = null, object[] value = null){
+
+       
         if(profileId != null){
             Debug.Log("a");
             if(value != null){
@@ -783,22 +794,33 @@ public class SurfManager : Manager
             
         }
         if(SurfProfile){
-
+            Debug.Log(UserPlaylists.items.Count);
+            Debug.Log(ProfilePlaylistPosition);
             if(ProfilePlaylistPosition <= UserPlaylists.items.Count){
 
 
 
                 if(ProfilePlaylist.tracks.items.Count < 50){
                     if(ProfilePlaylist.tracks.items.Count > 4){
-
-                        DynamicPrefabSpawnerPL(new object[] { ProfilePlaylist }, false, false);
+                        if(!HasFirstPlaylistPlayed){
+                            HasFirstPlaylistPlayed = true;
+                            DynamicPrefabSpawnerPL(new object[] { ProfilePlaylist }, true, false);
+                        }else{
+                            DynamicPrefabSpawnerPL(new object[] { ProfilePlaylist }, false, false);
+                        }
+                        
                         ProfilePlaylistPosition++;
                         SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylists);
                     }
                     else{
                         if(ProfilePlaylist.tracks.items.Count != 0)
                         {
-                            DynamicPrefabSpawnerPL(new object[] { ProfilePlaylist }, false, false);
+                            if(!HasFirstPlaylistPlayed){
+                                HasFirstPlaylistPlayed = true;
+                                DynamicPrefabSpawnerPL(new object[] { ProfilePlaylist }, true, false);
+                        }   else{
+                                DynamicPrefabSpawnerPL(new object[] { ProfilePlaylist }, false, false);
+                            }
                         }
                         ProfilePlaylistPosition++;
                         SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylistsNoPlaylist);
@@ -823,7 +845,13 @@ public class SurfManager : Manager
                         ListOfTracksToSpawn.Add(ProfilePlaylist.tracks.items[i].track);
                     }
 
-                    DynamicPrefabSpawnerSeveralTracks(ListOfTracksToSpawn,false, false);
+                     if(!HasFirstPlaylistPlayed){
+                            HasFirstPlaylistPlayed = true;
+                            DynamicPrefabSpawnerSeveralTracks(ListOfTracksToSpawn,true, false);
+                        }else{
+                            DynamicPrefabSpawnerSeveralTracks(ListOfTracksToSpawn,false, false);
+                        }
+                   
 
                     if (ProfilePlaylist.tracks.items.Count - trackstospawn + 50 < 4)
                     {
