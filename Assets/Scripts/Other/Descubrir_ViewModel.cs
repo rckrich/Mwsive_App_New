@@ -13,6 +13,7 @@ public class Descubrir_ViewModel : ViewModel
     public List<GameObject> LastPosition = new List<GameObject>();
     public GameObject PrefabsPosition, SpawnArea, loading;
     public TMP_InputField Searchbar;
+    public ScrollRect principalScroll;
     public List<ScrollRect> Scrollbar = new List<ScrollRect>();
     public List<List<GameObject>> ListOfLists = new List<List<GameObject>>();
     [Header("Challenges Gameobject References")]
