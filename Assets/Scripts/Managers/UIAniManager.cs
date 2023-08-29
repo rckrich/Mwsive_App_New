@@ -531,6 +531,20 @@ public class UIAniManager : MonoBehaviour
 
         GA.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration);
     }
+
+    public void SurfSideLastPosition(GameObject GA, GameObject Position, float var, float MaxRotation, float fade, bool IsItFinished){
+        SetPosition();
+        if(IsItFinished){
+            GA.transform.DOMove(new Vector2 (RestPositionSide.x*var, RestPositionSide.y), SurfTransitionDuration, false);
+        }else{
+            GA.transform.DOMove(new Vector2 (RestPositionSide.x*var, RestPositionSide.y), SurfTransitionDuration, false);
+        }
+        
+        GA.transform.DORotate(new Vector3 (0f,0f ,MaxRotation*var), SurfTransitionDuration);
+
+        GA.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration).OnComplete(() => {GA.transform.position = RestPositionUp; SurfTransitionBackSong(GA, Position, MaxRotation);});
+    }
+
     public void SurfReset(GameObject GA){
         
         SetPosition();
@@ -608,6 +622,7 @@ public class UIAniManager : MonoBehaviour
     }
 
     public void SurfTransitionBackSong(GameObject GA, GameObject Position, float Maxrotation){
+        
         GA.SetActive(true);
         GA.transform.eulerAngles = new Vector3(0f, 0f, Maxrotation);
         GA.transform.DOMove(Position.transform.position, SurfTransitionDuration, false);
@@ -687,6 +702,7 @@ public class UIAniManager : MonoBehaviour
     }
     
     public void UIMessage(GameObject GA){
+        Debug.Log("aa");
         SetPosition();
         GA.transform.position = RestPositionDown;
         GA.SetActive(true);

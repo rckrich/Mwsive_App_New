@@ -297,5 +297,12 @@ public class ProfileViewModel : ViewModel
         followedText.text = mwsiveUserRoot.user.total_followed.ToString();
         SpotifyConnectionManager.instance.GetUserProfile(profileId, Callback_GetUserProfile);
     }
+
+
+    public void OnClick_SurfButton(){
+        NewScreenManager.instance.ChangeToSpawnedView("surf");
+        string i = "a";
+        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<SurfManager>().SurfProfileADN(profileId);
+    }
 }
 
