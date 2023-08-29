@@ -148,7 +148,7 @@ public class TrackViewModel : ViewModel
         }else{
 
             NewScreenManager.instance.ChangeToSpawnedView("surf");
-            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<SurfManager>().DynamicPrefabSpawnerSong(new object[] { recommendations });
+            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSong(new object[] { recommendations });
         }
         
     }

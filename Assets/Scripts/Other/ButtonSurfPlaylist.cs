@@ -31,6 +31,7 @@ public class ButtonSurfPlaylist : ViewModel
 
     private Color redNew = new Color(0.9411765f, 0.2941177f, 0.4156863f);
     private Color gray = new Color(0.8f, 0.8f, 0.8f);
+    private SurfManager Surf;
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
     {
         playlistName = _playlistName;
@@ -160,11 +161,16 @@ public class ButtonSurfPlaylist : ViewModel
   
     public void OnClick_OpenPlaylist()
     {
-        SurfManager.instance.SetActive(false);
+        Surf.gameObject.SetActive(false);
         AppManager.instance.yours = true;
         InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(gray, Color.black));
         NewScreenManager.instance.ChangeToSpawnedView("surfMiPlaylist");
     }
+
+    public void SetSurfManager(SurfManager _surf){
+        Surf = _surf;
+    }
+
 
     public void Swipe()
     {

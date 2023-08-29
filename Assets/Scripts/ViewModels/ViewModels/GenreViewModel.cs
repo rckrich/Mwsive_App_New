@@ -52,6 +52,6 @@ public class GenreViewModel : ViewModel
     public void OnClick_SurfButton()
     {
         NewScreenManager.instance.ChangeToSpawnedView("surf");
-        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<SurfManager>().DynamicPrefabSpawnerSeveralTracks(severalTrackRoot.tracks);
+        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(severalTrackRoot.tracks);
     }
 }

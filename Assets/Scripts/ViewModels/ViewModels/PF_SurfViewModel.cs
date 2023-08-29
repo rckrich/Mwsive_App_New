@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PF_SurfViewModel : ViewModel
 {
+
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
@@ -13,4 +14,5 @@ public class PF_SurfViewModel : ViewModel
     private void OnDestroy() {
         SpotifyPreviewAudioManager.instance.StopTrack();
     }
+
 }

@@ -182,7 +182,7 @@ public class PlaylistViewModel : ViewModel
         if (isExplore)
         {
             NewScreenManager.instance.ChangeToSpawnedView("surf");
-            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<SurfManager>().DynamicPrefabSpawnerSeveralTracks(trackList);
+            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(trackList);
             isExplore = false;
         }
         else
@@ -195,7 +195,7 @@ public class PlaylistViewModel : ViewModel
             {
 
                 NewScreenManager.instance.ChangeToSpawnedView("surf");
-                NewScreenManager.instance.GetCurrentView().GetComponentInChildren<SurfManager>().DynamicPrefabSpawnerPL(new object[] { searchedPlaylist });
+                NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerPL(new object[] { searchedPlaylist });
             }
         }
         
