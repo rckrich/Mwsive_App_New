@@ -30,7 +30,7 @@ public class TopGenreViewModel : ViewModel
                 
                 GameObject playlistInstance = GameObject.Instantiate(genrePrefab, genreScrollContent);
                 GenreAppObject genre = playlistInstance.GetComponent<GenreAppObject>();
-                genre.Initialize(mwsiveGenresRoot.genres[i].genre.name, mwsiveGenresRoot.genres[i].mwsive_tracks);
+                genre.Initialize(mwsiveGenresRoot.genres[i].genre, mwsiveGenresRoot.genres[i].mwsive_tracks);
                 maxSpawnCounter++;
             }
         }

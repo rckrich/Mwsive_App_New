@@ -12,28 +12,33 @@ public class PlaylistAppObject : AppObject
 
     private List<MwsiveTrack> mwsiveTrackList = new List<MwsiveTrack>();
     private List<string> trackID = new List<string>();
+    private RecommendedPlaylist playlist;
     public override void Initialize(params object[] list)
     {
 
-        playlistText.text = (string)list[0];
+        playlist = (RecommendedPlaylist)list[0];
+        
 
-        if (playlistText.text != null)
+        if (playlist.name != null)
         {
-            if (playlistText.text.Length > 27)
+            if (playlist.name.Length > 27)
             {
                 string _text2 = "";
                 for (int i = 0; i < 27; i++)
                 {
-                    _text2 = _text2 + playlistText.text[i];
+                    _text2 = _text2 + playlist.name[i];
                 }
                 _text2 = _text2 + "...";
                 playlistText.text = _text2;
             }
             else
             {
-                playlistText.text = playlistText.text;
+                playlistText.text = playlist.name;
             }
         }
+
+        if(playlist.image_url != null)
+            ImageManager.instance.GetImage(playlist.image_url, playlistCoverImage, (RectTransform)this.transform);
 
         foreach (MwsiveTrack mwsiveTrack in (List<MwsiveTrack>)list[1])
         {

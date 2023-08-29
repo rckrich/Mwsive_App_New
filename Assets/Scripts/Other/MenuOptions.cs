@@ -41,11 +41,11 @@ public class MenuOptions : ViewModel
 #if PLATFORM_ANDROID
             AppManager.instance.ResetAndroidBackAction();
 #endif      
-            explorar.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
+                explorar.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
                 descubrir.GetComponent<Image>().GetComponent<Graphic>().color = Color.white;
                 ranking.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
                 OpenView(ViewID.SurfViewModel);
-
+                exploreChange = false;
                 SurfManager.instance.SetActive(true);
         }
 
@@ -61,6 +61,7 @@ public class MenuOptions : ViewModel
                 ranking.GetComponent<Image>().GetComponent<Graphic>().color = Color.white;
                 StopAllCoroutines();
                 OpenView(ViewID.RankingViewModel);
+                exploreChange = false;
             }               
     }
 
@@ -70,6 +71,8 @@ public class MenuOptions : ViewModel
         
         if(_value == ViewID.ExploreViewModel && !exploreChange)
         {
+            NewScreenManager.instance.GetCurrentView().GetComponent<Descubrir_ViewModel>().Clear();
+            NewScreenManager.instance.GetCurrentView().GetComponent<Descubrir_ViewModel>().principalScroll.verticalNormalizedPosition = 1;
             NewScreenManager.instance.GetCurrentView().GetComponent<Descubrir_ViewModel>().Initialize();
             exploreChange = true;
         }

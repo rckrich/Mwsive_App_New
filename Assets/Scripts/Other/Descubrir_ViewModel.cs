@@ -13,6 +13,7 @@ public class Descubrir_ViewModel : ViewModel
     public List<GameObject> LastPosition = new List<GameObject>();
     public GameObject PrefabsPosition, SpawnArea, loading;
     public TMP_InputField Searchbar;
+    public ScrollRect principalScroll;
     public List<ScrollRect> Scrollbar = new List<ScrollRect>();
     public List<List<GameObject>> ListOfLists = new List<List<GameObject>>();
     [Header("Challenges Gameobject References")]
@@ -72,11 +73,31 @@ public class Descubrir_ViewModel : ViewModel
             EnableSerach = false;
         }
     }
+    
+    private void ClearScrolls(Transform _scrolls)
+    {
+        foreach (Transform child in _scrolls.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    public void Clear()
+    {
+        ClearScrolls(advertasingScrollContent);
+        ClearScrolls(curatorScrollContent);
+        ClearScrolls(artistScrollContent);
+        ClearScrolls(playlistScrollContent);
+        ClearScrolls(albumScrollContent);
+        ClearScrolls(genreScrollContent);
+        ClearScrolls(trackScrollContent);
+    }
 
     public override void Initialize(params object[] list)
     {
         //StartSearch();
         //MwsiveConnectionManager.instance.GetChallenges(Callback_GetChallenges);
+        MwsiveConnectionManager.instance.GetAdvertising(Callback_GetAdvertasing);
         MwsiveConnectionManager.instance.GetRecommendedCurators(Callback_GetRecommendedCurators);
         MwsiveConnectionManager.instance.GetRecommendedArtists(Callback_GetRecommendedArtists);
         MwsiveConnectionManager.instance.GetRecommendedPlaylists(Callback_GetRecommendedPlaylists);
@@ -107,7 +128,20 @@ public class Descubrir_ViewModel : ViewModel
 
     private void Callback_GetAdvertasing(object[] _list)
     {
-        MwsiveConnectionManager.instance.GetRecommendedCurators(Callback_GetRecommendedCurators);
+        int maxSpawnCounter = 0;
+        //MwsiveConnectionManager.instance.GetRecommendedCurators(Callback_GetRecommendedCurators);
+        MwsiveAdvertisingRoot mwsiveAdvertisingRoot = (MwsiveAdvertisingRoot)_list[1];
+        foreach (Advertising advertising in mwsiveAdvertisingRoot.advertisements)
+        {
+            if (maxSpawnCounter < MAXIMUM_HORIZONTAL_SCROLL_SPAWNS)
+            {
+                GameObject adversitingInstance = GameObject.Instantiate(advertasingPrefab, advertasingScrollContent);
+                AdvertisingAppObject advertsitingAppObj = adversitingInstance.GetComponent<AdvertisingAppObject>();
+                advertsitingAppObj.Initialize(advertising);
+                maxSpawnCounter++;
+            }
+        }
+
     }
 
     private void Callback_GetRecommendedCurators(object[] _list)
@@ -176,7 +210,7 @@ public class Descubrir_ViewModel : ViewModel
             {
                 GameObject playlistInstance = GameObject.Instantiate(playlistPrefab, playlistScrollContent);
                 PlaylistAppObject playlist = playlistInstance.GetComponent<PlaylistAppObject>();
-                playlist.Initialize(mwsiveRecommendedPlaylistsRoot.playlists[i].name, mwsiveRecommendedPlaylistsRoot.playlists[i].mwsive_tracks);
+                playlist.Initialize(mwsiveRecommendedPlaylistsRoot.playlists[i], mwsiveRecommendedPlaylistsRoot.playlists[i].mwsive_tracks);
                 maxSpawnCounter++;
             }
         }
@@ -266,7 +300,7 @@ public class Descubrir_ViewModel : ViewModel
             {
                 GameObject playlistInstance = GameObject.Instantiate(genrePrefab, genreScrollContent);
                 GenreAppObject genre = playlistInstance.GetComponent<GenreAppObject>();
-                genre.Initialize(mwsiveGenresRoot.genres[i].genre.name, mwsiveGenresRoot.genres[i].mwsive_tracks);
+                genre.Initialize(new object[] { mwsiveGenresRoot.genres[i].genre, mwsiveGenresRoot.genres[i].mwsive_tracks });
                 maxSpawnCounter++;
             }
         }
