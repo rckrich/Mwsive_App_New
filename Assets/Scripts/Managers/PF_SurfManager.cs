@@ -6,26 +6,12 @@ using UnityEngine.EventSystems;
 using DG.Tweening;
 using GG.Infrastructure.Utils.Swipe;
 
-
-public class SurfManager : Manager
+public class PF_SurfManager : Manager
 {
-    private static SurfManager _instance;
-
-    public static SurfManager instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = GameObject.FindObjectOfType<SurfManager>();
-            }
-            return _instance;
-        }
-    }
 
     public SwipeListener swipeListener;
     public ScrollRect Controller;
-    public GameObject Prefab, MainCanvas, AddSong, OlaButton, MwsiveOla, MwsiveContainer;
+    public GameObject Prefab, AddSong, OlaButton, MwsiveOla, MwsiveContainer;
     public List <GameObject> MwsiveSongs = new List<GameObject>();
     public GameObject[ ] RestPositions;
 
@@ -54,9 +40,6 @@ public class SurfManager : Manager
   
     private void Start()
     {
-        if(UIAniManager.instance.MainCanvas == null){
-            UIAniManager.instance.MainCanvas = MainCanvas;
-        }
         ControllerPostion = new Vector2(Controller.transform.position.x, Controller.transform.position.y); 
     }
 
@@ -72,7 +55,7 @@ public class SurfManager : Manager
             if(currentPrefab != null)
                 currentPrefab.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
         
-            
+            gameObject.SetActive(false);
         
         
         
@@ -936,6 +919,4 @@ public class SurfManager : Manager
         SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylistsNoPlaylist);
         SurfProfile = true;
     }
-
-
 }

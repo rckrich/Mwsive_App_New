@@ -155,7 +155,7 @@ public class AlbumViewModel : ViewModel
         }else{
 
             NewScreenManager.instance.ChangeToSpawnedView("surf");
-            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<SurfManager>().DynamicPrefabSpawnerAlbum(new object[] { _Album });
+            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerAlbum(new object[] { _Album });
         }
         
     }

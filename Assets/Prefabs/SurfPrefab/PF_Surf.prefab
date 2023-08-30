@@ -390,7 +390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e979be320900aa74b997c2227c4a13f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Surf: {fileID: 7400070989877605678}
+  Surf: {fileID: 0}
   AnimationDuration: 0.4
 --- !u!114 &6020124968943275245
 MonoBehaviour:
@@ -908,11 +908,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7396740250254444388}
-  - component: {fileID: 7400070989877605678}
+  - component: {fileID: 5029566614724441736}
   - component: {fileID: 3577394219102972297}
   m_Layer: 0
   m_Name: SurfManager
-  m_TagString: Untagged
+  m_TagString: SurfManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -932,7 +932,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 325958414457113529}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7400070989877605678
+--- !u!114 &5029566614724441736
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -941,7 +941,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1764207971196844601}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 386694d2394701545b29ea9623e49782, type: 3}
+  m_Script: {fileID: 11500000, guid: 405ce9ce261809b4c8df0e1430a45dd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   networkLoadingCanvas: {fileID: 0}
@@ -961,8 +961,7 @@ MonoBehaviour:
   - {fileID: 3958883041807934142}
   MaxRotation: 18
   SurfSuccessSensitivity: 2.2
-  LeftRightOffset: {x: 10, y: -10}
-  doubleClickTime: 0.2
+  LeftRightOffset: {x: 10, y: 10}
   CanGetRecomendations: 0
   canSwipe: 1
 --- !u!114 &3577394219102972297
@@ -1172,7 +1171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e979be320900aa74b997c2227c4a13f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Surf: {fileID: 7400070989877605678}
+  Surf: {fileID: 0}
   AnimationDuration: 0.4
 --- !u!114 &3102568414542424258
 MonoBehaviour:
@@ -1588,7 +1587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e979be320900aa74b997c2227c4a13f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Surf: {fileID: 7400070989877605678}
+  Surf: {fileID: 0}
   AnimationDuration: 0.4
 --- !u!114 &1256363004294276325
 MonoBehaviour:
@@ -3054,7 +3053,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7400070989877605678}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SurfManager, Scripts
         m_MethodName: ValChange
         m_Mode: 1
@@ -3083,7 +3082,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 7400070989877605678}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: SurfManager, Scripts
           m_MethodName: OnEndDrag
           m_Mode: 1
@@ -3267,7 +3266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e979be320900aa74b997c2227c4a13f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Surf: {fileID: 7400070989877605678}
+  Surf: {fileID: 0}
   AnimationDuration: 0.4
 --- !u!114 &35342514639573207
 MonoBehaviour:

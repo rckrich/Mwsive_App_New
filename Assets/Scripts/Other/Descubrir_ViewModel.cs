@@ -96,7 +96,7 @@ public class Descubrir_ViewModel : ViewModel
     public override void Initialize(params object[] list)
     {
         //StartSearch();
-        //MwsiveConnectionManager.instance.GetChallenges(Callback_GetChallenges);
+        MwsiveConnectionManager.instance.GetChallenges(Callback_GetChallenges);
         MwsiveConnectionManager.instance.GetAdvertising(Callback_GetAdvertasing);
         MwsiveConnectionManager.instance.GetRecommendedCurators(Callback_GetRecommendedCurators);
         MwsiveConnectionManager.instance.GetRecommendedArtists(Callback_GetRecommendedArtists);
@@ -123,7 +123,21 @@ public class Descubrir_ViewModel : ViewModel
 
     private void Callback_GetChallenges(object[] _list)
     {
-        MwsiveConnectionManager.instance.GetAdvertising(Callback_GetAdvertasing);
+        int maxSpawnCounter = 0;
+        MwsiveChallengesRoot mwsiveChallengesRoot = (MwsiveChallengesRoot)_list[1];
+        Debug.Log("Challenge Root" + mwsiveChallengesRoot);
+        //MwsiveConnectionManager.instance.GetAdvertising(Callback_GetAdvertasing);
+        foreach(Challenges challenges in mwsiveChallengesRoot.challenges)
+        {
+            if (maxSpawnCounter < MAXIMUM_HORIZONTAL_SCROLL_SPAWNS)
+            {
+                GameObject challengeInstance = GameObject.Instantiate(challengePrefab, challengeScrollContent);
+                ChallengeAppObject challengeAppObject = challengeInstance.GetComponent<ChallengeAppObject>();
+                challengeAppObject.Initialize(challenges);
+                maxSpawnCounter++;
+            }
+        }
+
     }
 
     private void Callback_GetAdvertasing(object[] _list)
