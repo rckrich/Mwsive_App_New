@@ -30,7 +30,7 @@ public class TopPlaylistViewModel : ViewModel
             {
                 GameObject playlistInstance = GameObject.Instantiate(playlistPrefab, playlistScrollContent);
                 PlaylistAppObject playlist = playlistInstance.GetComponent<PlaylistAppObject>();
-                playlist.Initialize(mwsiveRecommendedPlaylistsRoot.playlists[i].name, mwsiveRecommendedPlaylistsRoot.playlists[i].mwsive_tracks);
+                playlist.Initialize(mwsiveRecommendedPlaylistsRoot.playlists[i], mwsiveRecommendedPlaylistsRoot.playlists[i].mwsive_tracks);
                 maxSpawnCounter++;
                 count++;
             }

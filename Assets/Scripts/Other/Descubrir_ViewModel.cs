@@ -84,6 +84,7 @@ public class Descubrir_ViewModel : ViewModel
 
     public void Clear()
     {
+        ClearScrolls(challengeScrollContent);
         ClearScrolls(advertasingScrollContent);
         ClearScrolls(curatorScrollContent);
         ClearScrolls(artistScrollContent);
@@ -224,6 +225,7 @@ public class Descubrir_ViewModel : ViewModel
             {
                 GameObject playlistInstance = GameObject.Instantiate(playlistPrefab, playlistScrollContent);
                 PlaylistAppObject playlist = playlistInstance.GetComponent<PlaylistAppObject>();
+                Debug.Log(mwsiveRecommendedPlaylistsRoot.playlists[i]);
                 playlist.Initialize(mwsiveRecommendedPlaylistsRoot.playlists[i], mwsiveRecommendedPlaylistsRoot.playlists[i].mwsive_tracks);
                 maxSpawnCounter++;
             }
@@ -1391,5 +1393,10 @@ public class Descubrir_ViewModel : ViewModel
         Searchbar.text = "";
         KillPrefablist(numEnpantalla);
         loading.SetActive(false);
+    }
+
+    public void OnClick_VerMasChallenges()
+    {
+        NewScreenManager.instance.ChangeToSpawnedView("challenges");
     }
 }

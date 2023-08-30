@@ -12,14 +12,15 @@ public class PlaylistAppObject : AppObject
 
     private List<MwsiveTrack> mwsiveTrackList = new List<MwsiveTrack>();
     private List<string> trackID = new List<string>();
-    private RecommendedPlaylist playlist;
+    
     public override void Initialize(params object[] list)
     {
 
-        playlist = (RecommendedPlaylist)list[0];
+
+        RecommendedPlaylist playlist = (RecommendedPlaylist)list[0];
         
 
-        if (playlist.name != null)
+        if (playlist != null)
         {
             if (playlist.name.Length > 27)
             {
