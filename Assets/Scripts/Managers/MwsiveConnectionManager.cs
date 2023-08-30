@@ -106,7 +106,7 @@ public class MwsiveConnectionManager : MonoBehaviour
     public void GetMwsiveUser(string _user_id, MwsiveWebCallback _callback = null)
     {
         _callback += Callback_GetMwsiveUser;
-        StartCoroutine(MwsiveWebCalls.CR_GetMwsiveUser(ProgressManager.instance.progress.userDataPersistance.access_token, _user_id, _callback));
+        StartCoroutine(MwsiveWebCalls.CR_GetMwsiveUser(_user_id, _callback));
     }
 
     private void Callback_GetMwsiveUser(object[] _value)
@@ -164,7 +164,7 @@ public class MwsiveConnectionManager : MonoBehaviour
     public void GetCuratorsThatVoted(string _track_id, MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
     {
         _callback += Callback_GetCuratorsThatVoted;
-        StartCoroutine(MwsiveWebCalls.CR_GetCuratorsThatVoted(ProgressManager.instance.progress.userDataPersistance.access_token, _track_id,_callback, _offset, _limit));
+        StartCoroutine(MwsiveWebCalls.CR_GetCuratorsThatVoted(_track_id,_callback, _offset, _limit));
     }
 
     private void Callback_GetCuratorsThatVoted(object[] _value)
@@ -471,7 +471,7 @@ public class MwsiveConnectionManager : MonoBehaviour
     public void GetAdvertising(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
     {
         _callback += Callback_GetAdvertising;
-        StartCoroutine(MwsiveWebCalls.CR_GetAdvertising(ProgressManager.instance.progress.userDataPersistance.access_token, _callback, _offset, _limit));
+        StartCoroutine(MwsiveWebCalls.CR_GetAdvertising(_callback, _offset, _limit));
     }
 
     private void Callback_GetAdvertising(object[] _value)
@@ -487,7 +487,7 @@ public class MwsiveConnectionManager : MonoBehaviour
     public void GetRecommendedCurators(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
     {
         _callback += Callback_GetRecommendedCurators;
-        StartCoroutine(MwsiveWebCalls.CR_GetRecommendedCurators(ProgressManager.instance.progress.userDataPersistance.access_token, _callback, _offset, _limit));
+        StartCoroutine(MwsiveWebCalls.CR_GetRecommendedCurators(_callback, _offset, _limit));
     }
 
     private void Callback_GetRecommendedCurators(object[] _value)
@@ -503,7 +503,7 @@ public class MwsiveConnectionManager : MonoBehaviour
     public void GetRecommendedArtists(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
     {
         _callback += Callback_GetRecommendedArtists;
-        StartCoroutine(MwsiveWebCalls.CR_GetRecommendedArtists(ProgressManager.instance.progress.userDataPersistance.access_token, _callback, _offset, _limit));
+        StartCoroutine(MwsiveWebCalls.CR_GetRecommendedArtists(_callback, _offset, _limit));
     }
 
     private void Callback_GetRecommendedArtists(object[] _value)
@@ -519,7 +519,7 @@ public class MwsiveConnectionManager : MonoBehaviour
     public void GetRecommendedPlaylists(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
     {
         _callback += Callback_GetRecommendedPlaylists;
-        StartCoroutine(MwsiveWebCalls.CR_GetRecommendedPlaylists(ProgressManager.instance.progress.userDataPersistance.access_token, _callback, _offset, _limit));
+        StartCoroutine(MwsiveWebCalls.CR_GetRecommendedPlaylists(_callback, _offset, _limit));
     }
 
     private void Callback_GetRecommendedPlaylists(object[] _value)
@@ -535,7 +535,7 @@ public class MwsiveConnectionManager : MonoBehaviour
     public void GetRecommendedTracks(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
     {
         _callback += Callback_GetRecommendedTracks;
-        StartCoroutine(MwsiveWebCalls.CR_GetRecommendedTracks(ProgressManager.instance.progress.userDataPersistance.access_token, _callback, _offset, _limit));
+        StartCoroutine(MwsiveWebCalls.CR_GetRecommendedTracks(_callback, _offset, _limit));
     }
 
     private void Callback_GetRecommendedTracks(object[] _value)
@@ -551,7 +551,7 @@ public class MwsiveConnectionManager : MonoBehaviour
     public void GetRecommendedAlbums(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
     {
         _callback += Callback_GetRecommendedAlbums;
-        StartCoroutine(MwsiveWebCalls.CR_GetRecommendedAlbums(ProgressManager.instance.progress.userDataPersistance.access_token, _callback, _offset, _limit));
+        StartCoroutine(MwsiveWebCalls.CR_GetRecommendedAlbums(_callback, _offset, _limit));
     }
 
     private void Callback_GetRecommendedAlbums(object[] _value)
@@ -567,7 +567,7 @@ public class MwsiveConnectionManager : MonoBehaviour
     public void GetGenres(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
     {
         _callback += Callback_GetGenres;
-        StartCoroutine(MwsiveWebCalls.CR_GetGenres(ProgressManager.instance.progress.userDataPersistance.access_token, _callback, _offset, _limit));
+        StartCoroutine(MwsiveWebCalls.CR_GetGenres(_callback, _offset, _limit));
     }
 
     private void Callback_GetGenres(object[] _value)

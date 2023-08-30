@@ -51,7 +51,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on create profile");
+                Debug.Log("Protocol Error or Connection Error on create profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -120,7 +120,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -167,7 +167,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -210,7 +210,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -234,7 +234,7 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_GetMwsiveUser(string _token, string _user_id, MwsiveWebCallback _callback)
+    public static IEnumerator CR_GetMwsiveUser(string _user_id, MwsiveWebCallback _callback)
     {
         string jsonResult = "";
 
@@ -244,7 +244,6 @@ public class MwsiveWebCalls : MonoBehaviour
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Accept", "application/json");
-            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
 
             yield return webRequest.SendWebRequest();
 
@@ -257,7 +256,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -304,7 +303,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -348,7 +347,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
                 Debug.Log(webRequest.responseCode);
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -403,7 +402,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -423,30 +422,16 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_GetCuratorsThatVoted(string _token, string _track_id, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    public static IEnumerator CR_GetCuratorsThatVoted(string _track_id, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
 
         //string url = "https://mwsive.com/track/" + _track_id + "/curators/" + _offset.ToString() + "/" + _limit.ToString();
         string url = "http://192.241.129.184/api/track/" + _track_id + "/curators/" + _offset.ToString() + "/" + _limit.ToString();
 
-        /*Dictionary<string, string> parameters = new Dictionary<string, string>();
-        parameters.Add("track_id", _track_id);
-
-
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);
-
-        url = url + "/curators/";
-
-        parameters.Add("offset", _offset.ToString());
-        parameters.Add("limit", _limit.ToString());
-
-        url = WebCallsUtils.AddParametersToURI(url, parameters);*/
-
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Accept", "application/json");
-            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
 
             yield return webRequest.SendWebRequest();
 
@@ -459,7 +444,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -511,7 +496,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -541,12 +526,6 @@ public class MwsiveWebCalls : MonoBehaviour
         //string url = "https://mwsive.com/me/followers/" + _offset.ToString() + "/" + _limit.ToString();
         string url = "http://192.241.129.184/api/me/followers/" + _offset.ToString() + "/" + _limit.ToString();
 
-        /*Dictionary<string, string> parameters = new Dictionary<string, string>();
-        parameters.Add("offset", _offset.ToString());
-        parameters.Add("limit", _limit.ToString());
-
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);*/
-
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Accept", "application/json");
@@ -563,7 +542,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -593,12 +572,6 @@ public class MwsiveWebCalls : MonoBehaviour
 
         //string url = "https://mwsive.com/me/followed/" + _offset.ToString() + "/" + _limit.ToString();
         string url = "http://192.241.129.184/api/me/followed/" + _offset.ToString() + "/" + _limit.ToString();
-
-        /*Dictionary<string, string> parameters = new Dictionary<string, string>();
-        parameters.Add("offset", _offset.ToString());
-        parameters.Add("limit", _limit.ToString());
-
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);*/
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -640,7 +613,7 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-        public static IEnumerator CR_GetUserFollowers(string _token, string _user_id, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    public static IEnumerator CR_GetUserFollowers(string _token, string _user_id, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
 
@@ -663,7 +636,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -710,7 +683,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -786,7 +759,7 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-        public static IEnumerator CR_GetCuratorsByName(string _token, string _name, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    public static IEnumerator CR_GetCuratorsByName(string _token, string _name, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
 
@@ -810,7 +783,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
                 Debug.Log(webRequest.responseCode);
-                Debug.Log("Protocol Error or Connection Error on fetch curators by name");
+                Debug.Log("Protocol Error or Connection Error on fetch curators by name. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -863,7 +836,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -914,7 +887,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -965,7 +938,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1012,7 +985,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1060,7 +1033,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1120,7 +1093,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1180,7 +1153,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1230,7 +1203,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1276,7 +1249,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1328,7 +1301,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1380,7 +1353,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1430,7 +1403,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1452,7 +1425,7 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_GetAdvertising(string _token, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    public static IEnumerator CR_GetAdvertising(MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
 
@@ -1468,7 +1441,6 @@ public class MwsiveWebCalls : MonoBehaviour
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Accept", "application/json");
-            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
 
             yield return webRequest.SendWebRequest();
 
@@ -1481,7 +1453,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1504,23 +1476,16 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_GetRecommendedCurators(string _token, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    public static IEnumerator CR_GetRecommendedCurators(MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
 
         //string url = "https://mwsive.com/recommended/curators/" + _offset.ToString() + "/" + _limit.ToString();
         string url = "http://192.241.129.184/api/recommended/curators/" + _offset.ToString() + "/" + _limit.ToString();
 
-        /*Dictionary<string, string> parameters = new Dictionary<string, string>();
-        parameters.Add("offset", _offset.ToString());
-        parameters.Add("limit", _limit.ToString());
-
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);*/
-
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Accept", "application/json");
-            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
 
             yield return webRequest.SendWebRequest();
 
@@ -1533,7 +1498,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1556,24 +1521,16 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_GetRecommendedArtists(string _token, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    public static IEnumerator CR_GetRecommendedArtists(MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
 
         //string url = "https://mwsive.com/recommended/artists/" + _offset.ToString() + "/" + _limit.ToString();
         string url = "http://192.241.129.184/api/recommended/artists/" + _offset.ToString() + "/" + _limit.ToString();
 
-        /*Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-        parameters.Add("offset", _offset.ToString());
-        parameters.Add("limit", _limit.ToString());
-
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);*/
-
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Accept", "application/json");
-            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
 
             yield return webRequest.SendWebRequest();
 
@@ -1586,7 +1543,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1609,24 +1566,16 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_GetRecommendedPlaylists(string _token, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    public static IEnumerator CR_GetRecommendedPlaylists(MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
 
         //string url = "https://mwsive.com/recommended/playlists/" + _offset.ToString() + "/" + _limit.ToString();
         string url = "http://192.241.129.184/api/recommended/playlists/" + _offset.ToString() + "/" + _limit.ToString();
 
-        /*Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-        parameters.Add("offset", _offset.ToString());
-        parameters.Add("limit", _limit.ToString());
-
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);*/
-
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Accept", "application/json");
-            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
 
             yield return webRequest.SendWebRequest();
 
@@ -1639,7 +1588,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1662,24 +1611,16 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_GetRecommendedTracks(string _token, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    public static IEnumerator CR_GetRecommendedTracks(MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
 
         //string url = "https://mwsive.com/recommended/tracks/" + _offset.ToString() + "/" + _limit.ToString();
         string url = "http://192.241.129.184/api/recommended/tracks/" + _offset.ToString() + " / " + _limit.ToString();
 
-
-        /*Dictionary<string, string> parameters = new Dictionary<string, string>();
-        parameters.Add("offset", _offset.ToString());
-        parameters.Add("limit", _limit.ToString());
-
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);*/
-
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Accept", "application/json");
-            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
 
             yield return webRequest.SendWebRequest();
 
@@ -1692,7 +1633,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1715,23 +1656,16 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_GetRecommendedAlbums(string _token, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    public static IEnumerator CR_GetRecommendedAlbums(MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
 
         //string url = "https://mwsive.com/recommended/albums/" + _offset.ToString() + "/" + _limit.ToString();
         string url = "http://192.241.129.184/api/recommended/albums/" + _offset.ToString() + "/" + _limit.ToString();
 
-        /*Dictionary<string, string> parameters = new Dictionary<string, string>();
-        parameters.Add("offset", _offset.ToString());
-        parameters.Add("limit", _limit.ToString());
-
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);*/
-
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Accept", "application/json");
-            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
 
             yield return webRequest.SendWebRequest();
 
@@ -1744,7 +1678,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1767,7 +1701,7 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_GetGenres(string _token, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    public static IEnumerator CR_GetGenres(MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
 
@@ -1783,7 +1717,6 @@ public class MwsiveWebCalls : MonoBehaviour
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Accept", "application/json");
-            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
 
             yield return webRequest.SendWebRequest();
 
@@ -1796,7 +1729,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
