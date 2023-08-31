@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ChallengeViewModel : ViewModel
@@ -8,6 +9,10 @@ public class ChallengeViewModel : ViewModel
     public Transform challengeScrollContentR;
     public GameObject challengePrefabC;
     public Transform challengeScrollContentC;
+    public GameObject ScrollResents;
+    public GameObject ScrollComplete;
+    public TextMeshProUGUI resentText;
+    public TextMeshProUGUI completeText;
 
     private int offsetResent;
     private int offsetComplete;
@@ -56,5 +61,21 @@ public class ChallengeViewModel : ViewModel
             challengeAppObject.Initialize(challenges);
         }
         offsetComplete += 20;
+    }
+
+    public void OnClick_Resents()
+    {
+        ScrollResents.SetActive(true);
+        ScrollComplete.SetActive(false);
+        resentText.color = Color.black;
+        completeText.color = Color.gray;
+    }
+
+    public void OnClick_Complete()
+    {
+        ScrollResents.SetActive(false);
+        ScrollComplete.SetActive(true);
+        resentText.color = Color.gray;
+        completeText.color = Color.black;
     }
 }
