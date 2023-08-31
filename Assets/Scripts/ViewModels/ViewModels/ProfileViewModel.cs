@@ -313,7 +313,7 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_SurfButton(){
         NewScreenManager.instance.ChangeToSpawnedView("surf");
-        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<SurfManager>().SurfProfileADN(profileId);
+        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().SurfProfileADN(profileId);
     }
 
     private void FollowButtonInitilization()

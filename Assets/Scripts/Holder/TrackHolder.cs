@@ -105,7 +105,6 @@ public class TrackHolder : ViewModel
     {
         addSongOptions.trackID = trackSpotifyID;
         AppManager.instance.GetTrack(trackSpotifyID);
-        NewScreenManager.instance.ChangeToSpawnedView("listaDeOpciones");
      
     }
 }

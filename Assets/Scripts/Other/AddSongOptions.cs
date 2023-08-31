@@ -16,6 +16,7 @@ public class AddSongOptions : ViewModel
     public TrackViewModel trackViewModel;
     public string url;
     public string uri;
+
     public Button AddItemsToPlaylistButton;
 
     private void Start()
@@ -39,7 +40,6 @@ public class AddSongOptions : ViewModel
 #endif
 
     }
-
 
     public void OnClick_AddItemsToPlaylist()
     {
