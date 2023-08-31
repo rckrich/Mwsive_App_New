@@ -10,13 +10,10 @@ public class TrackViewModel : ViewModel
     public string[] seed_genres;
     public string[] seed_tracks;
 
-    // Start is called before the first frame update
     public string trackID;
     public string genre;
     public string artistId;
     public TextMeshProUGUI displayName;
-    //public TextMeshProUGUI spotifyID;
-    //public TextMeshProUGUI albumName;
     public TextMeshProUGUI artistName;
     public Image trackPicture;
     public GameObject trackHolderPrefab;
@@ -28,10 +25,21 @@ public class TrackViewModel : ViewModel
     private RecommendationsRoot recommendations;
 
     void Start()
-    {
-        
+    {  
         GetTrack();
         GetRecommendations();
+
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_ButtonBack();
+                }
+            });
+        }
+#endif
     }
 
     public void GetTrack()
@@ -137,6 +145,10 @@ public class TrackViewModel : ViewModel
     {
         NewScreenManager.instance.BackToPreviousView();
         SpotifyPreviewAudioManager.instance.StopTrack();
+
+#if PLATFORM_ANDROID
+        AppManager.instance.SetAndroidBackAction(null);
+#endif
     }
 
     public void OnClick_Surf()
