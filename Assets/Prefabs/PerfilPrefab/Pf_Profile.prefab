@@ -699,6 +699,8 @@ MonoBehaviour:
   playlistHolderPrefab: {fileID: 3494807364923777904, guid: 4ce0b37c9db9f9548871d172d2aeb103, type: 3}
   instanceParent: {fileID: 3774412406964433979}
   surfManager: {fileID: 0}
+  playlistContent: {fileID: 3774412406964433979}
+  principalScroll: {fileID: 3774412407688377895}
   followersText: {fileID: 3774412408397873354}
   followedText: {fileID: 3774412408527376603}
   followButton: {fileID: 3774412407026757049}
@@ -1614,10 +1616,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3774412406713809916}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -41.500015}
-  m_SizeDelta: {x: 0, y: -83.000015}
+  m_SizeDelta: {x: 0, y: 216.99998}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3774412406964433978
 MonoBehaviour:
@@ -2465,7 +2467,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 9.060608, y: -16.89235}
-  m_SizeDelta: {x: 66.44, y: 15.1}
+  m_SizeDelta: {x: 85.5235, y: 15.1}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &3774412407330415210
 CanvasRenderer:
@@ -2522,8 +2524,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15
-  m_fontSizeBase: 15
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3063,7 +3065,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 8, y: -63}
+  m_AnchoredPosition: {x: 9, y: -50}
   m_SizeDelta: {x: 151, y: 18.1}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &3774412407532090657
@@ -4395,10 +4397,10 @@ RectTransform:
   - {fileID: 7363467265653457389}
   m_Father: {fileID: 3774412406853419431}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -30}
-  m_SizeDelta: {x: 284.5, y: 129.69}
+  m_SizeDelta: {x: 0, y: 129.69}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3774412408410673379
 CanvasRenderer:

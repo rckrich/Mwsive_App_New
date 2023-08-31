@@ -56,6 +56,7 @@ public class ButtonSurfPlaylist : ViewModel
         if (!AppManager.instance.yours)
         {
             buttonColor.GetComponent<Image>().color = redNew;
+            playlistText.color = redNew;
         }
         else
         {
