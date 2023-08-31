@@ -374,6 +374,12 @@ public class LogInMwsiveRoot
     public string user_id { get; set; }
 }
 
+public class AdvertisementClickRoot
+{
+    public string user_id { get; set; }
+    public string advertisement_id { get; set; }
+}
+
 public class PostFollowRoot
 {
     public string user_id { get; set; }

@@ -21,7 +21,15 @@ public class AdvertisingAppObject : AppObject
     public void OnClick_Advertising()
     {
         Application.OpenURL(advertising.link);
-        MwsiveConnectionManager.instance.PostSaveAdvertisementClick(advertising.id.ToString());
+
+        if (AppManager.instance.isLogInMode)
+        {
+            MwsiveConnectionManager.instance.PostSaveAdvertisementClick(AppManager.instance.profileID, advertising.id.ToString());
+        }
+        else
+        {
+            MwsiveConnectionManager.instance.PostSaveAdvertisementClick("", advertising.id.ToString());
+        }
     }
 
 }

@@ -99,7 +99,7 @@ public class MwsiveWebCalls : MonoBehaviour
 
             //TODO si el error es 404 filtrarlo por que lo necesitamos
 
-            if(webRequest.result == UnityWebRequest.Result.ProtocolError && webRequest.responseCode == 404)
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError && webRequest.responseCode == 404)
             {
                 while (!webRequest.isDone) { yield return null; }
 
@@ -156,7 +156,7 @@ public class MwsiveWebCalls : MonoBehaviour
             webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
 
             yield return webRequest.SendWebRequest();
-            
+
             if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
             {
                 //Catch response code for multiple requests to the server in a short timespan.
@@ -664,7 +664,7 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-         //string url = "https://mwsive.com/users/" +_user_id + "/followed/" + _offset.ToString() + "/" + _limit.ToString();
+        //string url = "https://mwsive.com/users/" +_user_id + "/followed/" + _offset.ToString() + "/" + _limit.ToString();
         string url = "http://192.241.129.184/api/users/" + _user_id + "/followed/" + _offset.ToString() + "/" + _limit.ToString();
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
@@ -779,7 +779,7 @@ public class MwsiveWebCalls : MonoBehaviour
 
                 if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
                 {
-                    
+
                     //TODO Response when unauthorized
                 }
                 Debug.Log(webRequest.responseCode);
@@ -806,7 +806,7 @@ public class MwsiveWebCalls : MonoBehaviour
 
         }
     }
-    
+
     public static IEnumerator CR_GetBadges(string _token, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
@@ -1476,6 +1476,63 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
+    public static IEnumerator CR_PostSaveAdvertisementClick(string _token, string _user_id, string _advertisement_id, MwsiveWebCallback _callback)
+    {
+        string jsonResult = "";
+
+        //string url = "https://mwsive.com/advertisements/click";
+        string url = "http://192.241.129.184/api/advertisements/click";
+
+        AdvertisementClickRoot advertisementClickRoot = new AdvertisementClickRoot
+        {
+            advertisement_id = _advertisement_id
+        };
+
+        advertisementClickRoot.user_id = _user_id.Equals("") ? null : _user_id;
+
+        string jsonRaw = JsonConvert.SerializeObject(advertisementClickRoot);
+
+        Debug.Log("Body request for login is: " + jsonRaw);
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonRaw, "application/json"))
+        {
+            webRequest.SetRequestHeader("Accept", "application/json");
+
+            if (!_token.Equals(""))
+                webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
+            {
+                //Catch response code for multiple requests to the server in a short timespan.
+                Debug.Log(webRequest.responseCode);
+
+                if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
+                {
+                    //TODO Response when unauthorized
+                }
+
+                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                yield break;
+            }
+            else
+            {
+                while (!webRequest.isDone) { yield return null; }
+
+                if (webRequest.isDone)
+                {
+                    Debug.Log("Mwsive post save advertasing " + jsonResult);
+                    _callback(new object[] { webRequest.responseCode, null });
+                    yield break;
+                }
+            }
+
+            Debug.Log("Failed on post click save advertising out " + jsonResult);
+            yield break;
+        }
+    }
+
     public static IEnumerator CR_GetRecommendedCurators(MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
@@ -1748,50 +1805,6 @@ public class MwsiveWebCalls : MonoBehaviour
             }
 
             Debug.Log("Failed fetch genres result: " + jsonResult);
-            yield break;
-        }
-    }
-
-   public static IEnumerator CR_PostSaveAdvertisementClick(string _token, string _advertisement_id, MwsiveWebCallback _callback)
-    {
-        string jsonResult = "";
-
-        //string url = "https://mwsive.com/logout";
-        string url = "http://192.241.129.184/api/advertisements/click";
-
-        using (UnityWebRequest webRequest = new UnityWebRequest(url, "POST"))
-        {
-            webRequest.SetRequestHeader("Accept", "application/json");
-            webRequest.SetRequestHeader("Authorization", "Bearer " + _token + _advertisement_id);
-
-            yield return webRequest.SendWebRequest();
-
-            if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
-            {
-                //Catch response code for multiple requests to the server in a short timespan.
-                Debug.Log(webRequest.responseCode);
-
-                if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
-                {
-                    //TODO Response when unauthorized
-                }
-
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
-                yield break;
-            }
-            else
-            {
-                while (!webRequest.isDone) { yield return null; }
-
-                if (webRequest.isDone)
-                {
-                    Debug.Log("Mwsive logout " + jsonResult);
-                    _callback(new object[] { webRequest.responseCode, null });
-                    yield break;
-                }
-            }
-
-            Debug.Log("Failed on mwsive log out " + jsonResult);
             yield break;
         }
     }

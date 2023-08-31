@@ -21,6 +21,7 @@ public class AppManager : Manager
     }
 
     public string profileID;
+    public MwsiveUser currentMwsiveUser;
     public Image profilePicture;
     public GameObject Container;
     public Transform surfTransform;
@@ -196,6 +197,15 @@ public class AppManager : Manager
             }
         }
 
+        MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser);
+    }
+
+    private void Callback_GetCurrentMwsiveUser(object[] _value)
+    {
+        MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
+
+        currentMwsiveUser = mwsiveUserRoot.user;
+
         SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_GetCurrentMwsiveUserPlaylist_LogInFlow);
     }
 
@@ -327,6 +337,15 @@ public class AppManager : Manager
                     ImageManager.instance.GetImage(profileRoot.images[0].url, profilePicture, (RectTransform)surfTransform);
             }
         }
+
+        MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser_OutsideLogInFlow);
+    }
+
+    private void Callback_GetCurrentMwsiveUser_OutsideLogInFlow(object[] _value)
+    {
+        MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
+
+        currentMwsiveUser = mwsiveUserRoot.user;
 
         SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_GetCurrentMwsiveUserPlaylist_OutsideLogInFlow);
     }

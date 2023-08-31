@@ -484,6 +484,27 @@ public class MwsiveConnectionManager : MonoBehaviour
         Debug.Log(((MwsiveAdvertisingRoot)_value[1]));
     }
 
+    public void PostSaveAdvertisementClick(string _user_id, string _advertisement_id, MwsiveWebCallback _callback = null)
+    {
+        _callback += Callback_PostSaveAdvertisementClick;
+
+        if (_user_id.Equals("")) {
+            StartCoroutine(MwsiveWebCalls.CR_PostSaveAdvertisementClick("", "", _advertisement_id, _callback));
+        }
+        else
+        {
+            StartCoroutine(MwsiveWebCalls.CR_PostSaveAdvertisementClick(ProgressManager.instance.progress.userDataPersistance.access_token, _user_id, _advertisement_id, _callback));
+        }
+    }
+
+    private void Callback_PostSaveAdvertisementClick(object[] _value)
+    {
+        if (CheckResponse((long)_value[0]))
+        {
+            return;
+        }
+    }
+
     public void GetRecommendedCurators(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
     {
         _callback += Callback_GetRecommendedCurators;
@@ -585,19 +606,5 @@ public class MwsiveConnectionManager : MonoBehaviour
     public bool CheckResponse(long _responseCode)
     {
         return _responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE);
-    }
-    
-    public void PostSaveAdvertisementClick(string _advertisement_id, MwsiveWebCallback _callback = null)
-    {
-        _callback += Callback_PostSaveAdvertisementClick;
-        StartCoroutine(MwsiveWebCalls.CR_PostSaveAdvertisementClick(ProgressManager.instance.progress.userDataPersistance.access_token, _advertisement_id, _callback));
-    }
-
-    private void Callback_PostSaveAdvertisementClick(object[] _value)
-    {
-        if (CheckResponse((long)_value[0]))
-        {
-            return;
-        }
     }
 }
