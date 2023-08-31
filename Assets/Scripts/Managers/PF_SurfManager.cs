@@ -23,6 +23,7 @@ public class PF_SurfManager : Manager
     private RecommendationsRoot recommendationsRoot;
     private PlaylistRoot UserPlaylists;
     private AlbumRoot albumroot;
+    private ChallengeAppObject challenge;
 
     [HideInInspector]
     public bool canSwipe = true;
@@ -38,6 +39,7 @@ public class PF_SurfManager : Manager
     private int trackstospawn = 0;
     private bool HasFirstPlaylistPlayed = false;
     public bool HasSideScrollEnded = true;
+    public bool Challenge = false;
     private void Start()
     {
         ControllerPostion = new Vector2(Controller.transform.position.x, Controller.transform.position.y); 
@@ -264,6 +266,7 @@ public class PF_SurfManager : Manager
                 SpawnPrefab();
                 SpawnedBuffer = true;
             }
+            
         }
 
         
@@ -291,14 +294,16 @@ public class PF_SurfManager : Manager
             GetBeforeCurrentPrefab().GetComponent<ButtonSurfPlaylist>().BackSwipe();
             CurrentPosition--;           
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
-            
+            MwsiveSongs[CurrentPosition+1].GetComponent<ButtonSurfPlaylist>().CheckIfDurationBarCanPlay();
+            MwsiveSongs[CurrentPosition+2].GetComponent<ButtonSurfPlaylist>().CheckIfDurationBarCanPlay();
 
         }
         else{
             ResetValue();
         }
+        
 
-         Debug.Log("DownScrollSucess");  
+        Debug.Log("DownScrollSucess");  
         HasSwipeEnded = true;
     }
     private void UpScrollSuccess(){
@@ -336,6 +341,7 @@ public class PF_SurfManager : Manager
                     SpawnPrefab();
                     SpawnedBuffer = true;
                 }
+                
         }
             
             Debug.Log("UpScrollSuccess"); 
@@ -430,6 +436,23 @@ public class PF_SurfManager : Manager
         }
 
         return _Instance;
+    }
+    public GameObject GetLastPrefab(){
+       
+        if(SpawnedBuffer){
+            return MwsiveSongs[MwsiveSongs.Count-4];
+        }else{
+            return MwsiveSongs[MwsiveSongs.Count-1];
+        }
+        
+        
+    }
+
+    public List<GameObject> GetInstances(){
+        return MwsiveSongs;
+    }
+    public void SetChallengeCallback(ChallengeAppObject _challenge){
+        challenge = _challenge;
     }
 
     public void DynamicPrefabSpawnerRecommendations(object[] _value)
@@ -606,13 +629,14 @@ public class PF_SurfManager : Manager
                     artists = artists.Remove(artists.Length - 2);
 
                     string currentPlayListName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
-                    instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(currentPlayListName, item.track.name, item.track.album.name, artists, item.track.album.images[0].url, item.track.id, item.track.uri, item.track.preview_url, item.track.external_urls.spotify);
+                    instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(currentPlayListName, item.track.name, item.track.album.name, artists, item.track.album.images[0].url, item.track.id, item.track.uri, item.track.preview_url, item.track.external_urls.spotify, Challenge);
                     
                     SpawnedSongs++;
                 }
             }
             
         }
+        GetLastPrefab().GetComponent<ButtonSurfPlaylist>().SetCallbackLastPosition(challenge);
         
         if(SpawnedSongs < 5 && SpawnedSongs > 0 && SpawnedBuffer == false && CanSpawnBuffer == true){
             SpawnPrefab();
@@ -653,13 +677,14 @@ public class PF_SurfManager : Manager
 
                     artists = artists.Remove(artists.Length - 2);
 
-                    instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.name, item.album.name, artists, item.album.images[0].url, item.id, item.uri, item.preview_url, item.external_urls.spotify);
+                    instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.name, item.album.name, artists, item.album.images[0].url, item.id, item.uri, item.preview_url, item.external_urls.spotify, Challenge);
                     
                     SpawnedSongs++;
                 }
             }
             
         }
+        GetLastPrefab().GetComponent<ButtonSurfPlaylist>().SetCallbackLastPosition(challenge);
         
         if(SpawnedSongs < 5 && SpawnedSongs > 0 && SpawnedBuffer == false && CanSpawnBuffer == true){
             SpawnPrefab();

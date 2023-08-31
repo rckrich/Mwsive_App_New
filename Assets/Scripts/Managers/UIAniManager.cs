@@ -740,9 +740,10 @@ public class UIAniManager : MonoBehaviour
     IEnumerator WaitMessage(float time, GameObject GA){
         
         yield return new WaitForSeconds(time);
-        GA.GetComponent<CanvasGroup>().DOFade(0f, .5f).OnComplete(() => {UIMessages.Remove(GA); Destroy(GA); });   
+        GA.GetComponent<CanvasGroup>().DOFade(0f, .5f).OnComplete(() => {UIMessages.Remove(GA); Destroy(GA);  });   
         
         GA.transform.DOMove(RestPositionDown, 1f, false);
+        yield break;
     }
 
 
