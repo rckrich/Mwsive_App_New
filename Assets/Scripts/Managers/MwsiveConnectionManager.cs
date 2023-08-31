@@ -586,4 +586,18 @@ public class MwsiveConnectionManager : MonoBehaviour
     {
         return _responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE);
     }
+
+    public void PostSaveAdvertisementClick(string _advertisement_id, MwsiveWebCallback _callback = null)
+    {
+        _callback += Callback_PostSaveAdvertisementClick;
+        StartCoroutine(MwsiveWebCalls.CR_PostSaveAdvertisementClick(ProgressManager.instance.progress.userDataPersistance.access_token, _advertisement_id, _callback));
+    }
+
+    private void Callback_PostSaveAdvertisementClick(object[] _value)
+    {
+        if (CheckResponse((long)_value[0]))
+        {
+            return;
+        }
+    }
 }
