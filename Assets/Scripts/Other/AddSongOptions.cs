@@ -16,17 +16,21 @@ public class AddSongOptions : ViewModel
     public TrackViewModel trackViewModel;
     public string url;
     public string uri;
-    // Start is called before the first frame update
-    void Start()
+    public Button AddItemsToPlaylistButton;
+
+    private void Start()
     {
-        
-        
+        if (AddItemsToPlaylistButton != null)
+        {
+            AddItemsToPlaylistButton.interactable = AppManager.instance.isLogInMode;
+            AddItemsToPlaylistButton.GetComponentInChildren<Image>().color = AppManager.instance.isLogInMode ? AddItemsToPlaylistButton.colors.normalColor : AddItemsToPlaylistButton.colors.disabledColor;
+        }
     }
+
 
 
     public void OnClick_AddItemsToPlaylist()
     {
-         
         uri = AppManager.instance.uri;      
         NewScreenManager.instance.ChangeToSpawnedView("songMiPlaylist");
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
@@ -38,17 +42,20 @@ public class AddSongOptions : ViewModel
 
         //SpotifyConnectionManager.instance.GetPlaylist(playlistID, Callback_OnCLick_GetPlaylist);
     }
+
     public void OnClickSong()
     {
         trackViewModel.trackID = trackID;
         NewScreenManager.instance.ChangeToSpawnedView("cancion");
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
+
     public void ListenOnSpotify()
     {
        url = AppManager.instance.url;
        Application.OpenURL(url);
     }
+
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
