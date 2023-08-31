@@ -24,9 +24,7 @@ public class MenuOptions : ViewModel
     {                   
             if(numero == 0)
             {
-                if(NewScreenManager.instance.GetCurrentView().viewID == ViewID.ExploreViewModel){
-                    ResetDynamicSearch.OnClick_CancelarButton();
-                }
+                
                 SurfManager.instance.SetActive(false);
                 SpotifyPreviewAudioManager.instance.StopTrack();
                 
@@ -34,14 +32,20 @@ public class MenuOptions : ViewModel
                 descubrir.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
                 ranking.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
                 StopAllCoroutines();
-                OpenView(ViewID.ExploreViewModel);         
+                OpenView(ViewID.ExploreViewModel);
+
+                
             }
 
             if(numero == 1)
             {
 #if PLATFORM_ANDROID
             AppManager.instance.ResetAndroidBackAction();
-#endif      
+#endif
+                if (NewScreenManager.instance.GetCurrentView().viewID == ViewID.ExploreViewModel)
+                {
+                    ResetDynamicSearch.OnClick_CancelarButton();
+                }
                 explorar.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
                 descubrir.GetComponent<Image>().GetComponent<Graphic>().color = Color.white;
                 ranking.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
@@ -52,7 +56,8 @@ public class MenuOptions : ViewModel
 
             if(numero == 2)
             {
-                if(NewScreenManager.instance.GetCurrentView().viewID == ViewID.ExploreViewModel){
+                if (NewScreenManager.instance.GetCurrentView().viewID == ViewID.ExploreViewModel)
+                {
                     ResetDynamicSearch.OnClick_CancelarButton();
                 }
                 SurfManager.instance.SetActive(false);

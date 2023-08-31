@@ -27,7 +27,7 @@ public class ProfileViewModel : ViewModel
             isCurrentUserProfileView = false;
         }
 
-        if (ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted && !isCurrentUserProfileView)
+        if (ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted)
         {
             GetUserBasedOnEmptyProfileID(profileId);
         }
