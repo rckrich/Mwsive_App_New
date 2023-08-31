@@ -37,7 +37,7 @@ public class PF_SurfManager : Manager
     private int SurfProfileOffsetPosition;
     private int trackstospawn = 0;
     private bool HasFirstPlaylistPlayed = false;
-  
+    public bool HasSideScrollEnded = true;
     private void Start()
     {
         ControllerPostion = new Vector2(Controller.transform.position.x, Controller.transform.position.y); 
@@ -46,20 +46,24 @@ public class PF_SurfManager : Manager
    
     private void OnEnable()
     {
+        SurfController.instance.AddToList(gameObject);
         
-        
-            swipeListener.OnSwipe.AddListener(OnSwipe);
+        swipeListener.OnSwipe.AddListener(OnSwipe);
 
-            GameObject currentPrefab = GetCurrentPrefab();
+        GameObject currentPrefab = GetCurrentPrefab();
 
-            if(currentPrefab != null)
-                currentPrefab.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
-        
-            gameObject.SetActive(false);
-        
+        if(currentPrefab != null && SurfController.instance.AmICurrentView(gameObject))
+            currentPrefab.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+    
         
         
         
+        
+        
+    }
+
+    private void OnDestroy() {
+        SurfController.instance.DeleteFromList(gameObject);
     }
 
     private void OnDisable()
@@ -81,7 +85,6 @@ public class PF_SurfManager : Manager
                 Controller.vertical =false;
                 Controller.horizontal =false;
                 HasSwipeEnded = false;
-                Debug.Log(gameObject.name + "asdfg");
                 SideScrollSuccess();
                 
             break;
@@ -206,6 +209,7 @@ public class PF_SurfManager : Manager
 
             }else{
                 ResetValue();
+                
                 break;
             }
         }
@@ -215,7 +219,7 @@ public class PF_SurfManager : Manager
     }
 
     private void SideScrollSuccess(){
-       
+        
         Controller.enabled =false;
         Controller.horizontal =true;
         Controller.vertical =true;
@@ -223,7 +227,7 @@ public class PF_SurfManager : Manager
         if(CurrentPosition < MwsiveSongs.Count-4){
             DOTween.CompleteAll(true);
             UIAniManager.instance.SurfSide(MwsiveSongs[CurrentPosition],1, -MaxRotation,0,true);
-            Debug.Log("CompleteSurfadd" + gameObject.name);
+            
             UIAniManager.instance.CompleteSurfAddSong(AddSong, 1.5f);
 
             UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[0], 1);
@@ -235,15 +239,16 @@ public class PF_SurfManager : Manager
             GetBeforeCurrentPrefab().GetComponent<ButtonSurfPlaylist>().Swipe();
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
             Success = true;
-        }else{
-            DOTween.CompleteAll(true);
-            Controller.transform.position = new Vector2(ControllerPostion.x,ControllerPostion.y);
-            Debug.Log("SurfAddLastPos" + gameObject.name);
+        }else if(MwsiveSongs.Count-4 == CurrentPosition && HasSideScrollEnded){
+            HasSideScrollEnded = false;
+            UIAniManager.instance.SurfSideLastPosition(MwsiveSongs[CurrentPosition],RestPositions[0],1, -MaxRotation,0, gameObject);
+            ResetSideScroll();
             UIAniManager.instance.SurfAddSongLastPosition(AddSong, 1.5f);
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().Swipe();
-            UIAniManager.instance.SurfSideLastPosition(MwsiveSongs[CurrentPosition],RestPositions[0],1, -MaxRotation,0).OnComplete(() => {ResetValue();});
+        }else{
+            ResetValue();
         }
-
+        
 
 
 
@@ -262,7 +267,7 @@ public class PF_SurfManager : Manager
         }
 
         
-
+        Debug.Log("SideScrollSucces");
         
         HasSwipeEnded = true;
     }
@@ -372,26 +377,45 @@ public class PF_SurfManager : Manager
         
     }
 
+    public void ResetSideScroll(){
+
+        
+        DOTween.Complete(MwsiveSongs[CurrentPosition+1]);
+        DOTween.Complete(MwsiveSongs[CurrentPosition+2]);
+        DOTween.Complete(MwsiveSongs[CurrentPosition+3]);
+        DOTween.Complete(AddSong);
+        Reset();
+        if(Success){
+            Success = false;
+        }
+    }
     public void ResetValue(){
 
         if(!Success){
-            Debug.Log("Reset");
             DOTween.CompleteAll(true);
-            Controller.horizontal =true;
-            Controller.vertical =true;
-            HasSwipeEnded = true;
-            Controller.transform.position = new Vector2(ControllerPostion.x,ControllerPostion.y);
             UIAniManager.instance.SurfReset(MwsiveSongs[CurrentPosition]);
-            UIAniManager.instance.SurfAddSongReset(AddSong);
-            
-            UIAniManager.instance.SurfResetOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[1], true);
-            UIAniManager.instance.SurfResetOtherSongs(MwsiveSongs[CurrentPosition+2], RestPositions[2], true);
-            UIAniManager.instance.SurfResetOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[3], false);
+            Reset();
         }else{
             Success = false;
         }
 
     }
+    public void Reset(){
+        Debug.Log("Reset");
+        
+        Controller.horizontal =true;
+        Controller.vertical =true;
+        HasSwipeEnded = true;
+        
+        Controller.transform.position = new Vector2(ControllerPostion.x,ControllerPostion.y);
+        
+        UIAniManager.instance.SurfAddSongReset(AddSong);
+        
+        UIAniManager.instance.SurfResetOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[1], true);
+        UIAniManager.instance.SurfResetOtherSongs(MwsiveSongs[CurrentPosition+2], RestPositions[2], true);
+        UIAniManager.instance.SurfResetOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[3], false);
+    }
+
     public GameObject GetBeforeCurrentPrefab(){
         GameObject _Instance = MwsiveSongs[CurrentPosition-1];
         return _Instance;
@@ -467,10 +491,10 @@ public class PF_SurfManager : Manager
                 {
                     
                     GameObject instance = SpawnPrefab();
-                    Debug.Log(FirstInstance);
+                    
                     if (FirstInstance == null)
                     {
-                        Debug.Log("aaaaaaaaaaaaaaaaaaaa");
+                        
                         FirstInstance = instance;
                     }
 
@@ -491,7 +515,7 @@ public class PF_SurfManager : Manager
             
            
         }
-        Debug.Log(FirstInstance);
+        
         
         FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
         if(SpawnedSongs < 5 && SpawnedSongs > 0){
@@ -649,65 +673,6 @@ public class PF_SurfManager : Manager
     }
 
 
-    public void SpawnSharePrefab(string SpotifyID){
-        SpotifyConnectionManager.instance.GetTrack(SpotifyID, Callback_SpawnSharePrefab);
-        
-    }
-
-    private void Callback_SpawnSharePrefab(object[] _value){
-        TrackRoot trackRoot = (TrackRoot)_value[1];
-        int SiblingIndex = GetCurrentPrefab().transform.GetSiblingIndex();
-        if (trackRoot != null || trackRoot.preview_url != null){
-            GameObject Instance;
-            
-
-            Instance = Instantiate(Prefab,new Vector3(0,0,0), Quaternion.identity);
-            Instance.SetActive(false);
-            Instance.transform.SetParent(MwsiveContainer.transform);
-            Instance.transform.localScale = new Vector3 (1f,1f,1f);
-            Instance.GetComponent<RectTransform>().offsetMin = new Vector2 (LeftRightOffset.x,0);
-            Instance.GetComponent<RectTransform>().offsetMax = new Vector2 (LeftRightOffset.y,0);
-
-            MwsiveSongs.Insert(MwsiveSongs.IndexOf(GetCurrentPrefab()), Instance);
-          
-            Instance.transform.SetSiblingIndex(SiblingIndex+1);
-            
-            
-
-            string artists = "";
-            foreach (Artist artist in trackRoot.artists)
-            {
-                artists = artists + artist.name + ", ";
-            }
-
-            artists = artists.Remove(artists.Length - 2);
-            Instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, trackRoot.name, trackRoot.album.name, artists, trackRoot.album.images[0].url, trackRoot.id, trackRoot.uri, trackRoot.preview_url, trackRoot.external_urls.spotify);
-            PrefabPosition++;
-
-            UIAniManager.instance.SurfShareSpawn(Instance);
-            if(CurrentPosition > 0)
-            {
-               ResetValue();
-                UIAniManager.instance.SurfTransitionBackSong(Instance, RestPositions[0], MaxRotation);
-                Instance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
-
-            }
-            else
-            {
-                DownScrollSuccess();
-                UIAniManager.instance.SurfTransitionBackSong(Instance, RestPositions[0], MaxRotation);
-                Instance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
-            }
-            
-            Instance.GetComponent<ButtonSurfPlaylist>().SetSurfManager(gameObject.GetComponent<SurfManager>());
-        }
-        else{
-            UIMessage.instance.UIMessageInstanciate("Esta canción no esta disponible");
-        }
-        
-    }
-
-
     private GameObject SpawnPrefab(){
         GameObject Instance;
         if(PrefabPosition < 4){
@@ -741,7 +706,7 @@ public class PF_SurfManager : Manager
                 Instance.transform.localScale = new Vector3 (.6f,.6f,.6f);
                 Instance.transform.position = RestPositions[3].transform.position;
             }
-        Instance.GetComponent<ButtonSurfPlaylist>().SetSurfManager(gameObject.GetComponent<SurfManager>());
+        Instance.GetComponent<ButtonSurfPlaylist>().SetSurfManager(gameObject);
         PrefabPosition++;
         return Instance;
     }
@@ -792,7 +757,7 @@ public class PF_SurfManager : Manager
 
        
         if(profileId != null){
-            Debug.Log("a");
+           
             if(value != null){
                 SpotifyConnectionManager.instance.GetUserPlaylists(profileId, Callback_OnClick_GetUserPlaylists);
             }else{
@@ -802,8 +767,7 @@ public class PF_SurfManager : Manager
             
         }
         if(SurfProfile){
-            Debug.Log(UserPlaylists.items.Count);
-            Debug.Log(ProfilePlaylistPosition);
+            
             if(ProfilePlaylistPosition <= UserPlaylists.items.Count){
 
 

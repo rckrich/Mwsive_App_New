@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using DG.Tweening.Plugins.Options;
+using System;
 
 public class UIAniManager : MonoBehaviour
 {
@@ -270,6 +271,7 @@ public class UIAniManager : MonoBehaviour
     {
         
     }
+    /*
     public void ChangeColorRainbow(GameObject GA){
         if(ChangeColorIsOn){
             GA.GetComponent<Image>().DOColor(Random.ColorHSV(), ColorTransitionDuration).OnComplete(() => {ChangeColorRainbow(GA);});
@@ -282,6 +284,8 @@ public class UIAniManager : MonoBehaviour
  
         //GA.GetComponent<Material>().DOColor(Random.ColorHSV(), ColorTransitionDuration).OnComplete(() => {ChangeColorRainbow(GA);});
     }
+
+    */
 
     public void KillChangeColor(){
         ChangeColorIsOn = false;
@@ -532,15 +536,24 @@ public class UIAniManager : MonoBehaviour
         GA.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration);
     }
 
-    public Sequence SurfSideLastPosition(GameObject GA, GameObject Position, float var, float MaxRotation, float fade){
-        SetPosition();
+    public void SurfSideLastPosition(GameObject GA, GameObject Position, float var, float MaxRotation, float fade, GameObject SurfManager){
         var sequence = DG.Tweening.DOTween.Sequence();
-        sequence.Append(GA.transform.DOMove(new Vector2 (RestPositionSide.x*var, RestPositionSide.y), SurfTransitionDuration, false));
-        sequence.Append(GA.transform.DORotate(new Vector3 (0f,0f ,MaxRotation*var), SurfTransitionDuration));
-        sequence.Append(GA.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration));
-        sequence.OnComplete(() => {GA.transform.position = RestPositionUp; SurfTransitionBackSong(GA, Position, MaxRotation);});
+        SetPosition();
+        GA.transform.DOMove(new Vector2 (RestPositionSide.x*var, RestPositionSide.y), SurfTransitionDuration, false).OnComplete(() => {SurfSideTransitionBack(GA, Position, -MaxRotation, SurfManager);});
+        GA.transform.DORotate(new Vector3 (0f,0f ,MaxRotation*var), SurfTransitionDuration);
+        GA.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration);
+    }
+
+    public void SurfSideTransitionBack(GameObject GA, GameObject Position, float Maxrotation, GameObject SurfManager){
+        SetPosition();
+        GA.transform.eulerAngles = new Vector3(0f, 0f, Maxrotation);
+        GA.transform.position = RestPositionUp;
         
-        return sequence;
+        GA.transform.DOMove(Position.transform.position, SurfTransitionDuration, false);
+        GA.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha, SurfTransitionDuration);
+        GA.transform.DOScale(Position.transform.localScale, SurfTransitionDuration);
+        GA.transform.DORotate(new Vector3(0,0,0), SurfTransitionDuration).OnComplete(() => {SurfManager.GetComponent<PF_SurfManager>().HasSideScrollEnded = true;});
+
         
     }
 

@@ -63,20 +63,24 @@ public class SurfManager : Manager
    
     private void OnEnable()
     {
+        SurfController.instance.AddToList(gameObject);
         
-        
-            swipeListener.OnSwipe.AddListener(OnSwipe);
+        swipeListener.OnSwipe.AddListener(OnSwipe);
 
-            GameObject currentPrefab = GetCurrentPrefab();
+        GameObject currentPrefab = GetCurrentPrefab();
 
-            if(currentPrefab != null)
-                currentPrefab.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
-        
-            
+        if(currentPrefab != null && SurfController.instance.AmICurrentView(gameObject))
+            currentPrefab.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
         
         
         
         
+        
+        
+    }
+
+    private void OnDestroy() {
+        SurfController.instance.DeleteFromList(gameObject);
     }
 
     private void OnDisable()
@@ -253,12 +257,7 @@ public class SurfManager : Manager
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
             Success = true;
         }else{
-            DOTween.CompleteAll(true);
-            Controller.transform.position = new Vector2(ControllerPostion.x,ControllerPostion.y);
-            Debug.Log("SurfAddLastPos" + gameObject.name);
-            UIAniManager.instance.SurfAddSongLastPosition(AddSong, 1.5f);
-            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().Swipe();
-            UIAniManager.instance.SurfSideLastPosition(MwsiveSongs[CurrentPosition],RestPositions[0],1, -MaxRotation,0).OnComplete(() => {ResetValue();});
+            ResetValue();
         }
 
 
@@ -716,7 +715,7 @@ public class SurfManager : Manager
                 Instance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
             }
             
-            Instance.GetComponent<ButtonSurfPlaylist>().SetSurfManager(gameObject.GetComponent<SurfManager>());
+            Instance.GetComponent<ButtonSurfPlaylist>().SetSurfManager(gameObject);
         }
         else{
             UIMessage.instance.UIMessageInstanciate("Esta canción no esta disponible");
@@ -758,7 +757,7 @@ public class SurfManager : Manager
                 Instance.transform.localScale = new Vector3 (.6f,.6f,.6f);
                 Instance.transform.position = RestPositions[3].transform.position;
             }
-        Instance.GetComponent<ButtonSurfPlaylist>().SetSurfManager(gameObject.GetComponent<SurfManager>());
+        Instance.GetComponent<ButtonSurfPlaylist>().SetSurfManager(gameObject);
         PrefabPosition++;
         return Instance;
     }
