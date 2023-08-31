@@ -12,6 +12,7 @@ public class MenuOptions : ViewModel
     public DescubrirButton ResetDynamicSearch;
 
     private bool exploreChange = false;
+
     void Start()
     {
         explorar.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;

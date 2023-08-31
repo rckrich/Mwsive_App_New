@@ -35,7 +35,8 @@ public enum ViewID
     TopCuratorsViewModel,
     TopSongsViewModel,
     TopPlaylistViewModel,
-    TopGenreViewModel
+    TopGenreViewModel,
+    ChallengesViewModel
 }
 
 public enum HTTPMethods

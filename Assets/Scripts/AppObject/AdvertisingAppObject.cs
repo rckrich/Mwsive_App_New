@@ -21,6 +21,7 @@ public class AdvertisingAppObject : AppObject
     public void OnClick_Advertising()
     {
         Application.OpenURL(advertising.link);
+        MwsiveConnectionManager.instance.PostSaveAdvertisementClick(advertising.id.ToString());
     }
 
 }

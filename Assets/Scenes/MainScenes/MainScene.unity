@@ -27032,7 +27032,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1071980197}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2051662606}
+        m_TargetAssemblyTypeName: Descubrir_ViewModel, Scripts
+        m_MethodName: OnClick_VerMasChallenges
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1071980197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40761,7 +40773,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 1583768829}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -44785,7 +44797,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -49.399933, y: 90}
+  m_AnchoredPosition: {x: -49.399933, y: 86}
   m_SizeDelta: {x: 59.1156, y: 18.4736}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1744258017
@@ -58287,11 +58299,11 @@ MonoBehaviour:
     m_Right: 20
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 75.2, y: 100}
-  m_Spacing: {x: 20, y: 10}
+  m_CellSize: {x: 75.5, y: 100}
+  m_Spacing: {x: 15, y: 20}
   m_Constraint: 1
   m_ConstraintCount: 3
 --- !u!224 &3774412407962016993
@@ -59556,7 +59568,7 @@ MonoBehaviour:
   networkLoadingCanvas: {fileID: 0}
   scrollViewContent: {fileID: 0}
   finishedLoading: 1
-  genrePrefab: {fileID: 1723654215830177512, guid: 3af1da439f34b4814be182bc27ac42f4, type: 3}
+  genrePrefab: {fileID: 1723654215830177512, guid: b93c9edba7525f848a45307583c8fe46, type: 3}
   genrePrefabRectTransform: {fileID: 2993278244623668534, guid: 3af1da439f34b4814be182bc27ac42f4, type: 3}
   genreScrollContent: {fileID: 2349277060573123259}
 --- !u!1 &3849878562705213423
@@ -61082,7 +61094,7 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 90, y: 90}
+  m_CellSize: {x: 90, y: 60}
   m_Spacing: {x: 10, y: 10}
   m_Constraint: 1
   m_ConstraintCount: 3

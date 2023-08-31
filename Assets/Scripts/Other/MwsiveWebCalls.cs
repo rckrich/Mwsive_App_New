@@ -1751,4 +1751,48 @@ public class MwsiveWebCalls : MonoBehaviour
             yield break;
         }
     }
+
+   public static IEnumerator CR_PostSaveAdvertisementClick(string _token, string _advertisement_id, MwsiveWebCallback _callback)
+    {
+        string jsonResult = "";
+
+        //string url = "https://mwsive.com/logout";
+        string url = "http://192.241.129.184/api/advertisements/click";
+
+        using (UnityWebRequest webRequest = new UnityWebRequest(url, "POST"))
+        {
+            webRequest.SetRequestHeader("Accept", "application/json");
+            webRequest.SetRequestHeader("Authorization", "Bearer " + _token + _advertisement_id);
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
+            {
+                //Catch response code for multiple requests to the server in a short timespan.
+                Debug.Log(webRequest.responseCode);
+
+                if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
+                {
+                    //TODO Response when unauthorized
+                }
+
+                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                yield break;
+            }
+            else
+            {
+                while (!webRequest.isDone) { yield return null; }
+
+                if (webRequest.isDone)
+                {
+                    Debug.Log("Mwsive logout " + jsonResult);
+                    _callback(new object[] { webRequest.responseCode, null });
+                    yield break;
+                }
+            }
+
+            Debug.Log("Failed on mwsive log out " + jsonResult);
+            yield break;
+        }
+    }
 }
