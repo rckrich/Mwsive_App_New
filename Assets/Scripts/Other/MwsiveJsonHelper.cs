@@ -312,7 +312,7 @@ public class MwsiveChallengesRoot
 public class MwsiveCompleteChallengesRoot
 {
     public int challenge_id { get; set; }
-    public int points_to_add { get; set; }
+    public int disks { get; set; }
 }
 
 public class MwsiveAdvertisingRoot
@@ -383,6 +383,16 @@ public class AdvertisementClickRoot
 public class PostFollowRoot
 {
     public string user_id { get; set; }
+}
+
+public class IsFollowingRoot
+{
+    public bool is_following { get; set; }
+}
+
+public class ChallengeCompleteRoot
+{
+    public int challenge_id { get; set; }
 }
 
 #endregion

@@ -807,6 +807,53 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
+    public static IEnumerator CR_GetIsFollowing(string _token, MwsiveWebCallback _callback, string _user_id)
+    {
+        string jsonResult = "";
+
+        //string url = "https://mwsive.com/api/me/follow/" + _user_id;
+        string url = "http://192.241.129.184/api/me/follow/" + _user_id;
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            webRequest.SetRequestHeader("Accept", "application/json");
+            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
+            {
+                //Catch response code for multiple requests to the server in a short timespan.
+
+                if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
+                {
+                    //TODO Response when unauthorized
+                }
+
+                Debug.Log("Protocol Error or Connection Error on fetch is following. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                yield break;
+            }
+            else
+            {
+                while (!webRequest.isDone) { yield return null; }
+
+                if (webRequest.isDone)
+                {
+                    jsonResult = webRequest.downloadHandler.text;
+                    Debug.Log("Fetch is following result: " + jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    IsFollowingRoot isFollowingRoot = JsonConvert.DeserializeObject<IsFollowingRoot>(jsonResult, settings);
+                    _callback(new object[] { webRequest.responseCode, isFollowingRoot });
+                    yield break;
+                }
+            }
+
+            Debug.Log("Failed fetch is following result: " + jsonResult);
+            yield break;
+
+        }
+    }
+
     public static IEnumerator CR_GetBadges(string _token, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
@@ -836,7 +883,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                Debug.Log("Protocol Error or Connection Error on fetch badges. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1380,14 +1427,19 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        WWWForm form = new WWWForm();
+        //string url = "https://mwsive.com/api/me/challenges/completed";
+        string url = "http://192.241.129.184/api/me/challenges/completed";
 
-        form.AddField("challenge_id", _challenge_id.ToString());
+        ChallengeCompleteRoot challengeCompleteRoot = new ChallengeCompleteRoot
+        {
+            challenge_id = _challenge_id
+        };
 
-        //string url = "https://mwsive.com/me/set_points";
-        string url = "http://192.241.129.184/api/me/set_points";
+        string jsonRaw = JsonConvert.SerializeObject(challengeCompleteRoot);
 
-        using (UnityWebRequest webRequest = UnityWebRequest.Post(url, form))
+        Debug.Log("Body request for creating a playlist is:" + jsonRaw);
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonRaw, "application/json"))
         {
             webRequest.SetRequestHeader("Accept", "application/json");
             webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
