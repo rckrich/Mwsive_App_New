@@ -58,3 +58,14 @@ public enum MultipleCallExample
     FirstGet = 0,
     SecondGet
 }
+
+public enum TrackActionType
+{
+    NONE = 0,
+    PIK,            //Votar canción
+    UNPIK,          //Desvotar canción
+    RECOMMEND,      //Añadir a playlist
+    NOT_RECOMMEND,  //Quitar de playlist
+    UP,             //Se movió hacia arriba la canción (Siguiente)
+    DOWN            //Se movió hacia arriba la canción (Regresar)
+}
