@@ -17,6 +17,12 @@ public class ProfileViewModel : ViewModel
     public TextMeshProUGUI followersText;
     public TextMeshProUGUI followedText;
     public Button followButton;
+    public TextMeshProUGUI followButtonText;
+    public Image followButtonImage;
+    public Color followColor;
+    public Color unfollowColor;
+    public Color followTextColor;
+    public Color unfollowTextColor;
 
     private bool isCurrentUserProfileView = true;
 
@@ -125,40 +131,6 @@ public class ProfileViewModel : ViewModel
     {
         NewScreenManager.instance.ChangeToSpawnedView("popUp");
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
-    }
-    
-    private void Callback_GetUserProfile(object[] _value)
-    {
-        if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
-
-        bool profileImageSetted = false;
-
-        ProfileRoot profileRoot = (ProfileRoot)_value[1];
-        displayName.text = profileRoot.display_name;
-        profileId = profileRoot.id;
-
-        if (profileRoot.images != null)
-        {
-            if (profileRoot.images.Count > 0)
-            {
-
-                foreach (SpotifyImage image in profileRoot.images)
-                {
-                    if (image.height == 300 && image.width == 300)
-                    {
-                        ImageManager.instance.GetImage(image.url, profilePicture, (RectTransform)this.transform);
-                        profileImageSetted = true;
-                        break;
-                    }
-                }
-
-                if (!profileImageSetted)
-                    ImageManager.instance.GetImage(profileRoot.images[0].url, profilePicture, (RectTransform)this.transform);
-            }
-        }
-
-        GetCurrentUserPlaylists();
-
     }
 
     public void GetCurrentUserPlaylists()
@@ -288,7 +260,11 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_Follow()
     {
-        MwsiveConnectionManager.instance.PostFollow(profileId);
+        MwsiveConnectionManager.instance.PostFollow(profileId, Callback_PostFollow);
+    }
+
+    private void Callback_PostFollow(object[] _value)
+    {
         MwsiveConnectionManager.instance.GetMwsiveUser(profileId, Callback_GetMwsiveUser);
     }
 
@@ -300,17 +276,32 @@ public class ProfileViewModel : ViewModel
     public void Callback_GetCurrentMwsiveUser(object[] _value)
     {
         MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
+        if(mwsiveUserRoot.user.image != null)
+            ImageManager.instance.GetImage(mwsiveUserRoot.user.image, profilePicture, (RectTransform)this.transform);
+
         followersText.text = mwsiveUserRoot.user.total_followers.ToString();
         followedText.text = mwsiveUserRoot.user.total_followed.ToString();
-        SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
+
+        displayName.text = mwsiveUserRoot.user.display_name;
+        profileId = mwsiveUserRoot.user.platform_id;
+
+        GetCurrentUserPlaylists();
     }
 
     public void Callback_GetMwsiveUser(object[] _value)
     {
         MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
+        if (mwsiveUserRoot.user.image != null)
+            ImageManager.instance.GetImage(mwsiveUserRoot.user.image, profilePicture, (RectTransform)this.transform);
+
         followersText.text = mwsiveUserRoot.user.total_followers.ToString();
         followedText.text = mwsiveUserRoot.user.total_followed.ToString();
-        SpotifyConnectionManager.instance.GetUserProfile(profileId, Callback_GetUserProfile);
+
+        displayName.text = mwsiveUserRoot.user.display_name;
+        profileId = mwsiveUserRoot.user.platform_id;
+
+        GetCurrentUserPlaylists();
+
         FollowButtonInitilization();
     }
 
@@ -323,7 +314,32 @@ public class ProfileViewModel : ViewModel
     private void FollowButtonInitilization()
     {
         if (followButton == null) return;
+
         followButton.interactable = AppManager.instance.isLogInMode;
+
+        if (AppManager.instance.isLogInMode)
+        {
+            MwsiveConnectionManager.instance.GetIsFollowing(profileId, Callback_GetIsFollowing);
+        }
+    }
+
+    private void Callback_GetIsFollowing(object[] _value)
+    {
+        IsFollowingRoot isFollowingRoot = (IsFollowingRoot)_value[1];
+
+        if (followButton == null) return;
+
+        if (isFollowingRoot.is_following)
+        {
+            followButtonText.text = "Dejar de seguir";
+            followButtonText.color = unfollowTextColor;
+            followButtonImage.color = unfollowColor;
+        }
+        else {
+            followButtonText.text = "Seguir";
+            followButtonText.color = followTextColor;
+            followButtonImage.color = followColor;
+        }
     }
 
     private void ClearScrolls(Transform _scrolls)
