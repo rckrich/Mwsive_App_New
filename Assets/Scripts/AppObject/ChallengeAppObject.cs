@@ -2,12 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChallengeAppObject : AppObject
 {
     private Challenges challenges;
     public TextMeshProUGUI disk;
-    public TextMeshProUGUI name;
+    public TextMeshProUGUI challengeName;
+    public Image challengeImage;
+
+    public Sprite challengeOnSprite;
+    public Sprite challengeOffSprite;
+
 
     private SeveralTrackRoot severalTrackRoot;
     private bool PointsPosted = false;
@@ -27,11 +33,17 @@ public class ChallengeAppObject : AppObject
 
             }
             _text2 = _text2 + "...";
-            name.text = _text2;
+            challengeName.text = _text2;
         }
         else
         {
-            name.text = challenges.name;
+            challengeName.text = challenges.name;
+        }
+
+        if(challengeImage != null)
+        {
+            bool isCompleted = (bool)list[1];
+            challengeImage.sprite = isCompleted ? challengeOffSprite : challengeOnSprite;
         }
 
         disk.text = challenges.disks.ToString();
@@ -39,6 +51,7 @@ public class ChallengeAppObject : AppObject
     public void Test(){
         SpotifyConnectionManager.instance.GetPlaylist("6Nb0rL2W7QYoQeLRlJi4Cc", TESTCallback);
     }
+
     public void TESTCallback(object[] _value){
         SpotifyPlaylistRoot ProfilePlaylist = (SpotifyPlaylistRoot)_value[1];
         NewScreenManager.instance.ChangeToSpawnedView("surf");

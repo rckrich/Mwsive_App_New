@@ -205,8 +205,6 @@ public class Descubrir_ViewModel : ViewModel
         {
             SpotifyConnectionManager.instance.GetSeveralArtists(artists_ids, Callback_GetSeveralArtists);
         }
-
-        ShimmerSetActive(3, false);
     }
 
     private void Callback_GetSeveralArtists(object[] _list)
@@ -219,6 +217,8 @@ public class Descubrir_ViewModel : ViewModel
             ArtistAppObject artists = artistInstance.GetComponent<ArtistAppObject>();
             artists.Initialize(artist);
         }
+
+        ShimmerSetActive(3, false);
     }
 
     private void Callback_GetRecommendedPlaylists(object[] _list)
@@ -262,7 +262,6 @@ public class Descubrir_ViewModel : ViewModel
         {
             SpotifyConnectionManager.instance.GetSeveralTracks(tracks_ids, Callback_GetSeveralTracksForRecommendedTracks);
         }
-        ShimmerSetActive(5, false);
     }
 
     private void Callback_GetSeveralTracksForRecommendedTracks(object[] _list)
@@ -275,6 +274,8 @@ public class Descubrir_ViewModel : ViewModel
             GameObject trackInstance = GameObject.Instantiate(trackPrefab, trackScrollContent);
             trackInstance.GetComponent<TrackAppObject>().Initialize(track);
         }
+
+        ShimmerSetActive(5, false);
     }
 
     private void Callback_GetRecommendedAlbums(object[] _list)
@@ -299,8 +300,6 @@ public class Descubrir_ViewModel : ViewModel
         {
             SpotifyConnectionManager.instance.GetSeveralAlbums(albums_ids, Callback_GetSeveralAlbums);
         }
-
-        ShimmerSetActive(6, false);
     }
 
     private void Callback_GetSeveralAlbums(object[] _list)
@@ -313,6 +312,8 @@ public class Descubrir_ViewModel : ViewModel
             GameObject trackInstance = GameObject.Instantiate(albumPrefab, albumScrollContent);
             trackInstance.GetComponent<AlbumAppObject>().Initialize(album);
         }
+
+        ShimmerSetActive(6, false);
     }
 
     private void Callback_GetGenres(object[] _list)
@@ -332,6 +333,7 @@ public class Descubrir_ViewModel : ViewModel
                 maxSpawnCounter++;
             }
         }
+
         ShimmerSetActive(7, false);
     }
 

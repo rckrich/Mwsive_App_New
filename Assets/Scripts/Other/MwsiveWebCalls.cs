@@ -1276,7 +1276,7 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/challenges";
+        //string url = "https://mwsive.com/api/challenges" + _offset + "/" + _limit;
         string url = "http://192.241.129.184/api/challenges/" + _offset + "/" + _limit;
 
         Dictionary<string, string> parameters = new Dictionary<string, string>();
@@ -1328,14 +1328,9 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/complete_challenges";
-        string url = "http://192.241.129.184/api/me/completed_challenges";
+        //string url = "https://mwsive.com/api/me/challenges/completed/" + _offset + " / " + _limit;
+        string url = "http://192.241.129.184/api/me/challenges/completed/" + _offset + " / " + _limit;
 
-        Dictionary<string, string> parameters = new Dictionary<string, string>();
-        parameters.Add("offset", _offset.ToString());
-        parameters.Add("limit", _limit.ToString());
-
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
