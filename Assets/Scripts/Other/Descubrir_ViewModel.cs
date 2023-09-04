@@ -16,6 +16,7 @@ public class Descubrir_ViewModel : ViewModel
     public ScrollRect principalScroll;
     public List<ScrollRect> Scrollbar = new List<ScrollRect>();
     public List<List<GameObject>> ListOfLists = new List<List<GameObject>>();
+    public List<GameObject> shimmers;
     [Header("Challenges Gameobject References")]
     public GameObject challengePrefab;
     public Transform challengeScrollContent;
@@ -54,6 +55,7 @@ public class Descubrir_ViewModel : ViewModel
 
     void Start()
     {
+        TurnShimmer(true);
         Descubrir.ChangeShowText(true);
         foreach (GameObject item in Prefabs)
         {
@@ -138,7 +140,7 @@ public class Descubrir_ViewModel : ViewModel
                 maxSpawnCounter++;
             }
         }
-
+        
     }
 
     private void Callback_GetAdvertasing(object[] _list)
@@ -320,6 +322,8 @@ public class Descubrir_ViewModel : ViewModel
                 maxSpawnCounter++;
             }
         }
+        Debug.Log("EEEEEEEEEEEE");
+        TurnShimmer(false);
     }
 
     public void Search()
@@ -1398,5 +1402,13 @@ public class Descubrir_ViewModel : ViewModel
     public void OnClick_VerMasChallenges()
     {
         NewScreenManager.instance.ChangeToSpawnedView("challenges");
+    }
+
+    public void TurnShimmer(bool active)
+    {
+        foreach(GameObject shimmer in shimmers)
+        {
+            shimmer.SetActive(active);
+        }
     }
 }
