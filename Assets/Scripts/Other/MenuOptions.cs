@@ -77,7 +77,6 @@ public class MenuOptions : ViewModel
         
         if(_value == ViewID.ExploreViewModel && !exploreChange)
         {
-            NewScreenManager.instance.GetCurrentView().GetComponent<Descubrir_ViewModel>().Clear();
             NewScreenManager.instance.GetCurrentView().GetComponent<Descubrir_ViewModel>().principalScroll.verticalNormalizedPosition = 1;
             NewScreenManager.instance.GetCurrentView().GetComponent<Descubrir_ViewModel>().Initialize();
             exploreChange = true;
