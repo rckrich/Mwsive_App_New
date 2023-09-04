@@ -28,10 +28,14 @@ public class ButtonSurfPlaylist : ViewModel
     public GameObject loadingAnimGameObject;
     public DurationBar durationBar;
     public GameObject buttonColor;
+    public bool TrackPoints;
 
     private Color redNew = new Color(0.9411765f, 0.2941177f, 0.4156863f);
     private Color gray = new Color(0.8f, 0.8f, 0.8f);
     private GameObject Surf;
+    private ChallengeAppObject Challenge;
+    public bool SuccesfulEnded = false;
+    public bool AmILastPosition = false;
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
     {
         playlistName = _playlistName;
@@ -68,9 +72,12 @@ public class ButtonSurfPlaylist : ViewModel
     {
         RemoveEventListener<SelectedPlaylistNameAppEvent>(SelectedPlaylistNameEventListener);
         RemoveEventListener<ChangeColorAppEvent>(ChangeEventListener);
+        durationBar.CheckforPoints = false;
+        
+        
     }
 
-    public void InitializeMwsiveSong(string _playlistName, string _trackname, string _album, string _artist, string _image, string _spotifyid, string _url, string _previewURL, string _externalURL)
+    public void InitializeMwsiveSong(string _playlistName, string _trackname, string _album, string _artist, string _image, string _spotifyid, string _url, string _previewURL, string _externalURL, bool _trackPoints = false)
     {
         if(_playlistName != null){
             playlistText.text = _playlistName;
@@ -123,20 +130,50 @@ public class ButtonSurfPlaylist : ViewModel
         if(_externalURL != null){
             externalURL = _externalURL;
         }
+        TrackPoints = _trackPoints;
 
+    }
+
+    public void LastPosition(){
+        if(AmILastPosition && SuccesfulEnded){
+            Challenge.CheckForPoints();
+        }
+    }
+
+    public void SetCallbackLastPosition(ChallengeAppObject _challenge){
+        Challenge = _challenge;
+        AmILastPosition = true;
     }
 
     public void PlayAudioPreview()
     {
-        //StartSearch();
+        try
+        {
+            if(transform.IsChildOf(Surf.GetComponent<PF_SurfManager>().GetCurrentPrefab().transform) && TrackPoints){
+               durationBar.SetCallBack(gameObject.GetComponent<ButtonSurfPlaylist>());
+               durationBar.CheckforPoints = true;
+            }else{
+                durationBar.CheckforPoints = false;
+            }
+        }
+        catch (System.NullReferenceException)
+        {
+            if(transform.IsChildOf(Surf.GetComponent<SurfManager>().GetCurrentPrefab().transform) && TrackPoints){
+                durationBar.SetCallBack(gameObject.GetComponent<ButtonSurfPlaylist>());
+                durationBar.CheckforPoints = true;
+            }else{
+                durationBar.CheckforPoints = false;
+            }
+        }
+        
         SpotifyPreviewAudioManager.instance.GetTrack(previewURL, Callback_GetTrack);
     }
 
     private void Callback_GetTrack(object[] _list)
     {
         
-
-        durationBar.canPlay = true;
+        
+        CheckIfDurationBarCanPlay();
         loadingAnimGameObject.SetActive(false);
         
         if (SurfManager.instance.isActiveAndEnabled == false)
@@ -150,14 +187,35 @@ public class ButtonSurfPlaylist : ViewModel
         
         //EndSearch();
     }
+    public void CheckIfDurationBarCanPlay(){
+        try
+        {
+            if(transform.IsChildOf(Surf.GetComponent<PF_SurfManager>().GetCurrentPrefab().transform)){
+                durationBar.canPlay = true;
+            }else{
+                durationBar.canPlay = false;
+            }
+        }
+        catch (System.NullReferenceException)
+        {
+            if(transform.IsChildOf(Surf.GetComponent<SurfManager>().GetCurrentPrefab().transform)){
+                durationBar.canPlay = true;
+            }else{
+                durationBar.canPlay = false;
+            }
+        }
+    }
 
     public void OnClic_StopAudioPreview()
     {
         SpotifyPreviewAudioManager.instance.Pause();
+       
+        
     }
 
     public void OnClickForcePausePreview(){
         SpotifyPreviewAudioManager.instance.ForcePause();
+        
     }
   
     public void OnClick_OpenPlaylist()

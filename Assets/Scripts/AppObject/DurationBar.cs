@@ -5,10 +5,13 @@ using UnityEngine.UI;
 
 public class DurationBar : AppObject
 {
-    private Image durationImage;
+    
 
     [HideInInspector]
+    public Image durationImage;
     public bool canPlay = false;
+    public bool CheckforPoints;
+    private ButtonSurfPlaylist SurfPlaylist;
 
     void Start()
     {
@@ -20,6 +23,16 @@ public class DurationBar : AppObject
         if (durationImage != null && SpotifyPreviewAudioManager.instance.audioSource.isPlaying && canPlay)
         {
             durationImage.fillAmount = SpotifyPreviewAudioManager.instance.GetAudioSourceTime() / SpotifyPreviewAudioManager.instance.GetAudioClipLenght();
+            if(CheckforPoints && durationImage.fillAmount > .9f && SurfPlaylist != null && !SurfPlaylist.SuccesfulEnded){
+                SurfPlaylist.SuccesfulEnded = true;
+                SurfPlaylist.LastPosition();
+                Debug.Log("SongEnded");
+                
+            }
         }
     }
+    public void SetCallBack(ButtonSurfPlaylist _SurfPlaylist){
+        SurfPlaylist = _SurfPlaylist;
+    }
+
 }

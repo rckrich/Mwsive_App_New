@@ -48,7 +48,9 @@ public class SurfController : MonoBehaviour
         }
     }
 
-
+    public GameObject ReturnCurrentView(){
+        return CurrentView;
+    }
     private void ControlHierarchy()
     {   int HigherNumber = 0;
         position = 0;
