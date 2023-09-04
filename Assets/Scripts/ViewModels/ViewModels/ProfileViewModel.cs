@@ -11,6 +11,8 @@ public class ProfileViewModel : ViewModel
     public GameObject playlistHolderPrefab;
     public Transform instanceParent;
     public GameObject surfManager;
+    public Transform playlistContent;
+    public ScrollRect principalScroll;
 
     public TextMeshProUGUI followersText;
     public TextMeshProUGUI followedText;
@@ -211,6 +213,8 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_BackButtonSurf()
     {
+        Clear();
+        principalScroll.verticalNormalizedPosition = 1;
         surfManager.SetActive(true);
         OpenView(ViewID.SurfViewModel);
 
@@ -320,6 +324,19 @@ public class ProfileViewModel : ViewModel
     {
         if (followButton == null) return;
         followButton.interactable = AppManager.instance.isLogInMode;
+    }
+
+    private void ClearScrolls(Transform _scrolls)
+    {
+        foreach (Transform child in _scrolls.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    public void Clear()
+    {
+        ClearScrolls(playlistContent);
     }
 }
 

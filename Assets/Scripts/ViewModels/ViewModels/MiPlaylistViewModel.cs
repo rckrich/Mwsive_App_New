@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class MiPlaylistViewModel : ViewModel
 {
+    private const float BASE_TOP = -25f;
     // Start is called before the first frame update
     public GameObject playlistHolderPrefab;
     public Transform instanceParent;
@@ -13,11 +14,17 @@ public class MiPlaylistViewModel : ViewModel
     public int offset = 21;
     int onlyone = 0;
     public string profileID;
+    public RectTransform Scroll;
 
-    void Start()
-    {
-        
-    }
+    [Header("Labels")]
+    private string topPullLabel = "BAJA MÁS PARA ACTUALIZAR...";
+    private string topReleaseLabel = "SUELTA PARA ACTUALIZAR LA LISTA...";
+    private string bottomPullLabel = "SUBE MáS PARA ACTUALIZAR...";
+    private string bottomReleaseLabel = "SUELTA PARA ACTUALIZAR...";
+
+    private bool _canLoad = false;
+    private bool _isLoading = false;
+    private bool _visualsSetAtTheStart = false;
 
     public void GetCurrentUserPlaylist()
     {
@@ -56,6 +63,7 @@ public class MiPlaylistViewModel : ViewModel
                     SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_GetMoreUserPlaylists, 20, offset);
                     offset += 20;
                     onlyone = 1;
+                    Debug.Log("iiiiiiii");
                 }
             }
         }
@@ -68,6 +76,7 @@ public class MiPlaylistViewModel : ViewModel
                     SpotifyConnectionManager.instance.GetUserPlaylists(profileID, Callback_GetMoreUserPlaylists, 20, offset);
                     offset += 20;
                     onlyone = 1;
+                    Debug.Log("ooooooo");
                 }
             }
         }
@@ -90,17 +99,7 @@ public class MiPlaylistViewModel : ViewModel
         }
         onlyone = 0;
     }
-    public void ResetScroll()
-    {
-        if (scrollRect.verticalNormalizedPosition >= 1.1)
-        {
-            for (int i = 0; i < instanceParent.childCount; i++)
-            {
-                Destroy(instanceParent.GetChild(i).gameObject);
-            }
-            SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_OnClick_GetCurrentUserPlaylists);
-        }
-    }
+ 
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
