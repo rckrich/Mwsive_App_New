@@ -132,6 +132,7 @@ public class Challenges
     public object open_at { get; set; }
     public DateTime created_at { get; set; }
     public DateTime updated_at { get; set; }
+    public List<MwsiveTrack> mwsive_tracks { get; set; }
 }
 
 public class Advertising

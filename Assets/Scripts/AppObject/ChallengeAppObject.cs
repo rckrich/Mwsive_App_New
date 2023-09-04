@@ -7,9 +7,7 @@ public class ChallengeAppObject : AppObject
 {
     private Challenges challenges;
     public TextMeshProUGUI disk;
-    public TextMeshProUGUI name;
-
-    private SeveralTrackRoot severalTrackRoot;
+    public TextMeshProUGUI textname;
     private bool PointsPosted = false;
 
 
@@ -27,31 +25,27 @@ public class ChallengeAppObject : AppObject
 
             }
             _text2 = _text2 + "...";
-            name.text = _text2;
+            textname.text = _text2;
         }
         else
         {
-            name.text = challenges.name;
+            textname.text = challenges.name;
         }
 
         disk.text = challenges.disks.ToString();
     }
-    public void Test(){
-        SpotifyConnectionManager.instance.GetPlaylist("6Nb0rL2W7QYoQeLRlJi4Cc", TESTCallback);
-    }
-    public void TESTCallback(object[] _value){
-        SpotifyPlaylistRoot ProfilePlaylist = (SpotifyPlaylistRoot)_value[1];
-        NewScreenManager.instance.ChangeToSpawnedView("surf");
-        
-        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().Challenge = true;
-        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().SetChallengeCallback(gameObject.GetComponent<ChallengeAppObject>());
-        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerPL(new object[] { ProfilePlaylist});
-    }
     public void OnClick_OpenChallenge(){
-        
+        List<string> tracks = new List<string>();
+        foreach (MwsiveTrack item in challenges.mwsive_tracks)
+            {
+                tracks.Add(item.spotify_track_id);
+            }
+        SpotifyConnectionManager.instance.GetSeveralTracks(tracks.ToArray(), OpenChallengeCallBack);
     }
 
-    public void OpenChallengeCallBack(){
+    public void OpenChallengeCallBack(object[] _value){
+        SeveralTrackRoot severalTrackRoot = (SeveralTrackRoot)_value[1];
+
         NewScreenManager.instance.ChangeToSpawnedView("surf");
         
         NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().Challenge = true;
@@ -75,7 +69,9 @@ public class ChallengeAppObject : AppObject
             PointsPosted = true;
 
             Debug.Log("SUCCESFUL COINS ");
-            ////BLA BLA BLA COINS FOR PLAYER
+            MwsiveConnectionManager.instance.PostChallengeComplete(challenges.id);
+            UIMessage.instance.UIMessageInstanciate("Desafio Completado");
+            
         }
     }
 }
