@@ -271,6 +271,22 @@ public class MwsiveConnectionManager : MonoBehaviour
         }
     }
 
+    public void GetIsFollowing(string _user_id, MwsiveWebCallback _callback = null)
+    {
+        _callback += Callback_GetIsFollowing;
+        StartCoroutine(MwsiveWebCalls.CR_GetIsFollowing(ProgressManager.instance.progress.userDataPersistance.access_token, _callback, _user_id));
+    }
+
+    private void Callback_GetIsFollowing(object[] _value)
+    {
+        if (CheckResponse((long)_value[0]))
+        {
+            return;
+        }
+
+        Debug.Log(((IsFollowingRoot)_value[1]));
+    }
+
     public void GetCuratorsByName(string _name, MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
     {
         _callback += Callback_GetCuratorsByName;

@@ -704,6 +704,12 @@ MonoBehaviour:
   followersText: {fileID: 3774412408397873354}
   followedText: {fileID: 3774412408527376603}
   followButton: {fileID: 3774412407026757049}
+  followButtonText: {fileID: 7363467265045187016}
+  followButtonImage: {fileID: 3774412407026757048}
+  followColor: {r: 0.89411765, g: 0.8980392, b: 1, a: 1}
+  unfollowColor: {r: 0.92156863, g: 0.92156863, b: 0.92156863, a: 1}
+  followTextColor: {r: 0.6509804, g: 0.65882355, b: 0.99215686, a: 1}
+  unfollowTextColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
 --- !u!1 &3774412406764249053
 GameObject:
   m_ObjectHideFlags: 0
@@ -1876,7 +1882,7 @@ GameObject:
   - component: {fileID: 3774412407026757049}
   - component: {fileID: 3774412407026757054}
   m_Layer: 5
-  m_Name: Follow
+  m_Name: Follow_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4506,7 +4512,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f5ebd6fedf881ed42bf3244651684786, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 58f2ebdb1937fd049a08d94a3c34a725, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -6290,7 +6296,7 @@ GameObject:
   - component: {fileID: 7363467265045187015}
   - component: {fileID: 7363467265045187016}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: FollowButton_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

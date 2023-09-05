@@ -16,6 +16,7 @@ public class Descubrir_ViewModel : ViewModel
     public ScrollRect principalScroll;
     public List<ScrollRect> Scrollbar = new List<ScrollRect>();
     public List<List<GameObject>> ListOfLists = new List<List<GameObject>>();
+    public List<GameObject> shimmers;
     [Header("Challenges Gameobject References")]
     public GameObject challengePrefab;
     public Transform challengeScrollContent;
@@ -74,29 +75,31 @@ public class Descubrir_ViewModel : ViewModel
         }
     }
     
-    private void ClearScrolls(Transform _scrolls)
+    private void ClearScroll(Transform _scroll)
     {
-        foreach (Transform child in _scrolls.transform)
+        for(int i = 1; i < _scroll.childCount; i++)
         {
-            Destroy(child.gameObject);
+            Destroy(_scroll.GetChild(i).gameObject);
         }
     }
 
-    public void Clear()
+    public void ClearExploreScrolls()
     {
-        ClearScrolls(challengeScrollContent);
-        ClearScrolls(advertasingScrollContent);
-        ClearScrolls(curatorScrollContent);
-        ClearScrolls(artistScrollContent);
-        ClearScrolls(playlistScrollContent);
-        ClearScrolls(albumScrollContent);
-        ClearScrolls(genreScrollContent);
-        ClearScrolls(trackScrollContent);
+        ClearScroll(challengeScrollContent);
+        ClearScroll(advertasingScrollContent);
+        ClearScroll(curatorScrollContent);
+        ClearScroll(artistScrollContent);
+        ClearScroll(playlistScrollContent);
+        ClearScroll(albumScrollContent);
+        ClearScroll(genreScrollContent);
+        ClearScroll(trackScrollContent);
     }
 
     public override void Initialize(params object[] list)
     {
-        //StartSearch();
+        ShimmersSetActive(true);
+        ClearExploreScrolls();
+
         MwsiveConnectionManager.instance.GetChallenges(Callback_GetChallenges);
         MwsiveConnectionManager.instance.GetAdvertising(Callback_GetAdvertasing);
         MwsiveConnectionManager.instance.GetRecommendedCurators(Callback_GetRecommendedCurators);
@@ -124,6 +127,8 @@ public class Descubrir_ViewModel : ViewModel
 
     private void Callback_GetChallenges(object[] _list)
     {
+        ShimmerSetActive(0, false);
+
         int maxSpawnCounter = 0;
         MwsiveChallengesRoot mwsiveChallengesRoot = (MwsiveChallengesRoot)_list[1];
         Debug.Log("Challenge Root" + mwsiveChallengesRoot);
@@ -138,7 +143,7 @@ public class Descubrir_ViewModel : ViewModel
                 maxSpawnCounter++;
             }
         }
-
+        
     }
 
     private void Callback_GetAdvertasing(object[] _list)
@@ -156,7 +161,7 @@ public class Descubrir_ViewModel : ViewModel
                 maxSpawnCounter++;
             }
         }
-
+        ShimmerSetActive(1, false);
     }
 
     private void Callback_GetRecommendedCurators(object[] _list)
@@ -176,6 +181,7 @@ public class Descubrir_ViewModel : ViewModel
                 maxSpawnCounter++;
             }
         }
+        ShimmerSetActive(2, false);
     }
 
     private void Callback_GetRecommendedArtists(object[] _list)
@@ -211,6 +217,8 @@ public class Descubrir_ViewModel : ViewModel
             ArtistAppObject artists = artistInstance.GetComponent<ArtistAppObject>();
             artists.Initialize(artist);
         }
+
+        ShimmerSetActive(3, false);
     }
 
     private void Callback_GetRecommendedPlaylists(object[] _list)
@@ -230,6 +238,7 @@ public class Descubrir_ViewModel : ViewModel
                 maxSpawnCounter++;
             }
         }
+        ShimmerSetActive(4, false);
     }
 
     private void Callback_GetRecommendedTracks(object[] _list)
@@ -265,6 +274,8 @@ public class Descubrir_ViewModel : ViewModel
             GameObject trackInstance = GameObject.Instantiate(trackPrefab, trackScrollContent);
             trackInstance.GetComponent<TrackAppObject>().Initialize(track);
         }
+
+        ShimmerSetActive(5, false);
     }
 
     private void Callback_GetRecommendedAlbums(object[] _list)
@@ -301,6 +312,8 @@ public class Descubrir_ViewModel : ViewModel
             GameObject trackInstance = GameObject.Instantiate(albumPrefab, albumScrollContent);
             trackInstance.GetComponent<AlbumAppObject>().Initialize(album);
         }
+
+        ShimmerSetActive(6, false);
     }
 
     private void Callback_GetGenres(object[] _list)
@@ -320,6 +333,8 @@ public class Descubrir_ViewModel : ViewModel
                 maxSpawnCounter++;
             }
         }
+
+        ShimmerSetActive(7, false);
     }
 
     public void Search()
@@ -1398,5 +1413,18 @@ public class Descubrir_ViewModel : ViewModel
     public void OnClick_VerMasChallenges()
     {
         NewScreenManager.instance.ChangeToSpawnedView("challenges");
+    }
+
+    private void ShimmersSetActive(bool active)
+    {
+        foreach(GameObject shimmer in shimmers)
+        {
+            shimmer.SetActive(active);
+        }
+    }
+
+    private void ShimmerSetActive(int _index, bool _active)
+    {
+        shimmers[_index].SetActive(_active);
     }
 }

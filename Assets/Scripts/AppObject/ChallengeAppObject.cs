@@ -2,12 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChallengeAppObject : AppObject
 {
     private Challenges challenges;
     public TextMeshProUGUI disk;
-    public TextMeshProUGUI textname;
+
+    public TextMeshProUGUI challengeName;
+    public Image challengeImage;
+
+    public Sprite challengeOnSprite;
+    public Sprite challengeOffSprite;
+
+
+    private SeveralTrackRoot severalTrackRoot;
+
     private bool PointsPosted = false;
 
 
@@ -25,11 +35,18 @@ public class ChallengeAppObject : AppObject
 
             }
             _text2 = _text2 + "...";
-            textname.text = _text2;
+            challengeName.text = _text2;
         }
         else
         {
-            textname.text = challenges.name;
+            challengeName.text = challenges.name;
+        }
+
+        if(challengeImage != null)
+        {
+            bool isCompleted = (bool)list[1];
+            challengeImage.sprite = isCompleted ? challengeOffSprite : challengeOnSprite;
+
         }
 
         disk.text = challenges.disks.ToString();

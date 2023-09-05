@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class ChallengeViewModel : ViewModel
 {
+    private const int ITEM_LIMIT = 20;
+
     public GameObject challengePrefabR;
     public Transform challengeScrollContentR;
     public GameObject challengePrefabC;
@@ -19,12 +21,14 @@ public class ChallengeViewModel : ViewModel
 
     private void Start()
     {
+        ClearChallenges(challengeScrollContentR);
         GetChallenges();
     }
 
     public void GetChallenges()
     {
-        MwsiveConnectionManager.instance.GetChallenges(Callback_GetChallenges, offsetResent, 20);
+        StartSearch();
+        MwsiveConnectionManager.instance.GetChallenges(Callback_GetChallenges, offsetResent, ITEM_LIMIT);
     }
 
     private void Callback_GetChallenges(object[] _value)
@@ -35,9 +39,10 @@ public class ChallengeViewModel : ViewModel
         { 
            GameObject challengeInstance = GameObject.Instantiate(challengePrefabR, challengeScrollContentR);
            ChallengeAppObject challengeAppObject = challengeInstance.GetComponent<ChallengeAppObject>();
-           challengeAppObject.Initialize(challenges);   
+           challengeAppObject.Initialize(challenges, false);   
         }
-        offsetResent += 20;
+        offsetResent += ITEM_LIMIT;
+        EndSearch();
     }
 
     public void OnClick_OnBackButton()
@@ -47,7 +52,8 @@ public class ChallengeViewModel : ViewModel
 
     public void GetCompleteChallenges()
     {
-        MwsiveConnectionManager.instance.GetCompleteChallenges(Callback_GetCompleteChallenges, offsetComplete, 20);
+        StartSearch();
+        MwsiveConnectionManager.instance.GetCompleteChallenges(Callback_GetCompleteChallenges, offsetComplete, ITEM_LIMIT);
     }
 
     private void Callback_GetCompleteChallenges(object[] _value)
@@ -58,13 +64,17 @@ public class ChallengeViewModel : ViewModel
         {
             GameObject challengeInstance = GameObject.Instantiate(challengePrefabC, challengeScrollContentC);
             ChallengeAppObject challengeAppObject = challengeInstance.GetComponent<ChallengeAppObject>();
-            challengeAppObject.Initialize(challenges);
+            challengeAppObject.Initialize(challenges, true);
         }
-        offsetComplete += 20;
+        offsetComplete += ITEM_LIMIT;
+        EndSearch();
     }
 
     public void OnClick_Resents()
     {
+        ClearChallenges(challengeScrollContentR);
+        offsetResent = 0;
+        GetChallenges();
         ScrollResents.SetActive(true);
         ScrollComplete.SetActive(false);
         resentText.color = Color.black;
@@ -73,9 +83,21 @@ public class ChallengeViewModel : ViewModel
 
     public void OnClick_Complete()
     {
+        ClearChallenges(challengeScrollContentC);
+        offsetComplete = 0;
+        GetCompleteChallenges();
         ScrollResents.SetActive(false);
         ScrollComplete.SetActive(true);
         resentText.color = Color.gray;
         completeText.color = Color.black;
     }
+
+    private void ClearChallenges(Transform _content)
+    {
+        for(int i = 0; i < _content.childCount; i++)
+        {
+            Destroy(_content.GetChild(i).gameObject);
+        }
+    }
+
 }

@@ -178,24 +178,6 @@ public class AppManager : Manager
 
         ProfileRoot profileRoot = (ProfileRoot)_value[1];
         profileID = profileRoot.id;
-        if (profileRoot.images != null)
-        {
-            if (profileRoot.images.Count > 0) {
-
-                foreach (SpotifyImage image in profileRoot.images)
-                {
-                    if (image.height == 300 && image.width == 300)
-                    {
-                        ImageManager.instance.GetImage(image.url, profilePicture, (RectTransform)surfTransform);
-                        profileImageSetted = true;
-                        break;
-                    }
-                }
-
-                if (!profileImageSetted)
-                    ImageManager.instance.GetImage(profileRoot.images[0].url, profilePicture, (RectTransform)surfTransform);
-            }
-        }
 
         MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser);
     }
@@ -205,6 +187,8 @@ public class AppManager : Manager
         MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
 
         currentMwsiveUser = mwsiveUserRoot.user;
+
+        ImageManager.instance.GetImage(mwsiveUserRoot.user.image, profilePicture, (RectTransform)surfTransform);
 
         SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_GetCurrentMwsiveUserPlaylist_LogInFlow);
     }
@@ -318,25 +302,6 @@ public class AppManager : Manager
 
         ProfileRoot profileRoot = (ProfileRoot)_value[1];
         profileID = profileRoot.id;
-        if (profileRoot.images != null)
-        {
-            if (profileRoot.images.Count > 0)
-            {
-
-                foreach (SpotifyImage image in profileRoot.images)
-                {
-                    if (image.height == 300 && image.width == 300)
-                    {
-                        ImageManager.instance.GetImage(image.url, profilePicture, (RectTransform)surfTransform);
-                        profileImageSetted = true;
-                        break;
-                    }
-                }
-
-                if (!profileImageSetted)
-                    ImageManager.instance.GetImage(profileRoot.images[0].url, profilePicture, (RectTransform)surfTransform);
-            }
-        }
 
         MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser_OutsideLogInFlow);
     }
@@ -346,6 +311,8 @@ public class AppManager : Manager
         MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
 
         currentMwsiveUser = mwsiveUserRoot.user;
+
+        ImageManager.instance.GetImage(mwsiveUserRoot.user.image, profilePicture, (RectTransform)surfTransform);
 
         SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_GetCurrentMwsiveUserPlaylist_OutsideLogInFlow);
     }
