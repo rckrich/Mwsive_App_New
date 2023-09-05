@@ -86,22 +86,44 @@ public class ChallengeAppObject : AppObject
             PointsPosted = true;
 
             if(AppManager.instance.isLogInMode){
-                MwsiveConnectionManager.instance.PostChallengeComplete(challenges.id, PostChallengeCallback);
+                MwsiveConnectionManager.instance.PostChallengeComplete(challenges.id, Callback_PostChallengeComplete);
 
             }else{
-                //TODO POP UP PARA AVISAR QUE SE CONECTE
+                CallPopUP(PopUpViewModelTypes.OptionChoice, "Neceseitas permiso", "Necesitas crear una cuenta de Mwsive para poder ganar los disks que obtuviste, presiona Crear Cuenta para hacer una.", "Crear Cuenta");
+                PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+
+                popUpViewModel.SetPopUpCancelAction(() => {
+                    NewScreenManager.instance.BackToPreviousView();
+                });
+
+                popUpViewModel.SetPopUpAction(() => {
+                    LogInManager.instance.StartLogInProcess(Callback_NoLogIn_PostChallengeComplete);
+                    NewScreenManager.instance.BackToPreviousView();
+                });
             }
         }
-
-
     }
 
+    private void Callback_NoLogIn_PostChallengeComplete(object[] value)
+    {
+        AppManager.instance.StartAppProcessFromOutside();
+        MwsiveConnectionManager.instance.PostChallengeComplete(challenges.id, Callback_PostChallengeComplete);
+    }
 
-    public void PostChallengeCallback(object[] value){
+    private void Callback_PostChallengeComplete(object[] value){
         MwsiveCompleteChallengesRoot mwsiveCompleteChallengesRoot = (MwsiveCompleteChallengesRoot)value[1];
 
         UIMessage.instance.UIMessageInstanciate("Desafio Completado." +  "Haz obtenido " + mwsiveCompleteChallengesRoot.disks + " disks.");
 
         AppManager.instance.RefreshUser();
+    }
+
+    private void CallPopUP(PopUpViewModelTypes _type, string _titleText, string _descriptionText, string _actionButtonText = "")
+    {
+
+        NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
+        PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+        popUpViewModel.Initialize(_type, _titleText, _descriptionText, _actionButtonText);
+        popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); });
     }
 }
