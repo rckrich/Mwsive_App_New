@@ -6,16 +6,11 @@ using UnityEngine.UI;
 
 public class PlaylistViewModel : ViewModel
 {
-    // Start is called before the first frame update
-    //public TMP_InputField playlistIDInputField;
-    //public TextMeshProUGUI publicText;
-
     [Header("Instance Referecnes")]
     public GameObject trackHolderPrefab, SurfButton;
     public Transform instanceParent;
     public GameObject listenOnSpotify;
-   //public int objectsToNotDestroyIndex;
-    public string id;
+    private string id;
     public TextMeshProUGUI playlistName;
     public bool @public;
     public GameObject button, PF_SURF;
@@ -32,21 +27,12 @@ public class PlaylistViewModel : ViewModel
     private SpotifyPlaylistRoot searchedPlaylist;
     private int NumberofTracks, NumberofTracksToCompare;
 
-   
-    void Start()
-    {
-        
-        GetPlaylist();
-    }
-
     public void GetPlaylist()
     {
         if (!id.Equals(""))
         {
             StartSearch();
             SpotifyConnectionManager.instance.GetPlaylist(id, Callback_GetPlaylist);
-            
-
         }
     }
 
@@ -121,13 +107,13 @@ public class PlaylistViewModel : ViewModel
         {
             if (scrollRect.verticalNormalizedPosition <= end)
             {
-                SpotifyConnectionManager.instance.GetPlaylistItems(id, Callback_GetMorePLaylist, "ES", 50, offset);
+                SpotifyConnectionManager.instance.GetPlaylistItems(id, Callback_GetMorePlaylist, "ES", 50, offset);
                 offset += 50;
                 onlyone = 1;
             }
         }
     }
-    private void Callback_GetMorePLaylist(object[] _value)
+    private void Callback_GetMorePlaylist(object[] _value)
     {
         Debug.Log("more");
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
@@ -203,10 +189,11 @@ public class PlaylistViewModel : ViewModel
         
     }
 
-    public void GetSeveralTracks(string[] _tracksID)
+    public void GetSeveralTracks(string[] _tracksID, string _playlist_name)
     {
         StartSearch();
         isExplore = true;
+        playlistName.text = _playlist_name;
         SpotifyConnectionManager.instance.GetSeveralTracks(_tracksID, Callback_GetSeveralTracks);
     }
 
@@ -235,6 +222,9 @@ public class PlaylistViewModel : ViewModel
         }
         EndSearch();
     }
+
+    public void SetPlaylistID(string _id) { id = _id; }
+    public string GetPlaylistID(string _id) { return id; }
 
     private void ClearScroll(Transform _scroll)
     {

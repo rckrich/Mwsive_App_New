@@ -10,10 +10,7 @@ public class PlaylisHolder : MonoBehaviour
     public Image playlistPicture;
     public TextMeshProUGUI playlistOwner;
     private string spotifyID;
-    public PlaylistViewModel playlistViewModel;
     public bool @public;
-
-
 
     public void Initialize(string _playlistName, string _spotifyID, string _owner, bool _public)
     {
@@ -79,10 +76,11 @@ public class PlaylisHolder : MonoBehaviour
 
     public void OnClick_SpawnPlaylistButton()
     {
-        playlistViewModel.playlistName.text = playlistName.text;
-        playlistViewModel.id = spotifyID;
-        playlistViewModel.@public = @public;
         NewScreenManager.instance.ChangeToSpawnedView("playlist");
+        PlaylistViewModel playlistViewModel = NewScreenManager.instance.GetCurrentView().GetComponent<PlaylistViewModel>();
+        playlistViewModel.playlistName.text = playlistName.text;
+        playlistViewModel.SetPlaylistID(spotifyID);
+        playlistViewModel.@public = @public;
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
 }
