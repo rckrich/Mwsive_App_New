@@ -21,11 +21,14 @@ public class TrackViewModel : ViewModel
     public int objectsToNotDestroyIndex;
     public string artista;
     public string stringUrl;
+    public GameObject shimmer;
+    public GameObject recommendShimmer;
 
     private RecommendationsRoot recommendations;
 
     void Start()
-    {  
+    {
+        shimmer.SetActive(true);
         GetTrack();
         GetRecommendations();
 
@@ -81,10 +84,12 @@ public class TrackViewModel : ViewModel
      
 
         ImageManager.instance.GetImage(trackRoot.album.images[0].url, trackPicture, (RectTransform)this.transform);
+        shimmer.SetActive(false);
     }
 
     public void GetRecommendations()
     {
+        recommendShimmer.SetActive(true);
         seed_tracks[0] = trackID;
         Debug.Log("aa");
         //seed_genres[0] = genre;
@@ -105,11 +110,11 @@ public class TrackViewModel : ViewModel
         RecommendationsRoot recommendationsRoot = (RecommendationsRoot)_value[1];
         recommendations = recommendationsRoot;
         InstanceTrackObjects(recommendationsRoot.tracks);
+        
     }
 
     private void InstanceTrackObjects(List<Track> _tracks)
     {
-
         foreach (Track track in _tracks)
         {
             TrackHolder instance = GameObject.Instantiate(trackHolderPrefab, instanceParent).GetComponent<TrackHolder>();
@@ -133,7 +138,9 @@ public class TrackViewModel : ViewModel
 
             if (track.album.images != null && track.album.images.Count > 0)
                 instance.SetImage(track.album.images[0].url);
+
         }
+        recommendShimmer.SetActive(false);
     }
 
     public void OnClickListenInSpotify()

@@ -46,12 +46,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 386694d2394701545b29ea9623e49782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  networkLoadingCanvas: {fileID: 0}
   swipeListener: {fileID: 4721072669620594637}
   Controller: {fileID: 0}
   Prefab: {fileID: 6148568945450055006, guid: d3d8010569ce88c42889d1ec0cddc425, type: 3}
+  MainCanvas: {fileID: 0}
   AddSong: {fileID: 0}
   OlaButton: {fileID: 0}
   MwsiveOla: {fileID: 0}
+  MwsiveContainer: {fileID: 0}
   MwsiveSongs: []
   RestPositions:
   - {fileID: 0}
@@ -61,7 +64,7 @@ MonoBehaviour:
   MaxRotation: 18
   SurfSuccessSensitivity: 2.2
   LeftRightOffset: {x: 10, y: -10}
-  doubleClickTime: 0.2
+  CanGetRecomendations: 0
   canSwipe: 1
 --- !u!114 &4721072669620594637
 MonoBehaviour:
@@ -96,3 +99,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecaaaeddeae92ce4591d4db952b3cc05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Surf: {fileID: 0}
+  Menu: {fileID: 0}

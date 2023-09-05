@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class MiPlaylistViewModel : ViewModel
 {
     private const int LIMIT = 20;
+
     // Start is called before the first frame update
     public GameObject playlistHolderPrefab;
     public Transform instanceParent;

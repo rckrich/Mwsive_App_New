@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class EditProfileViewModel : ViewModel
 {
-    // Start is called before the first frame update
+ 
     void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnClick_BackButton()
     {
-        
+        NewScreenManager.instance.ChangeToMainView(ViewID.ProfileViewModel);
+    }
+
+    public void OnClick_EditPhoto()
+    {
+        Debug.Log("ppppppppppp");
+        OpenGallery.instance.GetImageFromGallery();
     }
 }

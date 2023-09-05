@@ -24,6 +24,7 @@ public class AlbumViewModel : ViewModel
     public ScrollRect scrollRect;
     public ExternalUrls url;
     public string stringUrl;
+    public GameObject shimmer;
 
     private AlbumRoot _Album;
     private string image;
@@ -32,6 +33,7 @@ public class AlbumViewModel : ViewModel
    
     void Start()
     {
+        shimmer.SetActive(true);
         GetAlbum();
     }
     public void GetAlbum()
@@ -71,7 +73,7 @@ public class AlbumViewModel : ViewModel
             SurfButton.SetActive(false);
         }
         
-
+        shimmer.SetActive(false);
     }
     
 
