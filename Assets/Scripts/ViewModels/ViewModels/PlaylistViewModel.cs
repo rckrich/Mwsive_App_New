@@ -35,6 +35,7 @@ public class PlaylistViewModel : ViewModel
    
     void Start()
     {
+        
         GetPlaylist();
     }
 
@@ -51,7 +52,7 @@ public class PlaylistViewModel : ViewModel
 
     private void InstanceTrackObjects(Tracks _tracks)
     {
-        
+        ClearScroll(instanceParent);
         NumberofTracks = 0;
         NumberofTracksToCompare = 0;
         
@@ -233,6 +234,14 @@ public class PlaylistViewModel : ViewModel
 
         }
         EndSearch();
+    }
+
+    private void ClearScroll(Transform _scroll)
+    {
+        for (int i = 1; i < _scroll.childCount; i++)
+        {
+            Destroy(_scroll.GetChild(i).gameObject);
+        }
     }
 }
 
