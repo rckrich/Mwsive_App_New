@@ -204,6 +204,7 @@ public class PlaylistViewModel : ViewModel
 
     public void GetSeveralTracks(string[] _tracksID)
     {
+        StartSearch();
         isExplore = true;
         SpotifyConnectionManager.instance.GetSeveralTracks(_tracksID, Callback_GetSeveralTracks);
     }
@@ -231,6 +232,7 @@ public class PlaylistViewModel : ViewModel
             }
 
         }
+        EndSearch();
     }
 }
 

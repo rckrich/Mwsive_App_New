@@ -2290,7 +2290,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -29.800323, y: -46.1}
+  m_AnchoredPosition: {x: -29.800293, y: -46.1}
   m_SizeDelta: {x: 66.5668, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &85946057
@@ -15546,6 +15546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Surf: {fileID: 477183355}
+  Pf_Surf: {fileID: 0}
   AnimationDuration: 0.4
 --- !u!114 &596825758
 MonoBehaviour:
@@ -44151,6 +44152,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1641171857}
   m_CullTransparentMesh: 1
+--- !u!1 &1643149600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1643149601}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1643149601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643149600}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1055.9644, y: 1352.8704, z: -54.432076}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1647179943
 GameObject:
   m_ObjectHideFlags: 0
@@ -55616,6 +55648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Surf: {fileID: 477183355}
+  Pf_Surf: {fileID: 0}
   AnimationDuration: 0.4
 --- !u!114 &187037875946430512
 MonoBehaviour:
@@ -64000,6 +64033,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Surf: {fileID: 477183355}
+  Pf_Surf: {fileID: 0}
   AnimationDuration: 0.4
 --- !u!224 &7062817623988721229
 RectTransform:
@@ -67334,6 +67368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Surf: {fileID: 477183355}
+  Pf_Surf: {fileID: 0}
   AnimationDuration: 0.4
 --- !u!224 &8635227921313130879
 RectTransform:
@@ -67596,3 +67631,4 @@ SceneRoots:
   - {fileID: 900879517}
   - {fileID: 121587700}
   - {fileID: 1027212843}
+  - {fileID: 1643149601}

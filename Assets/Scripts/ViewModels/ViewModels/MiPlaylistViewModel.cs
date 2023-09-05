@@ -5,29 +5,22 @@ using UnityEngine.UI;
 
 public class MiPlaylistViewModel : ViewModel
 {
-    private const float BASE_TOP = -25f;
+    private const int LIMIT = 20;
     // Start is called before the first frame update
     public GameObject playlistHolderPrefab;
     public Transform instanceParent;
     public ScrollRect scrollRect;
     public float end;
-    public int offset = 21;
+    public int offset = 20;
     int onlyone = 0;
     public string profileID;
     public RectTransform Scroll;
 
-    [Header("Labels")]
-    private string topPullLabel = "BAJA M¡S PARA ACTUALIZAR...";
-    private string topReleaseLabel = "SUELTA PARA ACTUALIZAR LA LISTA...";
-    private string bottomPullLabel = "SUBE M·S PARA ACTUALIZAR...";
-    private string bottomReleaseLabel = "SUELTA PARA ACTUALIZAR...";
 
-    private bool _canLoad = false;
-    private bool _isLoading = false;
-    private bool _visualsSetAtTheStart = false;
 
     public void GetCurrentUserPlaylist()
     {
+        offset = 20;
         SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_OnClick_GetCurrentUserPlaylists);
     }
 
@@ -49,6 +42,7 @@ public class MiPlaylistViewModel : ViewModel
     public void GetUserPlaylist(string _profileId)
     {
         profileID = _profileId;
+        offset = 20;
         SpotifyConnectionManager.instance.GetUserPlaylists(_profileId, Callback_OnClick_GetCurrentUserPlaylists);
     }
 
@@ -60,7 +54,7 @@ public class MiPlaylistViewModel : ViewModel
             {
                 if (scrollRect.verticalNormalizedPosition <= end)
                 {
-                    SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_GetMoreUserPlaylists, 20, offset);
+                    SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_GetMoreUserPlaylists, LIMIT, offset);
                     offset += 20;
                     onlyone = 1;
                     Debug.Log("iiiiiiii");
@@ -73,7 +67,7 @@ public class MiPlaylistViewModel : ViewModel
             {
                 if (scrollRect.verticalNormalizedPosition <= end)
                 {
-                    SpotifyConnectionManager.instance.GetUserPlaylists(profileID, Callback_GetMoreUserPlaylists, 20, offset);
+                    SpotifyConnectionManager.instance.GetUserPlaylists(profileID, Callback_GetMoreUserPlaylists,LIMIT, offset);
                     offset += 20;
                     onlyone = 1;
                     Debug.Log("ooooooo");
