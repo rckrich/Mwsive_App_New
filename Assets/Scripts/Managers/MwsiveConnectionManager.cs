@@ -375,28 +375,13 @@ public class MwsiveConnectionManager : MonoBehaviour
         }
     }
 
-    public void PostMusicalADNArtists(string _type, string[] _artists_id, MwsiveWebCallback _callback = null)
+    public void PostMusicalDNA(string _type, string[] _items, MwsiveWebCallback _callback = null)
     {
-        _callback += Callback_PostMusicalADNArtists;
-        StartCoroutine(MwsiveWebCalls.CR_PostMusicalADNArtists(ProgressManager.instance.progress.userDataPersistance.access_token, _type, _artists_id, _callback));
+        _callback += Callback_PostMusicalDNA;
+        StartCoroutine(MwsiveWebCalls.CR_PostMusicalDNA(ProgressManager.instance.progress.userDataPersistance.access_token, _type, _items, _callback));
     }
 
-    private void Callback_PostMusicalADNArtists(object[] _value)
-    {
-        if (CheckResponse((long)_value[0]))
-        {
-            return;
-        }
-    }
-
-
-    public void PostMusicalADNTracks(string _type, string[] _tracks_id, MwsiveWebCallback _callback = null)
-    {
-        _callback += Callback_PostMusicalADNTracks;
-        StartCoroutine(MwsiveWebCalls.CR_PostMusicalADNTracks(ProgressManager.instance.progress.userDataPersistance.access_token, _type, _tracks_id, _callback));
-    }
-
-    private void Callback_PostMusicalADNTracks(object[] _value)
+    private void Callback_PostMusicalDNA(object[] _value)
     {
         if (CheckResponse((long)_value[0]))
         {

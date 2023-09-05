@@ -1100,28 +1100,28 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_PostMusicalADNArtists(string _token, string _type, string[] _artists_id, MwsiveWebCallback _callback)
+    public static IEnumerator CR_PostMusicalDNA(string _token, string _type, string[] _items, MwsiveWebCallback _callback)
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/me/musical_adn_artist";
-        string url = "http://192.241.129.184/api/me/musical_adn_artist";
+        //string url = "https://mwsive.com/api/me/adn";
+        string url = "http://192.241.129.184/api/me/adn";
 
         MusicalDNA musicalDNA = new MusicalDNA
         {
             type = _type
         };
 
-        musicalDNA.track_ids = new List<string>();
+        musicalDNA.items = new string[_items.Length];
 
-        for (int i = 0; i < _artists_id.Length; i++)
+        for (int i = 0; i < _items.Length; i++)
         {
-            musicalDNA.track_ids.Add(_artists_id[i]);
+            musicalDNA.items[i] = _items[i];
         }
 
         string jsonRaw = JsonConvert.SerializeObject(musicalDNA);
 
-        Debug.Log("Body request for creating a playlist is:" + jsonRaw);
+        Debug.Log("Body request for updating musical dna is:" + jsonRaw);
 
 
         using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonRaw, "application/json"))
@@ -1140,7 +1140,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                Debug.Log("Protocol Error or Connection Error on post musical dna. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1149,73 +1149,13 @@ public class MwsiveWebCalls : MonoBehaviour
 
                 if (webRequest.isDone)
                 {
-                    Debug.Log("Post Musical ADN Artists " + jsonResult);
+                    Debug.Log("Post Musical ADN " + jsonResult);
                     _callback(new object[] { webRequest.responseCode, null });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on post Musical ADN Artists complete " + jsonResult);
-            yield break;
-        }
-    }
-
-    public static IEnumerator CR_PostMusicalADNTracks(string _token, string _type, string[] _tracks_id, MwsiveWebCallback _callback)
-    {
-        string jsonResult = "";
-
-        //string url = "https://mwsive.com/me/musical_adn_tracks";
-        string url = "http://192.241.129.184/api/me/musical_adn_tracks";
-
-        MusicalDNA musicalDNA = new MusicalDNA
-        {
-            type = _type
-        };
-
-        musicalDNA.track_ids = new List<string>();
-
-        for (int i = 0; i < _tracks_id.Length; i++)
-        {
-            musicalDNA.track_ids.Add(_tracks_id[i]);
-        }
-
-        string jsonRaw = JsonConvert.SerializeObject(musicalDNA);
-
-        Debug.Log("Body request for creating a playlist is:" + jsonRaw);
-
-
-        using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonRaw, "application/json"))
-        {
-            webRequest.SetRequestHeader("Accept", "application/json");
-            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
-
-            yield return webRequest.SendWebRequest();
-
-            if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
-            {
-                //Catch response code for multiple requests to the server in a short timespan.
-
-                if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
-                {
-                    //TODO Response when unauthorized
-                }
-
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
-                yield break;
-            }
-            else
-            {
-                while (!webRequest.isDone) { yield return null; }
-
-                if (webRequest.isDone)
-                {
-                    Debug.Log("Post Musical ADN Artists " + jsonResult);
-                    _callback(new object[] { webRequest.responseCode, null });
-                    yield break;
-                }
-            }
-
-            Debug.Log("Failed on post Musical ADN Artists complete " + jsonResult);
+            Debug.Log("Failed on post Musical ADN " + jsonResult);
             yield break;
         }
     }

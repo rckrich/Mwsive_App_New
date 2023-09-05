@@ -8,37 +8,34 @@ public class MwsiveUser : Instanceable
     public int id { get; set; }
     public string display_name { get; set; }
     public string email { get; set; }
+    public object gender { get; set; }
+    public object age { get; set; }
     public string platform { get; set; }
-    public string subscription_type { get; set; }
-    public bool @explicit { get; set; }
-    public string country { get; set; }
+    public object subscription_type { get; set; }
     public string image { get; set; }
-    public Ranking[] rankings { get; set; }
-    public Badge[] badges { get; set; }
-    public Action[] actions { get; set; }
-    public Pik[] piks { get; set; }
-    public int followers { get; set; }
-    public int following { get; set; }
+    public string platform_id { get; set; }
+    public string country { get; set; }
+    public int @explicit { get; set; }
     public int platform_followers { get; set; }
-    public Track[] on_repeat { get; set; }
-    public Track[] on_revival { get; set; }
-    public Track[] guilty_pleasures { get; set; }
-    public Track[] loved { get; set; }
-    public Track[] discoveries { get; set; }
-    public Track[] next_starts { get; set; }
-    public Artist[] goats { get; set; }
-    public Track[] ost { get; set; }
+    public string public_playlists { get; set; }
+    public string? last_selected_playlist { get; set; }
     public DateTime created_at { get; set; }
     public DateTime updated_at { get; set; }
-    public string user { get; set; }
-    public Playlists[] publicPlaylists { get; set; }
-    public string genre { get; set; }
-    public int age { get; set; }
-    public string playlists { get; set; }
-    public string platform_id { get; set; }
     public int total_followers { get; set; }
     public int total_followed { get; set; }
-    public string? last_selected_playlist { get; set; }
+    public int total_disks { get; set; }
+    public List<UserList> user_lists { get; set; }
+}
+
+public class UserList
+{
+    public int id { get; set; }
+    public string type { get; set; }
+    public int mwsive_user_id { get; set; }
+    public string items { get; set; }
+    public DateTime created_at { get; set; }
+    public DateTime updated_at { get; set; }
+    public List<string> items_list { get; set; }
 }
 
 public class Curator
@@ -103,7 +100,7 @@ public class Action
 public class MusicalDNA
 {
     public string type { get; set; }
-    public List<string> track_ids { get; set; }
+    public string[] items { get; set; }
 }
 
 public class Badge

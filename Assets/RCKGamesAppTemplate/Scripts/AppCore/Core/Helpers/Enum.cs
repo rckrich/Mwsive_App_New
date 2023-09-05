@@ -69,3 +69,16 @@ public enum TrackActionType
     UP,             //Se movió hacia arriba la canción (Siguiente)
     DOWN            //Se movió hacia arriba la canción (Regresar)
 }
+
+public enum MusicalDNAType
+{
+    NONE = 0,
+    ON_REPEAT,              //MIN 1; MAX 1; Type: Track
+    ON_REVIVAL,             //MIN 1; MAX 5; Type: Artist
+    GUILTY_PLEASURE,        //MIN 1; MAX 5; Type: Track
+    ON_LOVE,                //MIN 1; MAX 5; Type: Track
+    LATEST_DISCOVERIES,     //MIN 1; MAX 5; Type: Track
+    NEXT_STARS,             //MIN 1; MAX 1; Type: Artist
+    GOATS,                  //MIN 1; MAX 1; Type: Artist
+    OST                     //MIN 4; MAX 18; Type: Track
+}

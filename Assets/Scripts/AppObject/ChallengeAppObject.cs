@@ -85,10 +85,23 @@ public class ChallengeAppObject : AppObject
         if(counter >= (_list.Count-3)*.9f && !PointsPosted){
             PointsPosted = true;
 
-            Debug.Log("SUCCESFUL COINS ");
-            MwsiveConnectionManager.instance.PostChallengeComplete(challenges.id);
-            UIMessage.instance.UIMessageInstanciate("Desafio Completado");
-            
+            if(AppManager.instance.isLogInMode){
+                MwsiveConnectionManager.instance.PostChallengeComplete(challenges.id, PostChallengeCallback);
+
+            }else{
+                //TODO POP UP PARA AVISAR QUE SE CONECTE
+            }
         }
+
+
+    }
+
+
+    public void PostChallengeCallback(object[] value){
+        MwsiveCompleteChallengesRoot mwsiveCompleteChallengesRoot = (MwsiveCompleteChallengesRoot)value[1];
+
+        UIMessage.instance.UIMessageInstanciate("Desafio Completado." +  "Haz obtenido " + mwsiveCompleteChallengesRoot.disks + " disks.");
+
+        AppManager.instance.RefreshUser();
     }
 }

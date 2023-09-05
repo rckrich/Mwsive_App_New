@@ -368,4 +368,12 @@ public class AppManager : Manager
         _isLogInMode = _value;
     }
 
+    public void RefreshUser(){
+        MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_RefreshUser);
+    }
+
+    public void Callback_RefreshUser(object[] _value){
+        currentMwsiveUser = ((MwsiveUserRoot)_value[1]).user;
+    }
+
 }
