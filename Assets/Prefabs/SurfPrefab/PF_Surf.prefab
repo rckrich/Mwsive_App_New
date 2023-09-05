@@ -335,10 +335,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6134231592992352408}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 73.4}
-  m_SizeDelta: {x: 118.86, y: 17.622498}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 76.73355}
+  m_SizeDelta: {x: -210, y: 18.0065}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1613932407183286442
 CanvasRenderer:
@@ -391,6 +391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Surf: {fileID: 0}
+  Pf_Surf: {fileID: 5029566614724441736}
   AnimationDuration: 0.4
 --- !u!114 &6020124968943275245
 MonoBehaviour:
@@ -947,7 +948,7 @@ MonoBehaviour:
   networkLoadingCanvas: {fileID: 0}
   swipeListener: {fileID: 3577394219102972297}
   Controller: {fileID: 3106139192523699928}
-  Prefab: {fileID: 6148568945450055006, guid: d3d8010569ce88c42889d1ec0cddc425, type: 3}
+  Prefab: {fileID: 2987369042212565383, guid: 2d52653123452487f90183c0a23774d8, type: 3}
   AddSong: {fileID: 3660273735143574414}
   OlaButton: {fileID: 6963907859120317939}
   MwsiveOla: {fileID: 2076137575021857959, guid: dd1c5008e90ef2e4286781ce17bb716a, type: 3}
@@ -963,6 +964,8 @@ MonoBehaviour:
   LeftRightOffset: {x: 10, y: 10}
   CanGetRecomendations: 0
   canSwipe: 1
+  HasSideScrollEnded: 1
+  Challenge: 0
 --- !u!114 &3577394219102972297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1108,17 +1111,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2321405204042136685}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.3, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6134231592992352408}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -53.585022, y: -166.9}
-  m_SizeDelta: {x: 22.83, y: 20}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -49.931, y: -148.0852}
+  m_SizeDelta: {x: 28, y: -576.4296}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4879193969533838047
 CanvasRenderer:
@@ -1171,6 +1174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Surf: {fileID: 0}
+  Pf_Surf: {fileID: 5029566614724441736}
   AnimationDuration: 0.4
 --- !u!114 &3102568414542424258
 MonoBehaviour:
@@ -1524,17 +1528,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3021139451460267031}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.3, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6134231592992352408}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -53.585, y: -124.4}
-  m_SizeDelta: {x: 22.83, y: 22}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -49.931, y: -98}
+  m_SizeDelta: {x: 28, y: -576.4296}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5605749844300417010
 CanvasRenderer:
@@ -1587,6 +1591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Surf: {fileID: 0}
+  Pf_Surf: {fileID: 5029566614724441736}
   AnimationDuration: 0.4
 --- !u!114 &1256363004294276325
 MonoBehaviour:
@@ -2441,8 +2446,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -19.6}
-  m_SizeDelta: {x: 0, y: -500}
+  m_AnchoredPosition: {x: 0, y: -17.5}
+  m_SizeDelta: {x: -20, y: -125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5024108363001075510
 GameObject:
@@ -2981,8 +2986,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -65}
-  m_SizeDelta: {x: 0, y: -150}
+  m_AnchoredPosition: {x: 0, y: -17.866087}
+  m_SizeDelta: {x: 0, y: -141.0358}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4944540019873712272
 CanvasRenderer:
@@ -3203,17 +3208,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6963907859120317939}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1.3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6134231592992352408}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -54.40712, y: -78.9}
-  m_SizeDelta: {x: 30.0811, y: 18}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -49.931, y: -47}
+  m_SizeDelta: {x: 28, y: -576.4296}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8350155843045200013
 CanvasRenderer:
@@ -3266,6 +3271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Surf: {fileID: 0}
+  Pf_Surf: {fileID: 5029566614724441736}
   AnimationDuration: 0.4
 --- !u!114 &35342514639573207
 MonoBehaviour:

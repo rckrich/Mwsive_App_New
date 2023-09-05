@@ -765,7 +765,8 @@ public class SurfManager : Manager
     float touchDuration;
     Touch touch;
     void Update() {
-        if(Input.touchCount > 0 && EventSystem.current.currentSelectedGameObject == null && canSwipe){ //if there is any touch
+        
+        if (Input.touchCount > 0 && EventSystem.current.currentSelectedGameObject == null && canSwipe){ //if there is any touch
             touchDuration += Time.deltaTime;
             touch = Input.GetTouch(0);
  
@@ -777,6 +778,7 @@ public class SurfManager : Manager
     }
  
     IEnumerator singleOrDouble(){
+        
         yield return new WaitForSeconds(0.2f);
         if(touch.tapCount == 1){
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().OnClic_StopAudioPreview();
