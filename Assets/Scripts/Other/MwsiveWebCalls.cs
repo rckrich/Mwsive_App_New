@@ -1841,6 +1841,8 @@ public class MwsiveWebCalls : MonoBehaviour
         //string url = "https://mwsive.com/tracks/" + _track_id + "/info";
         string url = "http://192.241.129.184/api/tracks/" + _track_id + "/info";
 
+        Debug.Log("Track info url is: " + url);
+
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Accept", "application/json");

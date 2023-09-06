@@ -240,6 +240,7 @@ public class ProfileViewModel : ViewModel
     public void OnClick_EditProfile()
     {
         OpenView(ViewID.EditProfileViewModel);
+        NewScreenManager.instance.GetCurrentView().GetComponent<EditProfileViewModel>().Initialize();
     }
 
     public void OnClick_Surf()

@@ -30,6 +30,11 @@ public class ButtonSurfPlaylist : ViewModel
     public GameObject buttonColor;
     public bool TrackPoints;
 
+    [Header("Track Info")]
+    public TextMeshProUGUI trackTotalPicks;
+    public TextMeshProUGUI trackTotalRecommendation;
+    public TextMeshProUGUI trackTopCuratorsThatVoted;
+
     private Color redNew = new Color(0.9411765f, 0.2941177f, 0.4156863f);
     private Color gray = new Color(0.8f, 0.8f, 0.8f);
     private GameObject Surf;
@@ -184,7 +189,15 @@ public class ButtonSurfPlaylist : ViewModel
             }
             
         }
-        
+
+        if (AppManager.instance.isLogInMode)
+        {
+            MwsiveConnectionManager.instance.GetTrackInformation_Auth(trackID, Callback_GetTrackInformation);
+        }
+        else
+        {
+            MwsiveConnectionManager.instance.GetTrackInformation_NoAuth(trackID, Callback_GetTrackInformation);
+        }
         //EndSearch();
     }
     public void CheckIfDurationBarCanPlay(){
@@ -329,5 +342,17 @@ public class ButtonSurfPlaylist : ViewModel
             buttonColor.GetComponent<Image>().color = gray;
             playlistText.color = Color.black;
         }
+    }
+
+    public void Callback_GetTrackInformation(object[] _value)
+    {
+        TrackInfoRoot trackInfoRoot = (TrackInfoRoot)_value[1];
+
+        trackTotalPicks.text = trackInfoRoot.total_piks.ToString();
+        trackTotalRecommendation.text = trackInfoRoot.total_recommendations.ToString();
+
+
+
+        
     }
 }
