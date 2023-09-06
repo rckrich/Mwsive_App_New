@@ -57,5 +57,28 @@ public class EditProfileViewModel : ViewModel
 
         AppManager.instance.currentMwsiveUser = mwsiveUserRoot.user;
     }
+    
+    public void OnClick_TiktokUrlAdd()
+    {
+        NewScreenManager.instance.ChangeToSpawnedView("addURL");
+        NewScreenManager.instance.GetCurrentView().GetComponent<AddUrlViewModel>().Initialize("TIKTOK");
+    }
 
+    public void OnClick_InstagramUrlAdd()
+    {
+        NewScreenManager.instance.ChangeToSpawnedView("addURL");
+        NewScreenManager.instance.GetCurrentView().GetComponent<AddUrlViewModel>().Initialize("INSTAGRAM");
+    }
+
+    public void OnClick_YouTubeUrlAdd()
+    {
+        NewScreenManager.instance.ChangeToSpawnedView("addURL");
+        NewScreenManager.instance.GetCurrentView().GetComponent<AddUrlViewModel>().Initialize("YOU_TUBE");
+    }
+
+    public void OnClick_ExternalUrlAdd()
+    {
+        NewScreenManager.instance.ChangeToSpawnedView("addURL");
+        NewScreenManager.instance.GetCurrentView().GetComponent<AddUrlViewModel>().Initialize("EXTERNAL");
+    }
 }
