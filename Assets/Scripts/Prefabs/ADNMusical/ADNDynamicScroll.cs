@@ -10,7 +10,7 @@ public class ADNDynamicScroll : MonoBehaviour
     
     public float MaxPrefabsInScreen = 0;
     public ScrollRect ScrollBar;
-    public GameObject SpawnArea, Prefab, Añadir, ScrollView, GuardarTop, container;
+    public GameObject SpawnArea, Prefab, Añadir, ScrollView, GuardarTop, container, Firstposition;
     private GameObject Instance;  
     public List<GameObject> Instances = new List<GameObject>();
     private static ADNDynamicScroll _instance;
@@ -315,7 +315,9 @@ public class ADNDynamicScroll : MonoBehaviour
             
         }
         Añadir.SetActive(false);
-        container.transform.position = new Vector3(0, 0, 0);
+
+        container.transform.localPosition = new Vector3(0, 0, 0);
+        
     }
 
     public static ADNDynamicScroll instance
