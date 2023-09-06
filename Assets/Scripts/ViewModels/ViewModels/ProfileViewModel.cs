@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class ProfileViewModel : ViewModel
 {
+    public List<GameObject> DNAButtons = new List<GameObject>();
     public TextMeshProUGUI displayName;
     public Image profilePicture;
     public GameObject playlistHolderPrefab;
@@ -24,7 +25,9 @@ public class ProfileViewModel : ViewModel
     public Color followTextColor;
     public Color unfollowTextColor;
 
+    private bool iScurrentUser;
     private bool isCurrentUserProfileView = true;
+    private MwsiveUserRoot mwsiveUserRoot;
 
     private string profileId = "";
 
@@ -89,13 +92,16 @@ public class ProfileViewModel : ViewModel
 
     private void GetUserBasedOnEmptyProfileID(string _profileId)
     {
+
         if (_profileId.Equals(""))           
         {
+            iScurrentUser = true;
             StartSearch();           
             MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser);
         }
         else
         {
+            iScurrentUser = false;
             MwsiveConnectionManager.instance.GetMwsiveUser(_profileId, Callback_GetMwsiveUser);                     
         }
     }
@@ -106,10 +112,12 @@ public class ProfileViewModel : ViewModel
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
 
-    public void OnClick_SpawnADNButton()
+    public void OnClick_SpawnADNButton(int identifier)
     {
         NewScreenManager.instance.ChangeToSpawnedView("adn");
-        Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
+        
+        NewScreenManager.instance.GetCurrentView().gameObject.GetComponent<ADNDynamicScroll>().Initialize(identifier, iScurrentUser, mwsiveUserRoot);
+
     }
 
     public void OnClick_SpawnMiPlaylistButton()
@@ -275,7 +283,7 @@ public class ProfileViewModel : ViewModel
 
     public void Callback_GetCurrentMwsiveUser(object[] _value)
     {
-        MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
+        mwsiveUserRoot = (MwsiveUserRoot)_value[1];
         if(mwsiveUserRoot.user.image != null)
             ImageManager.instance.GetImage(mwsiveUserRoot.user.image, profilePicture, (RectTransform)this.transform);
 
@@ -286,11 +294,12 @@ public class ProfileViewModel : ViewModel
         profileId = mwsiveUserRoot.user.platform_id;
 
         GetCurrentUserPlaylists();
+        
     }
 
     public void Callback_GetMwsiveUser(object[] _value)
     {
-        MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
+        mwsiveUserRoot = (MwsiveUserRoot)_value[1];
         if (mwsiveUserRoot.user.image != null)
             ImageManager.instance.GetImage(mwsiveUserRoot.user.image, profilePicture, (RectTransform)this.transform);
 
@@ -301,6 +310,7 @@ public class ProfileViewModel : ViewModel
         profileId = mwsiveUserRoot.user.platform_id;
 
         GetCurrentUserPlaylists();
+        
 
         FollowButtonInitilization();
     }
@@ -354,5 +364,6 @@ public class ProfileViewModel : ViewModel
     {
         ClearScrolls(playlistContent);
     }
+
 }
 

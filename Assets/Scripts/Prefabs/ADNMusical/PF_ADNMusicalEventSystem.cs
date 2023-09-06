@@ -30,16 +30,6 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
     private int Type;
     private bool EraseButtonNever = false;
 
-    void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Return)){
-            EnableSerach = true;
-            Search();
-        }else{
-            EnableSerach = false;
-        }
-    }
-
     public void ChangeName(int num, int min ){
         Number.text = "#" +num;
         if( num <= min){
@@ -57,9 +47,8 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
     public void Search(){
         
         SearchText = searchbar.text;
-        if(SearchText.Length >= 1){
-            
-            if(SearchText.Length >= 3 || EnableSerach){
+        
+            if(SearchText.Length >= 1){
                 CheckForSpawnHasEnded = true;
                 
                 DynamicScroll.transform.DOScaleY(1, 0.5F);
@@ -69,7 +58,7 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
                 SearchItem();
                 
             }
-        }
+        
     }
     private void SearchItem(){
         DynamicPrefabSpawner();

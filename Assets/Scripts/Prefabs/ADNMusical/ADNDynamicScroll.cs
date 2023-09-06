@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class ADNDynamicScroll : MonoBehaviour
 {
@@ -11,32 +12,37 @@ public class ADNDynamicScroll : MonoBehaviour
     public ScrollRect ScrollBar;
     public GameObject SpawnArea, Prefab, Añadir, ScrollView, GuardarTop;
     private GameObject Instance;  
-    public List<GameObject> Instances = new List<GameObject>(); 
+    public List<GameObject> Instances = new List<GameObject>();
     private static ADNDynamicScroll _instance;
     public List<string> DataPlaceHolders = new List<string>(); 
     public List<string> DataSpotifyID = new List<string>(); 
-
     
-    public enum TypeOfADN {OnRepeat, Artistaquereviviria, GustoCulposo, DeAmor, UltimoDescubrimiento, GOAT, ProximaEstrella, SoundtrackDeMiVida};
-    public TypeOfADN ADN;
+
     public TextMeshProUGUI Title, Subtitle; 
     public List<GameObject> Prefabs = new List<GameObject>(); 
-    public bool Editable;
+    
     private string PlaceHolderText;
     private GameObject PrefabToSet;
     private int Type, Max, Min, CurrentPrefabs;
     private float ScrollPosition = -0.3f;
     private bool IsAllPlacesComplete = true;
+    private string TypeString;
+
+    [HideInInspector]
+    private MwsiveUserRoot mwsiveUserRoot;
+    public int TypeOfADN;
+
     
-
-
-    // Start is called before the first frame update
-
-    // Update is called once per frame
-    private void OnEnable() {
-        switch(ADN){
-            case TypeOfADN.OnRepeat:
-                Title.text = "ON REPEAT";
+    public void Initialize(int _TypeOfADN, bool Editable, MwsiveUserRoot _mwsiveUserRoot) {
+        mwsiveUserRoot = _mwsiveUserRoot;
+        TypeOfADN = _TypeOfADN;
+        Debug.Log(Editable);
+        
+        
+        switch(TypeOfADN){
+            case 0:
+                Title.text = "ON_REPEAT";
+                TypeString = "ON_REPEAT";
                 if(Editable){
                     Subtitle.text = "Escribe tus cancion favorita";
                     PlaceHolderText = "Buscar Canción";
@@ -48,8 +54,9 @@ public class ADNDynamicScroll : MonoBehaviour
                 GuardarTop.GetComponent<Image>().color = new Color32 (255,255,255,255);
                 Añadir.SetActive(false);
                 break;
-            case TypeOfADN.Artistaquereviviria:
+            case 1:
                 Title.text = "ARTISTA QUE REVIVIRIA";
+                TypeString = "ON_REVIVAL";
                 if(Editable){
                     Subtitle.text = "Escribe tus artistas favoritos";
                     PlaceHolderText = "Buscar Artista";
@@ -63,8 +70,9 @@ public class ADNDynamicScroll : MonoBehaviour
                 Type = 0;
                 GuardarTop.GetComponent<Image>().color = new Color32 (255,255,255,255);
                 break;
-            case TypeOfADN.GustoCulposo:
+            case 2:
                 Title.text = "GUSTO CULPOSO";
+                TypeString = "GUILTY_PLEASURE";
                 if(Editable){
                     Subtitle.text = "Escribe tus canciones favoritas";
                     PlaceHolderText = "Buscar Canción";
@@ -78,8 +86,9 @@ public class ADNDynamicScroll : MonoBehaviour
                 Type = 1;
                 GuardarTop.GetComponent<Image>().color = new Color32 (255,255,255,255);
                 break;
-            case TypeOfADN.DeAmor:
+            case 3:
                 Title.text = "DE AMOR";
+                TypeString = "ON_LOVE";
                 if(Editable){
                     Subtitle.text = "Escribe tus canciones favoritas";
                     PlaceHolderText = "Buscar Canción";
@@ -93,8 +102,9 @@ public class ADNDynamicScroll : MonoBehaviour
                 Type = 1;
                 GuardarTop.GetComponent<Image>().color = new Color32 (255,255,255,255);
                 break;
-            case TypeOfADN.UltimoDescubrimiento:
+            case 4:
                 Title.text = "ULTIMO DESCUBRIMIENTO";
+                TypeString = "LATEST_DISCOVERIES";
                 if(Editable){
                     Subtitle.text = "Escribe tus canciones favoritas";
                     PlaceHolderText = "Buscar Canción";
@@ -108,8 +118,26 @@ public class ADNDynamicScroll : MonoBehaviour
                 Type = 1;
                 GuardarTop.GetComponent<Image>().color = new Color32 (255,255,255,255);
                 break;
-            case TypeOfADN.GOAT:
+            case 5:
+                Title.text = "PROXIMA ESTRELLA";
+                TypeString = "NEXT_STARS";
+                if(Editable){
+                    Subtitle.text = "Escribe tus artistas favoritos";
+                    PlaceHolderText = "Buscar Artista";
+                }else{
+                    Subtitle.text = "";
+                    PlaceHolderText = "";
+                }
+                PrefabToSet = Prefabs[0];
+                Max = 5;
+                Min = 1;
+                Type = 0;
+                GuardarTop.GetComponent<Image>().color = new Color32 (255,255,255,255);
+                break;
+            case 6:
                 Title.text = "GOAT";
+                TypeString = "GOATS";
+                
                 if(Editable){
                     Subtitle.text = "Escribe tus artista favorito";
                     PlaceHolderText = "Buscar Artista";
@@ -124,23 +152,10 @@ public class ADNDynamicScroll : MonoBehaviour
                 Añadir.SetActive(false);
                 GuardarTop.GetComponent<Image>().color = new Color32 (255,255,255,255);
                 break;
-            case TypeOfADN.ProximaEstrella:
-                Title.text = "PROXIMA ESTRELLA";
-                if(Editable){
-                    Subtitle.text = "Escribe tus artistas favoritos";
-                    PlaceHolderText = "Buscar Artista";
-                }else{
-                    Subtitle.text = "";
-                    PlaceHolderText = "";
-                }
-                PrefabToSet = Prefabs[0];
-                Max = 5;
-                Min = 1;
-                Type = 0;
-                GuardarTop.GetComponent<Image>().color = new Color32 (255,255,255,255);
-                break;
-            case TypeOfADN.SoundtrackDeMiVida:
+            
+            case 7:
                 Title.text = "EL SOUNDTRACK DE MI VIDA";
+                TypeString = "OST";
                 if(Editable){
                     Subtitle.text = "Escribe tus canciones favoritas";
                     PlaceHolderText = "Buscar Canción";
@@ -157,20 +172,36 @@ public class ADNDynamicScroll : MonoBehaviour
                 break;
         }
 
-        
-        if(DataPlaceHolders != null){
-            if(DataPlaceHolders.Count >= Min){
-                for (int i = 0; i < DataPlaceHolders.Count; i++)
-                {
-                    DynamicPrefabSpawner(0);
-                    if(DataPlaceHolders[i] != null || DataPlaceHolders[i] != ""){
-                        Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetPlaceHolder(DataPlaceHolders[i]);
+        if(mwsiveUserRoot.user.user_lists != null){
+            
+            
+            try
+            {
+                if(mwsiveUserRoot.user.user_lists[TypeOfADN].items_list != null){
+                    if(TypeOfADN == 1 || TypeOfADN == 5 || TypeOfADN == 6){
+                    SpotifyConnectionManager.instance.GetSeveralArtists(mwsiveUserRoot.user.user_lists[TypeOfADN].items_list.ToArray(), OnCallback_SetPlaceHoldersArtists);
+                    }else{
+                        SpotifyConnectionManager.instance.GetSeveralTracks(mwsiveUserRoot.user.user_lists[TypeOfADN].items_list.ToArray(), OnCallback_SetPlaceHoldersTracks);
                     }
-                    
+                }else{
+                    if(!Editable){
+                        UIMessage.instance.UIMessageInstanciate("La lista esta vacia");
+                    }else{
+                        DynamicPrefabSpawner(Min-1);
+                    }
                 }
-            }else{
-            DynamicPrefabSpawner(Min-1);
             }
+            catch (System.ArgumentOutOfRangeException)
+            {
+                
+                if(!Editable){
+                    UIMessage.instance.UIMessageInstanciate("La lista esta vacia");
+                }else{
+                    DynamicPrefabSpawner(Min-1);
+                }
+            }  
+                
+            
             
         }
         CurrentPrefabs = Min;
@@ -188,6 +219,41 @@ public class ADNDynamicScroll : MonoBehaviour
 
         }
         
+    }
+
+    public void OnCallback_SetPlaceHoldersArtists(object [] _value){
+        SeveralArtistRoot severalartists = (SeveralArtistRoot)_value[1];
+
+        if(severalartists.artists.Count >= Min){
+            for (int i = 0; i < severalartists.artists.Count; i++)
+            {
+                DynamicPrefabSpawner(0);
+                if(severalartists.artists[i].name != null || severalartists.artists[i].name  != ""){
+                    Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetPlaceHolder(severalartists.artists[i].name);
+                }
+                
+            }
+        }else{
+            DynamicPrefabSpawner(Min-1);
+        }
+
+    }
+
+    public void OnCallback_SetPlaceHoldersTracks(object [] _value){
+        SeveralTrackRoot severaltracks = (SeveralTrackRoot)_value[1];
+
+        if(severaltracks.tracks.Count >= Min){
+            for (int i = 0; i < severaltracks.tracks.Count; i++)
+            {
+                DynamicPrefabSpawner(0);
+                if(severaltracks.tracks[i].name != null || severaltracks.tracks[i].name  != ""){
+                    Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetPlaceHolder(severaltracks.tracks[i].name);
+                }
+                
+            }
+        }else{
+            DynamicPrefabSpawner(Min-1);
+        }
     }
 
     public void HideShowHeader(){
@@ -288,19 +354,21 @@ public class ADNDynamicScroll : MonoBehaviour
         }
     }
 
-    public void GetData(){
-        DataPlaceHolders.Clear();
-        DataSpotifyID.Clear();
-        foreach (var item in Instances )
+    public void SetData(){
+        List<string> data = new List<string>();
+        foreach (GameObject item in Instances )
         {
-            string _data = item.GetComponent<PF_ADNMusicalEventSystem>().GetPlaceHolder();
-            string id = item.GetComponent<PF_ADNMusicalEventSystem>().GetSpotifyID();
-            if(_data != PlaceHolderText){
-                DataPlaceHolders.Add(_data);
-                DataSpotifyID.Add(id);
-            }
+            data.Add(item.GetComponent<PF_ADNMusicalEventSystem>().GetPlaceHolder());
         }
+        MwsiveConnectionManager.instance.PostMusicalDNA(TypeString, data.ToArray(), Callback_PostMusicalDNA );
     }
+
+    public void Callback_PostMusicalDNA( object[] _value){
+        Debug.Log(_value);
+        UIMessage.instance.UIMessageInstanciate("Se ha actualizado tu lista");
+    }
+
+
     public void ControlAñadirButton(){
         
         CurrentPrefabs++;
