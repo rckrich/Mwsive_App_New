@@ -179,7 +179,7 @@ public class ADNDynamicScroll : MonoBehaviour
             {
                 if(mwsiveUserRoot.user.user_lists[TypeOfADN].items_list != null){
                     if(TypeOfADN == 1 || TypeOfADN == 5 || TypeOfADN == 6){
-                    SpotifyConnectionManager.instance.GetSeveralArtists(mwsiveUserRoot.user.user_lists[TypeOfADN].items_list.ToArray(), OnCallback_SetPlaceHoldersArtists);
+                        SpotifyConnectionManager.instance.GetSeveralArtists(mwsiveUserRoot.user.user_lists[TypeOfADN].items_list.ToArray(), OnCallback_SetPlaceHoldersArtists);
                     }else{
                         SpotifyConnectionManager.instance.GetSeveralTracks(mwsiveUserRoot.user.user_lists[TypeOfADN].items_list.ToArray(), OnCallback_SetPlaceHoldersTracks);
                     }
@@ -223,8 +223,8 @@ public class ADNDynamicScroll : MonoBehaviour
 
     public void OnCallback_SetPlaceHoldersArtists(object [] _value){
         SeveralArtistRoot severalartists = (SeveralArtistRoot)_value[1];
-
-        if(severalartists.artists.Count >= Min){
+        if(severalartists != null){
+            if(severalartists.artists.Count >= Min){
             for (int i = 0; i < severalartists.artists.Count; i++)
             {
                 DynamicPrefabSpawner(0);
@@ -233,16 +233,18 @@ public class ADNDynamicScroll : MonoBehaviour
                 }
                 
             }
-        }else{
-            DynamicPrefabSpawner(Min-1);
+            }else{
+                DynamicPrefabSpawner(Min-1);
+            }
         }
+        
 
     }
 
     public void OnCallback_SetPlaceHoldersTracks(object [] _value){
         SeveralTrackRoot severaltracks = (SeveralTrackRoot)_value[1];
-
-        if(severaltracks.tracks.Count >= Min){
+        if(severaltracks != null){
+            if(severaltracks.tracks.Count >= Min){
             for (int i = 0; i < severaltracks.tracks.Count; i++)
             {
                 DynamicPrefabSpawner(0);
@@ -251,9 +253,11 @@ public class ADNDynamicScroll : MonoBehaviour
                 }
                 
             }
-        }else{
-            DynamicPrefabSpawner(Min-1);
+            }else{
+                DynamicPrefabSpawner(Min-1);
+            }
         }
+        
     }
 
     public void HideShowHeader(){
@@ -358,7 +362,7 @@ public class ADNDynamicScroll : MonoBehaviour
         List<string> data = new List<string>();
         foreach (GameObject item in Instances )
         {
-            data.Add(item.GetComponent<PF_ADNMusicalEventSystem>().GetPlaceHolder());
+            data.Add(item.GetComponent<PF_ADNMusicalEventSystem>().GetSpotifyID());
         }
         MwsiveConnectionManager.instance.PostMusicalDNA(TypeString, data.ToArray(), Callback_PostMusicalDNA );
     }
