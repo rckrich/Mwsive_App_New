@@ -13,6 +13,8 @@ public class ButtonSurfPlaylist : ViewModel
     public TMP_Text artistName;
     public TMP_Text albumName;
     public Image trackCover;
+    public Image[] topCuratorImages;
+    public TextMeshProUGUI friendCuratorsText;
     public string playlistName;
     public AppManager appManager;
     public Transform transformImage;
@@ -41,11 +43,13 @@ public class ButtonSurfPlaylist : ViewModel
     private ChallengeAppObject Challenge;
     public bool SuccesfulEnded = false;
     public bool AmILastPosition = false;
+
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
     {
         playlistName = _playlistName;
 
     }
+
     public void SetChangeColorAppEvent(Color _color, Color _colorText)
     {
         buttonColor.GetComponent<Image>().color = _color;
@@ -358,5 +362,24 @@ public class ButtonSurfPlaylist : ViewModel
 
         trackTotalPicks.text = trackInfoRoot.total_piks.ToString();
         trackTotalRecommendation.text = trackInfoRoot.total_recommendations.ToString();
+
+        if(friendCuratorsText != null)
+        {
+            friendCuratorsText.text = (trackInfoRoot.total_piks_followed == null) ? "- amigos también votaron por \n esta canción" : trackInfoRoot.total_piks_followed + " amigos también votaron por \n esta canción";
+        }
+
+        if (trackInfoRoot.top_curators != null)
+        {
+            for(int i = 0; i < trackInfoRoot.top_curators.Count; i++)
+            {
+                if (i >= 3) return;
+
+                string curatorProfileImgURL = trackInfoRoot.top_curators[i];
+                if (!curatorProfileImgURL.Equals("") && topCuratorImages[i] != null)
+                {
+                    ImageManager.instance.GetImage(curatorProfileImgURL, topCuratorImages[i], topCuratorImages[i].rectTransform);
+                }
+            }
+        }
     }
 }
