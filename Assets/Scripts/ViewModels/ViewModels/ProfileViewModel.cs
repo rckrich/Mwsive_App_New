@@ -323,8 +323,36 @@ public class ProfileViewModel : ViewModel
 
 
     public void OnClick_SurfButton(){
+        MwsiveConnectionManager.instance.GetMwsiveUser(profileId, Callback_GetDNASeveralTracks);
         NewScreenManager.instance.ChangeToSpawnedView("surf");
-        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().SurfProfileADN(profileId);
+        
+        
+    }
+
+    public void Callback_GetDNASeveralTracks(object[] _value){
+        MwsiveUserRoot mwsiveuser = (MwsiveUserRoot)_value[1];
+
+        List<string> tracks = new List<string>();
+        
+        if(mwsiveUserRoot.user.user_lists != null){
+            
+            foreach (var item in mwsiveuser.user.user_lists)
+            {
+                if(item.type == "OST" || item.type == "LATEST_DISCOVERIES" || item.type == "ON_LOVE" || item.type == "GUILTY_PLEASURE" || item.type == "ON_REPEAT"){
+                    foreach (var _track in item.items_list)
+                    {
+                        tracks.Add(_track);
+                    }
+                }
+            }
+        }
+        
+        if(tracks != null){
+            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().SurfProfileADN(profileId, tracks);
+        }else{
+            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().SurfProfileADN(profileId);
+        }
+        
     }
 
     private void FollowButtonInitilization()
