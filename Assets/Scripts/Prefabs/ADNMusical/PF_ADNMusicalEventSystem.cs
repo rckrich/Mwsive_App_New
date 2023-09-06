@@ -61,7 +61,7 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
         
     }
     private void SearchItem(){
-
+        StopAllCoroutines();
         Debug.Log("AAAAAAAAAAAA");
         DynamicPrefabSpawner();
         switch (Type)
@@ -156,7 +156,7 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
         switch (Type)
         {
             case 0:
-            if (searchRoot.artists != null){
+            if (searchRoot.artists != null && Instances.Count > 0){
                 Debug.Log(Instances.Count);
                 Debug.Log(searchRoot.artists.items.Count);
                 for (int i = 0; i < searchRoot.artists.items.Count; i++)
@@ -184,7 +184,8 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
             break;
 
             case 1:
-                if (searchRoot.tracks != null){
+                if (searchRoot.tracks != null && Instances.Count > 0)
+                {
                     for (int i = 0; i < searchRoot.tracks.items.Count; i++)
                         {
                             try
