@@ -376,7 +376,7 @@ public class AppManager : Manager
     public void RefreshUser(MwsiveWebCallback _callback = null){
         if(_callback != null)
         {
-            refreshMwsiveUserCallback += Callback_RefreshCurrentPlaylist;
+            refreshMwsiveUserCallback = Callback_RefreshCurrentPlaylist;
             refreshMwsiveUserCallback += _callback;
             MwsiveConnectionManager.instance.GetCurrentMwsiveUser(refreshMwsiveUserCallback);
         }
