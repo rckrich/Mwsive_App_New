@@ -10,7 +10,7 @@ public class ADNDynamicScroll : MonoBehaviour
     
     public float MaxPrefabsInScreen = 0;
     public ScrollRect ScrollBar;
-    public GameObject SpawnArea, Prefab, Añadir, ScrollView, GuardarTop;
+    public GameObject SpawnArea, Prefab, Añadir, ScrollView, GuardarTop, container, Firstposition;
     private GameObject Instance;  
     public List<GameObject> Instances = new List<GameObject>();
     private static ADNDynamicScroll _instance;
@@ -31,11 +31,14 @@ public class ADNDynamicScroll : MonoBehaviour
     [HideInInspector]
     private MwsiveUserRoot mwsiveUserRoot;
     public int TypeOfADN;
+    private bool Editable;
 
     
-    public void Initialize(int _TypeOfADN, bool Editable, MwsiveUserRoot _mwsiveUserRoot) {
+    public void Initialize(int _TypeOfADN, bool _Editable, MwsiveUserRoot _mwsiveUserRoot) {
         mwsiveUserRoot = _mwsiveUserRoot;
         TypeOfADN = _TypeOfADN;
+        Editable = _Editable;
+        
         Debug.Log(Editable);
         
         
@@ -46,6 +49,10 @@ public class ADNDynamicScroll : MonoBehaviour
                 if(Editable){
                     Subtitle.text = "Escribe tus cancion favorita";
                     PlaceHolderText = "Buscar Canción";
+                }else
+                {
+                    Subtitle.text = "";
+                    PlaceHolderText = "";
                 }
                 PrefabToSet = Prefabs[1];
                 Max = 1;
@@ -172,36 +179,48 @@ public class ADNDynamicScroll : MonoBehaviour
                 break;
         }
 
+        
+
         if(mwsiveUserRoot.user.user_lists != null){
-            
-            
-            try
-            {
-                if(mwsiveUserRoot.user.user_lists[TypeOfADN].items_list != null){
-                    if(TypeOfADN == 1 || TypeOfADN == 5 || TypeOfADN == 6){
-                    SpotifyConnectionManager.instance.GetSeveralArtists(mwsiveUserRoot.user.user_lists[TypeOfADN].items_list.ToArray(), OnCallback_SetPlaceHoldersArtists);
-                    }else{
-                        SpotifyConnectionManager.instance.GetSeveralTracks(mwsiveUserRoot.user.user_lists[TypeOfADN].items_list.ToArray(), OnCallback_SetPlaceHoldersTracks);
+            bool flag = false;
+         
+                foreach( var item in mwsiveUserRoot.user.user_lists)
+                {
+                    if(item.type == TypeString && item.items_list != null && item.items != "" && item.items_list[0] != null)
+                    {
+                        if(Type == 0)
+                        {
+                            SpotifyConnectionManager.instance.GetSeveralArtists(item.items_list.ToArray(), OnCallback_SetPlaceHoldersArtists);
+                            flag = true;
+                            break;
+                        }
+                        else 
+                        {
+                            SpotifyConnectionManager.instance.GetSeveralTracks(item.items_list.ToArray(), OnCallback_SetPlaceHoldersTracks);
+                            flag = true;
+                            break;
+                        }
                     }
-                }else{
-                    if(!Editable){
-                        UIMessage.instance.UIMessageInstanciate("La lista esta vacia");
-                    }else{
-                        DynamicPrefabSpawner(Min-1);
-                    }
+                    
                 }
-            }
-            catch (System.ArgumentOutOfRangeException)
+
+            if (!flag)
             {
                 
-                if(!Editable){
+                if (!Editable)
+                {
                     UIMessage.instance.UIMessageInstanciate("La lista esta vacia");
-                }else{
-                    DynamicPrefabSpawner(Min-1);
+                    
                 }
-            }  
+                else
+                {
+                    DynamicPrefabSpawner(Min - 1);
+                    
+                }
                 
-            
+            }
+                
+        
             
         }
         CurrentPrefabs = Min;
@@ -209,22 +228,22 @@ public class ADNDynamicScroll : MonoBehaviour
         GuardarTop.GetComponent<Image>().color = new Color32 (128,128,128,255);
 
         if(!Editable){
-            foreach (GameObject item in Instances)
-            {
-                item.GetComponentInChildren<TMP_InputField>().interactable = false;
-                item.GetComponent<PF_ADNMusicalEventSystem>().EraseButton.SetActive(false);
-            }
+            
             Añadir.SetActive(false);
             GuardarTop.SetActive(false);
 
         }
         
     }
+    public void OnClick_CurrentUser()
+    {
+        Editable = true;
+    }
 
     public void OnCallback_SetPlaceHoldersArtists(object [] _value){
         SeveralArtistRoot severalartists = (SeveralArtistRoot)_value[1];
-
-        if(severalartists.artists.Count >= Min){
+        if(severalartists != null){
+            if(severalartists.artists.Count >= Min){
             for (int i = 0; i < severalartists.artists.Count; i++)
             {
                 DynamicPrefabSpawner(0);
@@ -233,27 +252,52 @@ public class ADNDynamicScroll : MonoBehaviour
                 }
                 
             }
-        }else{
-            DynamicPrefabSpawner(Min-1);
+            }else{
+                DynamicPrefabSpawner(Min-1);
+            }
         }
+
+        if (!Editable)
+        {
+            foreach (GameObject item in Instances)
+            {
+                item.GetComponentInChildren<TMP_InputField>().interactable = false;
+                item.GetComponent<PF_ADNMusicalEventSystem>().EraseButton.SetActive(false);
+            }
+        }
+        
 
     }
 
     public void OnCallback_SetPlaceHoldersTracks(object [] _value){
         SeveralTrackRoot severaltracks = (SeveralTrackRoot)_value[1];
-
-        if(severaltracks.tracks.Count >= Min){
+        if(severaltracks != null){
+            if(severaltracks.tracks.Count >= Min){
             for (int i = 0; i < severaltracks.tracks.Count; i++)
             {
-                DynamicPrefabSpawner(0);
-                if(severaltracks.tracks[i].name != null || severaltracks.tracks[i].name  != ""){
+                    
+                    DynamicPrefabSpawner(0);
+                    
+                if(severaltracks.tracks[i].name != null){
+                    
                     Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetPlaceHolder(severaltracks.tracks[i].name);
                 }
                 
             }
-        }else{
-            DynamicPrefabSpawner(Min-1);
+            }else{
+                DynamicPrefabSpawner(Min-1);
+            }
         }
+
+        if (!Editable)
+        {
+            foreach (GameObject item in Instances)
+            {
+                item.GetComponentInChildren<TMP_InputField>().interactable = false;
+                item.GetComponent<PF_ADNMusicalEventSystem>().EraseButton.SetActive(false);
+            }
+        }
+
     }
 
     public void HideShowHeader(){
@@ -262,7 +306,7 @@ public class ADNDynamicScroll : MonoBehaviour
     
     
     public void HideAllOtherInstances(string gameObjectname){
-        Debug.Log("Hide");
+        
         foreach (GameObject item in Instances)
         {
             if(item.name != gameObjectname){
@@ -271,6 +315,9 @@ public class ADNDynamicScroll : MonoBehaviour
             
         }
         Añadir.SetActive(false);
+
+        container.transform.localPosition = new Vector3(0, 0, 0);
+        
     }
 
     public static ADNDynamicScroll instance
@@ -358,14 +405,18 @@ public class ADNDynamicScroll : MonoBehaviour
         List<string> data = new List<string>();
         foreach (GameObject item in Instances )
         {
-            data.Add(item.GetComponent<PF_ADNMusicalEventSystem>().GetPlaceHolder());
+            data.Add(item.GetComponent<PF_ADNMusicalEventSystem>().GetSpotifyID());
         }
+        StopAllCoroutines();
         MwsiveConnectionManager.instance.PostMusicalDNA(TypeString, data.ToArray(), Callback_PostMusicalDNA );
     }
 
     public void Callback_PostMusicalDNA( object[] _value){
         Debug.Log(_value);
         UIMessage.instance.UIMessageInstanciate("Se ha actualizado tu lista");
+        GuardarTop.GetComponent<Button>().enabled = false;
+        GuardarTop.GetComponent<Image>().color = new Color32(128, 128, 128, 255);
+
     }
 
 
@@ -386,6 +437,7 @@ public class ADNDynamicScroll : MonoBehaviour
     }
 
     public void DynamicPrefabSpawner(float howmanyprefabs){
+        Debug.Log("SPAWWWWWWN");
         
         for (int i = 0; i <= howmanyprefabs; i++)
         {

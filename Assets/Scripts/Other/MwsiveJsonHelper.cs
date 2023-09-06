@@ -350,8 +350,7 @@ public class MwsiveGenresRoot
 
 public class TrackActionRoot
 {
-    public int user_id { get; set; }
-    public int track_id { get; set; }
+    public string track_id { get; set; }
     public string action { get; set; }
     public float duration { get; set; }
 }
@@ -408,6 +407,7 @@ public class TrackInfoRoot
 {
     public int total_piks { get; set; }
     public int total_recommendations { get; set; }
+    public int? total_piks_followed { get; set; }
     public List<string> top_curators { get; set; }
 }
 

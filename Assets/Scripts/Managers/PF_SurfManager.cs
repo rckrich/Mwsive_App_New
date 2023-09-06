@@ -658,8 +658,10 @@ public class PF_SurfManager : Manager
         int SpawnedSongs = 0;
         foreach (var item in tracks)
         {
+            Debug.Log(tracks.Count);
             if(item != null)
             {
+
                 if (item.preview_url != null)
                 {
                     GameObject instance = SpawnPrefab();
@@ -676,7 +678,7 @@ public class PF_SurfManager : Manager
                     }
 
                     artists = artists.Remove(artists.Length - 2);
-
+                    
                     string currentPlayListName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
                     instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(currentPlayListName, item.name, item.album.name, artists, item.album.images[0].url, item.id, item.uri, item.preview_url, item.external_urls.spotify, Challenge);
                     
@@ -779,7 +781,7 @@ public class PF_SurfManager : Manager
     }
 
 
-    public void SurfProfileADN( string profileId = null, object[] value = null){
+    public void SurfProfileADN( string profileId = null, List<string> value = null){
 
        
         if(profileId != null){
@@ -873,11 +875,19 @@ public class PF_SurfManager : Manager
         }
         if(value != null){
             SurfProfile = true;
-            //Bla bla spawnear cosas de ADN Musical;
+            Debug.Log(value.Count +"-----------------------------------------------------------------------------");
+            SpotifyConnectionManager.instance.GetSeveralTracks(value.ToArray(), OnCallBack_SpawnSeveralTracks);
         }
         
 
 
+    }
+
+    private void OnCallBack_SpawnSeveralTracks(object [] _value){
+
+        SeveralTrackRoot severaltrack = (SeveralTrackRoot)_value[1];
+        DynamicPrefabSpawnerSeveralTracks(severaltrack.tracks, true);
+        HasFirstPlaylistPlayed = true;
     }
 
 

@@ -13,6 +13,8 @@ public class ButtonSurfPlaylist : ViewModel
     public TMP_Text artistName;
     public TMP_Text albumName;
     public Image trackCover;
+    public Image[] topCuratorImages;
+    public TextMeshProUGUI friendCuratorsText;
     public string playlistName;
     public AppManager appManager;
     public Transform transformImage;
@@ -41,11 +43,13 @@ public class ButtonSurfPlaylist : ViewModel
     private ChallengeAppObject Challenge;
     public bool SuccesfulEnded = false;
     public bool AmILastPosition = false;
+
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
     {
         playlistName = _playlistName;
 
     }
+
     public void SetChangeColorAppEvent(Color _color, Color _colorText)
     {
         buttonColor.GetComponent<Image>().color = _color;
@@ -176,8 +180,6 @@ public class ButtonSurfPlaylist : ViewModel
 
     private void Callback_GetTrack(object[] _list)
     {
-        
-        
         CheckIfDurationBarCanPlay();
         loadingAnimGameObject.SetActive(false);
         
@@ -198,8 +200,8 @@ public class ButtonSurfPlaylist : ViewModel
         {
             MwsiveConnectionManager.instance.GetTrackInformation_NoAuth(trackID, Callback_GetTrackInformation);
         }
-        //EndSearch();
     }
+
     public void CheckIfDurationBarCanPlay(){
         try
         {
@@ -254,6 +256,8 @@ public class ButtonSurfPlaylist : ViewModel
         if (!AppManager.instance.SearchTrackOnCurrentPlaylist(trackID))
         {
             SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
+            /*if (AppManager.instance.isLogInMode && !trackID.Equals(""))
+                MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", 0.0f);*/
         }
         else
         {
@@ -266,10 +270,14 @@ public class ButtonSurfPlaylist : ViewModel
         if (!AppManager.instance.SearchTrackOnCurrentPlaylist(trackID))
         {
             SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
+            /*if (AppManager.instance.isLogInMode && !trackID.Equals(""))
+                MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", 0.0f);*/
         }
         else
         {
             SpotifyConnectionManager.instance.RemoveItemsFromPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_RemoveToPlaylist);
+            /*if (AppManager.instance.isLogInMode && !trackID.Equals(""))
+                MwsiveConnectionManager.instance.PostTrackAction(trackID, "NOT_RECOMMEND", 0.0f);*/
         }
     }
 
@@ -281,7 +289,6 @@ public class ButtonSurfPlaylist : ViewModel
             UIMessage.instance.UIMessageInstanciate("Playlist no propia o inexistente");
             AppManager.instance.yours = false;
             InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(redNew, redNew));
-            Debug.Log("Hola");
         }
         else
         {
@@ -293,8 +300,6 @@ public class ButtonSurfPlaylist : ViewModel
             AppManager.instance.yours = true;
             InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(gray, Color.black));
         }
-        
-        
     }
 
     private void Callback_RemoveToPlaylist(object[] _value)
@@ -325,9 +330,16 @@ public class ButtonSurfPlaylist : ViewModel
         Application.OpenURL(externalURL);
     }
 
+    public void UpSwipe()
+    {
+        /*if (AppManager.instance.isLogInMode && !trackID.Equals(""))
+            MwsiveConnectionManager.instance.PostTrackAction(trackID, "UP", 0.0f);*/
+    }
+
     public void BackSwipe()
     {
-
+        /*if (AppManager.instance.isLogInMode && !trackID.Equals(""))
+            MwsiveConnectionManager.instance.PostTrackAction(trackID, "DOWN", 0.0f);*/
     }
 
     public void ChangeEventListener(ChangeColorAppEvent _event)
@@ -351,8 +363,23 @@ public class ButtonSurfPlaylist : ViewModel
         trackTotalPicks.text = trackInfoRoot.total_piks.ToString();
         trackTotalRecommendation.text = trackInfoRoot.total_recommendations.ToString();
 
+        if(friendCuratorsText != null)
+        {
+            friendCuratorsText.text = (trackInfoRoot.total_piks_followed == null) ? "- amigos también votaron por \n esta canción" : trackInfoRoot.total_piks_followed + " amigos también votaron por \n esta canción";
+        }
 
+        if (trackInfoRoot.top_curators != null)
+        {
+            for(int i = 0; i < trackInfoRoot.top_curators.Count; i++)
+            {
+                if (i >= 3) return;
 
-        
+                string curatorProfileImgURL = trackInfoRoot.top_curators[i];
+                if (!curatorProfileImgURL.Equals("") && topCuratorImages[i] != null)
+                {
+                    ImageManager.instance.GetImage(curatorProfileImgURL, topCuratorImages[i], topCuratorImages[i].rectTransform);
+                }
+            }
+        }
     }
 }

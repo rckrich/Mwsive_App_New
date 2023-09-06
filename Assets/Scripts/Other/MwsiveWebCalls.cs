@@ -367,7 +367,7 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_PostTrackAction(string _token, int _user_id, int _track_id, string _action, float _duration, MwsiveWebCallback _callback)
+    public static IEnumerator CR_PostTrackAction(string _token, string _track_id, string _action, float _duration, MwsiveWebCallback _callback)
     {
         string jsonResult = "";
 
@@ -376,7 +376,6 @@ public class MwsiveWebCalls : MonoBehaviour
 
         TrackActionRoot newAction = new TrackActionRoot
         {
-            user_id = _user_id,
             track_id = _track_id,
             action = _action,
             duration = _duration
