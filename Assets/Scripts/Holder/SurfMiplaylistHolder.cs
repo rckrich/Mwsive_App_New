@@ -12,7 +12,6 @@ public class SurfMiplaylistHolder : ViewModel
     public Image playlistPicture;
     public TextMeshProUGUI playlistOwner;
     private string spotifyID;
-    public PlaylistViewModel playlistViewModel;
     public SurfMiPlaylistViewModel miPlaylistViewModel;
     public ChangeImage change;
     public bool @public;
@@ -102,9 +101,12 @@ public class SurfMiplaylistHolder : ViewModel
 
     public void OnClick_SpawnPlaylistButton()
     {
-        playlistViewModel.playlistName.text = playlistName.text;
-        playlistViewModel.id = spotifyID;
+
         NewScreenManager.instance.ChangeToSpawnedView("playlist");
+        PlaylistViewModel playlistViewModel = NewScreenManager.instance.GetCurrentView().GetComponent<PlaylistViewModel>();
+        playlistViewModel.playlistName.text = playlistName.text;
+        playlistViewModel.SetPlaylistID(spotifyID);
+        playlistViewModel.GetPlaylist();
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
 

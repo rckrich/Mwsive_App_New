@@ -61,7 +61,7 @@ public class PlaylistAppObject : AppObject
 
         NewScreenManager.instance.ChangeToSpawnedView("playlist");
         NewScreenManager.instance.GetCurrentView().GetComponent<PlaylistViewModel>().listenOnSpotify.SetActive(false);
-        NewScreenManager.instance.GetCurrentView().GetComponent<PlaylistViewModel>().GetSeveralTracks(trackID.ToArray());
+        NewScreenManager.instance.GetCurrentView().GetComponent<PlaylistViewModel>().GetSeveralTracks(trackID.ToArray(), playlistText.text);
         trackID.Clear();
     }
 }

@@ -11,10 +11,8 @@ public class MiplaylistHolder : MonoBehaviour
     public Image playlistPicture;
     public TextMeshProUGUI playlistOwner;
     private string spotifyID;
-    public PlaylistViewModel playlistViewModel;
     public MiPlaylistViewModel miPlaylistViewModel;
     public ChangeImage change;
-    public HolderManager holderManager;
     public bool @public;
     public ExternalUrls url;
 
@@ -84,11 +82,13 @@ public class MiplaylistHolder : MonoBehaviour
 
     public void OnClick_SpawnPlaylistButton()
     {
-        playlistViewModel.playlistName.text = playlistName.text;
-        playlistViewModel.id = spotifyID;
-        playlistViewModel.@public = @public;
-        holderManager.playlistExternalUrl = url;
+
         NewScreenManager.instance.ChangeToSpawnedView("playlist");
+        PlaylistViewModel playlistViewModel = NewScreenManager.instance.GetCurrentView().GetComponent<PlaylistViewModel>();
+        playlistViewModel.playlistName.text = playlistName.text;
+        playlistViewModel.SetPlaylistID(spotifyID);
+        playlistViewModel.@public = @public;
+        playlistViewModel.GetPlaylist();
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
 
