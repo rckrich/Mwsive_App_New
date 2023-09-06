@@ -127,13 +127,13 @@ public class DescubrirPaginas : MonoBehaviour
                     ResultsText[numEnpantalla].GetComponentInChildren<TextMeshProUGUI>().text = "Encuentra a tus artistas favoritos";
                     break;
                 case 4:
-                    ResultsText[numEnpantalla].GetComponentInChildren<TextMeshProUGUI>().text = "Encuentra a tus Álbumes favoritos";
+                    ResultsText[numEnpantalla].GetComponentInChildren<TextMeshProUGUI>().text = "Encuentra a tus ?lbumes favoritos";
                     break;
                 case 5:
                     ResultsText[numEnpantalla].GetComponentInChildren<TextMeshProUGUI>().text = "Encuentra a tus playlists favoritas";
                     break;
                 case 6:
-                    ResultsText[numEnpantalla].GetComponentInChildren<TextMeshProUGUI>().text = "Encuentra a tus géneros favoritos";
+                    ResultsText[numEnpantalla].GetComponentInChildren<TextMeshProUGUI>().text = "Encuentra a tus g?neros favoritos";
                     break;
             }
         }
@@ -154,13 +154,13 @@ public class DescubrirPaginas : MonoBehaviour
                     ResultsText[numEnpantalla].GetComponentInChildren<TextMeshProUGUI>().text = "Resultado de busqueda artistas";
                     break;
                 case 4:
-                    ResultsText[numEnpantalla].GetComponentInChildren<TextMeshProUGUI>().text = "Resultado de busqueda Álbumes";
+                    ResultsText[numEnpantalla].GetComponentInChildren<TextMeshProUGUI>().text = "Resultado de busqueda ?lbumes";
                     break;
                 case 5:
                     ResultsText[numEnpantalla].GetComponentInChildren<TextMeshProUGUI>().text = "Resultado de busqueda playlists";
                     break;
                 case 6:
-                    ResultsText[numEnpantalla].GetComponentInChildren<TextMeshProUGUI>().text = "Resultado de busqueda géneros";
+                    ResultsText[numEnpantalla].GetComponentInChildren<TextMeshProUGUI>().text = "Resultado de busqueda g?neros";
                     break;
             }
         }
