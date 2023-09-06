@@ -10,7 +10,7 @@ public class ADNDynamicScroll : MonoBehaviour
     
     public float MaxPrefabsInScreen = 0;
     public ScrollRect ScrollBar;
-    public GameObject SpawnArea, Prefab, Añadir, ScrollView, GuardarTop;
+    public GameObject SpawnArea, Prefab, Añadir, ScrollView, GuardarTop, container;
     private GameObject Instance;  
     public List<GameObject> Instances = new List<GameObject>();
     private static ADNDynamicScroll _instance;
@@ -34,10 +34,11 @@ public class ADNDynamicScroll : MonoBehaviour
     private bool Editable;
 
     
-    public void Initialize(int _TypeOfADN, bool _editable, MwsiveUserRoot _mwsiveUserRoot) {
+    public void Initialize(int _TypeOfADN, bool _Editable, MwsiveUserRoot _mwsiveUserRoot) {
         mwsiveUserRoot = _mwsiveUserRoot;
         TypeOfADN = _TypeOfADN;
-        Editable = _editable;
+        Editable = _Editable;
+        
         Debug.Log(Editable);
         
         
@@ -234,6 +235,10 @@ public class ADNDynamicScroll : MonoBehaviour
         }
         
     }
+    public void OnClick_CurrentUser()
+    {
+        Editable = true;
+    }
 
     public void OnCallback_SetPlaceHoldersArtists(object [] _value){
         SeveralArtistRoot severalartists = (SeveralArtistRoot)_value[1];
@@ -301,7 +306,7 @@ public class ADNDynamicScroll : MonoBehaviour
     
     
     public void HideAllOtherInstances(string gameObjectname){
-        Debug.Log("Hide");
+        
         foreach (GameObject item in Instances)
         {
             if(item.name != gameObjectname){
@@ -310,6 +315,7 @@ public class ADNDynamicScroll : MonoBehaviour
             
         }
         Añadir.SetActive(false);
+        container.transform.position = new Vector3(0, 0, 0);
     }
 
     public static ADNDynamicScroll instance

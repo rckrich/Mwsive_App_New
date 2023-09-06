@@ -25,11 +25,12 @@ public class ProfileViewModel : ViewModel
     public Color followTextColor;
     public Color unfollowTextColor;
 
-    private bool iScurrentUser;
+    
     private bool isCurrentUserProfileView = true;
     private MwsiveUserRoot mwsiveUserRoot;
 
     private string profileId = "";
+    private bool currentuser;
 
     public override void Initialize(params object[] list)
     {
@@ -95,13 +96,13 @@ public class ProfileViewModel : ViewModel
 
         if (_profileId.Equals(""))           
         {
-            iScurrentUser = true;
+
             StartSearch();           
             MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser);
         }
         else
         {
-            iScurrentUser = false;
+            
             MwsiveConnectionManager.instance.GetMwsiveUser(_profileId, Callback_GetMwsiveUser);                     
         }
     }
@@ -116,8 +117,12 @@ public class ProfileViewModel : ViewModel
     {
         NewScreenManager.instance.ChangeToSpawnedView("adn");
         
-        NewScreenManager.instance.GetCurrentView().gameObject.GetComponent<ADNDynamicScroll>().Initialize(identifier, iScurrentUser, mwsiveUserRoot);
+        NewScreenManager.instance.GetCurrentView().gameObject.GetComponent<ADNDynamicScroll>().Initialize(identifier, currentuser, mwsiveUserRoot);
 
+    }
+    public void OnClick_SetEditableDNA()
+    {
+        currentuser = true;
     }
 
     public void OnClick_SpawnMiPlaylistButton()
