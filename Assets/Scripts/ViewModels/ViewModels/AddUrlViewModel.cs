@@ -71,7 +71,7 @@ public class AddUrlViewModel : ViewModel
 
     public void OnEndEdit_ExternalUrl()
     {
-        if (inputUrl.text.Contains("youtube.com/channel/"))
+        if (inputUrl.text.Contains("https://")|| inputUrl.text.Contains("."))
         {
             MwsiveConnectionManager.instance.PostUserLink("EXTERNAL", inputUrl.text, Callback_PostUserLink);
         }
@@ -83,14 +83,7 @@ public class AddUrlViewModel : ViewModel
 
     public void Callback_PostUserLink(object[] _value)
     {
-        MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser);
-    }
-
-    public void Callback_GetCurrentMwsiveUser(object[] _value)
-    {
-        MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
-
-        AppManager.instance.currentMwsiveUser = mwsiveUserRoot.user;
+        AppManager.instance.RefreshUser();
     }
 
     public void OnClick_BackButton()

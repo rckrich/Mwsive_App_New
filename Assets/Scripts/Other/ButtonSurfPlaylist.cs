@@ -8,6 +8,9 @@ using UnityEngine.UI;
 
 public class ButtonSurfPlaylist : ViewModel
 {
+    private const int THOUSEND_CONVERT_TO_K = 1000;
+    private const int MILLION_CONVERT_TO_M = 1000000;
+
     public TMP_Text playlistText;
     public TMP_Text trackName;
     public TMP_Text artistName;
@@ -360,12 +363,66 @@ public class ButtonSurfPlaylist : ViewModel
     {
         TrackInfoRoot trackInfoRoot = (TrackInfoRoot)_value[1];
 
-        trackTotalPicks.text = trackInfoRoot.total_piks.ToString();
-        trackTotalRecommendation.text = trackInfoRoot.total_recommendations.ToString();
-
-        if(friendCuratorsText != null)
+        if(trackInfoRoot.total_piks <= THOUSEND_CONVERT_TO_K)
         {
-            friendCuratorsText.text = (trackInfoRoot.total_piks_followed == null) ? "- amigos también votaron por \n esta canción" : trackInfoRoot.total_piks_followed + " amigos también votaron por \n esta canción";
+            trackTotalPicks.text = (trackInfoRoot.total_piks / THOUSEND_CONVERT_TO_K).ToString() + "K";
+        }
+        else if(trackInfoRoot.total_piks <= MILLION_CONVERT_TO_M)
+        {
+            trackTotalPicks.text = (trackInfoRoot.total_piks / MILLION_CONVERT_TO_M).ToString() + "M";
+        }
+        else
+        {
+            trackTotalPicks.text = trackInfoRoot.total_piks.ToString();
+        }
+
+        //------------------------------------------------------------------
+
+        if  (trackInfoRoot.total_recommendations <= THOUSEND_CONVERT_TO_K)
+        {
+            trackTotalRecommendation.text = (trackInfoRoot.total_recommendations / THOUSEND_CONVERT_TO_K).ToString() + "K";
+        }
+        else if (trackInfoRoot.total_piks <= MILLION_CONVERT_TO_M)
+        {
+            trackTotalRecommendation.text = (trackInfoRoot.total_recommendations / MILLION_CONVERT_TO_M).ToString() + "M";
+        }
+        else
+        {
+            trackTotalRecommendation.text = trackInfoRoot.total_recommendations.ToString();
+        }
+
+        //------------------------------------------------------------------
+
+        
+
+
+
+        if (friendCuratorsText != null)
+        {
+            if(trackInfoRoot.total_piks_followed == null)
+            {
+                friendCuratorsText.text = "- amigos también votaron por \n esta canción";
+            }
+            else
+            {
+                string totalPiksFollowed = "0";
+
+                if (trackInfoRoot.total_piks_followed <= THOUSEND_CONVERT_TO_K)
+                {
+                    totalPiksFollowed = (trackInfoRoot.total_piks_followed / THOUSEND_CONVERT_TO_K).ToString() + "K";
+                }
+                else if (trackInfoRoot.total_piks <= MILLION_CONVERT_TO_M)
+                {
+                    totalPiksFollowed = (trackInfoRoot.total_piks_followed / MILLION_CONVERT_TO_M).ToString() + "M";
+                }
+                else
+                {
+                    totalPiksFollowed = trackInfoRoot.total_piks_followed.ToString();
+                }
+
+                friendCuratorsText.text = totalPiksFollowed + " amigos también votaron por \n esta canción";
+
+            }
         }
 
         if (trackInfoRoot.top_curators != null)

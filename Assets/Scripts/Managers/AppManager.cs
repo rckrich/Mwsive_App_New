@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using VoxelBusters.CoreLibrary;
 
 public class AppManager : Manager
 {
@@ -368,12 +369,27 @@ public class AppManager : Manager
         _isLogInMode = _value;
     }
 
-    public void RefreshUser(){
-        MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_RefreshUser);
+    #region Refresh Mwsive User
+
+    private MwsiveWebCallback refreshMwsiveUserCallback;
+
+    public void RefreshUser(MwsiveWebCallback _callback = null){
+        if(_callback != null)
+        {
+            refreshMwsiveUserCallback += Callback_RefreshCurrentPlaylist;
+            refreshMwsiveUserCallback += _callback;
+            MwsiveConnectionManager.instance.GetCurrentMwsiveUser(refreshMwsiveUserCallback);
+        }
+        else
+        {
+            MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_RefreshUser);
+        }
     }
 
-    public void Callback_RefreshUser(object[] _value){
+    private void Callback_RefreshUser(object[] _value){
         currentMwsiveUser = ((MwsiveUserRoot)_value[1]).user;
     }
+
+    #endregion
 
 }

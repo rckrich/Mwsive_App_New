@@ -48,14 +48,7 @@ public class EditProfileViewModel : ViewModel
 
     public void Callback_PostDisplayName(object[] _value)
     {
-        MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser);
-    }
-
-    public void Callback_GetCurrentMwsiveUser(object[] _value)
-    {
-        MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
-
-        AppManager.instance.currentMwsiveUser = mwsiveUserRoot.user;
+        AppManager.instance.RefreshUser();
     }
     
     public void OnClick_TiktokUrlAdd()
