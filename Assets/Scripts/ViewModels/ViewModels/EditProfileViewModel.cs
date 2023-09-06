@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,6 +35,7 @@ public class EditProfileViewModel : ViewModel
 
     public void OnValueChange_ProfileName()
     {
+       
         if (inputProfileName.Equals("") || inputProfileName.text.Length <= 6)
         {
             CallPopUP(PopUpViewModelTypes.MessageOnly, "Necesitas escribir un nombre", "por favor escribe un nombre con mas de 6 caracteres", "Aceptar");
@@ -55,4 +57,5 @@ public class EditProfileViewModel : ViewModel
 
         AppManager.instance.currentMwsiveUser = mwsiveUserRoot.user;
     }
+
 }
