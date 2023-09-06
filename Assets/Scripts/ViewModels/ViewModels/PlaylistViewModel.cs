@@ -166,11 +166,11 @@ public class PlaylistViewModel : ViewModel
     public void OnClick_SurfButton(){
 
         Debug.Log(isExplore);
-        if (isExplore)
+        if (trackList.Count > 0)
         {
             NewScreenManager.instance.ChangeToSpawnedView("surf");
             NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(trackList);
-            isExplore = false;
+            
         }
         else
         {

@@ -393,4 +393,22 @@ public class ChallengeCompleteRoot
     public int challenge_id { get; set; }
 }
 
+public class PostDisplayNameRoot
+{
+    public string display_name { get; set; }
+}
+
+public class PostUserLinkRoot
+{
+    public string type { get; set; }
+    public string url { get; set; }
+}
+
+public class TrackInfoRoot
+{
+    public int total_piks { get; set; }
+    public int total_recommendations { get; set; }
+    public List<string> top_curators { get; set; }
+}
+
 #endregion
