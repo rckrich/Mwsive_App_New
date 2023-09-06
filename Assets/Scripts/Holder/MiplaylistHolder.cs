@@ -11,7 +11,6 @@ public class MiplaylistHolder : MonoBehaviour
     public Image playlistPicture;
     public TextMeshProUGUI playlistOwner;
     private string spotifyID;
-    public MiPlaylistViewModel miPlaylistViewModel;
     public ChangeImage change;
     public bool @public;
     public ExternalUrls url;

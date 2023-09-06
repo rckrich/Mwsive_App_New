@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class MiPlaylistViewModel : ViewModel
 {
     private const int LIMIT = 20;
+    private const int OFFSET_START = 20;
 
     // Start is called before the first frame update
     public GameObject playlistHolderPrefab;
@@ -21,7 +22,7 @@ public class MiPlaylistViewModel : ViewModel
 
     public void GetCurrentUserPlaylist()
     {
-        offset = 20;
+        offset = OFFSET_START;
         SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_OnClick_GetCurrentUserPlaylists);
     }
 
@@ -43,7 +44,7 @@ public class MiPlaylistViewModel : ViewModel
     public void GetUserPlaylist(string _profileId)
     {
         profileID = _profileId;
-        offset = 20;
+        offset = OFFSET_START;
         SpotifyConnectionManager.instance.GetUserPlaylists(_profileId, Callback_OnClick_GetCurrentUserPlaylists);
     }
 
@@ -56,9 +57,8 @@ public class MiPlaylistViewModel : ViewModel
                 if (scrollRect.verticalNormalizedPosition <= end)
                 {
                     SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_GetMoreUserPlaylists, LIMIT, offset);
-                    offset += 20;
+                    offset += OFFSET_START;
                     onlyone = 1;
-                    Debug.Log("iiiiiiii");
                 }
             }
         }
@@ -69,9 +69,8 @@ public class MiPlaylistViewModel : ViewModel
                 if (scrollRect.verticalNormalizedPosition <= end)
                 {
                     SpotifyConnectionManager.instance.GetUserPlaylists(profileID, Callback_GetMoreUserPlaylists,LIMIT, offset);
-                    offset += 20;
+                    offset += OFFSET_START;
                     onlyone = 1;
-                    Debug.Log("ooooooo");
                 }
             }
         }
