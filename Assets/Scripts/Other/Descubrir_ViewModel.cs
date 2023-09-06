@@ -499,30 +499,34 @@ public class Descubrir_ViewModel : ViewModel
                         }
                     }
                 }
-
-                if (_mwsivecurator.curators != null)
-                {
-                    foreach (MwsiveUser item in _mwsivecurator.curators)
+                if(_mwsivecurator != null){
+                    if (_mwsivecurator.curators != null)
                     {
-                        try
+                        foreach (MwsiveUser item in _mwsivecurator.curators)
                         {
-                            if (item.image != null)
+                            try
                             {
-                                CustomSpawnPrefab(false, 1).GetComponent<DynamicSearchPrefabInitializer>().InitializeMwsiveUserwithImage(item.display_name, item.platform_id.ToString(), item.image);
+                                if (item.image != null)
+                                {
+                                    CustomSpawnPrefab(false, 1).GetComponent<DynamicSearchPrefabInitializer>().InitializeMwsiveUserwithImage(item.display_name, item.platform_id.ToString(), item.image);
+                                }
+                                else
+                                {
+                                    CustomSpawnPrefab(false, 1).GetComponent<DynamicSearchPrefabInitializer>().InitializeMwsiveUser(item.display_name, item.platform_id.ToString());
+                                }
+
                             }
-                            else
+                            catch (System.ArgumentOutOfRangeException)
                             {
+
+
                                 CustomSpawnPrefab(false, 1).GetComponent<DynamicSearchPrefabInitializer>().InitializeMwsiveUser(item.display_name, item.platform_id.ToString());
                             }
-
-                        }
-                        catch (System.NullReferenceException)
-                        {
-
-
-                            CustomSpawnPrefab(false, 1).GetComponent<DynamicSearchPrefabInitializer>().InitializeMwsiveUser(item.display_name, item.platform_id.ToString());
                         }
                     }
+
+
+
                 }
 
                 if (searchRoot.artists != null)
