@@ -82,3 +82,12 @@ public enum MusicalDNAType
     GOATS,                  //MIN 1; MAX 1; Type: Artist
     OST                     //MIN 4; MAX 18; Type: Track
 }
+
+public enum UserLinkType
+{
+    NONE = 0,
+    EXTERNAL,
+    TIK_TOK,
+    INSTAGRAM,
+    YOU_TUBE
+}

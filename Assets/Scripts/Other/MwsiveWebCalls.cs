@@ -1009,14 +1009,14 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        WWWForm form = new WWWForm();
+        //string url = "https://mwsive.com/api/me/display-name";
+        string url = "http://192.241.129.184/api/me/display-name";
 
-        form.AddField("display_name", _display_name);
+        PostDisplayNameRoot postDisplayNameRoot = new PostDisplayNameRoot { display_name = _display_name };
 
-        //string url = "https://mwsive.com/me/display_name";
-        string url = "http://192.241.129.184/api/me/display_name";
+        string jsonRaw = JsonConvert.SerializeObject(postDisplayNameRoot);
 
-        using (UnityWebRequest webRequest = UnityWebRequest.Post(url, form))
+        using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonRaw, "application/json"))
         {
             webRequest.SetRequestHeader("Accept", "application/json");
             webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
@@ -1056,15 +1056,14 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        WWWForm form = new WWWForm();
+        //string url = "https://mwsive.com/api/me/shared-url";
+        string url = "http://192.241.129.184/api/me/shared-url";
 
-        form.AddField("type", _type);
-        form.AddField("url", _url);
+        PostUserLinkRoot postUserLinkRoot = new PostUserLinkRoot { type = _type, url = _url };
 
-        //string url = "https://mwsive.com/me/shared_url";
-        string url = "http://192.241.129.184/api/me/shared_url";
+        string jsonRaw = JsonConvert.SerializeObject(postUserLinkRoot);
 
-        using (UnityWebRequest webRequest = UnityWebRequest.Post(url, form))
+        using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonRaw, "application/json"))
         {
             webRequest.SetRequestHeader("Accept", "application/json");
             webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
@@ -1752,12 +1751,6 @@ public class MwsiveWebCalls : MonoBehaviour
         //string url = "https://mwsive.com/genres/" + _offset.ToString() + "/" + _limit.ToString();
         string url = "http://192.241.129.184/api/recommended/genres/" + _offset.ToString() + "/" + _limit.ToString();
 
-        Dictionary<string, string> parameters = new Dictionary<string, string>();
-        parameters.Add("offset", _offset.ToString());
-        parameters.Add("limit", _limit.ToString());
-
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);
-
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Accept", "application/json");
@@ -1792,6 +1785,97 @@ public class MwsiveWebCalls : MonoBehaviour
             }
 
             Debug.Log("Failed fetch genres result: " + jsonResult);
+            yield break;
+        }
+    }
+
+    public static IEnumerator CR_GetTrackInformation_NoAuth(MwsiveWebCallback _callback, string _track_id)
+    {
+        string jsonResult = "";
+
+        //string url = "https://mwsive.com/tracks/" + _track_id;
+        string url = "http://192.241.129.184/api/tracks/" + _track_id;
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            webRequest.SetRequestHeader("Accept", "application/json");
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
+            {
+                //Catch response code for multiple requests to the server in a short timespan.
+
+                if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
+                {
+                    //TODO Response when unauthorized
+                }
+
+                Debug.Log("Protocol Error or Connection Error on fetch track info. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                yield break;
+            }
+            else
+            {
+                while (!webRequest.isDone) { yield return null; }
+
+                if (webRequest.isDone)
+                {
+                    jsonResult = webRequest.downloadHandler.text;
+                    Debug.Log("Fetch track info result: " + jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    TrackInfoRoot trackInfoRoot = JsonConvert.DeserializeObject<TrackInfoRoot>(jsonResult, settings);
+                    _callback(new object[] { webRequest.responseCode, trackInfoRoot });
+                    yield break;
+                }
+            }
+
+            Debug.Log("Failed fetch track info: " + jsonResult);
+            yield break;
+        }
+    }
+
+    public static IEnumerator CR_GetTrackInformation_Auth(string _token, MwsiveWebCallback _callback, string _track_id)
+    {
+        string jsonResult = "";
+
+        //string url = "https://mwsive.com/tracks/" + _track_id + "/info";
+        string url = "http://192.241.129.184/api/tracks/" + _track_id + "/info";
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            webRequest.SetRequestHeader("Accept", "application/json");
+            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
+            {
+                //Catch response code for multiple requests to the server in a short timespan.
+
+                if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
+                {
+                    //TODO Response when unauthorized
+                }
+
+                Debug.Log("Protocol Error or Connection Error on fetch track info. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                yield break;
+            }
+            else
+            {
+                while (!webRequest.isDone) { yield return null; }
+
+                if (webRequest.isDone)
+                {
+                    jsonResult = webRequest.downloadHandler.text;
+                    Debug.Log("Fetch track info result: " + jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    TrackInfoRoot trackInfoRoot = JsonConvert.DeserializeObject<TrackInfoRoot>(jsonResult, settings);
+                    _callback(new object[] { webRequest.responseCode, trackInfoRoot });
+                    yield break;
+                }
+            }
+
+            Debug.Log("Failed fetch track info: " + jsonResult);
             yield break;
         }
     }
