@@ -88,6 +88,7 @@ public class MiplaylistHolder : MonoBehaviour
         playlistViewModel.playlistName.text = playlistName.text;
         playlistViewModel.SetPlaylistID(spotifyID);
         playlistViewModel.@public = @public;
+        playlistViewModel.GetPlaylist();
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
 
