@@ -13,7 +13,6 @@ public class MiplaylistHolder : MonoBehaviour
     private string spotifyID;
     public MiPlaylistViewModel miPlaylistViewModel;
     public ChangeImage change;
-    public HolderManager holderManager;
     public bool @public;
     public ExternalUrls url;
 
@@ -89,7 +88,6 @@ public class MiplaylistHolder : MonoBehaviour
         playlistViewModel.playlistName.text = playlistName.text;
         playlistViewModel.SetPlaylistID(spotifyID);
         playlistViewModel.@public = @public;
-        holderManager.playlistExternalUrl = url;
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
 
