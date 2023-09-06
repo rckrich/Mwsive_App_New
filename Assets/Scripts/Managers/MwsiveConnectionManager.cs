@@ -602,6 +602,38 @@ public class MwsiveConnectionManager : MonoBehaviour
         Debug.Log(((MwsiveGenresRoot)_value[1]));
     }
 
+    public void GetTrackInformation_NoAuth(string _track_id, MwsiveWebCallback _callback = null)
+    {
+        _callback += Callback_GetTrackInformation_NoAuth;
+        StartCoroutine(MwsiveWebCalls.CR_GetTrackInformation_NoAuth(_callback, _track_id));
+    }
+
+    private void Callback_GetTrackInformation_NoAuth(object[] _value)
+    {
+        if (CheckResponse((long)_value[0]))
+        {
+            return;
+        }
+
+        Debug.Log(((TrackInfoRoot)_value[1]));
+    }
+
+    public void GetTrackInformation_Auth(string _track_id, MwsiveWebCallback _callback = null)
+    {
+        _callback += Callback_GetTrackInformation_Auth;
+        StartCoroutine(MwsiveWebCalls.CR_GetTrackInformation_Auth(ProgressManager.instance.progress.userDataPersistance.access_token, _callback, _track_id));
+    }
+
+    private void Callback_GetTrackInformation_Auth(object[] _value)
+    {
+        if (CheckResponse((long)_value[0]))
+        {
+            return;
+        }
+
+        Debug.Log(((TrackInfoRoot)_value[1]));
+    }
+
     #endregion
 
     public bool CheckResponse(long _responseCode)
