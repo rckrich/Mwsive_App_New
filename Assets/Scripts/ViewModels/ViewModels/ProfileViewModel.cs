@@ -149,6 +149,7 @@ public class ProfileViewModel : ViewModel
 
     private void Callback_OnClick_GetUserPlaylists(object[] _value)
     {
+        Clear();
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
         PlaylistRoot playlistRoot = (PlaylistRoot)_value[1];
@@ -193,7 +194,6 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_BackButtonSurf()
     {
-        Clear();
         principalScroll.verticalNormalizedPosition = 1;
         surfManager.SetActive(true);
         OpenView(ViewID.SurfViewModel);
