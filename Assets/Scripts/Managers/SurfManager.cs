@@ -312,6 +312,7 @@ public class SurfManager : Manager
          Debug.Log("DownScrollSucess");  
         HasSwipeEnded = true;
     }
+    
     private void UpScrollSuccess(){
 
             Controller.enabled =false;
@@ -328,9 +329,9 @@ public class SurfManager : Manager
                 UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+2], RestPositions[1], 1);
                 
                 UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[2], 1);
-                
-                
-                CurrentPosition++;
+
+            GetBeforeCurrentPrefab().GetComponent<ButtonSurfPlaylist>().UpSwipe();
+            CurrentPosition++;
                 GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
                 UIAniManager.instance.SurfAddSongReset(AddSong);
             }else{

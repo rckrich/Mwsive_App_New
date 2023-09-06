@@ -350,8 +350,7 @@ public class MwsiveGenresRoot
 
 public class TrackActionRoot
 {
-    public int user_id { get; set; }
-    public int track_id { get; set; }
+    public string track_id { get; set; }
     public string action { get; set; }
     public float duration { get; set; }
 }
