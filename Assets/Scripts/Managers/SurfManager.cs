@@ -330,9 +330,10 @@ public class SurfManager : Manager
                 
                 UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[2], 1);
 
-            GetBeforeCurrentPrefab().GetComponent<ButtonSurfPlaylist>().UpSwipe();
+            
             CurrentPosition++;
-                GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+            GetBeforeCurrentPrefab().GetComponent<ButtonSurfPlaylist>().UpSwipe();
+            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
                 UIAniManager.instance.SurfAddSongReset(AddSong);
             }else{
                 ResetValue();
