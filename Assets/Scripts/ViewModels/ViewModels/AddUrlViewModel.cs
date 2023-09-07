@@ -41,7 +41,7 @@ public class AddUrlViewModel : ViewModel
         }
         else
         {
-            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inv?lido, intente otra vez", "Aceptar");
+            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inválido", "URL inv?lido, intente otra vez", "Aceptar");
         }
     }
 
@@ -50,10 +50,13 @@ public class AddUrlViewModel : ViewModel
         if (inputUrl.text.Contains("https://instagram.com"))
         {
             MwsiveConnectionManager.instance.PostUserLink("INSTAGRAM", inputUrl.text, Callback_PostUserLink);
-        }
+        }/*else if (inputUrl.text.Equals(""))
+        {
+            MwsiveConnectionManager.instance.PostUserLink("INSTAGRAM", inputUrl.text, Callback_PostUserLink);
+        }*/
         else
         {
-            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inv?lido, intente otra vez", "Aceptar");
+            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inválido, intente otra vez", "Aceptar");
         }
     }
 
@@ -89,5 +92,6 @@ public class AddUrlViewModel : ViewModel
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
+        NewScreenManager.instance.GetCurrentView().GetComponent<EditProfileViewModel>().Initialize();
     }
 }

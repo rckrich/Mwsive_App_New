@@ -25,12 +25,18 @@ public class ProfileViewModel : ViewModel
     public Color followTextColor;
     public Color unfollowTextColor;
 
+    [Header("Social Media Button")]
+
     
     private bool isCurrentUserProfileView = true;
     private MwsiveUserRoot mwsiveUserRoot;
 
     private string profileId = "";
     private bool currentuser;
+    private string externalUrl = "";
+    private string tiktokUrl = "";
+    private string instagramUrl = "";
+    private string youtubeUrl = "";
 
     public override void Initialize(params object[] list)
     {
@@ -290,6 +296,7 @@ public class ProfileViewModel : ViewModel
     public void Callback_GetCurrentMwsiveUser(object[] _value)
     {
         mwsiveUserRoot = (MwsiveUserRoot)_value[1];
+
         if(mwsiveUserRoot.user.image != null)
             ImageManager.instance.GetImage(mwsiveUserRoot.user.image, profilePicture, (RectTransform)this.transform);
 
@@ -298,6 +305,28 @@ public class ProfileViewModel : ViewModel
 
         displayName.text = mwsiveUserRoot.user.display_name;
         profileId = mwsiveUserRoot.user.platform_id;
+
+        if (mwsiveUserRoot.user.user_links.Count != 0)
+        {
+            foreach (UserLink url in mwsiveUserRoot.user.user_links)
+            {
+                switch (url.type)
+                {
+                    case "TIK_TOK":
+                        tiktokUrl = url.link;
+                        break;
+                    case "INSTAGRAM":
+                        instagramUrl = url.link;
+                        break;
+                    case "YOU_TUBE":
+                        youtubeUrl = url.link;
+                        break;
+                    case "EXTERNAL":
+                        externalUrl = url.link;
+                        break;
+                }
+            }
+        }
 
         GetCurrentUserPlaylists();
         
@@ -399,5 +428,28 @@ public class ProfileViewModel : ViewModel
         ClearScrolls(playlistContent);
     }
 
+    public void OnClick_TiktokButton()
+    {
+        if(!tiktokUrl.Equals(""))
+            Application.OpenURL(tiktokUrl);
+    }
+
+    public void OnClick_InstagramButton()
+    {
+        if (!instagramUrl.Equals(""))
+            Application.OpenURL(instagramUrl);
+    }
+
+    public void OnClick_YoutubeButton()
+    {
+        if (!youtubeUrl.Equals(""))
+            Application.OpenURL(youtubeUrl);
+    }
+
+    public void OnClick_ExternalButton()
+    {
+        if (!externalUrl.Equals(""))
+            Application.OpenURL(externalUrl);
+    }
 }
 
