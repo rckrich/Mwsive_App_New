@@ -1078,7 +1078,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                Debug.Log("Protocol Error or Connection Error on post user link. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1087,13 +1087,13 @@ public class MwsiveWebCalls : MonoBehaviour
 
                 if (webRequest.isDone)
                 {
-                    Debug.Log("Post display name " + jsonResult);
+                    Debug.Log("Post user link complete");
                     _callback(new object[] { webRequest.responseCode, null });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on post display name complete " + jsonResult);
+            Debug.Log("Failed on post user link complete");
             yield break;
         }
     }
