@@ -381,13 +381,13 @@ public class ButtonSurfPlaylist : ViewModel
     {
         TrackInfoRoot trackInfoRoot = (TrackInfoRoot)_value[1];
 
-        if(trackInfoRoot.total_piks >= THOUSEND_CONVERT_TO_K || trackInfoRoot.total_piks < MILLION_CONVERT_TO_M)
+        if(trackInfoRoot.total_piks >= THOUSEND_CONVERT_TO_K && trackInfoRoot.total_piks < MILLION_CONVERT_TO_M)
         {
-            trackTotalPicks.text = (trackInfoRoot.total_piks / THOUSEND_CONVERT_TO_K).ToString() + "K";
+            trackTotalPicks.text = ((float)trackInfoRoot.total_piks / (float)THOUSEND_CONVERT_TO_K).ToString() + "K";
         }
-        else if(trackInfoRoot.total_piks >= MILLION_CONVERT_TO_M)
+        else if(trackInfoRoot.total_piks > THOUSEND_CONVERT_TO_K && trackInfoRoot.total_piks >= MILLION_CONVERT_TO_M)
         {
-            trackTotalPicks.text = (trackInfoRoot.total_piks / MILLION_CONVERT_TO_M).ToString() + "M";
+            trackTotalPicks.text = ((float)trackInfoRoot.total_piks / (float)MILLION_CONVERT_TO_M).ToString() + "M";
         }
         else
         {
@@ -398,11 +398,11 @@ public class ButtonSurfPlaylist : ViewModel
 
         if  (trackInfoRoot.total_recommendations >= THOUSEND_CONVERT_TO_K && trackInfoRoot.total_piks < MILLION_CONVERT_TO_M)
         {
-            trackTotalRecommendation.text = (trackInfoRoot.total_recommendations / THOUSEND_CONVERT_TO_K).ToString() + "K";
+            trackTotalRecommendation.text = ((float)trackInfoRoot.total_recommendations / (float)THOUSEND_CONVERT_TO_K).ToString() + "K";
         }
-        else if (trackInfoRoot.total_piks <= MILLION_CONVERT_TO_M)
+        else if (trackInfoRoot.total_recommendations > THOUSEND_CONVERT_TO_K && trackInfoRoot.total_piks >= MILLION_CONVERT_TO_M)
         {
-            trackTotalRecommendation.text = (trackInfoRoot.total_recommendations / MILLION_CONVERT_TO_M).ToString() + "M";
+            trackTotalRecommendation.text = ((float)trackInfoRoot.total_recommendations / (float)MILLION_CONVERT_TO_M).ToString() + "M";
         }
         else
         {
@@ -427,11 +427,11 @@ public class ButtonSurfPlaylist : ViewModel
 
                 if (trackInfoRoot.total_piks_followed >= THOUSEND_CONVERT_TO_K && trackInfoRoot.total_piks < MILLION_CONVERT_TO_M)
                 {
-                    totalPiksFollowed = (trackInfoRoot.total_piks_followed / THOUSEND_CONVERT_TO_K).ToString() + "K";
+                    totalPiksFollowed = ((float)trackInfoRoot.total_piks_followed / (float)THOUSEND_CONVERT_TO_K).ToString() + "K";
                 }
-                else if (trackInfoRoot.total_piks >= MILLION_CONVERT_TO_M)
+                else if (trackInfoRoot.total_piks_followed > THOUSEND_CONVERT_TO_K && trackInfoRoot.total_piks >= MILLION_CONVERT_TO_M)
                 {
-                    totalPiksFollowed = (trackInfoRoot.total_piks_followed / MILLION_CONVERT_TO_M).ToString() + "M";
+                    totalPiksFollowed = ((float)trackInfoRoot.total_piks_followed / (float)MILLION_CONVERT_TO_M).ToString() + "M";
                 }
                 else
                 {

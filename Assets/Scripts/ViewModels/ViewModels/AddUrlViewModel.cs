@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,10 +8,18 @@ public class AddUrlViewModel : ViewModel
 {
     public TextMeshProUGUI inputUrl;
     string type;
+    public GameObject placeholderInputText;
 
     public override void Initialize(params object[] list)
     {
         type = list[0].ToString();
+        
+
+        if(AppManager.instance.currentMwsiveUser.user_links.Count != 0)
+        {
+            SetPlaceHolderInputText();
+        }
+        
     }
 
     public void OnEndEdit_URL()
@@ -35,7 +44,7 @@ public class AddUrlViewModel : ViewModel
     }
     public void OnEndEdit_TiktokUrl()
     {
-        if (inputUrl.text.Contains("https://www.tiktok.com"))
+        if (inputUrl.text.Contains("tiktok.com"))
         {
             MwsiveConnectionManager.instance.PostUserLink("TIK_TOK", inputUrl.text, Callback_PostUserLink);
         }
@@ -47,7 +56,7 @@ public class AddUrlViewModel : ViewModel
 
     public void OnEndEdit_InstagramUrl()
     {
-        if (inputUrl.text.Contains("https://instagram.com"))
+        if (inputUrl.text.Contains("instagram.com"))
         {
             MwsiveConnectionManager.instance.PostUserLink("INSTAGRAM", inputUrl.text, Callback_PostUserLink);
         }/*else if (inputUrl.text.Equals(""))
@@ -74,7 +83,7 @@ public class AddUrlViewModel : ViewModel
 
     public void OnEndEdit_ExternalUrl()
     {
-        if (inputUrl.text.Contains("https://")|| inputUrl.text.Contains("."))
+        if (inputUrl.text.Contains("https://") || inputUrl.text.Contains("."))
         {
             MwsiveConnectionManager.instance.PostUserLink("EXTERNAL", inputUrl.text, Callback_PostUserLink);
         }
@@ -93,5 +102,16 @@ public class AddUrlViewModel : ViewModel
     {
         NewScreenManager.instance.BackToPreviousView();
         NewScreenManager.instance.GetCurrentView().GetComponent<EditProfileViewModel>().Initialize();
+    }
+
+    public void SetPlaceHolderInputText()
+    {
+        foreach (UserLink url in AppManager.instance.currentMwsiveUser.user_links)
+        {
+            if (url.type.Equals( type))
+            {
+                inputUrl.text = url.link;
+            }
+        }
     }
 }
