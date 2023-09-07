@@ -26,8 +26,8 @@ public class SurfManager : Manager
     public SwipeListener swipeListener;
     public ScrollRect Controller;
     public GameObject Prefab, MainCanvas, AddSong, OlaButton, MwsiveOla, MwsiveContainer;
-    public List <GameObject> MwsiveSongs = new List<GameObject>();
-    public GameObject[ ] RestPositions;
+    public List<GameObject> MwsiveSongs = new List<GameObject>();
+    public GameObject[] RestPositions;
 
     public float MaxRotation = 18f;
     public float SurfSuccessSensitivity = 2.2f;
@@ -40,6 +40,7 @@ public class SurfManager : Manager
 
     [HideInInspector]
     public bool canSwipe = true;
+
     private Vector2 ControllerPostion = new Vector2();
     private int CurrentPosition = 0;
     private int PrefabPosition = 0;
@@ -51,6 +52,7 @@ public class SurfManager : Manager
     private int SurfProfileOffsetPosition;
     private int trackstospawn = 0;
     private bool HasFirstPlaylistPlayed = false;
+
   
     private void Start()
     {
@@ -299,8 +301,9 @@ public class SurfManager : Manager
 
             UIAniManager.instance.SurfAddSongReset(AddSong);
 
+            
+            CurrentPosition--;
             GetBeforeCurrentPrefab().GetComponent<ButtonSurfPlaylist>().BackSwipe();
-            CurrentPosition--;           
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
             
 
