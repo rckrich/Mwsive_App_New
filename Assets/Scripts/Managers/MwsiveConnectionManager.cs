@@ -147,10 +147,10 @@ public class MwsiveConnectionManager : MonoBehaviour
         }
     }
 
-    public void PostTrackAction(int _user_id, int _track_id, string _action, float _duration, MwsiveWebCallback _callback = null)
+    public void PostTrackAction(string _track_id, string _action, float _duration, MwsiveWebCallback _callback = null)
     {
         _callback += Callback_PostTrackAction;
-        StartCoroutine(MwsiveWebCalls.CR_PostTrackAction(ProgressManager.instance.progress.userDataPersistance.access_token, _user_id, _track_id,_action, _duration, _callback));
+        StartCoroutine(MwsiveWebCalls.CR_PostTrackAction(ProgressManager.instance.progress.userDataPersistance.access_token, _track_id,_action, _duration, _callback));
     }
 
     private void Callback_PostTrackAction(object[] _value)

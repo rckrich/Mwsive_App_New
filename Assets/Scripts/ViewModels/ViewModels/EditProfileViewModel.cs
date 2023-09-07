@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,6 +35,7 @@ public class EditProfileViewModel : ViewModel
 
     public void OnValueChange_ProfileName()
     {
+       
         if (inputProfileName.Equals("") || inputProfileName.text.Length <= 6)
         {
             CallPopUP(PopUpViewModelTypes.MessageOnly, "Necesitas escribir un nombre", "por favor escribe un nombre con mas de 6 caracteres", "Aceptar");
@@ -46,13 +48,30 @@ public class EditProfileViewModel : ViewModel
 
     public void Callback_PostDisplayName(object[] _value)
     {
-        MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser);
+        AppManager.instance.RefreshUser();
+    }
+    
+    public void OnClick_TiktokUrlAdd()
+    {
+        NewScreenManager.instance.ChangeToSpawnedView("addURL");
+        NewScreenManager.instance.GetCurrentView().GetComponent<AddUrlViewModel>().Initialize("TIK_TOK");
     }
 
-    public void Callback_GetCurrentMwsiveUser(object[] _value)
+    public void OnClick_InstagramUrlAdd()
     {
-        MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
+        NewScreenManager.instance.ChangeToSpawnedView("addURL");
+        NewScreenManager.instance.GetCurrentView().GetComponent<AddUrlViewModel>().Initialize("INSTAGRAM");
+    }
 
-        AppManager.instance.currentMwsiveUser = mwsiveUserRoot.user;
+    public void OnClick_YouTubeUrlAdd()
+    {
+        NewScreenManager.instance.ChangeToSpawnedView("addURL");
+        NewScreenManager.instance.GetCurrentView().GetComponent<AddUrlViewModel>().Initialize("YOU_TUBE");
+    }
+
+    public void OnClick_ExternalUrlAdd()
+    {
+        NewScreenManager.instance.ChangeToSpawnedView("addURL");
+        NewScreenManager.instance.GetCurrentView().GetComponent<AddUrlViewModel>().Initialize("EXTERNAL");
     }
 }
