@@ -659,10 +659,13 @@ public class PF_SurfManager : Manager
         foreach (var item in tracks)
         {
             Debug.Log(tracks.Count);
+            Debug.Log(item.name);
+            Debug.Log(item.preview_url);
+            Debug.Log(item.uri);
             if(item != null)
             {
 
-                if (item.preview_url != null)
+                if (item.preview_url != null && item.preview_url != "Null")
                 {
                     GameObject instance = SpawnPrefab();
                     if (FirstInstance == null)
@@ -875,6 +878,10 @@ public class PF_SurfManager : Manager
         }
         if(value != null){
             SurfProfile = true;
+            foreach (var item in value)
+            {
+                Debug.Log(item);
+            }
             Debug.Log(value.Count +"-----------------------------------------------------------------------------");
             SpotifyConnectionManager.instance.GetSeveralTracks(value.ToArray(), OnCallBack_SpawnSeveralTracks);
         }
@@ -886,7 +893,7 @@ public class PF_SurfManager : Manager
     private void OnCallBack_SpawnSeveralTracks(object [] _value){
 
         SeveralTrackRoot severaltrack = (SeveralTrackRoot)_value[1];
-        DynamicPrefabSpawnerSeveralTracks(severaltrack.tracks, true);
+        DynamicPrefabSpawnerSeveralTracks(severaltrack.tracks, true, false);
         HasFirstPlaylistPlayed = true;
     }
 

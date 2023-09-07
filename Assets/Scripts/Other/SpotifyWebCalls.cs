@@ -778,7 +778,8 @@ public static class SpotifyWebCalls
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Fetch several tracks result " + jsonResult);
-                    SeveralTrackRoot severalTrackRoot = JsonConvert.DeserializeObject<SeveralTrackRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    SeveralTrackRoot severalTrackRoot = JsonConvert.DeserializeObject<SeveralTrackRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, severalTrackRoot });
                     yield break;
                 }
