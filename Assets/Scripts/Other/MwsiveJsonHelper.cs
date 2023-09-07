@@ -25,6 +25,7 @@ public class MwsiveUser : Instanceable
     public int total_followed { get; set; }
     public int total_disks { get; set; }
     public List<UserList> user_lists { get; set; }
+    public List<UserLink> user_links { get; set; }
 }
 
 public class UserList
@@ -36,6 +37,16 @@ public class UserList
     public DateTime created_at { get; set; }
     public DateTime updated_at { get; set; }
     public List<string> items_list { get; set; }
+}
+
+public class UserLink
+{
+    public int id { get; set; }
+    public string type { get; set; }
+    public string link { get; set; }
+    public int mwsive_user_id { get; set; }
+    public DateTime created_at { get; set; }
+    public DateTime updated_at { get; set; }
 }
 
 public class Curator
@@ -169,14 +180,6 @@ public class StreamingStat
     public MwsiveUser mwsiveUser { get; set; }
     public string type { get; set; }
     public string stat_id { get; set; }
-}
-
-public class UserLink
-{
-    public int id { get; set; }
-    public MwsiveUser mwsiveUser { get; set; }
-    public string type { get; set; }
-    public string link { get; set; }
 }
 
 public class RecommendedCurator
