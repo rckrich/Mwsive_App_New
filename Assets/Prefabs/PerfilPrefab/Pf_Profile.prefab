@@ -1616,6 +1616,11 @@ MonoBehaviour:
   surfManager: {fileID: 0}
   playlistContent: {fileID: 3774412406964433979}
   principalScroll: {fileID: 3774412407688377895}
+  socialButtons:
+  - {fileID: 3774412406810073981}
+  - {fileID: 3774412407923836472}
+  - {fileID: 3774412406896567526}
+  - {fileID: 3774412406988819770}
   followersText: {fileID: 3774412408397873354}
   followedText: {fileID: 3774412408527376603}
   followButton: {fileID: 3774412407026757049}
@@ -2041,7 +2046,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3774412406810073980}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5794007412131139177}
+        m_TargetAssemblyTypeName: ProfileViewModel, Scripts
+        m_MethodName: OnClick_ExternalButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &3774412406810073970
 Animator:
   serializedVersion: 5
@@ -2260,7 +2277,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3774412406896567521}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5794007412131139177}
+        m_TargetAssemblyTypeName: ProfileViewModel, Scripts
+        m_MethodName: OnClick_InstagramButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &3774412406896567527
 Animator:
   serializedVersion: 5
@@ -2686,7 +2715,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3774412406988819717}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5794007412131139177}
+        m_TargetAssemblyTypeName: ProfileViewModel, Scripts
+        m_MethodName: OnClick_YoutubeButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &3774412406988819771
 Animator:
   serializedVersion: 5
@@ -4550,7 +4591,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3774412407923836475}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5794007412131139177}
+        m_TargetAssemblyTypeName: ProfileViewModel, Scripts
+        m_MethodName: OnClick_TiktokButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &3774412407923836473
 Animator:
   serializedVersion: 5

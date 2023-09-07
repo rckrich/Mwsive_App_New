@@ -14,7 +14,7 @@ public class ProfileViewModel : ViewModel
     public GameObject surfManager;
     public Transform playlistContent;
     public ScrollRect principalScroll;
-
+    public Button[] socialButtons;
     public TextMeshProUGUI followersText;
     public TextMeshProUGUI followedText;
     public Button followButton;
@@ -89,6 +89,7 @@ public class ProfileViewModel : ViewModel
 #endif
 
         FollowButtonInitilization();
+        SocialButtonsInitilization();
     }
 
     private void Callback_ProfileViewModelInitialize(object[] list)
@@ -314,15 +315,19 @@ public class ProfileViewModel : ViewModel
                 {
                     case "TIK_TOK":
                         tiktokUrl = url.link;
+                        socialButtons[1].interactable = true;
                         break;
                     case "INSTAGRAM":
                         instagramUrl = url.link;
+                        socialButtons[2].interactable = true;
                         break;
                     case "YOU_TUBE":
                         youtubeUrl = url.link;
+                        socialButtons[3].interactable = true;
                         break;
                     case "EXTERNAL":
                         externalUrl = url.link;
+                        socialButtons[0].interactable = true;
                         break;
                 }
             }
@@ -393,6 +398,18 @@ public class ProfileViewModel : ViewModel
         if (AppManager.instance.isLogInMode)
         {
             MwsiveConnectionManager.instance.GetIsFollowing(profileId, Callback_GetIsFollowing);
+        }
+    }
+
+    private void SocialButtonsInitilization()
+    {
+        if (socialButtons == null) return;
+
+        if (socialButtons.Length <= 0) return;
+
+        foreach(Button button in socialButtons)
+        {
+            button.interactable = false;
         }
     }
 
