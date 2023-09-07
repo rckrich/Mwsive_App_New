@@ -26,7 +26,7 @@ public class AddUrlViewModel : ViewModel
             case "YOU_TUBE":
                 OnEndEdit_YoutubeUrl();
                 break;
-            case "EXTERNA":
+            case "EXTERNAL":
                 OnEndEdit_ExternalUrl();
                 break;
 
@@ -41,7 +41,7 @@ public class AddUrlViewModel : ViewModel
         }
         else
         {
-            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inválido", "URL inválido, intente otra vez", "Aceptar");
+            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inv?lido, intente otra vez", "Aceptar");
         }
     }
 
@@ -53,7 +53,7 @@ public class AddUrlViewModel : ViewModel
         }
         else
         {
-            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inválido", "URL inválido, intente otra vez", "Aceptar");
+            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inv?lido, intente otra vez", "Aceptar");
         }
     }
 
@@ -65,7 +65,7 @@ public class AddUrlViewModel : ViewModel
         }
         else
         {
-            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inválido", "URL inválido, intente otra vez", "Aceptar");
+            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inv?lido, intente otra vez", "Aceptar");
         }
     }
 
@@ -77,7 +77,7 @@ public class AddUrlViewModel : ViewModel
         }
         else
         {
-            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inválido", "URL inválido, intente otra vez", "Aceptar");
+            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inv?lido, intente otra vez", "Aceptar");
         }
     }
 

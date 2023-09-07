@@ -54,7 +54,7 @@ public class EditProfileViewModel : ViewModel
     public void OnClick_TiktokUrlAdd()
     {
         NewScreenManager.instance.ChangeToSpawnedView("addURL");
-        NewScreenManager.instance.GetCurrentView().GetComponent<AddUrlViewModel>().Initialize("TIKTOK");
+        NewScreenManager.instance.GetCurrentView().GetComponent<AddUrlViewModel>().Initialize("TIK_TOK");
     }
 
     public void OnClick_InstagramUrlAdd()
