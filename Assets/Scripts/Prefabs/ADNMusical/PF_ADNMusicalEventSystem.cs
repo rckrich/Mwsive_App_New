@@ -55,13 +55,14 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
                 if (Instances.Count !=0){
                     KillPrefablist();       
                 }
+
                 SearchItem();
                 
             }
         
     }
     private void SearchItem(){
-        StopAllCoroutines();
+        
         Debug.Log("AAAAAAAAAAAA");
         DynamicPrefabSpawner();
         switch (Type)

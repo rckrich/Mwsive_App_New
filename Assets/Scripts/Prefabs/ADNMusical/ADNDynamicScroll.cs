@@ -412,7 +412,7 @@ public class ADNDynamicScroll : MonoBehaviour
     }
 
     public void Callback_PostMusicalDNA( object[] _value){
-        Debug.Log(_value);
+        
         UIMessage.instance.UIMessageInstanciate("Se ha actualizado tu lista");
         GuardarTop.GetComponent<Button>().enabled = false;
         GuardarTop.GetComponent<Image>().color = new Color32(128, 128, 128, 255);
