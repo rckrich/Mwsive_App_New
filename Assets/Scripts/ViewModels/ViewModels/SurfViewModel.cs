@@ -1,6 +1,7 @@
 using GG.Infrastructure.Utils.Swipe;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,22 +11,27 @@ public class SurfViewModel : ViewModel
     public Image profilePicture;
     private string profileId;
     public ButtonSurfPlaylist buttonSurfPlaylist;
-
+    public GameObject disk;
+    public TextMeshProUGUI diskCount;
 
     
 
     public void GetProfile()
     {
+        /* if (ProgressManager.instance.progress.userDataPersistance.userTokenSetted)
+             SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);*/
+
         if (ProgressManager.instance.progress.userDataPersistance.userTokenSetted)
-            SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
+            MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentUserProfile);
+            
     }
-    private void Callback_GetUserProfile(object[] _value)
+    private void Callback_GetCurrentUserProfile(object[] _value)
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
-        ProfileRoot profileRoot = (ProfileRoot)_value[1];
-        profileId = profileRoot.id;
-        ImageManager.instance.GetImage(profileRoot.images[0].url, profilePicture, (RectTransform)this.transform);
+        MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
+        profileId = mwsiveUserRoot.user.platform_id;
+        ImageManager.instance.GetImage(mwsiveUserRoot.user.image, profilePicture, (RectTransform)this.transform);
     }
 
     public void OnClick_Profile()

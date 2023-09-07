@@ -59523,6 +59523,8 @@ MonoBehaviour:
   surfManager: {fileID: 477183352}
   profilePicture: {fileID: 5666101168672591407}
   buttonSurfPlaylist: {fileID: 3127403020811223483, guid: d3d8010569ce88c42889d1ec0cddc425, type: 3}
+  disk: {fileID: 8303736747859345252}
+  diskCount: {fileID: 7887556906634295889}
 --- !u!222 &3760618847965619046
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -63778,6 +63780,7 @@ GameObject:
   - component: {fileID: 9144193598208832487}
   - component: {fileID: 4694781942404993645}
   - component: {fileID: 4879069729105112204}
+  - component: {fileID: 9144193598208832488}
   m_Layer: 5
   m_Name: Discos_Button
   m_TagString: Untagged
@@ -68445,12 +68448,12 @@ GameObject:
   - component: {fileID: 7521306748123960787}
   - component: {fileID: 6797815001236776900}
   m_Layer: 5
-  m_Name: Circle_Image
+  m_Name: _Circle_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!222 &8323810489937202144
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -68797,6 +68800,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4390732699397659108}
   m_CullTransparentMesh: 1
+--- !u!114 &9144193598208832488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390732699397659108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3bcb6ef9d1f7b94d9df3c2c572cdb5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diskCircle: {fileID: 8303736747859345252}
+  diskCounter: {fileID: 7887556906634295889}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
