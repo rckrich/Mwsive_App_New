@@ -71,7 +71,7 @@ public class AddUrlViewModel : ViewModel
 
     public void OnEndEdit_YoutubeUrl()
     {
-        if (inputUrl.text.Contains("youtube.com/channel/"))
+        if (inputUrl.text.Contains("youtube.com/channel/") || inputUrl.text.Contains("youtube.com/c/"))
         {
             MwsiveConnectionManager.instance.PostUserLink("YOU_TUBE", inputUrl.text, Callback_PostUserLink);
         }

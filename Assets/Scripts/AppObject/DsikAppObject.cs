@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class DsikAppObject : AppObject
 {
+    private const int LIMIT_OF_DISPLAY_DISK = 100;
+
     public GameObject diskCircle;
     public TextMeshProUGUI diskCounter;
 
@@ -16,7 +18,15 @@ public class DsikAppObject : AppObject
             if (AppManager.instance.isLogInMode)
             {
                 diskCircle.SetActive(true);
-                diskCounter.text = AppManager.instance.currentMwsiveUser.total_disks.ToString();
+                if(AppManager.instance.currentMwsiveUser.total_disks >= LIMIT_OF_DISPLAY_DISK)
+                {
+                    diskCounter.text = "+99";
+                }
+                else
+                {
+                    diskCounter.text = AppManager.instance.currentMwsiveUser.total_disks.ToString();
+                }
+                
             }
         }
         
@@ -34,7 +44,14 @@ public class DsikAppObject : AppObject
         if (AppManager.instance.isLogInMode)
         {
             diskCircle.SetActive(true);
-            diskCounter.text = AppManager.instance.currentMwsiveUser.total_disks.ToString();
+            if (AppManager.instance.currentMwsiveUser.total_disks >= LIMIT_OF_DISPLAY_DISK)
+            {
+                diskCounter.text = "+99";
+            }
+            else
+            {
+                diskCounter.text = AppManager.instance.currentMwsiveUser.total_disks.ToString();
+            }
         }
     }
 

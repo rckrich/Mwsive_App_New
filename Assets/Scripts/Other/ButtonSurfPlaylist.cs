@@ -457,4 +457,10 @@ public class ButtonSurfPlaylist : ViewModel
             }
         }
     }
+
+    public void OnClick_UserThatVoted()
+    {
+        NewScreenManager.instance.ChangeToSpawnedView("usuariosQueVotaron");
+        NewScreenManager.instance.GetCurrentView().GetComponent<UsersThatVotedViewModel>().Initialize(trackID);
+    }
 }

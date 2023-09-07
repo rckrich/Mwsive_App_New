@@ -38,6 +38,7 @@ public enum ViewID
     TopGenreViewModel,
     ChallengesViewModel,
     AddUrlViewModel,
+    UserThatVotedViewModel,
 }
 
 public enum HTTPMethods
