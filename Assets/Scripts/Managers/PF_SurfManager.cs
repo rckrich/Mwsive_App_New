@@ -42,6 +42,7 @@ public class PF_SurfManager : Manager
     public bool HasSideScrollEnded = true;
     public bool Challenge = false;
     private bool SurfPaged = false;
+    private bool FirstSongplayed = false;
 
     [SerializeField]
     private int SongsMaxToPaginate;
@@ -342,7 +343,7 @@ public class PF_SurfManager : Manager
             ResetValue();
         }
 
-        Debug.Log("Surfpaging" + SurfPaged);
+        
         if (CurrentPosition == PrefabPosition - 4) {
             
             if (SurfPaged)
@@ -655,7 +656,7 @@ public class PF_SurfManager : Manager
 
         searchedPlaylist = (SpotifyPlaylistRoot)_value[0];
 
-        if(searchedPlaylist.tracks.items.Count > 50)
+        if(searchedPlaylist.tracks.items.Count > SongsMaxToPaginate)
         {
             SurfPagingPL(searchedPlaylist);
         }
@@ -702,9 +703,10 @@ public class PF_SurfManager : Manager
                 SpawnPrefab();
                 SpawnedBuffer = true;
             }
-            if (PlayFirstTrack)
+            if (PlayFirstTrack && !FirstSongplayed)
             {
                 FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+                FirstSongplayed = true;
             }
 
         }
@@ -759,8 +761,9 @@ public class PF_SurfManager : Manager
             SpawnPrefab();
             SpawnedBuffer = true;
         }
-        if (PlayFirstTrack) {
+        if (PlayFirstTrack && !FirstSongplayed) {
             FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+            FirstSongplayed = true;
         }
     }
 
@@ -892,14 +895,14 @@ public class PF_SurfManager : Manager
                 trackstospawn = 0;
                 SurfPaged = false;
 
-        }
+            }
             else
             {
-                DynamicPrefabSpawnerSeveralTracks(ListOfTracksToSpawn, false, false);
+                DynamicPrefabSpawnerSeveralTracks(ListOfTracksToSpawn, true, false);
             }
 
+        SurfProfileOffsetPosition = trackstospawn;
 
-        
     }
 
     public void SurfPagingAlbum(AlbumRoot _value = null)
@@ -921,25 +924,32 @@ public class PF_SurfManager : Manager
                 
             }
 
-            List<Track> ListOfTracksToSpawn = new List<Track>();
+            List<string> ListOfTracksToSpawn = new List<string>();
 
             for (int i = SurfProfileOffsetPosition; i < trackstospawn; i++)
             {
-                ListOfTracksToSpawn.Add(PageAlbumroot.tracks.items[i].track);
+                ListOfTracksToSpawn.Add(PageAlbumroot.tracks.items[i].id);
             }
-            if (trackstospawn == PageAlbumroot.tracks.items.Count)
-            {
-                DynamicPrefabSpawnerSeveralTracks(ListOfTracksToSpawn, true, true);
-                trackstospawn = 0;
-                SurfPaged = false;
+
+            SpotifyConnectionManager.instance.GetSeveralTracks(ListOfTracksToSpawn.ToArray(), OnCallback_SurfPagingAlbum);
+
+
+        SurfProfileOffsetPosition = trackstospawn;
+
+    }
+    public void OnCallback_SurfPagingAlbum(object[] _value)
+    {
+        SeveralTrackRoot tracks = (SeveralTrackRoot)_value[1];
+        if (trackstospawn == PageAlbumroot.tracks.items.Count)
+        {
+            DynamicPrefabSpawnerSeveralTracks(tracks.tracks, true, true);
+            trackstospawn = 0;
+            SurfPaged = false;
         }
-            else
-            {
-                DynamicPrefabSpawnerSeveralTracks(ListOfTracksToSpawn, false, false);
-            }
-
-
-        
+        else
+        {
+            DynamicPrefabSpawnerSeveralTracks(tracks.tracks, true, false);
+        }
     }
 
     public void SurfPagingPL(SpotifyPlaylistRoot _value = null)
@@ -978,11 +988,12 @@ public class PF_SurfManager : Manager
         }
             else
             {
-                DynamicPrefabSpawnerSeveralTracks(ListOfTracksToSpawn, false, false);
+                DynamicPrefabSpawnerSeveralTracks(ListOfTracksToSpawn, true, false);
             }
-            
-            
-        
+
+        SurfProfileOffsetPosition = trackstospawn;
+
+
     }
 
 
@@ -1006,7 +1017,7 @@ public class PF_SurfManager : Manager
                 //Checar cuantos items tienes si es mayor de 50 Iniciar Paginacion sino solo spawnear
 
 
-                if(ProfilePlaylist.tracks.items.Count < 50){
+                if(ProfilePlaylist.tracks.items.Count < SongsMaxToPaginate){
                     if(ProfilePlaylist.tracks.items.Count > 4){
                         if(!HasFirstPlaylistPlayed){
                             HasFirstPlaylistPlayed = true;
@@ -1036,8 +1047,8 @@ public class PF_SurfManager : Manager
                     
                 }else{
                     
-                    if(trackstospawn + 50 < ProfilePlaylist.tracks.items.Count){
-                        trackstospawn += 50;
+                    if(trackstospawn + SongsMaxToPaginate < ProfilePlaylist.tracks.items.Count){
+                        trackstospawn += SongsMaxToPaginate;
                     }else{
                         trackstospawn = ProfilePlaylist.tracks.items.Count;
                         ProfilePlaylistPosition++;
@@ -1059,7 +1070,7 @@ public class PF_SurfManager : Manager
                         }
                    
 
-                    if (ProfilePlaylist.tracks.items.Count - trackstospawn + 50 < 4)
+                    if (ProfilePlaylist.tracks.items.Count - trackstospawn + SongsMaxToPaginate < 4)
                     {
                         SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylistsNoPlaylist);
                     }
