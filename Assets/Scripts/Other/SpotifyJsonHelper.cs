@@ -261,7 +261,7 @@ public class Track
     public Restrictions restrictions { get; set; }
     public string name { get; set; }
     public int popularity { get; set; }
-    public string preview_url { get; set; }
+    public string? preview_url { get; set; }
     public int track_number { get; set; }
     public string type { get; set; }
     public string uri { get; set; }
@@ -292,7 +292,7 @@ public class Item
     public Tracks tracks { get; set; }
     public object primary_color { get; set; }
     public int popularity { get; set; }
-    public string preview_url { get; set; }
+    public string? preview_url { get; set; }
     public int track_number { get; set; }
     public string type { get; set; }
     public string uri { get; set; }
@@ -316,7 +316,7 @@ public class Item
     public string media_type { get; set; }
     public string publisher { get; set; }
     public int total_episodes { get; set; }
-    public string audio_preview_url { get; set; }
+    public string? audio_preview_url { get; set; }
     public string language { get; set; }
     public ResumePoint resume_point { get; set; }
     public List<Author> authors { get; set; }
@@ -406,7 +406,7 @@ public class TrackRoot
     public Restrictions restrictions { get; set; }
     public string name { get; set; }
     public int popularity { get; set; }
-    public string preview_url { get; set; }
+    public string? preview_url { get; set; }
     public int track_number { get; set; }
     public string type { get; set; }
     public string uri { get; set; }

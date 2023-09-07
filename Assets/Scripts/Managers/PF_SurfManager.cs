@@ -665,7 +665,7 @@ public class PF_SurfManager : Manager
             if(item != null)
             {
 
-                if (item.preview_url != null || item.preview_url != "Null")
+                if (item.preview_url != null && item.preview_url != "Null")
                 {
                     GameObject instance = SpawnPrefab();
                     if (FirstInstance == null)
@@ -893,7 +893,7 @@ public class PF_SurfManager : Manager
     private void OnCallBack_SpawnSeveralTracks(object [] _value){
 
         SeveralTrackRoot severaltrack = (SeveralTrackRoot)_value[1];
-        DynamicPrefabSpawnerSeveralTracks(severaltrack.tracks, true);
+        DynamicPrefabSpawnerSeveralTracks(severaltrack.tracks, true, false);
         HasFirstPlaylistPlayed = true;
     }
 

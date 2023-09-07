@@ -179,7 +179,11 @@ public class ButtonSurfPlaylist : ViewModel
         
         
         CheckIfDurationBarCanPlay();
-        loadingAnimGameObject.SetActive(false);
+        if(loadingAnimGameObject != null)
+        {
+            loadingAnimGameObject.SetActive(false);
+        }
+        
         
         if (SurfManager.instance.isActiveAndEnabled == false)
         {
@@ -203,19 +207,33 @@ public class ButtonSurfPlaylist : ViewModel
     public void CheckIfDurationBarCanPlay(){
         try
         {
-            if(transform.IsChildOf(Surf.GetComponent<PF_SurfManager>().GetCurrentPrefab().transform)){
-                durationBar.canPlay = true;
-            }else{
-                durationBar.canPlay = false;
+            if(Surf != null)
+            {
+                if (transform.IsChildOf(Surf.GetComponent<PF_SurfManager>().GetCurrentPrefab().transform))
+                {
+                    durationBar.canPlay = true;
+                }
+                else
+                {
+                    durationBar.canPlay = false;
+                }
             }
+            
         }
         catch (System.NullReferenceException)
         {
-            if(transform.IsChildOf(Surf.GetComponent<SurfManager>().GetCurrentPrefab().transform)){
-                durationBar.canPlay = true;
-            }else{
-                durationBar.canPlay = false;
+            if(Surf != null)
+            {
+                if (transform.IsChildOf(Surf.GetComponent<SurfManager>().GetCurrentPrefab().transform))
+                {
+                    durationBar.canPlay = true;
+                }
+                else
+                {
+                    durationBar.canPlay = false;
+                }
             }
+           
         }
     }
 

@@ -7,8 +7,10 @@ public class PF_SurfViewModel : ViewModel
 
     public void OnClick_BackButton()
     {
-        NewScreenManager.instance.BackToPreviousView();
+        StopAllCoroutines();
         SpotifyPreviewAudioManager.instance.StopTrack();
+        NewScreenManager.instance.BackToPreviousView();
+        
     }
 
     private void OnDestroy() {
