@@ -41,7 +41,11 @@ public class MwsiveControllerButtons : MonoBehaviour
 
         GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().OnClick_PlayOnSpotify();
     }
-
+    public void OnClick_Friends()
+    {
+        
+        //GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().();
+    }
 
 
     public GameObject GetPrefabFromSurf()
