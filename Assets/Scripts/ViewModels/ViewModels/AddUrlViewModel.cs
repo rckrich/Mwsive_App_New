@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class AddUrlViewModel : ViewModel
 {
-    public TextMeshProUGUI inputUrl;
-    string type;
-    public GameObject placeholderInputText;
+    public TMP_InputField inputUrl;
+
+    private string type;
 
     public override void Initialize(params object[] list)
     {
@@ -24,6 +24,8 @@ public class AddUrlViewModel : ViewModel
 
     public void OnEndEdit_URL()
     {
+        if (inputUrl.text.Equals("")) return;
+
         switch (type)
         {
             case "TIK_TOK":
@@ -50,7 +52,7 @@ public class AddUrlViewModel : ViewModel
         }
         else
         {
-            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inválido", "URL inv?lido, intente otra vez", "Aceptar");
+            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inv?lido, intente otra vez", "Aceptar");
         }
     }
 
@@ -65,13 +67,13 @@ public class AddUrlViewModel : ViewModel
         }*/
         else
         {
-            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inválido, intente otra vez", "Aceptar");
+            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inv?lido, intente otra vez", "Aceptar");
         }
     }
 
     public void OnEndEdit_YoutubeUrl()
     {
-        if (inputUrl.text.Contains("youtube.com/channel/"))
+        if (inputUrl.text.Contains("youtube.com/channel/") || inputUrl.text.Contains("youtube.com/c/"))
         {
             MwsiveConnectionManager.instance.PostUserLink("YOU_TUBE", inputUrl.text, Callback_PostUserLink);
         }
