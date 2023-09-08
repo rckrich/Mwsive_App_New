@@ -29,6 +29,7 @@ public class SpotifyPreviewAudioManager : MonoBehaviour
 
     public void GetTrack(string _audioURL, SpotifyAudioDownloaderCallback _callback = null)
     {
+        StopCoroutine("CR_GetAudioClip");
         StartCoroutine(CR_GetAudioClip(_audioURL, _callback));
     }
 
