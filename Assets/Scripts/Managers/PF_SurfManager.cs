@@ -228,12 +228,13 @@ public class PF_SurfManager : Manager
     }
 
     private void SideScrollSuccess() {
-        SpotifyPreviewAudioManager.instance.StopTrack();
+        
         Controller.enabled = false;
         Controller.horizontal = true;
         Controller.vertical = true;
         Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
         if (CurrentPosition < MwsiveSongs.Count - 4) {
+            SpotifyPreviewAudioManager.instance.StopTrack();
             DOTween.CompleteAll(true);
             UIAniManager.instance.SurfSide(MwsiveSongs[CurrentPosition], 1, -MaxRotation, 0, true);
 
@@ -287,12 +288,13 @@ public class PF_SurfManager : Manager
         HasSwipeEnded = true;
     }
     private void DownScrollSuccess() {
-        SpotifyPreviewAudioManager.instance.StopTrack();
+        
         Controller.enabled = false;
         Controller.horizontal = true;
         Controller.vertical = true;
         Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
         if (CurrentPosition > 0) {
+            SpotifyPreviewAudioManager.instance.StopTrack();
             Success = true;
             UIAniManager.instance.SurfVerticalDown(MwsiveSongs[CurrentPosition], 1, -MaxRotation, 0, true);
 
@@ -320,12 +322,13 @@ public class PF_SurfManager : Manager
         HasSwipeEnded = true;
     }
     private void UpScrollSuccess() {
-        SpotifyPreviewAudioManager.instance.StopTrack();
+        
         Controller.enabled = false;
         Controller.horizontal = true;
         Controller.vertical = true;
         Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
         if (CurrentPosition < MwsiveSongs.Count - 4) {
+            SpotifyPreviewAudioManager.instance.StopTrack();
             Success = true;
 
             UIAniManager.instance.SurfVerticalUp(MwsiveSongs[CurrentPosition], 1, MaxRotation, 0, true);
@@ -722,10 +725,7 @@ public class PF_SurfManager : Manager
         int SpawnedSongs = 0;
         foreach (var item in tracks)
         {
-            Debug.Log(tracks.Count);
-            Debug.Log(item.name);
-            Debug.Log(item.preview_url);
-            Debug.Log(item.uri);
+            
             if (item != null)
             {
 
@@ -1092,10 +1092,7 @@ public class PF_SurfManager : Manager
         }
         if(value != null){
             SurfProfile = true;
-            foreach (var item in value)
-            {
-                Debug.Log(item);
-            }
+            
             
             SpotifyConnectionManager.instance.GetSeveralTracks(value.ToArray(), OnCallBack_SpawnSeveralTracks);
         }
@@ -1128,7 +1125,7 @@ public class PF_SurfManager : Manager
     private void Callback_OnClick_GetUserPlaylists(object[] _value){
 
         UserPlaylists = (PlaylistRoot)_value[1];
-        Debug.Log(UserPlaylists.items.Count);
+        
         SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylists);
 
     }
@@ -1136,7 +1133,7 @@ public class PF_SurfManager : Manager
     private void Callback_OnClick_GetUserPlaylistsNoADN(object[] _value){
 
         UserPlaylists = (PlaylistRoot)_value[1];
-        Debug.Log(UserPlaylists.items.Count);
+        
         SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylistsNoPlaylist);
         SurfProfile = true;
     }

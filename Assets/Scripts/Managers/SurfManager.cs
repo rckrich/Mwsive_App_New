@@ -104,7 +104,7 @@ public class SurfManager : Manager
                 Controller.vertical =false;
                 Controller.horizontal =false;
                 HasSwipeEnded = false;
-                Debug.Log(gameObject.name + "asdfg");
+                
                 SideScrollSuccess();
                 
             break;
@@ -238,15 +238,16 @@ public class SurfManager : Manager
     }
 
     private void SideScrollSuccess(){
-        SpotifyPreviewAudioManager.instance.StopTrack();
+       
         Controller.enabled =false;
         Controller.horizontal =true;
         Controller.vertical =true;
         Controller.transform.position = new Vector2(ControllerPostion.x,ControllerPostion.y);
         if(CurrentPosition < MwsiveSongs.Count-4){
+            SpotifyPreviewAudioManager.instance.StopTrack();
             DOTween.CompleteAll(true);
             UIAniManager.instance.SurfSide(MwsiveSongs[CurrentPosition],1, -MaxRotation,0,true);
-            Debug.Log("CompleteSurfadd" + gameObject.name);
+            
             UIAniManager.instance.CompleteSurfAddSong(AddSong, 1.5f);
 
             UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[0], 1);
@@ -285,12 +286,13 @@ public class SurfManager : Manager
         HasSwipeEnded = true;
     }
     private void DownScrollSuccess(){
-        SpotifyPreviewAudioManager.instance.StopTrack();
+        
         Controller.enabled =false;
         Controller.horizontal =true;
         Controller.vertical =true;
         Controller.transform.position = new Vector2(ControllerPostion.x,ControllerPostion.y);
         if(CurrentPosition > 0){
+            SpotifyPreviewAudioManager.instance.StopTrack();
             Success = true;
             UIAniManager.instance.SurfVerticalDown(MwsiveSongs[CurrentPosition],1, -MaxRotation, 0,true);
             
@@ -318,12 +320,13 @@ public class SurfManager : Manager
     }
     
     private void UpScrollSuccess(){
-        SpotifyPreviewAudioManager.instance.StopTrack();
+        
         Controller.enabled =false;
         Controller.horizontal =true;
         Controller.vertical =true;
         Controller.transform.position = new Vector2(ControllerPostion.x,ControllerPostion.y);
         if(CurrentPosition < MwsiveSongs.Count-4){
+            SpotifyPreviewAudioManager.instance.StopTrack();
             Success = true;
                 
             UIAniManager.instance.SurfVerticalUp(MwsiveSongs[CurrentPosition],1, MaxRotation, 0,true);
@@ -513,7 +516,7 @@ public class SurfManager : Manager
             
            
         }
-        Debug.Log(FirstInstance);
+        
         
         FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
         if(SpawnedSongs < 5 && SpawnedSongs > 0){
@@ -578,7 +581,7 @@ public class SurfManager : Manager
         
         searchedPlaylist = (SpotifyPlaylistRoot)_value[0];
 
-        Debug.Log("----------------------------" + searchedPlaylist.tracks.items.Count);
+        
         GameObject FirstInstance = null;
 
         int SpawnedSongs = 0;
@@ -816,7 +819,7 @@ public class SurfManager : Manager
 
        
         if(profileId != null){
-            Debug.Log("a");
+            
             if(value != null){
                 SpotifyConnectionManager.instance.GetUserPlaylists(profileId, Callback_OnClick_GetUserPlaylists);
             }else{
@@ -826,8 +829,7 @@ public class SurfManager : Manager
             
         }
         if(SurfProfile){
-            Debug.Log(UserPlaylists.items.Count);
-            Debug.Log(ProfilePlaylistPosition);
+            
             if(ProfilePlaylistPosition <= UserPlaylists.items.Count){
 
 
@@ -931,7 +933,7 @@ public class SurfManager : Manager
     private void Callback_OnClick_GetUserPlaylists(object[] _value){
 
         UserPlaylists = (PlaylistRoot)_value[1];
-        Debug.Log(UserPlaylists.items.Count);
+        
         SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylists);
 
     }
@@ -939,7 +941,7 @@ public class SurfManager : Manager
     private void Callback_OnClick_GetUserPlaylistsNoADN(object[] _value){
 
         UserPlaylists = (PlaylistRoot)_value[1];
-        Debug.Log(UserPlaylists.items.Count);
+        
         SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylistsNoPlaylist);
         SurfProfile = true;
     }
