@@ -10,7 +10,7 @@ public class ADNDynamicScroll : MonoBehaviour
     
     public float MaxPrefabsInScreen = 0;
     public ScrollRect ScrollBar;
-    public GameObject SpawnArea, Prefab, Añadir, ScrollView, GuardarTop, container, Firstposition;
+    public GameObject SpawnArea, Prefab, Añadir, ScrollView, GuardarTop, container;
     private GameObject Instance;  
     public List<GameObject> Instances = new List<GameObject>();
     private static ADNDynamicScroll _instance;
@@ -34,8 +34,8 @@ public class ADNDynamicScroll : MonoBehaviour
     private bool Editable;
 
     
-    public void Initialize(int _TypeOfADN, bool _Editable, MwsiveUserRoot _mwsiveUserRoot) {
-        mwsiveUserRoot = _mwsiveUserRoot;
+    public void Initialize(int _TypeOfADN, bool _Editable, string _profileId) {
+        
         TypeOfADN = _TypeOfADN;
         Editable = _Editable;
         
@@ -178,51 +178,7 @@ public class ADNDynamicScroll : MonoBehaviour
                 GuardarTop.GetComponent<Button>().enabled = false;
                 break;
         }
-
-        
-
-        if(mwsiveUserRoot.user.user_lists != null){
-            bool flag = false;
-         
-                foreach( var item in mwsiveUserRoot.user.user_lists)
-                {
-                    if(item.type == TypeString && item.items_list != null && item.items != "" && item.items_list[0] != null)
-                    {
-                        if(Type == 0)
-                        {
-                            SpotifyConnectionManager.instance.GetSeveralArtists(item.items_list.ToArray(), OnCallback_SetPlaceHoldersArtists);
-                            flag = true;
-                            break;
-                        }
-                        else 
-                        {
-                            SpotifyConnectionManager.instance.GetSeveralTracks(item.items_list.ToArray(), OnCallback_SetPlaceHoldersTracks);
-                            flag = true;
-                            break;
-                        }
-                    }
-                    
-                }
-
-            if (!flag)
-            {
-                
-                if (!Editable)
-                {
-                    UIMessage.instance.UIMessageInstanciate("La lista esta vacia");
-                    
-                }
-                else
-                {
-                    DynamicPrefabSpawner(Min - 1);
-                    
-                }
-                
-            }
-                
-        
-            
-        }
+        MwsiveConnectionManager.instance.GetMwsiveUser(_profileId, Callback_GetMwsiveUser);
         CurrentPrefabs = Min;
         GuardarTop.GetComponent<Button>().enabled = false;
         GuardarTop.GetComponent<Image>().color = new Color32 (128,128,128,255);
@@ -235,6 +191,61 @@ public class ADNDynamicScroll : MonoBehaviour
         }
         
     }
+
+    public void CheckConfirmButton()
+    {
+        if (GuardarTop.GetComponent<Button>().enabled && Instances.Count == 1)
+        {
+            GuardarTop.GetComponent<Button>().enabled = false;
+            GuardarTop.GetComponent<Image>().color = new Color32(128, 128, 128, 255);
+        }
+    }
+
+    public void Callback_GetMwsiveUser(object[] _value)
+    {
+        mwsiveUserRoot = (MwsiveUserRoot)_value[1];
+        if (mwsiveUserRoot.user.user_lists != null)
+        {
+            bool flag = false;
+
+            foreach (var item in mwsiveUserRoot.user.user_lists)
+            {
+                if (item.type == TypeString && item.items_list != null && item.items != "" && item.items_list[0] != null)
+                {
+                    if (Type == 0)
+                    {
+                        SpotifyConnectionManager.instance.GetSeveralArtists(item.items_list.ToArray(), OnCallback_SetPlaceHoldersArtists);
+                        flag = true;
+                        break;
+                    }
+                    else
+                    {
+                        SpotifyConnectionManager.instance.GetSeveralTracks(item.items_list.ToArray(), OnCallback_SetPlaceHoldersTracks);
+                        flag = true;
+                        break;
+                    }
+                }
+
+            }
+
+            if (!flag)
+            {
+
+                if (!Editable)
+                {
+                    UIMessage.instance.UIMessageInstanciate("La lista esta vacia");
+
+                }
+                else
+                {
+                    DynamicPrefabSpawner(Min - 1);
+
+                }
+
+
+            }
+        }
+    }   
     public void OnClick_CurrentUser()
     {
         Editable = true;
@@ -249,7 +260,8 @@ public class ADNDynamicScroll : MonoBehaviour
                 DynamicPrefabSpawner(0);
                 if(severalartists.artists[i].name != null || severalartists.artists[i].name  != ""){
                     Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetPlaceHolder(severalartists.artists[i].name);
-                }
+                    Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetSpotifyID(severalartists.artists[i].id);
+                    }
                 
             }
             }else{
@@ -281,7 +293,8 @@ public class ADNDynamicScroll : MonoBehaviour
                 if(severaltracks.tracks[i].name != null){
                     
                     Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetPlaceHolder(severaltracks.tracks[i].name);
-                }
+                    Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetSpotifyID(severaltracks.tracks[i].id);
+                    }
                 
             }
             }else{
@@ -356,11 +369,36 @@ public class ADNDynamicScroll : MonoBehaviour
             GuardarTop.GetComponent<Image>().color = new Color32 (128,128,128,255);
             IsAllPlacesComplete = true;
         }
-        
-        
-        Añadir.SetActive(true);
+
+        Debug.Log(Max + " " + Instances.Count);
+        if (Max > Instances.Count)
+        {
+            Añadir.SetActive(true);
+        }
     }
 
+    public void ShowAllInstances()
+    {
+        foreach (GameObject item in Instances)
+        {
+
+            if (item.activeSelf != true)
+            {
+                Debug.Log("Show");
+                item.SetActive(true);
+
+            }
+        }
+        GuardarTop.GetComponent<Button>().enabled = false;
+        GuardarTop.GetComponent<Image>().color = new Color32(128, 128, 128, 255);
+        IsAllPlacesComplete = true;
+
+        if (Max > Instances.Count)
+        {
+            Añadir.SetActive(true);
+        }
+
+    }
     public void ShowAllInstances(string _text, string SpotifyId){
         
         foreach (GameObject item in Instances)
@@ -388,7 +426,12 @@ public class ADNDynamicScroll : MonoBehaviour
             GuardarTop.GetComponent<Image>().color = new Color32 (128,128,128,255);
             IsAllPlacesComplete = true;
         }
-        Añadir.SetActive(true);
+        Debug.Log(Max + " " + Instances.Count);
+        if(Max > Instances.Count)
+        {
+            Añadir.SetActive(true);
+        }
+        
     }
 
     private void CalculateMaxPrefabToCall(){
@@ -437,7 +480,7 @@ public class ADNDynamicScroll : MonoBehaviour
     }
 
     public void DynamicPrefabSpawner(float howmanyprefabs){
-        Debug.Log("SPAWWWWWWN");
+        
         
         for (int i = 0; i <= howmanyprefabs; i++)
         {

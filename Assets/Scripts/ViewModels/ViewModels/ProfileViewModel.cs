@@ -124,7 +124,7 @@ public class ProfileViewModel : ViewModel
     {
         NewScreenManager.instance.ChangeToSpawnedView("adn");
         
-        NewScreenManager.instance.GetCurrentView().gameObject.GetComponent<ADNDynamicScroll>().Initialize(identifier, currentuser, mwsiveUserRoot);
+        NewScreenManager.instance.GetCurrentView().gameObject.GetComponent<ADNDynamicScroll>().Initialize(identifier, currentuser, profileId);
 
     }
     public void OnClick_SetEditableDNA()
