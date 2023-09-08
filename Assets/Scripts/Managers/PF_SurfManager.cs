@@ -878,10 +878,9 @@ public class PF_SurfManager : Manager
             else
             {
                 trackstospawn = PageRecommendationRoot.tracks.Count;
-                trackstospawn = 0;
-                SurfPaged = false;
+                
             }
-
+        
             
             List<Track> ListOfTracksToSpawn = new List<Track>();
 
