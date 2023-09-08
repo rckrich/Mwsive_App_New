@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 #region Mwsive Entities
 
@@ -412,6 +413,11 @@ public class TrackInfoRoot
     public int total_recommendations { get; set; }
     public int? total_piks_followed { get; set; }
     public List<string> top_curators { get; set; }
+}
+
+public class PostUserPhoto
+{
+    public string profile_image { get; set; }
 }
 
 #endregion

@@ -96,6 +96,7 @@ public class EditProfileViewModel : ViewModel
 
     public void OnClick_BackButton()
     {
+        SetFalseXImage();
         NewScreenManager.instance.ChangeToMainView(ViewID.ProfileViewModel);
         NewScreenManager.instance.GetCurrentView().GetComponent<ProfileViewModel>().Initialize();
     }

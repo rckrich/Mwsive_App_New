@@ -7,6 +7,7 @@ using UnityEngine;
 public class AddUrlViewModel : ViewModel
 {
     public TMP_InputField inputUrl;
+    public GameObject cross;
 
     private string type;
 
@@ -24,6 +25,7 @@ public class AddUrlViewModel : ViewModel
 
     public void OnEndEdit_URL()
     {
+        cross.SetActive(false);
         if (inputUrl.text.Equals(""))
         {
             switch (type)
@@ -145,4 +147,6 @@ public class AddUrlViewModel : ViewModel
     {
         inputUrl.text = "";
     }
+
+    
 }

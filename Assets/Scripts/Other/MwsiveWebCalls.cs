@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
 using System;
+using UnityEngine.XR;
 
 public delegate void MwsiveWebCallback(object[] _value);
 
@@ -957,18 +958,20 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        WWWForm form = new WWWForm();
-
         byte[] textureBytes = null;
         Texture2D imageTexture = WebCallsUtils.GetTextureCopy(_texture);
         textureBytes = imageTexture.EncodeToPNG();
 
-        form.AddBinaryData("profile_image", textureBytes);
+        string base64 = Convert.ToBase64String(textureBytes);
 
-        //string url = "https://mwsive.com/me/edit_photo";
-        string url = "http://192.241.129.184/api/me/edit_photo";
+        PostUserPhoto postUserPhoto = new PostUserPhoto { profile_image = base64 };
 
-        using (UnityWebRequest webRequest = UnityWebRequest.Post(url, form))
+        string jsonRaw = JsonConvert.SerializeObject(postUserPhoto);
+
+        //string url = "https://mwsive.com/api/me/image";
+        string url = "http://192.241.129.184/api/me/image";
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonRaw, "application/json"))
         {
             webRequest.SetRequestHeader("Accept", "application/json");
             webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
