@@ -355,25 +355,47 @@ public class ProfileViewModel : ViewModel
         {
             foreach (UserLink url in mwsiveUserRoot.user.user_links)
             {
-                switch (url.type)
+                if (url.link.Equals(""))
                 {
-                    case "TIK_TOK":
-                        tiktokUrl = url.link;
-                        socialButtons[1].SetActive(true);
-                        break;
-                    case "INSTAGRAM":
-                        instagramUrl = url.link;
-                        socialButtons[2].SetActive(true);
-                        break;
-                    case "YOU_TUBE":
-                        youtubeUrl = url.link;
-                        socialButtons[3].SetActive(true);
-                        break;
-                    case "EXTERNAL":
-                        externalUrl = url.link;
-                        socialButtons[0].SetActive(true);
-                        break;
+                    switch (url.type)
+                    {
+                        case "TIK_TOK":
+                            socialButtons[1].SetActive(false);
+                            break;
+                        case "INSTAGRAM":
+                            socialButtons[2].SetActive(false);
+                            break;
+                        case "YOU_TUBE":
+                            socialButtons[3].SetActive(false);
+                            break;
+                        case "EXTERNAL":
+                            socialButtons[0].SetActive(false);
+                            break;
+                    }
                 }
+                else
+                {
+                    switch (url.type)
+                    {
+                        case "TIK_TOK":
+                            tiktokUrl = url.link;
+                            socialButtons[1].SetActive(true);
+                            break;
+                        case "INSTAGRAM":
+                            instagramUrl = url.link;
+                            socialButtons[2].SetActive(true);
+                            break;
+                        case "YOU_TUBE":
+                            youtubeUrl = url.link;
+                            socialButtons[3].SetActive(true);
+                            break;
+                        case "EXTERNAL":
+                            externalUrl = url.link;
+                            socialButtons[0].SetActive(true);
+                            break;
+                    }
+                }
+               
             }
         }
 

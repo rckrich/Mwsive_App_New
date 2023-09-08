@@ -24,25 +24,44 @@ public class AddUrlViewModel : ViewModel
 
     public void OnEndEdit_URL()
     {
-        if (inputUrl.text.Equals("")) return;
-
-        switch (type)
+        if (inputUrl.text.Equals(""))
         {
-            case "TIK_TOK":
-                OnEndEdit_TiktokUrl();
-                break;
-            case "INSTAGRAM":
-                OnEndEdit_InstagramUrl();
-                break;
-            case "YOU_TUBE":
-                OnEndEdit_YoutubeUrl();
-                break;
-            case "EXTERNAL":
-                OnEndEdit_ExternalUrl();
-                break;
+            switch (type)
+            {
+                case "TIK_TOK":
+                    ResetLinks("TIK_TOK");
+                    break;
+                case "INSTAGRAM":
+                    ResetLinks("INSTAGRAM");
+                    break;
+                case "YOU_TUBE":
+                    ResetLinks("YOU_TUBE");
+                    break;
+                case "EXTERNAL":
+                    ResetLinks("EXTERNAL");
+                    break;
 
+            }
         }
+        else
+        {
+            switch (type)
+            {
+                case "TIK_TOK":
+                    OnEndEdit_TiktokUrl();
+                    break;
+                case "INSTAGRAM":
+                    OnEndEdit_InstagramUrl();
+                    break;
+                case "YOU_TUBE":
+                    OnEndEdit_YoutubeUrl();
+                    break;
+                case "EXTERNAL":
+                    OnEndEdit_ExternalUrl();
+                    break;
 
+            }
+        }
     }
     public void OnEndEdit_TiktokUrl()
     {
@@ -115,5 +134,15 @@ public class AddUrlViewModel : ViewModel
                 inputUrl.text = url.link;
             }
         }
+    }
+
+    public void ResetLinks(string _type)
+    {
+        MwsiveConnectionManager.instance.PostUserLink(_type,"", Callback_PostUserLink);
+    }
+
+    public void OnClick_CrossImage()
+    {
+        inputUrl.text = "";
     }
 }
