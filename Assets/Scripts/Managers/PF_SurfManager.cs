@@ -228,7 +228,7 @@ public class PF_SurfManager : Manager
     }
 
     private void SideScrollSuccess() {
-
+        SpotifyPreviewAudioManager.instance.StopTrack();
         Controller.enabled = false;
         Controller.horizontal = true;
         Controller.vertical = true;
@@ -287,6 +287,7 @@ public class PF_SurfManager : Manager
         HasSwipeEnded = true;
     }
     private void DownScrollSuccess() {
+        SpotifyPreviewAudioManager.instance.StopTrack();
         Controller.enabled = false;
         Controller.horizontal = true;
         Controller.vertical = true;
@@ -319,7 +320,7 @@ public class PF_SurfManager : Manager
         HasSwipeEnded = true;
     }
     private void UpScrollSuccess() {
-
+        SpotifyPreviewAudioManager.instance.StopTrack();
         Controller.enabled = false;
         Controller.horizontal = true;
         Controller.vertical = true;
@@ -489,9 +490,9 @@ public class PF_SurfManager : Manager
             int SpawnedSongs = 0;
             foreach (var item in recommendationsRoot.tracks)
             {
-                if (item != null)
+                if (item != null )
                 {
-                    if (item.preview_url != null)
+                    if (item.preview_url != null && item.preview_url != "Null")
                     {
                         GameObject instance = SpawnPrefab();
                         if (FirstInstance == null)
@@ -548,7 +549,7 @@ public class PF_SurfManager : Manager
             {
                 if (item != null)
                 {
-                    if (item.preview_url != null)
+                    if (item.preview_url != null && item.preview_url != "Null")
                     {
 
                         GameObject instance = SpawnPrefab();
@@ -669,7 +670,7 @@ public class PF_SurfManager : Manager
             {
                 if (item.track != null)
                 {
-                    if (item.track.preview_url != null)
+                    if (item.track.preview_url != null && item.preview_url != "Null")
                     {
                         GameObject instance = SpawnPrefab();
                         if (FirstInstance == null)
@@ -878,10 +879,9 @@ public class PF_SurfManager : Manager
             else
             {
                 trackstospawn = PageRecommendationRoot.tracks.Count;
-                trackstospawn = 0;
-                SurfPaged = false;
+                
             }
-
+        
             
             List<Track> ListOfTracksToSpawn = new List<Track>();
 

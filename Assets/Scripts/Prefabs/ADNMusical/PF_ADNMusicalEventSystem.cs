@@ -10,8 +10,8 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
 
     public string[] types = new string[] {"artist"};
 
-    public GameObject PlaceHolder, DynamicScroll, EraseButton;
-    private string SearchText, SpotifyId;
+    public GameObject PlaceHolder, DynamicScroll, EraseButton, BackButton;
+    private string SearchText, SpotifyId, PlaceHolderText;
     public  TMP_InputField searchbar;
     public TextMeshProUGUI Number;
     public int MaxNumerofPrefabsInstanciate;
@@ -49,6 +49,7 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
         SearchText = searchbar.text;
         
             if(SearchText.Length >= 1){
+                PlaceHolder.SetActive(false);
                 CheckForSpawnHasEnded = true;
                 
                 DynamicScroll.transform.DOScaleY(1, 0.5F);
@@ -62,8 +63,6 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
         
     }
     private void SearchItem(){
-        
-        Debug.Log("AAAAAAAAAAAA");
         DynamicPrefabSpawner();
         switch (Type)
         {
@@ -83,7 +82,7 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
     public void OnSelectInputField(){
         ADNDynamicScroll.instance.HideShowHeader();
         EraseButton.SetActive(false);
-        PlaceHolder.SetActive(false);
+        BackButton.SetActive(true);
             
             
         ADNDynamicScroll.instance.HideAllOtherInstances(gameObject.name);
@@ -96,9 +95,16 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
     public string GetPlaceHolder(){
         return PlaceHolder.GetComponent<TextMeshProUGUI>().text;
     }
+
     public string GetSpotifyID(){
         return SpotifyId;
     }
+
+    public void SetSpotifyID(string _SpotifyID)
+    {
+        SpotifyId = _SpotifyID;
+    }
+
     public void SetPlaceHolder(string _text){
         if(_text.Length > 27){
             string _text2 = "";
@@ -110,8 +116,11 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
             }
             _text2 = _text2 + "...";
             PlaceHolder.GetComponent<TextMeshProUGUI>().text = _text2;
-        }else{
+            PlaceHolderText = _text2;
+        }
+        else{
             PlaceHolder.GetComponent<TextMeshProUGUI>().text = _text;
+            PlaceHolderText = _text;
         }
 
 
@@ -128,7 +137,7 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
     }
 
     public void End(string _text, string _spotifyid){
-        Debug.Log("eND");
+        BackButton.SetActive(false);
         SpotifyId = _spotifyid;
         KillPrefablist();
         PlaceHolder.GetComponent<TextMeshProUGUI>().text = _text;
@@ -151,8 +160,6 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
         SearchRoot searchRoot = (SearchRoot)_value[1];
-        
-        Debug.Log("BBBBBBBBBBB");
         
         switch (Type)
         {
@@ -278,8 +285,7 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
 
 
     public void CheckForSpawn(){
-        //Debug.Log("PosinSearch" + PositionInSearch);
-        //Debug.Log(ScrollBar.verticalNormalizedPosition + " " + ScrollbarVerticalPos);
+        
         if(Instances.Count != 0 && CheckForSpawnHasEnded){
             if(ScrollBar.verticalNormalizedPosition  <= ScrollbarVerticalPos){
                 CheckForSpawnHasEnded = false;
@@ -295,6 +301,29 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
 
     public void OnClickErase(){
         ADNDynamicScroll.instance.DestroyInstance(gameObject);
+    }
+
+    public void OnClick_BackButton()
+    {
+        ADNDynamicScroll.instance.HideShowHeader();
+        ADNDynamicScroll.instance.CheckConfirmButton();
+        ADNDynamicScroll.instance.ShowAllInstances();
+
+        BackButton.SetActive(false);
+        
+        KillPrefablist();
+        searchbar.text = "";
+        PlaceHolder.GetComponent<TextMeshProUGUI>().text = PlaceHolderText;
+        DynamicScroll.transform.DOScaleY(0, 0.5F);
+
+        PlaceHolder.SetActive(true);
+        if (!EraseButtonNever)
+        {
+            EraseButton.SetActive(true);
+        }
+        
+
+
     }
 
 

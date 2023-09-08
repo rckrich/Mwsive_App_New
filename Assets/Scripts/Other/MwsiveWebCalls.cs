@@ -1399,7 +1399,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Post challenge complete " + jsonResult);
-                    MwsiveCompleteChallengesRoot mwsiveCompleteChallengesRoot = JsonConvert.DeserializeObject<MwsiveCompleteChallengesRoot>(jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveCompleteChallengesRoot mwsiveCompleteChallengesRoot = JsonConvert.DeserializeObject<MwsiveCompleteChallengesRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveCompleteChallengesRoot });
                     yield break;
                 }

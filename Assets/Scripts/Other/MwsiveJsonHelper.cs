@@ -313,7 +313,7 @@ public class MwsiveChallengesRoot
 public class MwsiveCompleteChallengesRoot
 {
     public int challenge_id { get; set; }
-    public int disks { get; set; }
+    public int? disks { get; set; }
 }
 
 public class MwsiveAdvertisingRoot

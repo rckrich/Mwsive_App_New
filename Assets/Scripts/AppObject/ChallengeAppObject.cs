@@ -113,7 +113,16 @@ public class ChallengeAppObject : AppObject
     private void Callback_PostChallengeComplete(object[] value){
         MwsiveCompleteChallengesRoot mwsiveCompleteChallengesRoot = (MwsiveCompleteChallengesRoot)value[1];
 
-        UIMessage.instance.UIMessageInstanciate("Desafio Completado." +  "Haz obtenido " + mwsiveCompleteChallengesRoot.disks + " disks.");
+        if(mwsiveCompleteChallengesRoot.disks == null)
+        {
+
+            UIMessage.instance.UIMessageInstanciate("Ya haz completado este Challenge");
+        }
+        else
+        {
+            UIMessage.instance.UIMessageInstanciate("Desafio Completado." + "Haz obtenido " + mwsiveCompleteChallengesRoot.disks + " disks.");
+        }
+        
 
         AppManager.instance.RefreshUser();
     }

@@ -238,7 +238,7 @@ public class SurfManager : Manager
     }
 
     private void SideScrollSuccess(){
-       
+        SpotifyPreviewAudioManager.instance.StopTrack();
         Controller.enabled =false;
         Controller.horizontal =true;
         Controller.vertical =true;
@@ -285,6 +285,7 @@ public class SurfManager : Manager
         HasSwipeEnded = true;
     }
     private void DownScrollSuccess(){
+        SpotifyPreviewAudioManager.instance.StopTrack();
         Controller.enabled =false;
         Controller.horizontal =true;
         Controller.vertical =true;
@@ -317,45 +318,45 @@ public class SurfManager : Manager
     }
     
     private void UpScrollSuccess(){
+        SpotifyPreviewAudioManager.instance.StopTrack();
+        Controller.enabled =false;
+        Controller.horizontal =true;
+        Controller.vertical =true;
+        Controller.transform.position = new Vector2(ControllerPostion.x,ControllerPostion.y);
+        if(CurrentPosition < MwsiveSongs.Count-4){
+            Success = true;
+                
+            UIAniManager.instance.SurfVerticalUp(MwsiveSongs[CurrentPosition],1, MaxRotation, 0,true);
+                
 
-            Controller.enabled =false;
-            Controller.horizontal =true;
-            Controller.vertical =true;
-            Controller.transform.position = new Vector2(ControllerPostion.x,ControllerPostion.y);
-            if(CurrentPosition < MwsiveSongs.Count-4){
-                Success = true;
+            UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[0], 1);
+            UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+2], RestPositions[1], 1);
                 
-                UIAniManager.instance.SurfVerticalUp(MwsiveSongs[CurrentPosition],1, MaxRotation, 0,true);
-                
-
-                UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+1], RestPositions[0], 1);
-                UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+2], RestPositions[1], 1);
-                
-                UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[2], 1);
+            UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[2], 1);
 
             
-            CurrentPosition++;
-            GetBeforeCurrentPrefab().GetComponent<ButtonSurfPlaylist>().UpSwipe();
-            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
-                UIAniManager.instance.SurfAddSongReset(AddSong);
-            }else{
-                ResetValue();
+        CurrentPosition++;
+        GetBeforeCurrentPrefab().GetComponent<ButtonSurfPlaylist>().UpSwipe();
+        GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+            UIAniManager.instance.SurfAddSongReset(AddSong);
+        }else{
+            ResetValue();
+        }
+        if(CurrentPosition == PrefabPosition-4){
+            if(CanGetRecomendations){
+                SpawnRecommendations();
+            }else if(SurfProfile){
+                SurfProfileADN();
+            }else if(!CanGetRecomendations && !SpawnedBuffer && !SurfProfile){
+                SpawnPrefab();
+                SpawnPrefab();
+                SpawnPrefab();
+                SpawnedBuffer = true;
             }
-            if(CurrentPosition == PrefabPosition-4){
-                if(CanGetRecomendations){
-                    SpawnRecommendations();
-                }else if(SurfProfile){
-                    SurfProfileADN();
-                }else if(!CanGetRecomendations && !SpawnedBuffer && !SurfProfile){
-                    SpawnPrefab();
-                    SpawnPrefab();
-                    SpawnPrefab();
-                    SpawnedBuffer = true;
-                }
         }
             
-            Debug.Log("UpScrollSuccess"); 
-            HasSwipeEnded = true;
+        Debug.Log("UpScrollSuccess"); 
+        HasSwipeEnded = true;
     }
            
 
@@ -438,7 +439,7 @@ public class SurfManager : Manager
         foreach (var item in recommendationsRoot.tracks)
         {
             if(item != null){
-                if (item.preview_url != null)
+                if (item.preview_url != null && item.preview_url != "Null")
                 {
                     GameObject instance = SpawnPrefab();
                     if (FirstInstance == null)
@@ -484,14 +485,14 @@ public class SurfManager : Manager
         foreach (var item in albumroot.tracks.items)
         {
             if(item != null){
-                if (item.preview_url != null)
+                if (item.preview_url != null && item.preview_url != "Null")
                 {
                     
                     GameObject instance = SpawnPrefab();
-                    Debug.Log(FirstInstance);
+                    
                     if (FirstInstance == null)
                     {
-                        Debug.Log("aaaaaaaaaaaaaaaaaaaa");
+                        
                         FirstInstance = instance;
                     }
 
@@ -534,7 +535,7 @@ public class SurfManager : Manager
         foreach (var item in recommendationsRoot.tracks)
         {
             if(item != null){
-                if (item.preview_url != null)
+                if (item.preview_url != null && item.preview_url != "Null")
                 {
                     GameObject instance = SpawnPrefab();
                     if (FirstInstance == null)
@@ -585,7 +586,7 @@ public class SurfManager : Manager
         {
             if(item.track != null)
             {
-                if (item.track.preview_url != null)
+                if (item.track.preview_url != null && item.preview_url != "Null")
                 {
                     GameObject instance = SpawnPrefab();
                     if (FirstInstance == null)
@@ -633,7 +634,7 @@ public class SurfManager : Manager
         {
             if(item != null)
             {
-                if (item.preview_url != null)
+                if (item.preview_url != null && item.preview_url != "Null")
                 {
                     GameObject instance = SpawnPrefab();
                     if (FirstInstance == null)
