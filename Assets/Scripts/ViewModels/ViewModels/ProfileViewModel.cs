@@ -350,7 +350,32 @@ public class ProfileViewModel : ViewModel
         profileId = mwsiveUserRoot.user.platform_id;
 
         GetCurrentUserPlaylists();
-        
+
+        if (mwsiveUserRoot.user.user_links.Count != 0)
+        {
+            foreach (UserLink url in mwsiveUserRoot.user.user_links)
+            {
+                switch (url.type)
+                {
+                    case "TIK_TOK":
+                        tiktokUrl = url.link;
+                        socialButtons[1].SetActive(true);
+                        break;
+                    case "INSTAGRAM":
+                        instagramUrl = url.link;
+                        socialButtons[2].SetActive(true);
+                        break;
+                    case "YOU_TUBE":
+                        youtubeUrl = url.link;
+                        socialButtons[3].SetActive(true);
+                        break;
+                    case "EXTERNAL":
+                        externalUrl = url.link;
+                        socialButtons[0].SetActive(true);
+                        break;
+                }
+            }
+        }
 
         FollowButtonInitilization();
     }
