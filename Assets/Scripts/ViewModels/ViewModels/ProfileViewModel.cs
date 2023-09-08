@@ -14,7 +14,7 @@ public class ProfileViewModel : ViewModel
     public GameObject surfManager;
     public Transform playlistContent;
     public ScrollRect principalScroll;
-    public Button[] socialButtons;
+    public GameObject[] socialButtons;
     public TextMeshProUGUI followersText;
     public TextMeshProUGUI followedText;
     public Button followButton;
@@ -315,19 +315,19 @@ public class ProfileViewModel : ViewModel
                 {
                     case "TIK_TOK":
                         tiktokUrl = url.link;
-                        socialButtons[1].interactable = true;
+                        socialButtons[1].SetActive(true);
                         break;
                     case "INSTAGRAM":
                         instagramUrl = url.link;
-                        socialButtons[2].interactable = true;
+                        socialButtons[2].SetActive(true);
                         break;
                     case "YOU_TUBE":
                         youtubeUrl = url.link;
-                        socialButtons[3].interactable = true;
+                        socialButtons[3].SetActive(true);
                         break;
                     case "EXTERNAL":
                         externalUrl = url.link;
-                        socialButtons[0].interactable = true;
+                        socialButtons[0].SetActive(true);
                         break;
                 }
             }
@@ -350,7 +350,54 @@ public class ProfileViewModel : ViewModel
         profileId = mwsiveUserRoot.user.platform_id;
 
         GetCurrentUserPlaylists();
-        
+
+        if (mwsiveUserRoot.user.user_links.Count != 0)
+        {
+            foreach (UserLink url in mwsiveUserRoot.user.user_links)
+            {
+                if (url.link.Equals(""))
+                {
+                    switch (url.type)
+                    {
+                        case "TIK_TOK":
+                            socialButtons[1].SetActive(false);
+                            break;
+                        case "INSTAGRAM":
+                            socialButtons[2].SetActive(false);
+                            break;
+                        case "YOU_TUBE":
+                            socialButtons[3].SetActive(false);
+                            break;
+                        case "EXTERNAL":
+                            socialButtons[0].SetActive(false);
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (url.type)
+                    {
+                        case "TIK_TOK":
+                            tiktokUrl = url.link;
+                            socialButtons[1].SetActive(true);
+                            break;
+                        case "INSTAGRAM":
+                            instagramUrl = url.link;
+                            socialButtons[2].SetActive(true);
+                            break;
+                        case "YOU_TUBE":
+                            youtubeUrl = url.link;
+                            socialButtons[3].SetActive(true);
+                            break;
+                        case "EXTERNAL":
+                            externalUrl = url.link;
+                            socialButtons[0].SetActive(true);
+                            break;
+                    }
+                }
+               
+            }
+        }
 
         FollowButtonInitilization();
     }
@@ -407,9 +454,9 @@ public class ProfileViewModel : ViewModel
 
         if (socialButtons.Length <= 0) return;
 
-        foreach(Button button in socialButtons)
+        foreach(GameObject button in socialButtons)
         {
-            button.interactable = false;
+            button.SetActive(false);
         }
     }
 
