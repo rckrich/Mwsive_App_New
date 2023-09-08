@@ -135,4 +135,6 @@ public class ChallengeAppObject : AppObject
         popUpViewModel.Initialize(_type, _titleText, _descriptionText, _actionButtonText);
         popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); });
     }
+
+    
 }

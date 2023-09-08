@@ -5,18 +5,23 @@ using VoxelBusters.EssentialKit;
 
 public class OpenGallery : Manager
 {
-    public static OpenGallery instance;
+    private static OpenGallery _instance;
+    public static OpenGallery instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = GameObject.FindObjectOfType<OpenGallery>();
+
+            return _instance;
+        }
+    }
 
     GalleryAccessStatus readaccessStatus;
     GalleryAccessStatus readAndWriteAccessStatus;
     GalleryAccessStatus cameraaccesstatus;
 
     public Texture2D currentImage;
- 
-    void Start()
-    {
-        instance = this;
-    }
 
     public void GetImageFromGallery()
     {
@@ -87,9 +92,12 @@ public class OpenGallery : Manager
             {
                 if (error == null)
                 {
-                    Debug.Log("Select image from gallery finished successfully.");
                     currentImage = textureData.GetTexture();
-                    //textureData.GetTexture() // This returns the texture
+                    NewScreenManager.instance.GetCurrentView().GetComponent<EditProfileViewModel>().ChangePicture(currentImage);
+
+                    Debug.Log("Select image from gallery finished successfully.");
+                    Debug.Log("Texture is " + currentImage.ToString());
+                    Debug.Log("Post");
                 }
                 else
                 {
