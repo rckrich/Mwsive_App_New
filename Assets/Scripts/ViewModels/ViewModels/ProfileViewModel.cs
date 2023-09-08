@@ -189,21 +189,6 @@ public class ProfileViewModel : ViewModel
         EndSearch();
     }
 
-    private void Callback_GetFollowers(object[] _value)
-    {
-        MwsiveFollowersRoot mwsiveFollowersRoot = (MwsiveFollowersRoot)_value[1];
-
-        followersText.text = (mwsiveFollowersRoot.followers != null) ? mwsiveFollowersRoot.followers.Count.ToString() : "-";
-    }
-
-    private void Callback_GetFollowed(object[] _value)
-    {
-        MwsiveFollowedRoot mwsiveFollowingRoot = (MwsiveFollowedRoot)_value[1];
-
-        followedText.text = (mwsiveFollowingRoot.followed != null) ? mwsiveFollowingRoot.followed.Count.ToString() : "-";
-
-    }
-
     public void OnClick_BackButtonSurf()
     {
         principalScroll.verticalNormalizedPosition = 1;

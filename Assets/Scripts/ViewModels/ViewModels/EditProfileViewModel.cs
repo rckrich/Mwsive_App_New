@@ -154,6 +154,7 @@ public class EditProfileViewModel : ViewModel
     public void ChangePicture(Texture2D _texture)
     {
         Debug.Log("HHHHHHH");
+        imageProfile.sprite = Sprite.Create(_texture, new Rect(0.0f, 0.0f, _texture.width, _texture.height), new Vector2(0.5f, 0.5f), 100.0f);
         MwsiveConnectionManager.instance.PostProfilePicture(_texture, Callback_ChangeProfilePicture);
     }
 

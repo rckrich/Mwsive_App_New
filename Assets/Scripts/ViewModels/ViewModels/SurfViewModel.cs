@@ -31,7 +31,9 @@ public class SurfViewModel : ViewModel
 
         MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
         profileId = mwsiveUserRoot.user.platform_id;
-        ImageManager.instance.GetImage(mwsiveUserRoot.user.image, profilePicture, (RectTransform)this.transform);
+
+        if(mwsiveUserRoot.user.image != null)
+            ImageManager.instance.GetImage(mwsiveUserRoot.user.image, profilePicture, (RectTransform)this.transform);
     }
 
     public void OnClick_Profile()

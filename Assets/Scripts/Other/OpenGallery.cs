@@ -21,7 +21,7 @@ public class OpenGallery : Manager
     GalleryAccessStatus readAndWriteAccessStatus;
     GalleryAccessStatus cameraaccesstatus;
 
-    public Texture2D currentImage;
+    public Texture2D currentTexture2D;
 
     public void GetImageFromGallery()
     {
@@ -62,7 +62,8 @@ public class OpenGallery : Manager
                 if (error == null)
                 {
                     Debug.Log("Select image from gallery finished successfully.");
-                    currentImage = textureData.GetTexture();
+                    currentTexture2D = textureData.GetTexture();
+                    ((EditProfileViewModel)NewScreenManager.instance.GetCurrentView()).ChangePicture(currentTexture2D);
                     //textureData.GetTexture() // This returns the texture
                 }
                 else
@@ -92,11 +93,11 @@ public class OpenGallery : Manager
             {
                 if (error == null)
                 {
-                    currentImage = textureData.GetTexture();
-                    NewScreenManager.instance.GetCurrentView().GetComponent<EditProfileViewModel>().ChangePicture(currentImage);
+                    currentTexture2D = textureData.GetTexture();
+                    NewScreenManager.instance.GetCurrentView().GetComponent<EditProfileViewModel>().ChangePicture(currentTexture2D);
 
                     Debug.Log("Select image from gallery finished successfully.");
-                    Debug.Log("Texture is " + currentImage.ToString());
+                    Debug.Log("Texture is " + currentTexture2D.ToString());
                     Debug.Log("Post");
                 }
                 else

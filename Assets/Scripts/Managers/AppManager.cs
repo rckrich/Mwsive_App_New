@@ -188,8 +188,11 @@ public class AppManager : Manager
 
         currentMwsiveUser = mwsiveUserRoot.user;
 
-        ImageManager.instance.GetImage(mwsiveUserRoot.user.image, profilePicture, (RectTransform)surfTransform);
+        if (mwsiveUserRoot.user.image != null)
+            ImageManager.instance.GetImage(mwsiveUserRoot.user.image, profilePicture, (RectTransform)surfTransform);
+
         InvokeEvent<ChangeDiskAppEvent>(new ChangeDiskAppEvent(mwsiveUserRoot.user.total_disks));
+
         SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_GetCurrentMwsiveUserPlaylist_LogInFlow);
     }
 
@@ -375,7 +378,7 @@ public class AppManager : Manager
     public void RefreshUser(MwsiveWebCallback _callback = null){
         if(_callback != null)
         {
-            refreshMwsiveUserCallback = Callback_RefreshCurrentPlaylist;
+            refreshMwsiveUserCallback = Callback_RefreshUser;
             refreshMwsiveUserCallback += _callback;
             MwsiveConnectionManager.instance.GetCurrentMwsiveUser(refreshMwsiveUserCallback);
         }
