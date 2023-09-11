@@ -128,9 +128,12 @@ public class Badge
 
 public class Settings
 {
-    public int id { get; set; }
-    public int name { get; set; }
-    public int value { get; set; }
+   public int id { get; set; }
+   public string name { get; set; }
+   public string value { get; set; }
+   public DateTime created_at { get; set; }
+   public DateTime updated_at { get; set; }
+    
 }
 
 public class Challenges

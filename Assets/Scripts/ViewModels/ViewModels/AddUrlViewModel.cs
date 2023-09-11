@@ -71,9 +71,13 @@ public class AddUrlViewModel : ViewModel
         {
             MwsiveConnectionManager.instance.PostUserLink("TIK_TOK", inputUrl.text, Callback_PostUserLink);
         }
+        else if (inputUrl.text.Equals(""))
+        {
+            MwsiveConnectionManager.instance.PostUserLink("TIK_TOK", inputUrl.text, Callback_PostUserLink);
+        }
         else
         {
-            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inv?lido, intente otra vez", "Aceptar");
+            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inv?lido o distinto a tiktok", "Aceptar");
         }
     }
 
@@ -82,31 +86,40 @@ public class AddUrlViewModel : ViewModel
         if (inputUrl.text.Contains("instagram.com"))
         {
             MwsiveConnectionManager.instance.PostUserLink("INSTAGRAM", inputUrl.text, Callback_PostUserLink);
-        }/*else if (inputUrl.text.Equals(""))
+        }
+        else if (inputUrl.text.Equals(""))
         {
             MwsiveConnectionManager.instance.PostUserLink("INSTAGRAM", inputUrl.text, Callback_PostUserLink);
-        }*/
+        }
         else
         {
-            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inv?lido, intente otra vez", "Aceptar");
+            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inv?lido o distinto a instagram", "Aceptar");
         }
     }
 
     public void OnEndEdit_YoutubeUrl()
     {
-        if (inputUrl.text.Contains("youtube.com/channel/") || inputUrl.text.Contains("youtube.com/c/"))
+        if (inputUrl.text.Contains("youtube.com/channel/") || inputUrl.text.Contains("youtube.com/c/") || inputUrl.text.Contains("youtube.com/@")) 
+        {
+            MwsiveConnectionManager.instance.PostUserLink("YOU_TUBE", inputUrl.text, Callback_PostUserLink);
+        }
+        else if (inputUrl.text.Equals(""))
         {
             MwsiveConnectionManager.instance.PostUserLink("YOU_TUBE", inputUrl.text, Callback_PostUserLink);
         }
         else
         {
-            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inv?lido, intente otra vez", "Aceptar");
+            CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inv?lido o distinto a youtube", "Aceptar");
         }
     }
 
     public void OnEndEdit_ExternalUrl()
     {
         if (inputUrl.text.Contains("https://") || inputUrl.text.Contains("."))
+        {
+            MwsiveConnectionManager.instance.PostUserLink("EXTERNAL", inputUrl.text, Callback_PostUserLink);
+        }
+        else if (inputUrl.text.Equals(""))
         {
             MwsiveConnectionManager.instance.PostUserLink("EXTERNAL", inputUrl.text, Callback_PostUserLink);
         }

@@ -35,7 +35,7 @@ public class EditProfileViewModel : ViewModel
         imageInstagram.sprite = noHaveUrl;
         imageYoutube.sprite = noHaveUrl;
         imageExternal.sprite = noHaveUrl;
-        placeHolderEditProfile.text = AppManager.instance.currentMwsiveUser.display_name;
+        inputProfileName.text = AppManager.instance.currentMwsiveUser.display_name;
 
         if(AppManager.instance.currentMwsiveUser.image_url != null)
         {
