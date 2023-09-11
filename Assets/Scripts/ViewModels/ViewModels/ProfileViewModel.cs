@@ -203,6 +203,7 @@ public class ProfileViewModel : ViewModel
     public void OnClick_OptionsButton()
     {
         OpenView(ViewID.OptionsViewModel);
+        NewScreenManager.instance.GetCurrentView().GetComponent<OptionsViewModel>().GetSettings();
     }
 
     public void OnClick_Followers()
