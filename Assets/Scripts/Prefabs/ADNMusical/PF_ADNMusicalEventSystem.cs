@@ -10,7 +10,7 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
 
     public string[] types = new string[] {"artist"};
 
-    public GameObject PlaceHolder, DynamicScroll, EraseButton, BackButton;
+    public GameObject PlaceHolder, DynamicScroll, EraseButton, BackButton, ClearSearch;
     private string SearchText, SpotifyId, PlaceHolderText;
     public  TMP_InputField searchbar;
     public TextMeshProUGUI Number;
@@ -44,11 +44,17 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
         Type = _Type;
     }
 
+    public void OnClick_ClearSearch()
+    {
+        searchbar.text = "";
+    }
+
     public void Search(){
         
         SearchText = searchbar.text;
         
             if(SearchText.Length >= 1){
+                ClearSearch.SetActive(true);
                 PlaceHolder.SetActive(false);
                 CheckForSpawnHasEnded = true;
                 
@@ -138,6 +144,7 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
 
     public void End(string _text, string _spotifyid){
         BackButton.SetActive(false);
+        ClearSearch.SetActive(false);
         SpotifyId = _spotifyid;
         KillPrefablist();
         PlaceHolder.GetComponent<TextMeshProUGUI>().text = _text;
@@ -310,7 +317,9 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
         ADNDynamicScroll.instance.ShowAllInstances();
 
         BackButton.SetActive(false);
-        
+        ClearSearch.SetActive(false);
+
+
         KillPrefablist();
         searchbar.text = "";
         PlaceHolder.GetComponent<TextMeshProUGUI>().text = PlaceHolderText;

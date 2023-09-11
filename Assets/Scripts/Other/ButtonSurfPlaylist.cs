@@ -163,7 +163,7 @@ public class ButtonSurfPlaylist : ViewModel
         {
             if(transform.IsChildOf(Surf.GetComponent<PF_SurfManager>().GetCurrentPrefab().transform) && TrackPoints){
                durationBar.SetCallBack(gameObject.GetComponent<ButtonSurfPlaylist>());
-               durationBar.CheckforPoints = true;
+                durationBar.CheckforPoints = true;
             }else{
                 durationBar.CheckforPoints = false;
             }
@@ -173,7 +173,8 @@ public class ButtonSurfPlaylist : ViewModel
             if(transform.IsChildOf(Surf.GetComponent<SurfManager>().GetCurrentPrefab().transform) && TrackPoints){
                 durationBar.SetCallBack(gameObject.GetComponent<ButtonSurfPlaylist>());
                 durationBar.CheckforPoints = true;
-            }else{
+            }
+            else{
                 durationBar.CheckforPoints = false;
             }
         }
@@ -245,6 +246,8 @@ public class ButtonSurfPlaylist : ViewModel
     public void OnClic_StopAudioPreview()
     {
         SpotifyPreviewAudioManager.instance.Pause();
+        
+
        
         
     }
@@ -252,6 +255,7 @@ public class ButtonSurfPlaylist : ViewModel
     public void OnClickForcePausePreview(){
         SpotifyPreviewAudioManager.instance.ForcePause();
         
+
     }
   
     public void OnClick_OpenPlaylist()
@@ -267,38 +271,31 @@ public class ButtonSurfPlaylist : ViewModel
     }
 
 
-    public void Swipe()
-    {
-        AddToPlaylist();
-    }
-
-    public void AddToPlaylist()
+    public void AddToPlaylistButton(string _trackid, float _time)
     {
         if (!AppManager.instance.SearchTrackOnCurrentPlaylist(trackID))
         {
+            
             SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
-            /*if (AppManager.instance.isLogInMode && !trackID.Equals(""))
-                MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", 0.0f);*/
-        }
-        else
-        {
-            UIMessage.instance.UIMessageInstanciate("Esta canción ya está en la playlist");
-        }
-    }
-
-    public void AddToPlaylistButton()
-    {
-        if (!AppManager.instance.SearchTrackOnCurrentPlaylist(trackID))
-        {
-            SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
-            /*if (AppManager.instance.isLogInMode && !trackID.Equals(""))
-                MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", 0.0f);*/
+            if (AppManager.instance.isLogInMode && !trackID.Equals(""))
+                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time); ;
         }
         else
         {
             SpotifyConnectionManager.instance.RemoveItemsFromPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_RemoveToPlaylist);
-            /*if (AppManager.instance.isLogInMode && !trackID.Equals(""))
-                MwsiveConnectionManager.instance.PostTrackAction(trackID, "NOT_RECOMMEND", 0.0f);*/
+            if (AppManager.instance.isLogInMode && !trackID.Equals(""))
+                MwsiveConnectionManager.instance.PostTrackAction(trackID, "NOT_RECOMMEND", _time);
+        }
+    }
+
+    public void AddToPlaylistSwipe(string _trackid, float _time)
+    {
+        if (!AppManager.instance.SearchTrackOnCurrentPlaylist(trackID))
+        {
+
+            SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
+            if (AppManager.instance.isLogInMode && !trackID.Equals(""))
+                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time); ;
         }
     }
 
@@ -349,18 +346,6 @@ public class ButtonSurfPlaylist : ViewModel
     public void OnClick_PlayOnSpotify()
     {
         Application.OpenURL(externalURL);
-    }
-
-    public void UpSwipe()
-    {
-        /*if (AppManager.instance.isLogInMode && !trackID.Equals(""))
-            MwsiveConnectionManager.instance.PostTrackAction(trackID, "UP", 0.0f);*/
-    }
-
-    public void BackSwipe()
-    {
-        /*if (AppManager.instance.isLogInMode && !trackID.Equals(""))
-            MwsiveConnectionManager.instance.PostTrackAction(trackID, "DOWN", 0.0f);*/
     }
 
     public void ChangeEventListener(ChangeColorAppEvent _event)

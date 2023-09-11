@@ -442,7 +442,7 @@ public class Descubrir_ViewModel : ViewModel
                         {
                             if (item.image != null)
                             {
-                                CustomSpawnPrefab(false, 0).GetComponent<DynamicSearchPrefabInitializer>().InitializeMwsiveUserwithImage(item.display_name, item.platform_id.ToString(), item.image);
+                                CustomSpawnPrefab(false, 0).GetComponent<DynamicSearchPrefabInitializer>().InitializeMwsiveUserwithImage(item.display_name, item.platform_id.ToString(), item.image_url);
                             }
                             else
                             {
@@ -508,7 +508,7 @@ public class Descubrir_ViewModel : ViewModel
                             {
                                 if (item.image != null)
                                 {
-                                    CustomSpawnPrefab(false, 1).GetComponent<DynamicSearchPrefabInitializer>().InitializeMwsiveUserwithImage(item.display_name, item.platform_id.ToString(), item.image);
+                                    CustomSpawnPrefab(false, 1).GetComponent<DynamicSearchPrefabInitializer>().InitializeMwsiveUserwithImage(item.display_name, item.platform_id.ToString(), item.image_url);
                                 }
                                 else
                                 {

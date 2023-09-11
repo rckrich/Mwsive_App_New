@@ -283,8 +283,8 @@ public class ProfileViewModel : ViewModel
     {
         mwsiveUserRoot = (MwsiveUserRoot)_value[1];
 
-        if(mwsiveUserRoot.user.image != null)
-            ImageManager.instance.GetImage(mwsiveUserRoot.user.image, profilePicture, (RectTransform)this.transform);
+        if(mwsiveUserRoot.user.image_url != null)
+            ImageManager.instance.GetImage(mwsiveUserRoot.user.image_url, profilePicture, (RectTransform)this.transform);
 
         followersText.text = mwsiveUserRoot.user.total_followers.ToString();
         followedText.text = mwsiveUserRoot.user.total_followed.ToString();
@@ -325,8 +325,8 @@ public class ProfileViewModel : ViewModel
     public void Callback_GetMwsiveUser(object[] _value)
     {
         mwsiveUserRoot = (MwsiveUserRoot)_value[1];
-        if (mwsiveUserRoot.user.image != null)
-            ImageManager.instance.GetImage(mwsiveUserRoot.user.image, profilePicture, (RectTransform)this.transform);
+        if (mwsiveUserRoot.user.image_url != null)
+            ImageManager.instance.GetImage(mwsiveUserRoot.user.image_url, profilePicture, (RectTransform)this.transform);
 
         followersText.text = mwsiveUserRoot.user.total_followers.ToString();
         followedText.text = mwsiveUserRoot.user.total_followed.ToString();

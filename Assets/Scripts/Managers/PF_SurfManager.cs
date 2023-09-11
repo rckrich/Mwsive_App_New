@@ -28,6 +28,10 @@ public class PF_SurfManager : Manager
 
     [HideInInspector]
     public bool canSwipe = true;
+    public float time = 0;
+    public bool HasSideScrollEnded = true;
+    public bool Challenge = false;
+
     private Vector2 ControllerPostion = new Vector2();
     private int CurrentPosition = 0;
     private int PrefabPosition = 0;
@@ -39,10 +43,10 @@ public class PF_SurfManager : Manager
     private int SurfProfileOffsetPosition;
     private int trackstospawn = 0;
     private bool HasFirstPlaylistPlayed = false;
-    public bool HasSideScrollEnded = true;
-    public bool Challenge = false;
+    
     private bool SurfPaged = false;
     private bool FirstSongplayed = false;
+
 
     [SerializeField]
     private int SongsMaxToPaginate;
@@ -65,7 +69,7 @@ public class PF_SurfManager : Manager
             currentPrefab.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
 
 
-
+        AddEventListener<TimerAppEvent>(TimerAppEventListener);
 
 
 
@@ -78,6 +82,7 @@ public class PF_SurfManager : Manager
     private void OnDisable()
     {
         swipeListener.OnSwipe.RemoveListener(OnSwipe);
+        RemoveEventListener<TimerAppEvent>(TimerAppEventListener);
 
     }
 
@@ -244,9 +249,14 @@ public class PF_SurfManager : Manager
             UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition + 2], RestPositions[1], 1);
             UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition + 3], RestPositions[2], 1);
 
-
+            
+            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().AddToPlaylistSwipe(GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID, ResetTimer());
             CurrentPosition++;
-            GetBeforeCurrentPrefab().GetComponent<ButtonSurfPlaylist>().Swipe();
+
+            
+
+            
+
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
             Success = true;
         } else if (MwsiveSongs.Count - 4 == CurrentPosition && HasSideScrollEnded) {
@@ -254,7 +264,6 @@ public class PF_SurfManager : Manager
             UIAniManager.instance.SurfSideLastPosition(MwsiveSongs[CurrentPosition], RestPositions[0], 1, -MaxRotation, 0, gameObject);
             ResetSideScroll();
             UIAniManager.instance.SurfAddSongLastPosition(AddSong, 1.5f);
-            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().Swipe();
         } else {
             ResetValue();
         }
@@ -306,7 +315,12 @@ public class PF_SurfManager : Manager
 
             UIAniManager.instance.SurfAddSongReset(AddSong);
 
-            GetBeforeCurrentPrefab().GetComponent<ButtonSurfPlaylist>().BackSwipe();
+            
+            string _trackid = GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID;
+            if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
+            {
+                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "DOWN", ResetTimer());
+            }
             CurrentPosition--;
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
             MwsiveSongs[CurrentPosition + 1].GetComponent<ButtonSurfPlaylist>().CheckIfDurationBarCanPlay();
@@ -340,6 +354,12 @@ public class PF_SurfManager : Manager
             UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition + 3], RestPositions[2], 1);
 
 
+            
+            string _trackid = GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID;
+            if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
+            {
+                MwsiveConnectionManager.instance.PostTrackAction(GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID, "UP", ResetTimer());
+            }
             CurrentPosition++;
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
             UIAniManager.instance.SurfAddSongReset(AddSong);
@@ -1040,7 +1060,16 @@ public class PF_SurfManager : Manager
                             }
                         }
                         ProfilePlaylistPosition++;
-                        SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylistsNoPlaylist);
+
+                        if(CurrentPosition >= MwsiveSongs.Count - 4)
+                        {
+                            SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylistsNoPlaylist);
+                        }
+                        else
+                        {
+                            SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylists);
+                        }
+                        
 
                     }
 
@@ -1093,8 +1122,15 @@ public class PF_SurfManager : Manager
         if(value != null){
             SurfProfile = true;
             
+            if(value.Count > 4)
+            {
+                SpotifyConnectionManager.instance.GetSeveralTracks(value.ToArray(), OnCallBack_SpawnSeveralTracks);
+            }
+            else
+            {
+                SpotifyConnectionManager.instance.GetSeveralTracks(value.ToArray(), OnCallback_SpawnSeveralTracksNotEnoughTracks);
+            }
             
-            SpotifyConnectionManager.instance.GetSeveralTracks(value.ToArray(), OnCallBack_SpawnSeveralTracks);
         }
         
 
@@ -1106,6 +1142,13 @@ public class PF_SurfManager : Manager
         SeveralTrackRoot severaltrack = (SeveralTrackRoot)_value[1];
         DynamicPrefabSpawnerSeveralTracks(severaltrack.tracks, true, false);
         HasFirstPlaylistPlayed = true;
+    }
+    private void OnCallback_SpawnSeveralTracksNotEnoughTracks(object[] _value)
+    {
+        SeveralTrackRoot severaltrack = (SeveralTrackRoot)_value[1];
+        DynamicPrefabSpawnerSeveralTracks(severaltrack.tracks, true, false);
+        HasFirstPlaylistPlayed = true;
+        SurfProfileADN();
     }
 
 
@@ -1141,6 +1184,72 @@ public class PF_SurfManager : Manager
     public void UpdateDisk(){
         
     }
+
+
+    
+
+    public void StartTimer()
+    {
+        StartCoroutine("Timer");
+    }
+
+    public void StopTimer()
+    {
+        StopCoroutine("Timer");
+
+    }
+    public void KillTimer()
+    {
+        StopCoroutine("Timer");
+        time = 0;
+    }
+
+    public float ResetTimer()
+    {
+        float time2 = time;
+        StopCoroutine("Timer");
+        time = 0;
+        
+        return time2;
+    }
+
+    IEnumerator Timer()
+    {
+
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            time++;
+        }
+
+
+    }
+
+    private void TimerAppEventListener(TimerAppEvent _event)
+    {
+        Debug.Log(_event.type.ToString());
+        if (_event.type == "PAUSE")
+        {
+            StopTimer();
+        }
+        if (_event.type == "STOP")
+        {
+            StopTimer();
+        }
+        if (_event.type == "START")
+        {
+            StartTimer();
+        }
+        if (_event.type == "KILL")
+        {
+            KillTimer();
+        }
+    }
+
+
+
+
+
 
 
 

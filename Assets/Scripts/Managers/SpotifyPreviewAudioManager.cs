@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 public delegate void SpotifyAudioDownloaderCallback(object[] _list);
 
-public class SpotifyPreviewAudioManager : MonoBehaviour
+public class SpotifyPreviewAudioManager : Manager
 {
     private static SpotifyPreviewAudioManager _instance;
     public TrackHolder trackHolder;
@@ -39,6 +39,7 @@ public class SpotifyPreviewAudioManager : MonoBehaviour
         if (audioSource.isPlaying)
         {
             audioSource.Stop();
+            InvokeEvent<TimerAppEvent>(new TimerAppEvent() { type = "STOP" });
             isPaused = true;
             
         }
@@ -54,6 +55,7 @@ public class SpotifyPreviewAudioManager : MonoBehaviour
         else
         {
             audioSource.Pause();
+            InvokeEvent<TimerAppEvent>(new TimerAppEvent() { type = "PAUSE" });
         }
 
         isPaused = !isPaused;
@@ -62,6 +64,7 @@ public class SpotifyPreviewAudioManager : MonoBehaviour
     public void ForcePause(){
         audioSource.Pause();
         isPaused = true;
+        InvokeEvent<TimerAppEvent>(new TimerAppEvent() { type = "PAUSE" });
     }
 
     public float GetAudioSourceTime() { return audioSource.time; }
@@ -96,6 +99,9 @@ public class SpotifyPreviewAudioManager : MonoBehaviour
                     _callback(new object[] { audioClip.length });
 
                 Debug.Log("Audio is playing");
+                InvokeEvent<TimerAppEvent>(new TimerAppEvent() { type = "KILL" });
+                InvokeEvent<TimerAppEvent>(new TimerAppEvent() { type = "START" });
+
             }
         }
     }

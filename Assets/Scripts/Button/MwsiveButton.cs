@@ -13,12 +13,22 @@ public class MwsiveButton : MonoBehaviour
     public GameObject CompartirColorButton;
     private bool IsItCompartirColorButtonActive = false;
 
-    public void OnClickOlaButton(float AnimationDuration){
+    public void OnClickOlaButton(float AnimationDuration, string _trackid, float _time){
         if(!IsItOlaColorButtonActive){
+            if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
+            {
+                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "PIK", _time);
+            }
+                
             UIAniManager.instance.FadeIn(OlaColorButton, AnimationDuration);
             OlaColorButton.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), .3f).OnComplete(() => {OlaColorButton.transform.DOScale(new Vector3(1f, 1f, 1f), .3f);});
             IsItOlaColorButtonActive = true;
         }else{
+            if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
+            {
+                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "UNPIK", _time);
+            }
+                
             UIAniManager.instance.FadeOut(OlaColorButton, AnimationDuration);
             IsItOlaColorButtonActive = false;
             OlaColorButton.transform.DOScale(new Vector3(0f, 0f, 0f), .3f);
@@ -50,6 +60,7 @@ public class MwsiveButton : MonoBehaviour
 
     public void OnClickCompartirButton(float AnimationDuration){
         if(!IsItCompartirColorButtonActive){
+            
             UIAniManager.instance.FadeIn(CompartirColorButton, AnimationDuration);
             CompartirColorButton.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), .3f).OnComplete(() => {CompartirColorButton.transform.DOScale(new Vector3(1f, 1f, 1f), .3f);});
             IsItCompartirColorButtonActive = true;

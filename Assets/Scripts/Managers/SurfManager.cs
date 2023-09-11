@@ -40,6 +40,7 @@ public class SurfManager : Manager
 
     [HideInInspector]
     public bool canSwipe = true;
+    public float time = 0;
 
     private Vector2 ControllerPostion = new Vector2();
     private int CurrentPosition = 0;
@@ -52,14 +53,19 @@ public class SurfManager : Manager
     private int SurfProfileOffsetPosition;
     private int trackstospawn = 0;
     private bool HasFirstPlaylistPlayed = false;
+    
+    
 
-  
+
     private void Start()
     {
         if(UIAniManager.instance.MainCanvas == null){
             UIAniManager.instance.MainCanvas = MainCanvas;
         }
-        ControllerPostion = new Vector2(Controller.transform.position.x, Controller.transform.position.y); 
+        ControllerPostion = new Vector2(Controller.transform.position.x, Controller.transform.position.y);
+
+
+        
     }
 
    
@@ -73,9 +79,9 @@ public class SurfManager : Manager
 
         if(currentPrefab != null && SurfController.instance.AmICurrentView(gameObject))
             currentPrefab.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
-        
-        
-        
+
+
+        AddEventListener<TimerAppEvent>(TimerAppEventListener);
         
         
         
@@ -88,7 +94,9 @@ public class SurfManager : Manager
     private void OnDisable()
     {
         swipeListener.OnSwipe.RemoveListener(OnSwipe);
-        
+
+        RemoveEventListener<TimerAppEvent>(TimerAppEventListener);
+
     }
 
     
@@ -254,10 +262,12 @@ public class SurfManager : Manager
             UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+2], RestPositions[1], 1);
             UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[2], 1);
 
-            
+
+            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().AddToPlaylistSwipe(GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID, ResetTimer());
+
             CurrentPosition++;
-            GetBeforeCurrentPrefab().GetComponent<ButtonSurfPlaylist>().Swipe();
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+            
             Success = true;
         }else{
             ResetValue();
@@ -305,8 +315,14 @@ public class SurfManager : Manager
             UIAniManager.instance.SurfAddSongReset(AddSong);
 
             
+            
+            
+            string _trackid = GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID;
+            if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
+            {
+                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "DOWN", ResetTimer());
+            }
             CurrentPosition--;
-            GetBeforeCurrentPrefab().GetComponent<ButtonSurfPlaylist>().BackSwipe();
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
             
 
@@ -338,8 +354,16 @@ public class SurfManager : Manager
             UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition+3], RestPositions[2], 1);
 
             
+        
+
+        string _trackid = GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID;
+        if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
+        {
+            MwsiveConnectionManager.instance.PostTrackAction(GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID, "UP", ResetTimer());
+        }
+
         CurrentPosition++;
-        GetBeforeCurrentPrefab().GetComponent<ButtonSurfPlaylist>().UpSwipe();
+               
         GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
             UIAniManager.instance.SurfAddSongReset(AddSong);
         }else{
@@ -945,6 +969,73 @@ public class SurfManager : Manager
         SpotifyConnectionManager.instance.GetPlaylist(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallBack_SpawnUserPlaylistsNoPlaylist);
         SurfProfile = true;
     }
+
+    public void StartTimer()
+    {
+        StartCoroutine("Timer");
+    }
+
+    public void StopTimer()
+    {
+        StopCoroutine("Timer");
+
+    }
+    public void KillTimer()
+    {
+        StopCoroutine("Timer");
+        time = 0;
+    }
+
+    public float ResetTimer()
+    {
+        float time2 = time;
+        StopCoroutine("Timer");
+        time = 0;
+        Debug.Log(time2 + "--------");
+        return time2;
+    }
+
+    IEnumerator Timer()
+    {
+
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            time++;
+            
+        }
+
+
+    }
+
+
+    private void TimerAppEventListener(TimerAppEvent _event)
+    {
+        Debug.Log(_event.type.ToString());
+        if (_event.type == "PAUSE")
+        {
+            StopTimer();
+        }
+        if (_event.type == "STOP")
+        {
+            StopTimer();
+        }
+        if (_event.type == "START")
+        {
+            StartTimer();
+        }
+        if(_event.type == "KILL")
+        {
+            KillTimer();
+        }
+    }
+
+
+
+
+
+
+
 
 
 }

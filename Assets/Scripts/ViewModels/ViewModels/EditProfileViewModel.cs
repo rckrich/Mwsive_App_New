@@ -37,9 +37,9 @@ public class EditProfileViewModel : ViewModel
         imageExternal.sprite = noHaveUrl;
         placeHolderEditProfile.text = AppManager.instance.currentMwsiveUser.display_name;
 
-        if(AppManager.instance.currentMwsiveUser.image != null)
+        if(AppManager.instance.currentMwsiveUser.image_url != null)
         {
-            ImageManager.instance.GetImage(AppManager.instance.currentMwsiveUser.image, imageProfile, (RectTransform)this.transform);
+            ImageManager.instance.GetImage(AppManager.instance.currentMwsiveUser.image_url, imageProfile, (RectTransform)this.transform);
         }
 
         if(AppManager.instance.currentMwsiveUser.user_links.Count != 0)

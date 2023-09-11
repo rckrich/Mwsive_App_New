@@ -11,12 +11,12 @@ public class MwsiveControllerButtons : MonoBehaviour
     public void OnClickOlaButton() {
 
 
-        GetPrefabFromSurf().GetComponentInChildren<MwsiveButton>().OnClickOlaButton(AnimationDuration);
+        GetPrefabFromSurf().GetComponentInChildren<MwsiveButton>().OnClickOlaButton(AnimationDuration, GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().trackID, GetTime());
     }
 
     public void OnClickAddToPlaylistButton() {
 
-        GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().AddToPlaylistButton();
+        GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().AddToPlaylistButton(GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().trackID, GetTime());
     }
 
     public void OnClickCompartirButton() {
@@ -58,6 +58,19 @@ public class MwsiveControllerButtons : MonoBehaviour
         {
             GameObject Instance = Pf_Surf.GetCurrentPrefab();
             return Instance;
+        }
+    }
+
+    public float GetTime()
+    {
+        if (Surf != null)
+        {
+            
+            return Surf.time;
+        }
+        else
+        {
+           return Pf_Surf.time;
         }
     }
 }

@@ -22,6 +22,7 @@ public class MwsiveUser : Instanceable
     public string? last_selected_playlist { get; set; }
     public DateTime created_at { get; set; }
     public DateTime updated_at { get; set; }
+    public string image_url { get; set; }
     public int total_followers { get; set; }
     public int total_followed { get; set; }
     public int total_disks { get; set; }

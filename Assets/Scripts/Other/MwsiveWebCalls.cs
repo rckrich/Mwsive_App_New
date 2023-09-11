@@ -372,8 +372,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/track_action";
-        string url = "http://192.241.129.184/api/track/action";
+        //string url = "https://mwsive.com/tracks/action";
+        string url = "http://192.241.129.184/api/tracks/action";
 
         TrackActionRoot newAction = new TrackActionRoot
         {
