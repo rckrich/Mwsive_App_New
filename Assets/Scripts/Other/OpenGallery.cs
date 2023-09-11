@@ -64,7 +64,6 @@ public class OpenGallery : Manager
                     Debug.Log("Select image from gallery finished successfully.");
                     currentTexture2D = textureData.GetTexture();
                     ((EditProfileViewModel)NewScreenManager.instance.GetCurrentView()).ChangePicture(currentTexture2D);
-                    //textureData.GetTexture() // This returns the texture
                 }
                 else
                 {

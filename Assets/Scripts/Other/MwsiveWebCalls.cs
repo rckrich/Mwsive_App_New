@@ -962,9 +962,10 @@ public class MwsiveWebCalls : MonoBehaviour
         Texture2D imageTexture = WebCallsUtils.GetTextureCopy(_texture);
         textureBytes = imageTexture.EncodeToPNG();
 
-        string base64 = Convert.ToBase64String(textureBytes);
+        string base64 = "data:image/png;base64," + Convert.ToBase64String(textureBytes);
+        Debug.Log(base64);
 
-        PostUserPhoto postUserPhoto = new PostUserPhoto { profile_image = base64 };
+        PostUserPhoto postUserPhoto = new PostUserPhoto { image = base64 };
 
         string jsonRaw = JsonConvert.SerializeObject(postUserPhoto);
 

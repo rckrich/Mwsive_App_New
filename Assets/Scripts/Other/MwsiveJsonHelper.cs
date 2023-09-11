@@ -417,7 +417,7 @@ public class TrackInfoRoot
 
 public class PostUserPhoto
 {
-    public string profile_image { get; set; }
+    public string image { get; set; }
 }
 
 #endregion
