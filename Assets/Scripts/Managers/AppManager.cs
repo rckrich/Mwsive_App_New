@@ -34,6 +34,12 @@ public class AppManager : Manager
     public int countTopArtist = 1;
     public int countTopCurators = 1;
 
+    private Sprite _profileSprite;
+    public Sprite profileSprite
+    {
+        get { return _profileSprite; }
+    }
+
 #if PLATFORM_ANDROID
     private System.Action androidBackAction;
 #endif
@@ -392,6 +398,15 @@ public class AppManager : Manager
     private void Callback_RefreshUser(object[] _value){
         currentMwsiveUser = ((MwsiveUserRoot)_value[1]).user;
         InvokeEvent<ChangeDiskAppEvent>(new ChangeDiskAppEvent(currentMwsiveUser.total_disks));
+
+        if (currentMwsiveUser.image_url != null)
+            ImageManager.instance.GetImage(currentMwsiveUser.image_url, null, (RectTransform)surfTransform, Callback_ProfileSprite);
+    }
+
+    private void Callback_ProfileSprite(object[] _value)
+    {
+        _profileSprite = (Sprite)_value[0];
+        InvokeEvent<ChangeProfileSpriteAppEvent>(new ChangeProfileSpriteAppEvent() { newSprite = _profileSprite });
     }
 
     #endregion

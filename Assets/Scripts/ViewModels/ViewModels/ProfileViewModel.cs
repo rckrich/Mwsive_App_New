@@ -38,6 +38,16 @@ public class ProfileViewModel : ViewModel
     private string instagramUrl = "";
     private string youtubeUrl = "";
 
+    private void OnEnable()
+    {
+        AddEventListener<ChangeProfileSpriteAppEvent>(Listener_ChangeProfileSpriteAppEvent);
+    }
+
+    private void OnDisable()
+    {
+        RemoveEventListener<ChangeProfileSpriteAppEvent>(Listener_ChangeProfileSpriteAppEvent);
+    }
+
     public override void Initialize(params object[] list)
     {
         if (list.Length > 0) {
@@ -237,7 +247,7 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_EditProfile()
     {
-        OpenView(ViewID.EditProfileViewModel);
+        NewScreenManager.instance.ChangeToMainView(ViewID.EditProfileViewModel, true);
         NewScreenManager.instance.GetCurrentView().GetComponent<EditProfileViewModel>().Initialize();
     }
 
@@ -500,6 +510,11 @@ public class ProfileViewModel : ViewModel
     {
         if (!externalUrl.Equals(""))
             Application.OpenURL(externalUrl);
+    }
+
+    private void Listener_ChangeProfileSpriteAppEvent(ChangeProfileSpriteAppEvent _event)
+    {
+        profilePicture.sprite = _event.newSprite;
     }
 }
 

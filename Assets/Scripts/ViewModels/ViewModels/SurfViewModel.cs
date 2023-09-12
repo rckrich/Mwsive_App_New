@@ -14,9 +14,19 @@ public class SurfViewModel : ViewModel
     public GameObject disk;
     public TextMeshProUGUI diskCount;
 
-    private void OnEnable()
+    private void Start()
     {
         GetProfile();
+    }
+
+    private void OnEnable()
+    {
+        AddEventListener<ChangeProfileSpriteAppEvent>(Listener_ChangeProfileSpriteAppEvent);
+    }
+
+    private void OnDisable()
+    {
+        RemoveEventListener<ChangeProfileSpriteAppEvent>(Listener_ChangeProfileSpriteAppEvent);
     }
 
     public void GetProfile()
@@ -60,5 +70,10 @@ public class SurfViewModel : ViewModel
         SpotifyPreviewAudioManager.instance.StopTrack();
         NewScreenManager.instance.ChangeToMainView(ViewID.ProfileViewModel, true);
         NewScreenManager.instance.GetCurrentView().Initialize();
+    }
+
+    private void Listener_ChangeProfileSpriteAppEvent(ChangeProfileSpriteAppEvent _event)
+    {
+        profilePicture.sprite = _event.newSprite;
     }
 }
