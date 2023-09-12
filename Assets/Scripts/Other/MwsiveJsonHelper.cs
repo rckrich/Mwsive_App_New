@@ -424,4 +424,9 @@ public class PostUserPhoto
     public string image { get; set; }
 }
 
+public class RootTrackAction
+{
+    public int disks { get; set; }
+}
+
 #endregion
