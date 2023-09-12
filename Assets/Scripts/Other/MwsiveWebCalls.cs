@@ -412,7 +412,9 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     Debug.Log("Post Track action " + jsonResult);
-                    _callback(new object[] { webRequest.responseCode, null });
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    RootTrackAction rootTrackAction = JsonConvert.DeserializeObject<RootTrackAction>(jsonResult, settings);
+                    _callback(new object[] { webRequest.responseCode, rootTrackAction });
                     yield break;
                 }
             }

@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 
 
-public class MwsiveButton : MonoBehaviour
+public class MwsiveButton : AppObject
 {
     public GameObject OlaColorButton;
     private bool IsItOlaColorButtonActive = false;
@@ -46,11 +46,12 @@ public class MwsiveButton : MonoBehaviour
 
     private void Callback_TrackActionPIK(object[] _value)
     {
-        
+        RootTrackAction rootTrackAction = (RootTrackAction)_value[1];
+        InvokeEvent<ChangeDiskAppEvent>(new ChangeDiskAppEvent(rootTrackAction.disks));
+
         UIAniManager.instance.FadeIn(OlaColorButton, AnimationDuration);
         OlaColorButton.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), .3f).OnComplete(() => { OlaColorButton.transform.DOScale(new Vector3(1f, 1f, 1f), .3f); });
         IsItOlaColorButtonActive = true;
-        AppManager.instance.RefreshUser();
     }
 
     private void Callback_TrackActionUNPIK(object[] _value)

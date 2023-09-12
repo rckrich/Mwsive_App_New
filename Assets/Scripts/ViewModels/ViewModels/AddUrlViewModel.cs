@@ -71,10 +71,6 @@ public class AddUrlViewModel : ViewModel
         {
             MwsiveConnectionManager.instance.PostUserLink("TIK_TOK", inputUrl.text, Callback_PostUserLink);
         }
-        else if (inputUrl.text.Equals(""))
-        {
-            MwsiveConnectionManager.instance.PostUserLink("TIK_TOK", inputUrl.text, Callback_PostUserLink);
-        }
         else
         {
             CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inv?lido o distinto a tiktok", "Aceptar");
@@ -84,10 +80,6 @@ public class AddUrlViewModel : ViewModel
     public void OnEndEdit_InstagramUrl()
     {
         if (inputUrl.text.Contains("instagram.com"))
-        {
-            MwsiveConnectionManager.instance.PostUserLink("INSTAGRAM", inputUrl.text, Callback_PostUserLink);
-        }
-        else if (inputUrl.text.Equals(""))
         {
             MwsiveConnectionManager.instance.PostUserLink("INSTAGRAM", inputUrl.text, Callback_PostUserLink);
         }
@@ -103,10 +95,6 @@ public class AddUrlViewModel : ViewModel
         {
             MwsiveConnectionManager.instance.PostUserLink("YOU_TUBE", inputUrl.text, Callback_PostUserLink);
         }
-        else if (inputUrl.text.Equals(""))
-        {
-            MwsiveConnectionManager.instance.PostUserLink("YOU_TUBE", inputUrl.text, Callback_PostUserLink);
-        }
         else
         {
             CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inv?lido o distinto a youtube", "Aceptar");
@@ -119,10 +107,7 @@ public class AddUrlViewModel : ViewModel
         {
             MwsiveConnectionManager.instance.PostUserLink("EXTERNAL", inputUrl.text,  Callback_PostUserLink);
         }
-        else if (inputUrl.text.Equals(""))
-        {
-            MwsiveConnectionManager.instance.PostUserLink("EXTERNAL", inputUrl.text, Callback_PostUserLink);
-        }
+        
         else
         {
             CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inv?lido, intente otra vez", "Aceptar");
@@ -153,7 +138,7 @@ public class AddUrlViewModel : ViewModel
 
     public void ResetLinks(string _type)
     {
-        //MwsiveConnectionManager.instance.PostUserLink(_type,"", Callback_PostUserLink);
+        MwsiveConnectionManager.instance.PostUserLink(_type,null, Callback_PostUserLink);
     }
 
     public void OnClick_CrossImage()

@@ -46,7 +46,7 @@ public class EditProfileViewModel : ViewModel
         {
             foreach(UserLink url in AppManager.instance.currentMwsiveUser.user_links)
             {
-                if (url.link.Equals(""))
+                if (url.link == null)
                 {
                     switch (url.type)
                     {
