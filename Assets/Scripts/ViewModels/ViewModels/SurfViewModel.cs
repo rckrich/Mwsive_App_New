@@ -14,12 +14,13 @@ public class SurfViewModel : ViewModel
     public GameObject disk;
     public TextMeshProUGUI diskCount;
 
-    
+    private void OnEnable()
+    {
+        GetProfile();
+    }
 
     public void GetProfile()
     {
-        /* if (ProgressManager.instance.progress.userDataPersistance.userTokenSetted)
-             SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);*/
 
         if (ProgressManager.instance.progress.userDataPersistance.userTokenSetted)
             MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentUserProfile);

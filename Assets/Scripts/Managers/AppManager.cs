@@ -188,8 +188,8 @@ public class AppManager : Manager
 
         currentMwsiveUser = mwsiveUserRoot.user;
 
-        if (mwsiveUserRoot.user.image_url != null)
-            ImageManager.instance.GetImage(mwsiveUserRoot.user.image_url, profilePicture, (RectTransform)surfTransform);
+        /*if (mwsiveUserRoot.user.image_url != null)
+            ImageManager.instance.GetImage(mwsiveUserRoot.user.image_url, profilePicture, (RectTransform)surfTransform);*/
 
         InvokeEvent<ChangeDiskAppEvent>(new ChangeDiskAppEvent(mwsiveUserRoot.user.total_disks));
 
@@ -315,7 +315,8 @@ public class AppManager : Manager
 
         currentMwsiveUser = mwsiveUserRoot.user;
 
-        ImageManager.instance.GetImage(mwsiveUserRoot.user.image, profilePicture, (RectTransform)surfTransform);
+        /*if (mwsiveUserRoot.user.image_url != null)
+            ImageManager.instance.GetImage(mwsiveUserRoot.user.image_url, profilePicture, (RectTransform)surfTransform);*/
 
         SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_GetCurrentMwsiveUserPlaylist_OutsideLogInFlow);
     }

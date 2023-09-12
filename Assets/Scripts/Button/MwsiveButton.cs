@@ -13,27 +13,55 @@ public class MwsiveButton : MonoBehaviour
     public GameObject CompartirColorButton;
     private bool IsItCompartirColorButtonActive = false;
 
-    public void OnClickOlaButton(float AnimationDuration, string _trackid, float _time){
+    private const int PIK_PRICE = 10;
+
+    private float AnimationDuration = .5f;
+
+    public void OnClickOlaButton(float _AnimationDuration, string _trackid, float _time){
+        AnimationDuration = _AnimationDuration;
         if(!IsItOlaColorButtonActive){
             if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
             {
-                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "PIK", _time);
+                if(AppManager.instance.currentMwsiveUser.total_disks >= PIK_PRICE)
+                {
+                    MwsiveConnectionManager.instance.PostTrackAction(_trackid, "PIK", _time, Callback_TrackActionPIK);
+                }
+                else
+                {
+                    UIMessage.instance.UIMessageInstanciate("Completa retos para conseguir mas disks");
+                }
+                
             }
                 
-            UIAniManager.instance.FadeIn(OlaColorButton, AnimationDuration);
-            OlaColorButton.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), .3f).OnComplete(() => {OlaColorButton.transform.DOScale(new Vector3(1f, 1f, 1f), .3f);});
-            IsItOlaColorButtonActive = true;
+            
         }else{
             if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
             {
-                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "UNPIK", _time);
+                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "UNPIK", _time, Callback_TrackActionUNPIK);
             }
                 
-            UIAniManager.instance.FadeOut(OlaColorButton, AnimationDuration);
-            IsItOlaColorButtonActive = false;
-            OlaColorButton.transform.DOScale(new Vector3(0f, 0f, 0f), .3f);
+            
         }  
     }
+
+    private void Callback_TrackActionPIK(object[] _value)
+    {
+        
+        UIAniManager.instance.FadeIn(OlaColorButton, AnimationDuration);
+        OlaColorButton.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), .3f).OnComplete(() => { OlaColorButton.transform.DOScale(new Vector3(1f, 1f, 1f), .3f); });
+        IsItOlaColorButtonActive = true;
+        AppManager.instance.RefreshUser();
+    }
+
+    private void Callback_TrackActionUNPIK(object[] _value)
+    {
+        UIAniManager.instance.FadeOut(OlaColorButton, AnimationDuration);
+        IsItOlaColorButtonActive = false;
+        OlaColorButton.transform.DOScale(new Vector3(0f, 0f, 0f), .3f);
+        
+    }
+
+
 
     public bool GetIsItOlaActive(){
         return IsItOlaColorButtonActive;
@@ -43,29 +71,29 @@ public class MwsiveButton : MonoBehaviour
         return IsItCompartirColorButtonActive;
     }
 
-    public void ChangeAddToPlaylistButtonColor(float AnimationDuration){
+    public void ChangeAddToPlaylistButtonColor(float _AnimationDuration){
         if(!IsItAñadirColorButtonActive){
-            UIAniManager.instance.FadeIn(AñadirColorButton, AnimationDuration);
+            UIAniManager.instance.FadeIn(AñadirColorButton, _AnimationDuration);
             AñadirColorButton.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), .3f).OnComplete(() => {AñadirColorButton.transform.DOScale(new Vector3(1f, 1f, 1f), .3f);});
             IsItAñadirColorButtonActive = true;
         } 
     }
 
-    public void AddToPlaylistButtonColorButtonColorAgain(float AnimationDuration) 
+    public void AddToPlaylistButtonColorButtonColorAgain(float _AnimationDuration) 
     {    
-      UIAniManager.instance.FadeOut(AñadirColorButton, AnimationDuration);
+      UIAniManager.instance.FadeOut(AñadirColorButton, _AnimationDuration);
       AñadirColorButton.transform.DOScale(new Vector3(0f, 0f, 0f), .3f);
       IsItAñadirColorButtonActive = false;        
     }
 
-    public void OnClickCompartirButton(float AnimationDuration){
+    public void OnClickCompartirButton(float _AnimationDuration){
         if(!IsItCompartirColorButtonActive){
             
-            UIAniManager.instance.FadeIn(CompartirColorButton, AnimationDuration);
+            UIAniManager.instance.FadeIn(CompartirColorButton, _AnimationDuration);
             CompartirColorButton.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), .3f).OnComplete(() => {CompartirColorButton.transform.DOScale(new Vector3(1f, 1f, 1f), .3f);});
             IsItCompartirColorButtonActive = true;
         }else{
-            UIAniManager.instance.FadeOut(CompartirColorButton, AnimationDuration);
+            UIAniManager.instance.FadeOut(CompartirColorButton, _AnimationDuration);
             CompartirColorButton.transform.DOScale(new Vector3(0f, 0f, 0f), .3f);
             IsItCompartirColorButtonActive = false;
         }  
