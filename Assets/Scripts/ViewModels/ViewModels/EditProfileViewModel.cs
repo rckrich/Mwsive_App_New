@@ -154,12 +154,14 @@ public class EditProfileViewModel : ViewModel
     public void ChangePicture(Texture2D _texture)
     {
         imageProfile.sprite = Sprite.Create(_texture, new Rect(0.0f, 0.0f, _texture.width, _texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+        StartSearch();
         MwsiveConnectionManager.instance.PostProfilePicture(_texture, Callback_ChangeProfilePicture);
     }
 
     public void Callback_ChangeProfilePicture(object[] _value)
     {
         AppManager.instance.RefreshUser(Callback_RefreshUser);
+        EndSearch();
     }
 
     public void Callback_RefreshUser(object[] _value)
