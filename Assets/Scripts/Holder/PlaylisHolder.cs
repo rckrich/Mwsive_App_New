@@ -16,7 +16,7 @@ public class PlaylisHolder : MonoBehaviour
     {
         if (_playlistName != null)
         {
-            if (_playlistName.Length > 27)
+            if (_playlistName.Length > 18)
             {
                 string _text2 = "";
                 for (int i = 0; i < 27; i++)

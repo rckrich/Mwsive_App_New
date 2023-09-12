@@ -117,7 +117,7 @@ public class AddUrlViewModel : ViewModel
     {
         if (inputUrl.text.Contains("https://") || inputUrl.text.Contains("."))
         {
-            MwsiveConnectionManager.instance.PostUserLink("EXTERNAL", inputUrl.text, Callback_PostUserLink);
+            MwsiveConnectionManager.instance.PostUserLink("EXTERNAL", inputUrl.text,  Callback_PostUserLink);
         }
         else if (inputUrl.text.Equals(""))
         {
@@ -153,7 +153,7 @@ public class AddUrlViewModel : ViewModel
 
     public void ResetLinks(string _type)
     {
-        MwsiveConnectionManager.instance.PostUserLink(_type,"", Callback_PostUserLink);
+        //MwsiveConnectionManager.instance.PostUserLink(_type,"", Callback_PostUserLink);
     }
 
     public void OnClick_CrossImage()
