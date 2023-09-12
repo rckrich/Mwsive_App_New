@@ -364,7 +364,7 @@ public class MwsiveConnectionManager : MonoBehaviour
     public void PostUserLink(string _type, string _url, MwsiveWebCallback _callback = null)
     {
         _callback += Callback_PostUserLink;
-        StartCoroutine(MwsiveWebCalls.CR_PostUserLink(ProgressManager.instance.progress.userDataPersistance.access_token, _type, _url, _callback));
+        StartCoroutine(MwsiveWebCalls.CR_PostUserLink(ProgressManager.instance.progress.userDataPersistance.access_token, _url, _type, _callback));
     }
 
     private void Callback_PostUserLink(object[] _value)
