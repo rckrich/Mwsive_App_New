@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class PlaylisHolder : MonoBehaviour
 {
+    private const int MAX_PLAYLIST_NAME_LENGHT = 18;
+    private const int MAX_PLAYLIST_ARTIST_LENGHT = 27;
+
     public TextMeshProUGUI playlistName;
     public Image playlistPicture;
     public TextMeshProUGUI playlistOwner;
@@ -16,10 +19,10 @@ public class PlaylisHolder : MonoBehaviour
     {
         if (_playlistName != null)
         {
-            if (_playlistName.Length > 18)
+            if (_playlistName.Length > MAX_PLAYLIST_NAME_LENGHT)
             {
                 string _text2 = "";
-                for (int i = 0; i < 27; i++)
+                for (int i = 0; i < MAX_PLAYLIST_NAME_LENGHT; i++)
                 {
                     _text2 = _text2 + _playlistName[i];
                 }
@@ -41,10 +44,10 @@ public class PlaylisHolder : MonoBehaviour
     {
         if (_playlistName != null)
         {
-            if (_playlistName.Length > 27)
+            if (_playlistName.Length > MAX_PLAYLIST_ARTIST_LENGHT)
             {
                 string _text2 = "";
-                for (int i = 0; i < 27; i++)
+                for (int i = 0; i < MAX_PLAYLIST_ARTIST_LENGHT; i++)
                 {
                     _text2 = _text2 + _playlistName[i];
                 }
