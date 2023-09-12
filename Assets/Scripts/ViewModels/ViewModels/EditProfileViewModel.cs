@@ -39,7 +39,7 @@ public class EditProfileViewModel : ViewModel
 
         if(AppManager.instance.currentMwsiveUser.image_url != null)
         {
-            ImageManager.instance.GetImage(AppManager.instance.currentMwsiveUser.image_url, imageProfile, (RectTransform)this.transform);
+            ImageManager.instance.GetImage(AppManager.instance.currentMwsiveUser.image_url, imageProfile, (RectTransform)this.transform, "PROFILEIMAGE" );
         }
 
         if(AppManager.instance.currentMwsiveUser.user_links.Count != 0)

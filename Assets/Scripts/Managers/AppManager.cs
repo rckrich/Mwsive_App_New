@@ -400,7 +400,7 @@ public class AppManager : Manager
         InvokeEvent<ChangeDiskAppEvent>(new ChangeDiskAppEvent(currentMwsiveUser.total_disks));
 
         if (currentMwsiveUser.image_url != null)
-            ImageManager.instance.GetImage(currentMwsiveUser.image_url, null, (RectTransform)surfTransform, Callback_ProfileSprite);
+            ImageManager.instance.GetImage(currentMwsiveUser.image_url, null, (RectTransform)surfTransform, "PROFILEIMAGE", Callback_ProfileSprite);
     }
 
     private void Callback_ProfileSprite(object[] _value)

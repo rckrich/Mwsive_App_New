@@ -247,7 +247,7 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_EditProfile()
     {
-        NewScreenManager.instance.ChangeToMainView(ViewID.EditProfileViewModel, true);
+        NewScreenManager.instance.ChangeToMainView(ViewID.EditProfileViewModel, false);
         NewScreenManager.instance.GetCurrentView().GetComponent<EditProfileViewModel>().Initialize();
     }
 
@@ -295,7 +295,7 @@ public class ProfileViewModel : ViewModel
         mwsiveUserRoot = (MwsiveUserRoot)_value[1];
 
         if(mwsiveUserRoot.user.image_url != null)
-            ImageManager.instance.GetImage(mwsiveUserRoot.user.image_url, profilePicture, (RectTransform)this.transform);
+            ImageManager.instance.GetImage(mwsiveUserRoot.user.image_url, profilePicture, (RectTransform)this.transform, "PROFILEIMAGE");
 
         followersText.text = mwsiveUserRoot.user.total_followers.ToString();
         followedText.text = mwsiveUserRoot.user.total_followed.ToString();
@@ -358,7 +358,7 @@ public class ProfileViewModel : ViewModel
     {
         mwsiveUserRoot = (MwsiveUserRoot)_value[1];
         if (mwsiveUserRoot.user.image_url != null)
-            ImageManager.instance.GetImage(mwsiveUserRoot.user.image_url, profilePicture, (RectTransform)this.transform);
+            ImageManager.instance.GetImage(mwsiveUserRoot.user.image_url, profilePicture, (RectTransform)this.transform, "PROFILEIMAGE");
 
         followersText.text = mwsiveUserRoot.user.total_followers.ToString();
         followedText.text = mwsiveUserRoot.user.total_followed.ToString();
