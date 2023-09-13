@@ -29,8 +29,10 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
     public bool CheckForSpawnHasEnded = true;
     private int Type;
     private bool EraseButtonNever = false;
+    public int PositionNum = 0;
 
     public void ChangeName(int num, int min ){
+        PositionNum = num;
         Number.text = "#" +num;
         if( num <= min){
             EraseButton.SetActive(false);
@@ -47,7 +49,14 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
     public void OnClick_ClearSearch()
     {
         searchbar.text = "";
+        SpotifyId = null;
+        PlaceHolder.GetComponent<TextMeshProUGUI>().text = "";
+        FindObjectOfType<ADNDynamicScroll>().CheckClearList(PositionNum);
+        ClearSearch.SetActive(false);
+
     }
+
+
 
     public void Search(){
         
@@ -144,7 +153,14 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
 
     public void End(string _text, string _spotifyid){
         BackButton.SetActive(false);
-        ClearSearch.SetActive(false);
+        if (PositionNum > FindObjectOfType<ADNDynamicScroll>().GetMin())
+        {
+            ClearSearch.SetActive(false);
+        }
+        else
+        {
+            ClearSearch.SetActive(true);
+        }
         SpotifyId = _spotifyid;
         KillPrefablist();
         PlaceHolder.GetComponent<TextMeshProUGUI>().text = _text;
@@ -317,7 +333,15 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
         ADNDynamicScroll.instance.ShowAllInstances();
 
         BackButton.SetActive(false);
-        ClearSearch.SetActive(false);
+        if(PositionNum > FindObjectOfType<ADNDynamicScroll>().GetMin())
+        {
+            ClearSearch.SetActive(false);
+        }
+        else
+        {
+            ClearSearch.SetActive(true);
+        }
+        
 
 
         KillPrefablist();

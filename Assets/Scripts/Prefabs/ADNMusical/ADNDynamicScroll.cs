@@ -10,7 +10,7 @@ public class ADNDynamicScroll : MonoBehaviour
     
     public float MaxPrefabsInScreen = 0;
     public ScrollRect ScrollBar;
-    public GameObject SpawnArea, Prefab, Añadir, ScrollView, GuardarTop, container;
+    public GameObject SpawnArea, Prefab, Add, ScrollView, GuardarTop, container;
     private GameObject Instance;  
     public List<GameObject> Instances = new List<GameObject>();
     private static ADNDynamicScroll _instance;
@@ -23,10 +23,11 @@ public class ADNDynamicScroll : MonoBehaviour
     
     private string PlaceHolderText;
     private GameObject PrefabToSet;
-    private int Type, Max, Min, CurrentPrefabs;
+    private int Type, Max, Min;
     private float ScrollPosition = -0.3f;
     private bool IsAllPlacesComplete = true;
     private string TypeString;
+    private bool isAllDataNull = false;
 
     [HideInInspector]
     private MwsiveUserRoot mwsiveUserRoot;
@@ -58,11 +59,11 @@ public class ADNDynamicScroll : MonoBehaviour
                 Max = 1;
                 Min = 1;
                 Type = 1;
-                GuardarTop.GetComponent<Image>().color = new Color32 (255,255,255,255);
-                Añadir.SetActive(false);
+                
+                Add.SetActive(false);
                 break;
             case 1:
-                Title.text = "ARTISTA QUE REVIVIRIA";
+                Title.text = "ARTISTA QUE REVIVIRÍA";
                 TypeString = "ON_REVIVAL";
                 if(Editable){
                     Subtitle.text = "Escribe tus artistas favoritos";
@@ -75,7 +76,7 @@ public class ADNDynamicScroll : MonoBehaviour
                 Max = 5;
                 Min = 1;
                 Type = 0;
-                GuardarTop.GetComponent<Image>().color = new Color32 (255,255,255,255);
+                
                 break;
             case 2:
                 Title.text = "GUSTO CULPOSO";
@@ -91,7 +92,7 @@ public class ADNDynamicScroll : MonoBehaviour
                 Max = 5;
                 Min = 1;
                 Type = 1;
-                GuardarTop.GetComponent<Image>().color = new Color32 (255,255,255,255);
+                
                 break;
             case 3:
                 Title.text = "DE AMOR";
@@ -107,7 +108,6 @@ public class ADNDynamicScroll : MonoBehaviour
                 Max = 5;
                 Min = 1;
                 Type = 1;
-                GuardarTop.GetComponent<Image>().color = new Color32 (255,255,255,255);
                 break;
             case 4:
                 Title.text = "ULTIMO DESCUBRIMIENTO";
@@ -123,7 +123,7 @@ public class ADNDynamicScroll : MonoBehaviour
                 Min = 1;
                 PrefabToSet = Prefabs[1];
                 Type = 1;
-                GuardarTop.GetComponent<Image>().color = new Color32 (255,255,255,255);
+                
                 break;
             case 5:
                 Title.text = "PROXIMA ESTRELLA";
@@ -139,7 +139,7 @@ public class ADNDynamicScroll : MonoBehaviour
                 Max = 5;
                 Min = 1;
                 Type = 0;
-                GuardarTop.GetComponent<Image>().color = new Color32 (255,255,255,255);
+                
                 break;
             case 6:
                 Title.text = "GOAT";
@@ -156,8 +156,8 @@ public class ADNDynamicScroll : MonoBehaviour
                 Max = 1;
                 Min = 1;
                 Type = 0;
-                Añadir.SetActive(false);
-                GuardarTop.GetComponent<Image>().color = new Color32 (255,255,255,255);
+                Add.SetActive(false);
+                
                 break;
             
             case 7:
@@ -175,21 +175,26 @@ public class ADNDynamicScroll : MonoBehaviour
                 Min = 4;
                 Type = 1;
                 
-                GuardarTop.GetComponent<Button>().enabled = false;
+                
                 break;
         }
+        
         MwsiveConnectionManager.instance.GetMwsiveUser(_profileId, Callback_GetMwsiveUser);
-        CurrentPrefabs = Min;
+        
         GuardarTop.GetComponent<Button>().enabled = false;
         GuardarTop.GetComponent<Image>().color = new Color32 (128,128,128,255);
 
         if(!Editable){
             
-            Añadir.SetActive(false);
+            Add.SetActive(false);
             GuardarTop.SetActive(false);
 
         }
         
+    }
+    public int GetMin()
+    {
+        return Min;
     }
 
     public void CheckConfirmButton()
@@ -245,6 +250,8 @@ public class ADNDynamicScroll : MonoBehaviour
 
             }
         }
+
+
     }   
     public void OnClick_CurrentUser()
     {
@@ -261,12 +268,24 @@ public class ADNDynamicScroll : MonoBehaviour
                 if(severalartists.artists[i].name != null || severalartists.artists[i].name  != ""){
                     Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetPlaceHolder(severalartists.artists[i].name);
                     Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetSpotifyID(severalartists.artists[i].id);
+                }
+                    if (i+1 <= Min)
+                    {
+                        Instances[i].GetComponent<PF_ADNMusicalEventSystem>().ClearSearch.SetActive(true);
                     }
-                
-            }
+
+                }
             }else{
                 DynamicPrefabSpawner(Min-1);
             }
+        }
+        
+        
+        if (Instances.Count >= Max-1)
+        {
+            Add.SetActive(false);
+            
+            
         }
 
         if (!Editable)
@@ -277,6 +296,8 @@ public class ADNDynamicScroll : MonoBehaviour
                 item.GetComponent<PF_ADNMusicalEventSystem>().EraseButton.SetActive(false);
             }
         }
+
+
         
 
     }
@@ -285,8 +306,8 @@ public class ADNDynamicScroll : MonoBehaviour
         SeveralTrackRoot severaltracks = (SeveralTrackRoot)_value[1];
         if(severaltracks != null){
             if(severaltracks.tracks.Count >= Min){
-            for (int i = 0; i < severaltracks.tracks.Count; i++)
-            {
+                for (int i = 0; i < severaltracks.tracks.Count; i++)
+                {
                     
                     DynamicPrefabSpawner(0);
                     
@@ -294,13 +315,28 @@ public class ADNDynamicScroll : MonoBehaviour
                     
                     Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetPlaceHolder(severaltracks.tracks[i].name);
                     Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetSpotifyID(severaltracks.tracks[i].id);
+
                     }
-                
-            }
+                    if(i+1 <= Min)
+                    {
+                        Instances[i].GetComponent<PF_ADNMusicalEventSystem>().ClearSearch.SetActive(true);
+                    }
+                }
+
             }else{
                 DynamicPrefabSpawner(Min-1);
             }
         }
+
+        if (Instances.Count >= Max)
+            {
+                Add.SetActive(false);
+
+
+            }
+
+
+        
 
         if (!Editable)
         {
@@ -327,7 +363,7 @@ public class ADNDynamicScroll : MonoBehaviour
             }
             
         }
-        Añadir.SetActive(false);
+        Add.SetActive(false);
 
         container.transform.localPosition = new Vector3(0, 0, 0);
         
@@ -348,7 +384,7 @@ public class ADNDynamicScroll : MonoBehaviour
     public void DestroyInstance(GameObject target){
         Instances.Remove(target);
         Destroy(target);
-        CurrentPrefabs--;
+        
         int i = 1;
         foreach (GameObject item in Instances)
         {
@@ -373,7 +409,7 @@ public class ADNDynamicScroll : MonoBehaviour
         Debug.Log(Max + " " + Instances.Count);
         if (Max > Instances.Count)
         {
-            Añadir.SetActive(true);
+            Add.SetActive(true);
         }
     }
 
@@ -395,7 +431,7 @@ public class ADNDynamicScroll : MonoBehaviour
 
         if (Max > Instances.Count)
         {
-            Añadir.SetActive(true);
+            Add.SetActive(true);
         }
 
     }
@@ -411,7 +447,11 @@ public class ADNDynamicScroll : MonoBehaviour
                 item.GetComponent<PF_ADNMusicalEventSystem>().End(_text, SpotifyId);   
                 
             }
+
+            /// Falta verificar la lista para que no deje guardar cuando hay cosas que hay vacias, si es que hay algo que tiene texto, o all esta vacio o all esta lleno.
+
             if(item.GetComponent<PF_ADNMusicalEventSystem>().GetPlaceHolder() != PlaceHolderText){
+                
                 GuardarTop.GetComponent<Image>().color = new Color32 (255,255,255,255);
                 GuardarTop.GetComponent<Button>().enabled = true;
             }else{
@@ -429,7 +469,7 @@ public class ADNDynamicScroll : MonoBehaviour
         Debug.Log(Max + " " + Instances.Count);
         if(Max > Instances.Count)
         {
-            Añadir.SetActive(true);
+            Add.SetActive(true);
         }
         
     }
@@ -449,6 +489,14 @@ public class ADNDynamicScroll : MonoBehaviour
         foreach (GameObject item in Instances )
         {
             data.Add(item.GetComponent<PF_ADNMusicalEventSystem>().GetSpotifyID());
+            if (item.GetComponent<PF_ADNMusicalEventSystem>().GetSpotifyID() == null)
+            {
+                isAllDataNull = true;
+            }
+            else
+            {
+                isAllDataNull = false;
+            }
         }
         StopAllCoroutines();
         MwsiveConnectionManager.instance.PostMusicalDNA(TypeString, data.ToArray(), Callback_PostMusicalDNA );
@@ -463,12 +511,12 @@ public class ADNDynamicScroll : MonoBehaviour
     }
 
 
-    public void ControlAñadirButton(){
+    public void ControlAddButton(){
         
-        CurrentPrefabs++;
         
-        if(CurrentPrefabs >= Max){
-            Añadir.SetActive(false);
+        
+        if(Instances.Count >= Max){
+            Add.SetActive(false);
         }
         Debug.Log(ScrollPosition);
         ScrollBar.verticalNormalizedPosition = -0.001f;
@@ -487,7 +535,7 @@ public class ADNDynamicScroll : MonoBehaviour
             SpawnPrefab();
         }
 
-        Añadir.transform.SetAsLastSibling();        
+        Add.transform.SetAsLastSibling();        
     }
 
     public void KillPrefablist(){
@@ -504,7 +552,7 @@ public class ADNDynamicScroll : MonoBehaviour
 
     public void SpawnPrefab(){
         
-        Instance = Instantiate(Prefab,Añadir.transform.position, Quaternion.identity);
+        Instance = Instantiate(Prefab,Add.transform.position, Quaternion.identity);
         Instance.transform.SetParent(GameObject.Find("PF_Container").transform);
         Instance.transform.localScale = new Vector3(1,1,1); 
         Instances.Add(Instance);
@@ -513,6 +561,41 @@ public class ADNDynamicScroll : MonoBehaviour
         Instance.GetComponent<PF_ADNMusicalEventSystem>().SetPrefab(PrefabToSet, Type);
         Instance.GetComponent<PF_ADNMusicalEventSystem>().SetPlaceHolder(PlaceHolderText);
         
+        
+    }
+
+    
+
+    public void CheckClearList(int _positiion)
+    {
+        if(_positiion <= Min )
+        {
+            bool flag = false;
+            foreach (GameObject item in Instances)
+            {
+                if (item.GetComponent<PF_ADNMusicalEventSystem>().GetPlaceHolder() == "" || item.GetComponent<PF_ADNMusicalEventSystem>().GetPlaceHolder() == null)
+                {
+                    flag = true;
+                }
+                else
+                {
+                    flag = false;
+                }
+            }
+
+
+
+            if (flag && !isAllDataNull)
+            {
+                GuardarTop.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+                GuardarTop.GetComponent<Button>().enabled = true;
+            }
+            else
+            {
+                GuardarTop.GetComponent<Button>().enabled = false;
+                GuardarTop.GetComponent<Image>().color = new Color32(128, 128, 128, 255);
+            }
+        }
         
     }
     

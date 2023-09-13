@@ -417,6 +417,8 @@ public class TrackInfoRoot
     public int total_recommendations { get; set; }
     public int? total_piks_followed { get; set; }
     public List<string> top_curators { get; set; }
+    public bool is_piked { get; set; }
+    public bool is_recommended { get; set; }
 }
 
 public class PostUserPhoto

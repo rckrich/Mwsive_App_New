@@ -46,6 +46,10 @@ public class ButtonSurfPlaylist : ViewModel
     private ChallengeAppObject Challenge;
     public bool SuccesfulEnded = false;
     public bool AmILastPosition = false;
+    private bool isPicked = false;
+    private bool isRecommended = false;
+    private TrackInfoRoot trackInfoRoot;
+
 
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
     {
@@ -364,88 +368,82 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void Callback_GetTrackInformation(object[] _value)
     {
-        TrackInfoRoot trackInfoRoot = (TrackInfoRoot)_value[1];
-
-        if(trackInfoRoot.total_piks >= THOUSEND_CONVERT_TO_K && trackInfoRoot.total_piks < MILLION_CONVERT_TO_M)
-        {
-            trackTotalPicks.text = ((float)trackInfoRoot.total_piks / (float)THOUSEND_CONVERT_TO_K).ToString() + "K";
-        }
-        else if(trackInfoRoot.total_piks > THOUSEND_CONVERT_TO_K && trackInfoRoot.total_piks >= MILLION_CONVERT_TO_M)
-        {
-            trackTotalPicks.text = ((float)trackInfoRoot.total_piks / (float)MILLION_CONVERT_TO_M).ToString() + "M";
-        }
-        else
-        {
-            trackTotalPicks.text = trackInfoRoot.total_piks.ToString();
-        }
-
-        //------------------------------------------------------------------
-
-        if  (trackInfoRoot.total_recommendations >= THOUSEND_CONVERT_TO_K && trackInfoRoot.total_piks < MILLION_CONVERT_TO_M)
-        {
-            trackTotalRecommendation.text = ((float)trackInfoRoot.total_recommendations / (float)THOUSEND_CONVERT_TO_K).ToString() + "K";
-        }
-        else if (trackInfoRoot.total_recommendations > THOUSEND_CONVERT_TO_K && trackInfoRoot.total_piks >= MILLION_CONVERT_TO_M)
-        {
-            trackTotalRecommendation.text = ((float)trackInfoRoot.total_recommendations / (float)MILLION_CONVERT_TO_M).ToString() + "M";
-        }
-        else
-        {
-            trackTotalRecommendation.text = trackInfoRoot.total_recommendations.ToString();
-        }
-
-        //------------------------------------------------------------------
+        trackInfoRoot = (TrackInfoRoot)_value[1];
 
         
 
+        isPicked = trackInfoRoot.is_piked;
+        isRecommended = trackInfoRoot.is_recommended;
 
-
-        if (friendCuratorsText != null)
+        if (trackInfoRoot.is_piked)
         {
-            if(trackInfoRoot.total_piks_followed == null)
-            {
-                friendCuratorsText.text = "- amigos también votaron por \n esta canción";
-            }
-            else
-            {
-                string totalPiksFollowed = "0";
-
-                if (trackInfoRoot.total_piks_followed >= THOUSEND_CONVERT_TO_K && trackInfoRoot.total_piks < MILLION_CONVERT_TO_M)
-                {
-                    totalPiksFollowed = ((float)trackInfoRoot.total_piks_followed / (float)THOUSEND_CONVERT_TO_K).ToString() + "K";
-                }
-                else if (trackInfoRoot.total_piks_followed > THOUSEND_CONVERT_TO_K && trackInfoRoot.total_piks >= MILLION_CONVERT_TO_M)
-                {
-                    totalPiksFollowed = ((float)trackInfoRoot.total_piks_followed / (float)MILLION_CONVERT_TO_M).ToString() + "M";
-                }
-                else
-                {
-                    totalPiksFollowed = trackInfoRoot.total_piks_followed.ToString();
-                }
-
-                friendCuratorsText.text = totalPiksFollowed + " amigos también votaron por \n esta canción";
-
-            }
+            mwsiveButton.OnClickOlaButton(.5f, trackID, -1);
         }
 
-        if (trackInfoRoot.top_curators != null)
-        {
-            for(int i = 0; i < trackInfoRoot.top_curators.Count; i++)
-            {
-                if (i >= 3) return;
+        CalculateKorM(trackInfoRoot.total_piks, trackTotalPicks);
+        CalculateKorM(trackInfoRoot.total_recommendations, trackTotalRecommendation);
+        CalculateKorM(trackInfoRoot.total_piks_followed, friendCuratorsText);
 
-                string curatorProfileImgURL = trackInfoRoot.top_curators[i];
-                if (!curatorProfileImgURL.Equals("") && topCuratorImages[i] != null)
-                {
-                    ImageManager.instance.GetImage(curatorProfileImgURL, topCuratorImages[i], topCuratorImages[i].rectTransform);
-                }
-            }
-        }
+        
     }
 
     public void OnClick_UserThatVoted()
     {
         NewScreenManager.instance.ChangeToSpawnedView("usuariosQueVotaron");
         NewScreenManager.instance.GetCurrentView().GetComponent<UsersThatVotedViewModel>().Initialize(trackID);
+    }
+
+    private void CalculateKorM(int? _numberOfVotes, TextMeshProUGUI _textMeshProUGUI)
+    {
+        if(_numberOfVotes == null) { _numberOfVotes = 0; }
+        if (_numberOfVotes >= THOUSEND_CONVERT_TO_K && _numberOfVotes < MILLION_CONVERT_TO_M)
+        {
+            _textMeshProUGUI.text = ((float)_numberOfVotes / (float)THOUSEND_CONVERT_TO_K).ToString() + "K";
+        }
+        else if (_numberOfVotes > THOUSEND_CONVERT_TO_K && _numberOfVotes >= MILLION_CONVERT_TO_M)
+        {
+            _textMeshProUGUI.text = ((float)_numberOfVotes / (float)MILLION_CONVERT_TO_M).ToString() + "M";
+        }
+        else
+        {
+            _textMeshProUGUI.text = _numberOfVotes.ToString();
+        }
+    }
+
+
+    public void PlusOrLessOne(bool _value, string _type)
+    {
+        if(_type == "PIK")
+        {
+            if (_value)
+            {
+                CalculateKorM(trackInfoRoot.total_piks +1, trackTotalPicks);
+            }
+            else
+            {
+                if(trackInfoRoot.total_piks > 0)
+                {
+                    CalculateKorM(trackInfoRoot.total_piks - 1, trackTotalPicks);
+                }
+                
+            }
+            
+        }
+
+        if(_type == "RECOMMENDED")
+        {
+            if (_value)
+            {
+                CalculateKorM(trackInfoRoot.total_recommendations + 1, trackTotalPicks);
+            }
+            else
+            {
+                if(trackInfoRoot.total_recommendations > 0)
+                {
+                    CalculateKorM(trackInfoRoot.total_recommendations - 1, trackTotalPicks);
+                }
+                
+            }
+        }
     }
 }
