@@ -18,8 +18,8 @@ public class PlaylistAppObject : AppObject
 
 
         RecommendedPlaylist playlist = (RecommendedPlaylist)list[0];
-        
 
+        Debug.Log(playlist.image_url);
         if (playlist != null)
         {
             if (playlist.name.Length > 27)

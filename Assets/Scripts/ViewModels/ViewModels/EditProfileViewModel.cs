@@ -51,15 +51,15 @@ public class EditProfileViewModel : ViewModel
                     switch (url.type)
                     {
                         case "TIK_TOK":
-                            urlTiktok.text = "Agregar enlace externo";
+                            urlTiktok.text = "Agregar enlace de TikTok";
                             imageTiktok.sprite = noHaveUrl;
                             break;
                         case "INSTAGRAM":
-                            urlIntegram.text = "Agregar enlace externo";
+                            urlIntegram.text = "Agregar enlace de Instagram";
                             imageInstagram.sprite = noHaveUrl;
                             break;
                         case "YOU_TUBE":
-                            urlYoutube.text = "Agregar enlace externo";
+                            urlYoutube.text = "Agregar enlace de Youtube";
                             imageYoutube.sprite = noHaveUrl;
                             break;
                         case "EXTERNAL":

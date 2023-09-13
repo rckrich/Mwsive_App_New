@@ -37,7 +37,7 @@ public class TopCuratorAppObject : AppObject
             displayName.text = mwsiveUser.display_name;
         }
         if (mwsiveUser.image_url != null)
-            ImageManager.instance.GetImage(mwsiveUser.image_url, profilePicture, (RectTransform)this.transform);
+            ImageManager.instance.GetImage(mwsiveUser.image_url, profilePicture, (RectTransform)this.transform, "PROFILEIMAGE");
 
         rank.text = AppManager.instance.countTopCurators.ToString();
         AppManager.instance.countTopCurators++;

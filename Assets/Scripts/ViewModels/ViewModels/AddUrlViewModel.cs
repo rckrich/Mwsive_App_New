@@ -112,17 +112,21 @@ public class AddUrlViewModel : ViewModel
         {
             CallPopUP(PopUpViewModelTypes.MessageOnly, "URL inv?lido", "URL inv?lido, intente otra vez", "Aceptar");
         }
+
     }
 
     public void Callback_PostUserLink(object[] _value)
     {
-        AppManager.instance.RefreshUser();
+        StartSearch();
+        AppManager.instance.RefreshUser(Callback_RefreshUser);
+        
     }
 
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
         NewScreenManager.instance.GetCurrentView().GetComponent<EditProfileViewModel>().Initialize();
+        EndSearch();
     }
 
     public void SetPlaceHolderInputText()
@@ -146,5 +150,8 @@ public class AddUrlViewModel : ViewModel
         inputUrl.text = "";
     }
 
-    
+    private void Callback_RefreshUser(object[] value)
+    {
+        OnClick_BackButton();
+    }
 }
