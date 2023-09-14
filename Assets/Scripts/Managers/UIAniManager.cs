@@ -726,7 +726,15 @@ public class UIAniManager : MonoBehaviour
     public void UIMessage(GameObject GA){
         foreach (GameObject item in UIMessages)
         {
-            DOTween.Complete(item, true);
+            if(item != null)
+            {
+                DOTween.Complete(item, true);
+            }
+            else
+            {
+                UIMessages.Remove(item);
+            }
+            
         }
         UIMessages.Add(GA);
         SetPosition();
