@@ -377,7 +377,8 @@ public class ButtonSurfPlaylist : ViewModel
 
         if (trackInfoRoot.is_piked)
         {
-            mwsiveButton.OnClickOlaButton(.5f, trackID, -1);
+            Debug.Log(trackInfoRoot.is_piked);
+            mwsiveButton.OnClickOlaButton(.5f, trackID);
         }
 
         CalculateKorM(trackInfoRoot.total_piks, trackTotalPicks);

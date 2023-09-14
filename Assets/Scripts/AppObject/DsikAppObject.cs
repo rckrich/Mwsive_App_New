@@ -43,16 +43,31 @@ public class DsikAppObject : AppObject
     {
         if (AppManager.instance.isLogInMode)
         {
-            diskCircle.SetActive(true);
-            if (AppManager.instance.currentMwsiveUser.total_disks >= LIMIT_OF_DISPLAY_DISK)
+            if (_event.type == null)
             {
-                diskCounter.text = "+99";
+                diskCircle.SetActive(true);
+                if (AppManager.instance.currentMwsiveUser.total_disks >= LIMIT_OF_DISPLAY_DISK)
+                {
+                    diskCounter.text = "+99";
+                }
+                else
+                {
+                    diskCounter.text = AppManager.instance.currentMwsiveUser.total_disks.ToString();
+                }
             }
-            else
-            {
-                diskCounter.text = AppManager.instance.currentMwsiveUser.total_disks.ToString();
+                
+            }else if(_event.type.Equals("SUBSTRACT")){
+                AppManager.instance.currentMwsiveUser.total_disks -= 10;
+                if (AppManager.instance.currentMwsiveUser.total_disks >= LIMIT_OF_DISPLAY_DISK)
+                {
+                    diskCounter.text = "+99";
+                }
+                else
+                {
+                    diskCounter.text = AppManager.instance.currentMwsiveUser.total_disks.ToString();
+                }
             }
         }
     }
 
-}
+

@@ -150,6 +150,7 @@ public class MwsiveConnectionManager : MonoBehaviour
     public void PostTrackAction(string _track_id, string _action, float _duration, MwsiveWebCallback _callback = null)
     {
         _callback += Callback_PostTrackAction;
+        Debug.Log(_action);
         StartCoroutine(MwsiveWebCalls.CR_PostTrackAction(ProgressManager.instance.progress.userDataPersistance.access_token, _track_id,_action, _duration, _callback));
     }
 

@@ -381,7 +381,6 @@ public class MwsiveWebCalls : MonoBehaviour
             action = _action,
             duration = _duration
         };
-
         string jsonRaw = JsonConvert.SerializeObject(newAction);
 
         Debug.Log("Body request for creating a playlist is:" + jsonRaw);
@@ -411,6 +410,7 @@ public class MwsiveWebCalls : MonoBehaviour
 
                 if (webRequest.isDone)
                 {
+                    jsonResult = webRequest.downloadHandler.text;
                     Debug.Log("Post Track action " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     RootTrackAction rootTrackAction = JsonConvert.DeserializeObject<RootTrackAction>(jsonResult, settings);

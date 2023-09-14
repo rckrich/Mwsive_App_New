@@ -48,12 +48,14 @@ public class MwsiveButton : AppObject
                 
             
         }else{
-            if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
+            if(_time > -1)
             {
-                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "UNPIK", _time, Callback_TrackActionUNPIK);
+                if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
+                {
+                    MwsiveConnectionManager.instance.PostTrackAction(_trackid, "UNPIK", _time, Callback_TrackActionUNPIK);
+                }
+
             }
-                
-            
         }  
     }
 
@@ -61,7 +63,8 @@ public class MwsiveButton : AppObject
     private void Callback_TrackActionPIK(object[] _value)
     {
         RootTrackAction rootTrackAction = (RootTrackAction)_value[1];
-        InvokeEvent<ChangeDiskAppEvent>(new ChangeDiskAppEvent(rootTrackAction.disks));
+        Debug.Log(rootTrackAction);
+        InvokeEvent<ChangeDiskAppEvent>(new ChangeDiskAppEvent(rootTrackAction.disks, "SUBSTRACT")); //ToDo preguntar si esto esta bien y probar -Rodrigo
 
         UIAniManager.instance.FadeIn(OlaColorButton, AnimationDuration);
         OlaColorButton.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), .3f).OnComplete(() => { OlaColorButton.transform.DOScale(new Vector3(1f, 1f, 1f), .3f); });

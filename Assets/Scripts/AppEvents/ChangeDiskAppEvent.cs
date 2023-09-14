@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class ChangeDiskAppEvent : AppEvent
 {
-    private int totalDisk;
+    public int totalDisk;
+    public string type;
 
-    public ChangeDiskAppEvent(int _totalDisk):base (_totalDisk)
+
+    public ChangeDiskAppEvent(int _totalDisk, string _type = null):base (_totalDisk, _type)
     {
         totalDisk = _totalDisk;
+        type = _type;
     }
 
 }
