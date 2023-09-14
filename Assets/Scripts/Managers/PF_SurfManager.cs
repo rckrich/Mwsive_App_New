@@ -81,6 +81,7 @@ public class PF_SurfManager : Manager
 
     private void OnDisable()
     {
+        StopTimer();
         swipeListener.OnSwipe.RemoveListener(OnSwipe);
         RemoveEventListener<TimerAppEvent>(TimerAppEventListener);
 
@@ -1227,6 +1228,11 @@ public class PF_SurfManager : Manager
 
     private void TimerAppEventListener(TimerAppEvent _event)
     {
+        if (!SurfController.instance.AmICurrentView(gameObject))
+        {
+            RemoveEventListener<TimerAppEvent>(TimerAppEventListener);
+            return;
+        }
         Debug.Log(_event.type.ToString());
         if (_event.type == "PAUSE")
         {

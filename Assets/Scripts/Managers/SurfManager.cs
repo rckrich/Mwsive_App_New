@@ -63,16 +63,18 @@ public class SurfManager : Manager
             UIAniManager.instance.MainCanvas = MainCanvas;
         }
         ControllerPostion = new Vector2(Controller.transform.position.x, Controller.transform.position.y);
-
-
         
+        
+
+
+
     }
 
    
     private void OnEnable()
     {
+
         SurfController.instance.AddToList(gameObject);
-        
         swipeListener.OnSwipe.AddListener(OnSwipe);
 
         GameObject currentPrefab = GetCurrentPrefab();
@@ -80,7 +82,7 @@ public class SurfManager : Manager
         if(currentPrefab != null && SurfController.instance.AmICurrentView(gameObject))
             currentPrefab.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
 
-
+        Debug.Log("LIT");
         AddEventListener<TimerAppEvent>(TimerAppEventListener);
         
         
@@ -93,6 +95,7 @@ public class SurfManager : Manager
 
     private void OnDisable()
     {
+        StopTimer();
         swipeListener.OnSwipe.RemoveListener(OnSwipe);
 
         RemoveEventListener<TimerAppEvent>(TimerAppEventListener);
@@ -1011,6 +1014,11 @@ public class SurfManager : Manager
 
     private void TimerAppEventListener(TimerAppEvent _event)
     {
+        if (!SurfController.instance.AmICurrentView(gameObject))
+        {
+            RemoveEventListener<TimerAppEvent>(TimerAppEventListener);
+            return;
+        }
         Debug.Log(_event.type.ToString());
         if (_event.type == "PAUSE")
         {

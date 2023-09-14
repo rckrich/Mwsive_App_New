@@ -282,14 +282,26 @@ public class ButtonSurfPlaylist : ViewModel
             
             SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
             if (AppManager.instance.isLogInMode && !trackID.Equals(""))
-                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time); ;
+                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time, Callback_PostTrackActionRecomend); ;
         }
         else
         {
             SpotifyConnectionManager.instance.RemoveItemsFromPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_RemoveToPlaylist);
             if (AppManager.instance.isLogInMode && !trackID.Equals(""))
-                MwsiveConnectionManager.instance.PostTrackAction(trackID, "NOT_RECOMMEND", _time);
+                MwsiveConnectionManager.instance.PostTrackAction(trackID, "NOT_RECOMMEND", _time, Callback_PostTrackActionNORecomend);
         }
+    }
+
+    private void Callback_PostTrackActionRecomend(object[] _value)
+    {
+        Debug.Log("RECOMMEND CALLBACK");
+        gameObject.GetComponentInParent<ButtonSurfPlaylist>().PlusOrLessOne(true, "RECOMMEND");
+    }
+
+    private void Callback_PostTrackActionNORecomend(object[] _value)
+    {
+        Debug.Log("NOT_RECOMMEND CALLBACK");
+        gameObject.GetComponentInParent<ButtonSurfPlaylist>().PlusOrLessOne(false, "RECOMMEND");
     }
 
     public void AddToPlaylistSwipe(string _trackid, float _time)
@@ -299,7 +311,7 @@ public class ButtonSurfPlaylist : ViewModel
 
             SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
             if (AppManager.instance.isLogInMode && !trackID.Equals(""))
-                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time); ;
+                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time, Callback_PostTrackActionRecomend); ;
         }
     }
 
@@ -418,30 +430,34 @@ public class ButtonSurfPlaylist : ViewModel
         {
             if (_value)
             {
-                CalculateKorM(trackInfoRoot.total_piks +1, trackTotalPicks);
+                trackInfoRoot.total_piks++;
+                CalculateKorM(trackInfoRoot.total_piks, trackTotalPicks);
             }
             else
             {
                 if(trackInfoRoot.total_piks > 0)
                 {
-                    CalculateKorM(trackInfoRoot.total_piks - 1, trackTotalPicks);
+                    trackInfoRoot.total_piks--;
+                    CalculateKorM(trackInfoRoot.total_piks, trackTotalPicks);
                 }
                 
             }
             
         }
 
-        if(_type == "RECOMMENDED")
+        if(_type == "RECOMMEND")
         {
             if (_value)
             {
-                CalculateKorM(trackInfoRoot.total_recommendations + 1, trackTotalPicks);
+                trackInfoRoot.total_recommendations++;
+                CalculateKorM(trackInfoRoot.total_recommendations, trackTotalRecommendation);
             }
             else
             {
                 if(trackInfoRoot.total_recommendations > 0)
                 {
-                    CalculateKorM(trackInfoRoot.total_recommendations - 1, trackTotalPicks);
+                    trackInfoRoot.total_recommendations--;
+                    CalculateKorM(trackInfoRoot.total_recommendations, trackTotalRecommendation);
                 }
                 
             }

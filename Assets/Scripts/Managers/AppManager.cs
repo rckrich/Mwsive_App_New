@@ -147,7 +147,6 @@ public class AppManager : Manager
         if (currentPlaylist != null)
         {
             Item searchedItem = currentPlaylist.tracks.items.Find((x) => x.track.id.Equals(_id));
-
             return searchedItem != null;
         }
 

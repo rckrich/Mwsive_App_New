@@ -41,12 +41,8 @@ public class MwsiveButton : AppObject
                     UIAniManager.instance.FadeIn(OlaColorButton, AnimationDuration);
                     OlaColorButton.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), .3f).OnComplete(() => { OlaColorButton.transform.DOScale(new Vector3(1f, 1f, 1f), .3f); });
                     IsItOlaColorButtonActive = true;
-                }
-                
-                
-            }
-                
-            
+                }           
+            }        
         }else{
             if(_time > -1)
             {
@@ -64,7 +60,7 @@ public class MwsiveButton : AppObject
     {
         RootTrackAction rootTrackAction = (RootTrackAction)_value[1];
         Debug.Log(rootTrackAction);
-        InvokeEvent<ChangeDiskAppEvent>(new ChangeDiskAppEvent(rootTrackAction.disks, "SUBSTRACT")); //ToDo preguntar si esto esta bien y probar -Rodrigo
+        InvokeEvent<ChangeDiskAppEvent>(new ChangeDiskAppEvent(rootTrackAction.disks, "SUBSTRACT"));
 
         UIAniManager.instance.FadeIn(OlaColorButton, AnimationDuration);
         OlaColorButton.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), .3f).OnComplete(() => { OlaColorButton.transform.DOScale(new Vector3(1f, 1f, 1f), .3f); });
@@ -80,7 +76,6 @@ public class MwsiveButton : AppObject
         IsItOlaColorButtonActive = false;
         OlaColorButton.transform.DOScale(new Vector3(0f, 0f, 0f), .3f);
         gameObject.GetComponentInParent<ButtonSurfPlaylist>().PlusOrLessOne(false, "PIK");
-
     }
 
 
