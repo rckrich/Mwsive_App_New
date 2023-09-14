@@ -17,7 +17,6 @@ public class ButtonSurfPlaylist : ViewModel
     public TMP_Text albumName;
     public Image trackCover;
     public Image[] topCuratorImages;
-    public TextMeshProUGUI friendCuratorsText;
     public string playlistName;
     public AppManager appManager;
     public Transform transformImage;
@@ -395,7 +394,7 @@ public class ButtonSurfPlaylist : ViewModel
 
         CalculateKorM(trackInfoRoot.total_piks, trackTotalPicks);
         CalculateKorM(trackInfoRoot.total_recommendations, trackTotalRecommendation);
-        CalculateKorM(trackInfoRoot.total_piks_followed, friendCuratorsText);
+        CalculateKorM(trackInfoRoot.total_piks_followed, trackTopCuratorsThatVoted, " amigos también votaron por \r\nesta canción");
 
         
     }
@@ -406,20 +405,44 @@ public class ButtonSurfPlaylist : ViewModel
         NewScreenManager.instance.GetCurrentView().GetComponent<UsersThatVotedViewModel>().Initialize(trackID);
     }
 
-    private void CalculateKorM(int? _numberOfVotes, TextMeshProUGUI _textMeshProUGUI)
+    private void CalculateKorM(int? _numberOfVotes, TextMeshProUGUI _textMeshProUGUI, string _text = null)
     {
+        Debug.Log(_numberOfVotes.ToString());
         if(_numberOfVotes == null) { _numberOfVotes = 0; }
         if (_numberOfVotes >= THOUSEND_CONVERT_TO_K && _numberOfVotes < MILLION_CONVERT_TO_M)
         {
-            _textMeshProUGUI.text = ((float)_numberOfVotes / (float)THOUSEND_CONVERT_TO_K).ToString() + "K";
+            if(_text != null)
+            {
+                _textMeshProUGUI.text = ((float)_numberOfVotes / (float)THOUSEND_CONVERT_TO_K).ToString() + "K" + _text;
+            }
+            else
+            {
+                _textMeshProUGUI.text = ((float)_numberOfVotes / (float)THOUSEND_CONVERT_TO_K).ToString() + "K";
+            }
+            
+
         }
         else if (_numberOfVotes > THOUSEND_CONVERT_TO_K && _numberOfVotes >= MILLION_CONVERT_TO_M)
         {
-            _textMeshProUGUI.text = ((float)_numberOfVotes / (float)MILLION_CONVERT_TO_M).ToString() + "M";
+            if(_text != null)
+            {
+                _textMeshProUGUI.text = ((float)_numberOfVotes / (float)MILLION_CONVERT_TO_M).ToString() + "M" + _text;
+            }
+            else
+            {
+                _textMeshProUGUI.text = ((float)_numberOfVotes / (float)MILLION_CONVERT_TO_M).ToString() + "M";
+            }
         }
         else
         {
-            _textMeshProUGUI.text = _numberOfVotes.ToString();
+            if(_text != null)
+            {
+                _textMeshProUGUI.text = _numberOfVotes.ToString() + _text;
+            }
+            else
+            {
+                _textMeshProUGUI.text = _numberOfVotes.ToString();
+            }
         }
     }
 

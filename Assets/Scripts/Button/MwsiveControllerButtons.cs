@@ -43,8 +43,8 @@ public class MwsiveControllerButtons : MonoBehaviour
     }
     public void OnClick_Friends()
     {
-        
-        //GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().();
+
+        GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().OnClick_UserThatVoted();
     }
 
 
