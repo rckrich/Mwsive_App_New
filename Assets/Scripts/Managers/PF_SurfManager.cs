@@ -68,8 +68,12 @@ public class PF_SurfManager : Manager
         if (currentPrefab != null && SurfController.instance.AmICurrentView(gameObject))
             currentPrefab.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
 
-
-        AddEventListener<TimerAppEvent>(TimerAppEventListener);
+        if (SurfController.instance.AmICurrentView(gameObject))
+        {
+            AddEventListener<TimerAppEvent>(TimerAppEventListener);
+            
+        }
+        
 
 
 

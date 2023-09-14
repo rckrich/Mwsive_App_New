@@ -83,10 +83,14 @@ public class SurfManager : Manager
             currentPrefab.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
 
         Debug.Log("LIT");
-        AddEventListener<TimerAppEvent>(TimerAppEventListener);
-        
-        
-        
+        if (SurfController.instance.AmICurrentView(gameObject))
+        {
+            AddEventListener<TimerAppEvent>(TimerAppEventListener);
+
+        }
+
+
+
     }
 
     private void OnDestroy() {
@@ -1014,11 +1018,7 @@ public class SurfManager : Manager
 
     private void TimerAppEventListener(TimerAppEvent _event)
     {
-        if (!SurfController.instance.AmICurrentView(gameObject))
-        {
-            RemoveEventListener<TimerAppEvent>(TimerAppEventListener);
-            return;
-        }
+        
         Debug.Log(_event.type.ToString());
         if (_event.type == "PAUSE")
         {
