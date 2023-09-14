@@ -10,7 +10,7 @@ public class ADNDynamicScroll : MonoBehaviour
     
     public float MaxPrefabsInScreen = 0;
     public ScrollRect ScrollBar;
-    public GameObject SpawnArea, Prefab, Add, ScrollView, GuardarTop, container;
+    public GameObject SpawnArea, Prefab, Add, ScrollView, GuardarTop, container, TitleObject, PrefabParent, PrefabParentSelecPosition, TitleText;
     private GameObject Instance;  
     public List<GameObject> Instances = new List<GameObject>();
     private static ADNDynamicScroll _instance;
@@ -25,9 +25,11 @@ public class ADNDynamicScroll : MonoBehaviour
     private GameObject PrefabToSet;
     private int Type, Max, Min;
     private float ScrollPosition = -0.3f;
-    private bool IsAllPlacesComplete = true;
+    
     private string TypeString;
-    private bool isAllDataNull = false;
+    
+    private List<string> DB = new List<string>();
+    private Vector3 PrefabParentPosition;
 
     [HideInInspector]
     private MwsiveUserRoot mwsiveUserRoot;
@@ -180,16 +182,16 @@ public class ADNDynamicScroll : MonoBehaviour
         }
         
         MwsiveConnectionManager.instance.GetMwsiveUser(_profileId, Callback_GetMwsiveUser);
-        
-        GuardarTop.GetComponent<Button>().enabled = false;
-        GuardarTop.GetComponent<Image>().color = new Color32 (128,128,128,255);
 
-        if(!Editable){
+        SaveTopONOFF(false);
+
+        if (!Editable){
             
             Add.SetActive(false);
             GuardarTop.SetActive(false);
 
         }
+        PrefabParentPosition = PrefabParent.transform.position;
         
     }
     public int GetMin()
@@ -266,8 +268,10 @@ public class ADNDynamicScroll : MonoBehaviour
             {
                 DynamicPrefabSpawner(0);
                 if(severalartists.artists[i].name != null || severalartists.artists[i].name  != ""){
+
                     Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetPlaceHolder(severalartists.artists[i].name);
                     Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetSpotifyID(severalartists.artists[i].id);
+                    DB.Add(severalartists.artists[i].id);
                 }
                     if (i+1 <= Min)
                     {
@@ -310,17 +314,22 @@ public class ADNDynamicScroll : MonoBehaviour
                 {
                     
                     DynamicPrefabSpawner(0);
-                    
-                if(severaltracks.tracks[i].name != null){
-                    
-                    Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetPlaceHolder(severaltracks.tracks[i].name);
-                    Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetSpotifyID(severaltracks.tracks[i].id);
-
-                    }
-                    if(i+1 <= Min)
+                if(severaltracks.tracks[i] != null)
                     {
-                        Instances[i].GetComponent<PF_ADNMusicalEventSystem>().ClearSearch.SetActive(true);
+                        if (severaltracks.tracks[i].name != null)
+                        {
+
+                            Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetPlaceHolder(severaltracks.tracks[i].name);
+                            Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetSpotifyID(severaltracks.tracks[i].id);
+                            DB.Add(severaltracks.tracks[i].id);
+
+                        }
+                        if (i + 1 <= Min)
+                        {
+                            Instances[i].GetComponent<PF_ADNMusicalEventSystem>().ClearSearch.SetActive(true);
+                        }
                     }
+                    
                 }
 
             }else{
@@ -366,6 +375,10 @@ public class ADNDynamicScroll : MonoBehaviour
         Add.SetActive(false);
 
         container.transform.localPosition = new Vector3(0, 0, 0);
+        PrefabParent.transform.localPosition = PrefabParentSelecPosition.transform.localPosition;
+        TitleObject.SetActive(false);
+        TitleText.SetActive(false);
+
         
     }
 
@@ -384,26 +397,58 @@ public class ADNDynamicScroll : MonoBehaviour
     public void DestroyInstance(GameObject target){
         Instances.Remove(target);
         Destroy(target);
-        
+
+        bool all_Null = false;
+        bool flagNull = true;
+
+        bool all_Full = false;
+        bool flagFull = true;
+
         int i = 1;
         foreach (GameObject item in Instances)
         {
+            string item_Place_Holder = item.GetComponent<PF_ADNMusicalEventSystem>().GetPlaceHolder();
             item.GetComponent<PF_ADNMusicalEventSystem>().ChangeName(i, Min);
             item.name =  Prefab.name  + "-"+ i;
             i++;
 
-            if(item.GetComponent<PF_ADNMusicalEventSystem>().GetPlaceHolder() != PlaceHolderText){
-                GuardarTop.GetComponent<Image>().color = new Color32 (255,255,255,255);
-                GuardarTop.GetComponent<Button>().enabled = true;
-            }else{
-                IsAllPlacesComplete = false;
+            if (flagNull)
+            {
+                if (item_Place_Holder == "" && item_Place_Holder == null)
+                {
+                    all_Null = true;
+
+                }
+                else
+                {
+                    flagNull = false;
+                    all_Null = false;
+                }
             }
-            
+
+            if (flagFull)
+            {
+                if (item_Place_Holder != PlaceHolderText && item_Place_Holder != null)
+                {
+                    all_Full = true;
+
+                }
+                else
+                {
+                    flagFull = false;
+                    all_Full = false;
+                }
+            }
+
         }
-        if(!IsAllPlacesComplete){
-            GuardarTop.GetComponent<Button>().enabled = false;
-            GuardarTop.GetComponent<Image>().color = new Color32 (128,128,128,255);
-            IsAllPlacesComplete = true;
+        if (all_Full || all_Null)
+        {
+            SaveTopONOFF(CheckListsAreTheSame());
+
+        }
+        else
+        {
+            SaveTopONOFF(false);
         }
 
         Debug.Log(Max + " " + Instances.Count);
@@ -425,53 +470,116 @@ public class ADNDynamicScroll : MonoBehaviour
 
             }
         }
-        GuardarTop.GetComponent<Button>().enabled = false;
-        GuardarTop.GetComponent<Image>().color = new Color32(128, 128, 128, 255);
-        IsAllPlacesComplete = true;
+        SaveTopONOFF(false);
+        
 
         if (Max > Instances.Count)
         {
             Add.SetActive(true);
         }
 
+        PrefabParent.transform.position = PrefabParentPosition;
+        TitleObject.SetActive(true);
+        TitleText.SetActive(true);
     }
     public void ShowAllInstances(string _text, string SpotifyId){
-        
+        bool all_Null = false;
+        bool flagNull = true;
+
+        bool all_Full = false;
+        bool flagFull = true;
+
         foreach (GameObject item in Instances)
         {
-            
-            if(item.activeSelf != true){
+            string item_Place_Holder = item.GetComponent<PF_ADNMusicalEventSystem>().GetPlaceHolder();
+            if (item.activeSelf != true){
                 Debug.Log("Show");
                 item.SetActive(true);
             }else{
-                item.GetComponent<PF_ADNMusicalEventSystem>().End(_text, SpotifyId);   
-                
+                item.GetComponent<PF_ADNMusicalEventSystem>().End(_text, SpotifyId);
+                item_Place_Holder = _text;
             }
 
             /// Falta verificar la lista para que no deje guardar cuando hay cosas que hay vacias, si es que hay algo que tiene texto, o all esta vacio o all esta lleno.
+            if (flagNull)
+            {
+                if (item_Place_Holder == "" && item_Place_Holder == null)
+                {
+                    all_Null = true;
 
-            if(item.GetComponent<PF_ADNMusicalEventSystem>().GetPlaceHolder() != PlaceHolderText){
-                
-                GuardarTop.GetComponent<Image>().color = new Color32 (255,255,255,255);
-                GuardarTop.GetComponent<Button>().enabled = true;
-            }else{
-                IsAllPlacesComplete = false;
+                }
+                else
+                {
+                    flagNull = false;
+                    all_Null = false;
+                }
             }
+  
+            if (flagFull)
+            {
+                if (item_Place_Holder != PlaceHolderText && item_Place_Holder != null && item_Place_Holder != "")
+                {
+                    all_Full = true;
 
-
-
+                }
+                else
+                {
+                    flagFull = false;
+                    all_Full = false;
+                }
+            }
+            PrefabParent.transform.position = PrefabParentPosition;
+            TitleObject.SetActive(true);
+            TitleText.SetActive(true);
         }
-        if(!IsAllPlacesComplete){
-            GuardarTop.GetComponent<Button>().enabled = false;
-            GuardarTop.GetComponent<Image>().color = new Color32 (128,128,128,255);
-            IsAllPlacesComplete = true;
+        
+        if (all_Full || all_Null)
+        {
+            SaveTopONOFF(CheckListsAreTheSame());
+            
         }
-        Debug.Log(Max + " " + Instances.Count);
+        else
+        {
+            SaveTopONOFF(false);
+        }
         if(Max > Instances.Count)
         {
             Add.SetActive(true);
         }
         
+    }
+
+    private void SaveTopONOFF(bool _value)
+    {
+        if (_value)
+        {
+            GuardarTop.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+            GuardarTop.GetComponent<Button>().enabled = true;
+        }
+        else
+        {
+            GuardarTop.GetComponent<Button>().enabled = false;
+            GuardarTop.GetComponent<Image>().color = new Color32(128, 128, 128, 255);
+        }
+    }
+    private bool CheckListsAreTheSame()
+    {
+        if(DB.Count == Instances.Count)
+        {
+            for(int I = 0; I < Instances.Count; I++)
+            {
+                if (Instances[I].GetComponent<PF_ADNMusicalEventSystem>().GetSpotifyID() != DB[I])
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+
     }
 
     private void CalculateMaxPrefabToCall(){
@@ -486,27 +594,22 @@ public class ADNDynamicScroll : MonoBehaviour
 
     public void SetData(){
         List<string> data = new List<string>();
+        
         foreach (GameObject item in Instances )
         {
             data.Add(item.GetComponent<PF_ADNMusicalEventSystem>().GetSpotifyID());
-            if (item.GetComponent<PF_ADNMusicalEventSystem>().GetSpotifyID() == null)
-            {
-                isAllDataNull = true;
-            }
-            else
-            {
-                isAllDataNull = false;
-            }
+
+            
         }
         StopAllCoroutines();
         MwsiveConnectionManager.instance.PostMusicalDNA(TypeString, data.ToArray(), Callback_PostMusicalDNA );
+        DB = data;
     }
 
     public void Callback_PostMusicalDNA( object[] _value){
         
         UIMessage.instance.UIMessageInstanciate("Se ha actualizado tu lista");
-        GuardarTop.GetComponent<Button>().enabled = false;
-        GuardarTop.GetComponent<Image>().color = new Color32(128, 128, 128, 255);
+        SaveTopONOFF(false);
 
     }
 
@@ -521,9 +624,8 @@ public class ADNDynamicScroll : MonoBehaviour
         Debug.Log(ScrollPosition);
         ScrollBar.verticalNormalizedPosition = -0.001f;
 
-        GuardarTop.GetComponent<Button>().enabled = false;
-        GuardarTop.GetComponent<Image>().color = new Color32 (128,128,128,255);
-        
+        SaveTopONOFF(false);
+
 
     }
 
@@ -564,7 +666,6 @@ public class ADNDynamicScroll : MonoBehaviour
         
     }
 
-    
 
     public void CheckClearList(int _positiion)
     {
@@ -580,20 +681,13 @@ public class ADNDynamicScroll : MonoBehaviour
                 else
                 {
                     flag = false;
+                    break;
                 }
             }
 
-
-
-            if (flag && !isAllDataNull)
+            if (flag)
             {
-                GuardarTop.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-                GuardarTop.GetComponent<Button>().enabled = true;
-            }
-            else
-            {
-                GuardarTop.GetComponent<Button>().enabled = false;
-                GuardarTop.GetComponent<Image>().color = new Color32(128, 128, 128, 255);
+                SaveTopONOFF(CheckListsAreTheSame());
             }
         }
         
