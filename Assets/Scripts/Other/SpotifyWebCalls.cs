@@ -34,7 +34,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -44,14 +44,14 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch user profile result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch user profile result: " + jsonResult);
                     ProfileRoot profileRoot = JsonConvert.DeserializeObject<ProfileRoot>(jsonResult);
                     _callback(new object[] { webRequest.responseCode, profileRoot });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on fetch user profile: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch user profile: " + jsonResult);
             yield break;
 
         }
@@ -81,7 +81,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -91,14 +91,14 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch Profile result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch Profile result: " + jsonResult);
                     ProfileRoot profileRoot = JsonConvert.DeserializeObject<ProfileRoot>(jsonResult);
                     _callback(new object[] { webRequest.responseCode, profileRoot });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on fetch profile: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch profile: " + jsonResult);
             yield break;
 
         }
@@ -135,7 +135,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on fetch top tracks. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch top tracks. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -145,7 +145,7 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch user top songs result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch user top songs result: " + jsonResult);
                     UserTopItemsRoot userTopItemsRoot = JsonConvert.DeserializeObject<UserTopItemsRoot>(jsonResult);
                     _callback(new object[] { webRequest.responseCode, userTopItemsRoot });
 
@@ -157,12 +157,12 @@ public static class SpotifyWebCalls
                             AudioDownloadManager.instance.AddTrackToList(item.name, item.preview_url, item.album.images[0].url, item.album.artists[0].name);
                     }
 
-                    Debug.Log(userTopItemsRoot.ToString());*/
+                    DebugLogManager.instance.DebugLog(userTopItemsRoot.ToString());*/
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on fetch user top songs: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch user top songs: " + jsonResult);
             yield break;
 
         }
@@ -199,7 +199,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on fetch top artist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch top artist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -209,14 +209,14 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch user top artist result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch user top artist result: " + jsonResult);
                     UserTopItemsRoot userTopItemsRoot = JsonConvert.DeserializeObject<UserTopItemsRoot>(jsonResult);
                     _callback(new object[] { webRequest.responseCode, userTopItemsRoot });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on fetch user top artist: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch user top artist: " + jsonResult);
             yield break;
 
         }
@@ -252,7 +252,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on fetch playlists. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch playlists. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -262,14 +262,14 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch user playlists result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch user playlists result: " + jsonResult);
                     PlaylistRoot playlistRoot = JsonConvert.DeserializeObject<PlaylistRoot>(jsonResult);
                     _callback(new object[] { webRequest.responseCode, playlistRoot });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on fetch user playlists: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch user playlists: " + jsonResult);
             yield break;
 
         }
@@ -305,7 +305,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on fetch playlists. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch playlists. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -315,14 +315,14 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch user " + _user_id + " playlists result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch user " + _user_id + " playlists result: " + jsonResult);
                     PlaylistRoot playlistRoot = JsonConvert.DeserializeObject<PlaylistRoot>(jsonResult);
                     _callback(new object[] { webRequest.responseCode, playlistRoot });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on fetch user " + _user_id + "playlists: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch user " + _user_id + "playlists: " + jsonResult);
             yield break;
 
         }
@@ -352,7 +352,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -362,14 +362,14 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch artist result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch artist result: " + jsonResult);
                     ArtistRoot artistRoot = JsonConvert.DeserializeObject<ArtistRoot>(jsonResult);
                     _callback(new object[] { webRequest.responseCode, artistRoot });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on fetch artist: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch artist: " + jsonResult);
             yield break;
 
         }
@@ -401,7 +401,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -411,14 +411,14 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch several artist result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch several artist result: " + jsonResult);
                     SeveralArtistRoot severalArtistRoot = JsonConvert.DeserializeObject<SeveralArtistRoot>(jsonResult);
                     _callback(new object[] { webRequest.responseCode, severalArtistRoot });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on fetch several artists: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch several artists: " + jsonResult);
             yield break;
 
         }
@@ -453,7 +453,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -463,14 +463,14 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch album result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch album result: " + jsonResult);
                     AlbumRoot albumRoot = JsonConvert.DeserializeObject<AlbumRoot>(jsonResult);
                     _callback(new object[] { webRequest.responseCode, albumRoot });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on fetch album: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch album: " + jsonResult);
             yield break;
 
         }
@@ -507,7 +507,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -517,14 +517,14 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch several albums result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch several albums result: " + jsonResult);
                     SeveralAlbumRoot severalAlbumRoot = JsonConvert.DeserializeObject<SeveralAlbumRoot>(jsonResult);
                     _callback(new object[] { webRequest.responseCode, severalAlbumRoot });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on fetch several albums: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch several albums: " + jsonResult);
             yield break;
 
         }
@@ -559,7 +559,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -569,7 +569,7 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch playlist result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch playlist result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     SpotifyPlaylistRoot searchedPlaylist = JsonConvert.DeserializeObject<SpotifyPlaylistRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, searchedPlaylist });
@@ -577,7 +577,7 @@ public static class SpotifyWebCalls
                 }
             }
 
-            Debug.Log("Failed on fetch playlist: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch playlist: " + jsonResult);
             yield break;
 
         }
@@ -614,7 +614,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on fetch playlists' items. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch playlists' items. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -624,14 +624,14 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch playlist result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch playlist result: " + jsonResult);
                     PlaylistRoot playlistRoot = JsonConvert.DeserializeObject<PlaylistRoot>(jsonResult);
                     _callback(new object[] { webRequest.responseCode, playlistRoot });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on fetch playlist: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch playlist: " + jsonResult);
             yield break;
 
         }
@@ -661,7 +661,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on fetch playlist by url. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch playlist by url. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -671,14 +671,14 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch playlist result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch playlist result: " + jsonResult);
                     PlaylistRoot playlistRoot = JsonConvert.DeserializeObject<PlaylistRoot>(jsonResult);
                     _callback(new object[] { webRequest.responseCode, playlistRoot });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on fetch playlist: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch playlist: " + jsonResult);
             yield break;
 
         }
@@ -713,7 +713,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on fetch track. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch track. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -723,14 +723,14 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch track " + _track_id + " result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch track " + _track_id + " result: " + jsonResult);
                     TrackRoot trackRoot = JsonConvert.DeserializeObject<TrackRoot>(jsonResult);
                     _callback(new object[] { webRequest.responseCode, trackRoot });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on fetch track " + _track_id + ": " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch track " + _track_id + ": " + jsonResult);
             yield break;
 
         }
@@ -767,7 +767,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on fetch several tracks. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch several tracks. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -777,7 +777,7 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch several tracks result " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch several tracks result " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     SeveralTrackRoot severalTrackRoot = JsonConvert.DeserializeObject<SeveralTrackRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, severalTrackRoot });
@@ -785,7 +785,7 @@ public static class SpotifyWebCalls
                 }
             }
 
-            Debug.Log("Failed on fetch several tracks: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch several tracks: " + jsonResult);
             yield break;
 
         }
@@ -807,7 +807,7 @@ public static class SpotifyWebCalls
 
             string jsonRaw = JsonConvert.SerializeObject(bodyRequest);
 
-            Debug.Log("Body request for creating a playlist is:" + jsonRaw);
+            DebugLogManager.instance.DebugLog("Body request for creating a playlist is:" + jsonRaw);
 
             byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonRaw);
             webRequest.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
@@ -829,7 +829,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on create playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on create playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -839,14 +839,14 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Playlist created " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Playlist created " + jsonResult);
                     SpotifyPlaylistRoot spotifyPlaylistRoot = JsonConvert.DeserializeObject<SpotifyPlaylistRoot>(jsonResult);
                     _callback(new object[] { webRequest.responseCode, spotifyPlaylistRoot });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on crate playlist " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on crate playlist " + jsonResult);
             yield break;
 
         }
@@ -880,7 +880,7 @@ public static class SpotifyWebCalls
             jsonRaw = JsonConvert.SerializeObject(bodyRequest);
         }
 
-        Debug.Log("Body request for changing a playlist is:" + jsonRaw);
+        DebugLogManager.instance.DebugLog("Body request for changing a playlist is:" + jsonRaw);
 
         byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonRaw);
 
@@ -902,7 +902,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on change playlist's details. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on change playlist's details. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -911,13 +911,13 @@ public static class SpotifyWebCalls
 
                 if (webRequest.isDone)
                 {
-                    Debug.Log("Playlist updated");
+                    DebugLogManager.instance.DebugLog("Playlist updated");
                     _callback(new object[] { WebCallsUtils.SUCCESS_RESPONSE_CODE });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on update playlist");
+            DebugLogManager.instance.DebugLog("Failed on update playlist");
             yield break;
 
         }
@@ -952,7 +952,7 @@ public static class SpotifyWebCalls
 
             string jsonRaw = JsonConvert.SerializeObject(bodyRequest);
 
-            Debug.Log("Body request for creating a playlist is:" + jsonRaw);
+            DebugLogManager.instance.DebugLog("Body request for creating a playlist is:" + jsonRaw);
 
             byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonRaw);
             webRequest.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
@@ -980,7 +980,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on add items to playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on add items to playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -990,14 +990,14 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Added tracks to playlist " + _playlist_id + " result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Added tracks to playlist " + _playlist_id + " result: " + jsonResult);
                     AddItemsToPlaylistRoot addItemsToPlaylistRoot = JsonConvert.DeserializeObject<AddItemsToPlaylistRoot>(jsonResult);
                     _callback(new object[] { webRequest.responseCode, addItemsToPlaylistRoot });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on add tracks to playlist " + _playlist_id + ": " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on add tracks to playlist " + _playlist_id + ": " + jsonResult);
             yield break;
 
         }
@@ -1023,7 +1023,7 @@ public static class SpotifyWebCalls
 
             string jsonRaw = JsonConvert.SerializeObject(bodyRequest);
 
-            Debug.Log("Body request for creating a playlist is:" + jsonRaw);
+            DebugLogManager.instance.DebugLog("Body request for creating a playlist is:" + jsonRaw);
 
             byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonRaw);
             webRequest.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
@@ -1045,7 +1045,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on remove items to playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on remove items to playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -1055,14 +1055,14 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Removed tracks to playlist " + _playlist_id + " result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Removed tracks to playlist " + _playlist_id + " result: " + jsonResult);
                     RemoveItemsToPlaylistRoot removeItemsToPlaylistRoot = JsonConvert.DeserializeObject<RemoveItemsToPlaylistRoot>(jsonResult);
                     _callback(new object[] { webRequest.responseCode, removeItemsToPlaylistRoot });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on remove tracks to playlist " + _playlist_id + ": " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on remove tracks to playlist " + _playlist_id + ": " + jsonResult);
             yield break;
 
         }
@@ -1104,7 +1104,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on fetch recommendations. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch recommendations. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -1114,14 +1114,14 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch recommendations result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch recommendations result: " + jsonResult);
                     RecommendationsRoot recommendationsRoot = JsonConvert.DeserializeObject<RecommendationsRoot>(jsonResult);
                     _callback(new object[] { webRequest.responseCode, recommendationsRoot });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on fetch recommendations: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch recommendations: " + jsonResult);
             yield break;
 
         }
@@ -1164,7 +1164,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on search for items. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on search for items. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -1174,7 +1174,7 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch search result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch search result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     SearchRoot searchRoot = JsonConvert.DeserializeObject<SearchRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, searchRoot });
@@ -1182,7 +1182,7 @@ public static class SpotifyWebCalls
                 }
             }
 
-            Debug.Log("Failed on fetch search: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch search: " + jsonResult);
             yield break;
 
         }
@@ -1212,7 +1212,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on fetch genres. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch genres. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -1222,14 +1222,14 @@ public static class SpotifyWebCalls
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch genres result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch genres result: " + jsonResult);
                     GenresRoot genresRoot = JsonConvert.DeserializeObject<GenresRoot>(jsonResult);
                     _callback(new object[] { webRequest.responseCode, genresRoot });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on fetch genres: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch genres: " + jsonResult);
             yield break;
 
         }
@@ -1257,7 +1257,7 @@ public static class SpotifyWebCalls
 
                 if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
 
-                Debug.Log("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch playlist. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
                 yield break;
             }
             else
@@ -1266,13 +1266,13 @@ public static class SpotifyWebCalls
 
                 if (webRequest.isDone)
                 {
-                    Debug.Log("Change playlist cover");
+                    DebugLogManager.instance.DebugLog("Change playlist cover");
                     _callback(new object[] { webRequest.responseCode });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on change playlist cover");
+            DebugLogManager.instance.DebugLog("Failed on change playlist cover");
             yield break;
 
         }

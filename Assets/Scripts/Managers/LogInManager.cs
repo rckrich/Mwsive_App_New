@@ -47,7 +47,7 @@ public class LogInManager : Manager
         {
             if(_value.Length > 0 && (((string)_value[0]).Equals("AuthError") || ((string)_value[0]).Equals("RefreshError")))
             {
-                Debug.Log((string)_value[0]);
+                DebugLogManager.instance.DebugLog((string)_value[0]);
                 NewScreenManager.instance.GetCurrentView().EndSearch();
                 NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
                 PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
@@ -64,7 +64,7 @@ public class LogInManager : Manager
     {
         if (ProgressManager.instance.progress.userDataPersistance.userTokenSetted)
         {
-            Debug.Log(ProgressManager.instance.progress.userDataPersistance.access_token);
+            DebugLogManager.instance.DebugLog(ProgressManager.instance.progress.userDataPersistance.access_token);
             if (HasMwsiveTokenExpired())
             {
                 SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
@@ -167,7 +167,7 @@ public class LogInManager : Manager
 
             mwsiveUser = mwsiveLoginRoot.user;
 
-            Debug.Log(mwsiveLoginRoot);
+            DebugLogManager.instance.DebugLog(mwsiveLoginRoot);
 
             SetMwsiveToken(mwsiveLoginRoot.access_token, DateTime.Now.AddHours(1));
 
@@ -182,7 +182,7 @@ public class LogInManager : Manager
         }
         else if (webcode == "404")
         {
-            Debug.Log(ProgressManager.instance.progress.userDataPersistance.access_token);
+            DebugLogManager.instance.DebugLog(ProgressManager.instance.progress.userDataPersistance.access_token);
             SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_GetCurrentUserPlaylistsNewUser);
         }
         else
@@ -244,7 +244,7 @@ public class LogInManager : Manager
     private void SetMwsiveToken(string _value, DateTime _expire_date)
     {
         ProgressManager.instance.progress.userDataPersistance.access_token = _value;
-        Debug.Log(ProgressManager.instance.progress.userDataPersistance.access_token);
+        DebugLogManager.instance.DebugLog(ProgressManager.instance.progress.userDataPersistance.access_token);
         ProgressManager.instance.progress.userDataPersistance.expires_at = _expire_date;
         ProgressManager.instance.progress.userDataPersistance.userTokenSetted = true;
         ProgressManager.instance.save();
@@ -263,7 +263,7 @@ public class LogInManager : Manager
     private void OpenView(ViewID _value)
     {
         NewScreenManager.instance.ChangeToMainView(_value, false);
-        Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
+        DebugLogManager.instance.DebugLog(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
 
     private void EndProcess()

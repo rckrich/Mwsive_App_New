@@ -34,7 +34,7 @@ public class OAuthHandler : MonoBehaviour
             }
         }
 
-        Debug.Log("Token is null or it has no refresh token, and thus it has started authentication flow");
+        DebugLogManager.instance.DebugLog("Token is null or it has no refresh token, and thus it has started authentication flow");
         SpotifyStartAuthFlow(_callback);
     }
 
@@ -50,7 +50,7 @@ public class OAuthHandler : MonoBehaviour
 
     public void OnSpotifyTokenReceived(UniWebViewAuthenticationSpotifyToken _token)
     {
-        Debug.Log("Token received: " + _token.AccessToken);
+        DebugLogManager.instance.DebugLog("Token received: " + _token.AccessToken);
 
         spotifyToken = _token;
 
@@ -65,7 +65,7 @@ public class OAuthHandler : MonoBehaviour
 
     public void OnSpotifyAuthError(long errorCode, string errorMessage)
     {
-        Debug.Log("Error happened: " + errorCode + " " + errorMessage);
+        DebugLogManager.instance.DebugLog("Error happened: " + errorCode + " " + errorMessage);
 
         if (callback != null)
         {
@@ -76,7 +76,7 @@ public class OAuthHandler : MonoBehaviour
 
     public void OnSpotifyTokenRefreshed(UniWebViewAuthenticationSpotifyToken _token)
     {
-        Debug.Log("Token received: " + _token.AccessToken);
+        DebugLogManager.instance.DebugLog("Token received: " + _token.AccessToken);
 
         spotifyToken = _token;
 
@@ -91,7 +91,7 @@ public class OAuthHandler : MonoBehaviour
 
     public void OnSpotifyRefreshError(long errorCode, string errorMessage)
     {
-        Debug.Log("Error happened: " + errorCode + " " + errorMessage);
+        DebugLogManager.instance.DebugLog("Error happened: " + errorCode + " " + errorMessage);
 
         if (callback != null)
         {
