@@ -1035,7 +1035,12 @@ public class PF_SurfManager : Manager
             if(ProfilePlaylistPosition <= UserPlaylists.items.Count){
 
                 //Checar cuantos items tienes si es mayor de 50 Iniciar Paginacion sino solo spawnear
-
+                if(UserPlaylists.items[ProfilePlaylistPosition].tracks.items == null) {
+                    ProfilePlaylistPosition++;
+                    SurfProfileADN();
+                    return;
+                    
+                }
 
                 if(ProfilePlaylist.tracks.items.Count < SongsMaxToPaginate){
                     if(ProfilePlaylist.tracks.items.Count > 4){

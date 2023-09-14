@@ -10,7 +10,7 @@ public class ADNDynamicScroll : MonoBehaviour
     
     public float MaxPrefabsInScreen = 0;
     public ScrollRect ScrollBar;
-    public GameObject SpawnArea, Prefab, Add, ScrollView, GuardarTop, container, TitleObject, PrefabParent, PrefabParentSelecPosition;
+    public GameObject SpawnArea, Prefab, Add, ScrollView, GuardarTop, container, TitleObject, PrefabParent, PrefabParentSelecPosition, TitleText;
     private GameObject Instance;  
     public List<GameObject> Instances = new List<GameObject>();
     private static ADNDynamicScroll _instance;
@@ -25,9 +25,9 @@ public class ADNDynamicScroll : MonoBehaviour
     private GameObject PrefabToSet;
     private int Type, Max, Min;
     private float ScrollPosition = -0.3f;
-    private bool IsAllPlacesComplete = true;
+    
     private string TypeString;
-    private bool isAllDataNull = false;
+    
     private List<string> DB = new List<string>();
     private Vector3 PrefabParentPosition;
 
@@ -314,18 +314,22 @@ public class ADNDynamicScroll : MonoBehaviour
                 {
                     
                     DynamicPrefabSpawner(0);
-                    
-                if(severaltracks.tracks[i].name != null){
-                    
-                    Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetPlaceHolder(severaltracks.tracks[i].name);
-                    Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetSpotifyID(severaltracks.tracks[i].id);
-                    DB.Add(severaltracks.tracks[i].id);
-
-                    }
-                    if(i+1 <= Min)
+                if(severaltracks.tracks[i] != null)
                     {
-                        Instances[i].GetComponent<PF_ADNMusicalEventSystem>().ClearSearch.SetActive(true);
+                        if (severaltracks.tracks[i].name != null)
+                        {
+
+                            Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetPlaceHolder(severaltracks.tracks[i].name);
+                            Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetSpotifyID(severaltracks.tracks[i].id);
+                            DB.Add(severaltracks.tracks[i].id);
+
+                        }
+                        if (i + 1 <= Min)
+                        {
+                            Instances[i].GetComponent<PF_ADNMusicalEventSystem>().ClearSearch.SetActive(true);
+                        }
                     }
+                    
                 }
 
             }else{
@@ -373,6 +377,7 @@ public class ADNDynamicScroll : MonoBehaviour
         container.transform.localPosition = new Vector3(0, 0, 0);
         PrefabParent.transform.localPosition = PrefabParentSelecPosition.transform.localPosition;
         TitleObject.SetActive(false);
+        TitleText.SetActive(false);
 
         
     }
@@ -466,7 +471,7 @@ public class ADNDynamicScroll : MonoBehaviour
             }
         }
         SaveTopONOFF(false);
-        IsAllPlacesComplete = true;
+        
 
         if (Max > Instances.Count)
         {
@@ -475,7 +480,7 @@ public class ADNDynamicScroll : MonoBehaviour
 
         PrefabParent.transform.position = PrefabParentPosition;
         TitleObject.SetActive(true);
-
+        TitleText.SetActive(true);
     }
     public void ShowAllInstances(string _text, string SpotifyId){
         bool all_Null = false;
@@ -525,6 +530,7 @@ public class ADNDynamicScroll : MonoBehaviour
             }
             PrefabParent.transform.position = PrefabParentPosition;
             TitleObject.SetActive(true);
+            TitleText.SetActive(true);
         }
         
         if (all_Full || all_Null)
@@ -588,17 +594,12 @@ public class ADNDynamicScroll : MonoBehaviour
 
     public void SetData(){
         List<string> data = new List<string>();
+        
         foreach (GameObject item in Instances )
         {
             data.Add(item.GetComponent<PF_ADNMusicalEventSystem>().GetSpotifyID());
-            if (item.GetComponent<PF_ADNMusicalEventSystem>().GetSpotifyID() == null)
-            {
-                isAllDataNull = true;
-            }
-            else
-            {
-                isAllDataNull = false;
-            }
+
+            
         }
         StopAllCoroutines();
         MwsiveConnectionManager.instance.PostMusicalDNA(TypeString, data.ToArray(), Callback_PostMusicalDNA );
@@ -684,15 +685,9 @@ public class ADNDynamicScroll : MonoBehaviour
                 }
             }
 
-
-
-            if (flag && !isAllDataNull)
+            if (flag)
             {
-                SaveTopONOFF(true);
-            }
-            else
-            {
-                SaveTopONOFF(false);
+                SaveTopONOFF(CheckListsAreTheSame());
             }
         }
         
