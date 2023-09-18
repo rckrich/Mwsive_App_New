@@ -180,13 +180,19 @@ public class PlaylistViewModel : ViewModel
             }
             else
             {
-
+                
                 NewScreenManager.instance.ChangeToSpawnedView("surf");
-                NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerPL(new object[] { searchedPlaylist });
+                SpotifyConnectionManager.instance.GetPlaylistItems(id, Callback_SurfButton);
             }
         }
         
         
+    }
+
+    private void Callback_SurfButton(object[] _value)
+    {
+        PlaylistRoot playlistroot = (PlaylistRoot)_value[1];
+        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerPLItems(new object[] { playlistroot },true, true, id);
     }
 
     public void GetSeveralTracks(string[] _tracksID, string _playlist_name)

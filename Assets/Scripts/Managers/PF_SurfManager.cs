@@ -686,20 +686,20 @@ public class PF_SurfManager : Manager
     {
         PageItemPlaylist = (PlaylistRoot)_value[0];
 
-        if (PageItemPlaylist.items.Count > SongsMaxToPaginate)
+        if (PageItemPlaylist.items.Count > SongsMaxToPaginate && _spotifyid != null)
         {
             SurfPagingPLitems(PageItemPlaylist, _spotifyid);
-        }
 
-         
-        
+        }
+        else
+        {
             GameObject FirstInstance = null;
 
             int SpawnedSongs = 0;
             foreach (var item in PageItemPlaylist.items)
             {
                 if (item.track != null)
-                { 
+                {
                     if (item.track.preview_url != null && item.preview_url != "Null")
                     {
                         GameObject instance = SpawnPrefab();
@@ -739,6 +739,9 @@ public class PF_SurfManager : Manager
                 FirstInstance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
                 FirstSongplayed = true;
             }
+        }
+
+            
 
         
     }
@@ -1093,20 +1096,17 @@ public class PF_SurfManager : Manager
 
     public void SurfPagingPLitems(PlaylistRoot _value = null, string _id = null)
     {
-
+        Debug.Log(_value.total + "-------------------------------------");
         if(trackstospawn >= _value.total)
         {
             SurfPaged = false;
             return;
         }
 
-        if (_value != null)
+        if (_value != null && _id != null)
         {
             PageItemPlaylist = _value;
             SurfPaged = true;
-        }
-        if(_id != null)
-        {
             idPagingPlItems = _id;
         }
 
@@ -1115,16 +1115,17 @@ public class PF_SurfManager : Manager
         if (trackstospawn > ProfileItemsPlaylist.items.Count)
         {
             trackstospawn = ProfileItemsPlaylist.items.Count;
-            trackstospawntotal += trackstospawn;
+            
         }
 
 
 
-
+        Debug.Log(PageItemPlaylist.items.Count + "-------------------------------------------------------------------------------------------");
 
         List<Track> ListOfTracksToSpawn = new List<Track>();
 
-        for (int i = SurfProfileOffsetPosition; i < trackstospawn; i++)
+
+        for (int i = 0; i < trackstospawn; i++)
         {
             ListOfTracksToSpawn.Add(PageItemPlaylist.items[i].track);
         }
@@ -1135,7 +1136,6 @@ public class PF_SurfManager : Manager
             trackstospawn = 0;
             trackstospawntotal += ProfileItemsPlaylist.items.Count;
             SpotifyConnectionManager.instance.GetPlaylistItems(idPagingPlItems, OnCallback_SurfPagingPLitems, "ES", 100, trackstospawntotal);
-
         }
         else
         {
