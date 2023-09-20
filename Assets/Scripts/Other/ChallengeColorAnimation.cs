@@ -98,7 +98,7 @@ public class ChallengeColorAnimation : MonoBehaviour
     {
         if(colorDoMove == null)
         {
-            float twenable = -380f;
+            float twenable = colorbackground.GetComponent<RectTransform>().localPosition.y;
             var sequence = DOTween.Sequence();
             colorDoMove = sequence;
             sequence.Append(DOTween.To(() => twenable, x => twenable = x, 0f, 28f));
