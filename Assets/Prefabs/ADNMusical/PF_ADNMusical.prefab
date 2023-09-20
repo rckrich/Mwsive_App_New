@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3437654355347774589}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: _Parent Position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -147,6 +147,50 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -120}
   m_SizeDelta: {x: 284, y: 144}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &626373355895461155
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5676402237617699487}
+  - component: {fileID: 2145379074753799792}
+  m_Layer: 5
+  m_Name: _ScrollTypePosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &5676402237617699487
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626373355895461155}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9033225732862334583}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -42.642464}
+  m_SizeDelta: {x: 0, y: 218.71507}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2145379074753799792
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626373355895461155}
+  m_CullTransparentMesh: 1
 --- !u!1 &1282154174302238702
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,6 +969,41 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &2795917565351419098
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 68894345550481408}
+  m_Layer: 5
+  m_Name: _ScrollRestPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &68894345550481408
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2795917565351419098}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9033225732862334583}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 33.357536}
+  m_SizeDelta: {x: 0, y: 66.71507}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2869415829118126658
 GameObject:
   m_ObjectHideFlags: 0
@@ -1604,6 +1683,8 @@ RectTransform:
   m_Children:
   - {fileID: 3227590529270796668}
   - {fileID: 1977308189030291198}
+  - {fileID: 68894345550481408}
+  - {fileID: 5676402237617699487}
   m_Father: {fileID: 1440787747909348829}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2364,8 +2445,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -42.642464}
-  m_SizeDelta: {x: 0, y: 218.71507}
+  m_AnchoredPosition: {x: 0, y: 33.357536}
+  m_SizeDelta: {x: 0, y: 66.71507}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8657610415706384114
 CanvasRenderer:
@@ -2500,6 +2581,8 @@ MonoBehaviour:
   PrefabParent: {fileID: 5184551851795668753}
   PrefabParentSelecPosition: {fileID: 34789493005754961}
   TitleText: {fileID: 8742569177115506484}
+  ScrollbarRestPosition: {fileID: 2795917565351419098}
+  ScrollbarTypePosition: {fileID: 626373355895461155}
   Instances: []
   DataPlaceHolders: []
   DataSpotifyID: []
@@ -2509,6 +2592,7 @@ MonoBehaviour:
   - {fileID: 1486145354370005972, guid: c341874cfda6c4672ba6de3a95b2db94, type: 3}
   - {fileID: 1486145354370005972, guid: 0df73f106aba74042a9341f919ca45a1, type: 3}
   TypeOfADN: 0
+  Editable: 0
 --- !u!1 &8147124967393100536
 GameObject:
   m_ObjectHideFlags: 0

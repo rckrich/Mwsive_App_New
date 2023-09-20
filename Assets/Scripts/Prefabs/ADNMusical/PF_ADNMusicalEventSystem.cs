@@ -31,6 +31,9 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
     private bool EraseButtonNever = false;
     public int PositionNum = 0;
 
+
+    
+
     public void ChangeName(int num, int min ){
         PositionNum = num;
         Number.text = "#" +num;
@@ -56,7 +59,10 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
 
     }
 
-
+    public void HideEraseButton()
+    {
+        EraseButton.SetActive(false);
+    }
 
     public void Search(){
         
