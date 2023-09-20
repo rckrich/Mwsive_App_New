@@ -7,59 +7,73 @@ using UnityEngine.UIElements;
 public class ChallengeColorAnimation : MonoBehaviour
 {
 
-    public GameObject waveMask, leftRestPosition;
+    public GameObject waveMask ;
+    public Transform leftRestPosition;
     public GameObject colorbackground;
-    private Vector3 left;
     private bool isComplete;
     Tween topDoMove;
     Tween colorDoMove;
 
+    private bool amIEnabled = false;
+    private bool PlaySwitch = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        left = leftRestPosition.transform.position;
-        Initialize();
-        PauseAnimation(false);
+        
+
+        
     }
 
-    private void OnEnable()
-    {
-        
-        
-    }
+
 
     public void Initialize()
     {
-        FromCenterToLeft();
+        if (!isComplete)
+        {
+            FromCenterToLeft();
 
-        ColorUp();
+            ColorUp();
+            amIEnabled = true;
+            PlaySwitch = true;
+        }
+        
     }
 
-    public void PauseAnimation(bool _value)
+    public void PauseAnimation()
     {
-        if(isComplete) {
-            if (_value)
+        if(!isComplete  && amIEnabled) {
+            if (!PlaySwitch)
             {
-                topDoMove.Play();
                 colorDoMove.Play();
+                
             }
             else
             {
-                topDoMove.Pause();
                 colorDoMove.Pause();
+                
             }
+            PlaySwitch = !PlaySwitch;
         }
         
         
     }
 
+    public void ForcePauseAnimation()
+    {
+        if (!isComplete && amIEnabled)
+        {
+            colorDoMove.Pause();
+            PlaySwitch = false;
+        }
+    }
+
     public void ForceRestart()
     {
-        if (isComplete)
+        if (isComplete && amIEnabled)
         {
-            topDoMove.Restart();
             colorDoMove.Restart();
+            
         }
         
     }
@@ -73,7 +87,7 @@ public class ChallengeColorAnimation : MonoBehaviour
 
     public void FromCenterToLeft()
     {
-        topDoMove = waveMask.transform.DOMoveX(left.x, 3).SetLoops(-1).SetEase(Ease.Flash);
+        topDoMove = waveMask.transform.DOMoveX(leftRestPosition.transform.position.x, 3).SetLoops(-1).SetEase(Ease.Flash);
     }
 
     public void ColorUp()
@@ -87,7 +101,7 @@ public class ChallengeColorAnimation : MonoBehaviour
             colorbackground.GetComponent<RectTransform>().offsetMax = new Vector2(colorbackground.GetComponent<RectTransform>().offsetMax.x, twenable);
         });
         sequence.OnComplete(() => {
-            waveMask.transform.DOMoveY(left.y, 2f).OnComplete(() => {
+            waveMask.transform.DOMoveY(leftRestPosition.transform.position.y, 2f).OnComplete(() => {
                 topDoMove.Kill();
                 isComplete = true;
             }).SetEase(Ease.Flash);

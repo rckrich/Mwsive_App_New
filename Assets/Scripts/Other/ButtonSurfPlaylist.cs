@@ -30,6 +30,7 @@ public class ButtonSurfPlaylist : ViewModel
     public bool changeColor = false;
 
     public MwsiveButton mwsiveButton;
+    public ChallengeColorAnimation challengecoloranimation;
     public GameObject loadingAnimGameObject;
     public DurationBar durationBar;
     public GameObject buttonColor;
@@ -46,9 +47,10 @@ public class ButtonSurfPlaylist : ViewModel
     private ChallengeAppObject Challenge;
     public bool SuccesfulEnded = false;
     public bool AmILastPosition = false;
+    private TrackInfoRoot trackInfoRoot;
+
     private bool isPicked = false;
     private bool isRecommended = false;
-    private TrackInfoRoot trackInfoRoot;
 
 
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
@@ -148,6 +150,7 @@ public class ButtonSurfPlaylist : ViewModel
         }
         TrackPoints = _trackPoints;
 
+        
     }
 
     public void LastPosition(){
@@ -194,6 +197,7 @@ public class ButtonSurfPlaylist : ViewModel
             loadingAnimGameObject.SetActive(false);
         }
         
+
         
         if (SurfManager.instance.isActiveAndEnabled == false)
         {
@@ -222,6 +226,10 @@ public class ButtonSurfPlaylist : ViewModel
                 if (transform.IsChildOf(Surf.GetComponent<PF_SurfManager>().GetCurrentPrefab().transform))
                 {
                     durationBar.canPlay = true;
+                    if (TrackPoints)
+                    {
+                        challengecoloranimation.Initialize();
+                    }
                 }
                 else
                 {
@@ -237,6 +245,11 @@ public class ButtonSurfPlaylist : ViewModel
                 if (transform.IsChildOf(Surf.GetComponent<SurfManager>().GetCurrentPrefab().transform))
                 {
                     durationBar.canPlay = true;
+                    if (TrackPoints)
+                    {
+                        challengecoloranimation.Initialize();
+                    }
+                    
                 }
                 else
                 {
@@ -250,15 +263,17 @@ public class ButtonSurfPlaylist : ViewModel
     public void OnClic_StopAudioPreview()
     {
         SpotifyPreviewAudioManager.instance.Pause();
-        
 
-       
-        
+        challengecoloranimation.PauseAnimation();
+
+
+
     }
 
     public void OnClickForcePausePreview(){
+
         SpotifyPreviewAudioManager.instance.ForcePause();
-        
+        challengecoloranimation.ForcePauseAnimation();
 
     }
   
