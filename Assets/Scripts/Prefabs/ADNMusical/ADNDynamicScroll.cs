@@ -274,7 +274,7 @@ public class ADNDynamicScroll : MonoBehaviour
                     
                     DB.Add(severalartists.artists[i].id);
                 }
-                    if (i+1 <= Min)
+                    if (i+1 <= Min && Editable)
                     {
                         Instances[i].GetComponent<PF_ADNMusicalEventSystem>().ClearSearch.SetActive(true);
                     }
