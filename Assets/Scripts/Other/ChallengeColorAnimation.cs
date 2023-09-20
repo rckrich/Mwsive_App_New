@@ -7,13 +7,13 @@ using UnityEngine.UIElements;
 public class ChallengeColorAnimation : MonoBehaviour
 {
 
-    public GameObject waveMask ;
+    public GameObject waveMask, g1;
     public Transform leftRestPosition;
     public GameObject colorbackground;
     private bool isComplete;
     Tween topDoMove;
     Tween colorDoMove;
-
+    private float starttween;
     private bool amIEnabled = false;
     private bool PlaySwitch = false;
 
@@ -21,7 +21,6 @@ public class ChallengeColorAnimation : MonoBehaviour
     void Start()
     {
         
-
         
     }
 
@@ -31,13 +30,17 @@ public class ChallengeColorAnimation : MonoBehaviour
     {
         if (!isComplete)
         {
+            starttween = colorbackground.GetComponent<RectTransform>().offsetMax.y;
+            Debug.Log(g1.GetComponent<RectTransform>().offsetMax.y);
             FromCenterToLeft();
 
             ColorUp();
             amIEnabled = true;
             PlaySwitch = true;
+            
+
         }
-        
+
     }
 
     public void PauseAnimation()
@@ -96,9 +99,11 @@ public class ChallengeColorAnimation : MonoBehaviour
 
     public void ColorUp()
     {
-        if(colorDoMove == null)
+        Debug.Log(starttween);
+        if (colorDoMove == null)
         {
-            float twenable = colorbackground.GetComponent<RectTransform>().localPosition.y;
+
+            float twenable = starttween;
             var sequence = DOTween.Sequence();
             colorDoMove = sequence;
             sequence.Append(DOTween.To(() => twenable, x => twenable = x, 0f, 28f));
