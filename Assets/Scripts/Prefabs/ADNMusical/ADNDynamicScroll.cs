@@ -10,7 +10,7 @@ public class ADNDynamicScroll : MonoBehaviour
     
     public float MaxPrefabsInScreen = 0;
     public ScrollRect ScrollBar;
-    public GameObject SpawnArea, Prefab, Add, ScrollView, GuardarTop, container, TitleObject, PrefabParent, PrefabParentSelecPosition, TitleText;
+    public GameObject SpawnArea, Prefab, Add, ScrollView, GuardarTop, container, TitleObject, PrefabParent, PrefabParentSelecPosition, TitleText, ScrollbarRestPosition, ScrollbarTypePosition;
     private GameObject Instance;  
     public List<GameObject> Instances = new List<GameObject>();
     private static ADNDynamicScroll _instance;
@@ -34,7 +34,7 @@ public class ADNDynamicScroll : MonoBehaviour
     [HideInInspector]
     private MwsiveUserRoot mwsiveUserRoot;
     public int TypeOfADN;
-    private bool Editable;
+    public bool Editable;
 
     
     public void Initialize(int _TypeOfADN, bool _Editable, string _profileId) {
@@ -42,7 +42,7 @@ public class ADNDynamicScroll : MonoBehaviour
         TypeOfADN = _TypeOfADN;
         Editable = _Editable;
         
-        Debug.Log(Editable);
+        
         
         
         switch(TypeOfADN){
@@ -268,9 +268,10 @@ public class ADNDynamicScroll : MonoBehaviour
             {
                 DynamicPrefabSpawner(0);
                 if(severalartists.artists[i].name != null || severalartists.artists[i].name  != ""){
-
+                    
                     Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetPlaceHolder(severalartists.artists[i].name);
                     Instances[i].GetComponent<PF_ADNMusicalEventSystem>().SetSpotifyID(severalartists.artists[i].id);
+                    
                     DB.Add(severalartists.artists[i].id);
                 }
                     if (i+1 <= Min)
@@ -324,7 +325,7 @@ public class ADNDynamicScroll : MonoBehaviour
                             DB.Add(severaltracks.tracks[i].id);
 
                         }
-                        if (i + 1 <= Min)
+                        if (i + 1 <= Min && Editable)
                         {
                             Instances[i].GetComponent<PF_ADNMusicalEventSystem>().ClearSearch.SetActive(true);
                         }
@@ -378,8 +379,9 @@ public class ADNDynamicScroll : MonoBehaviour
         PrefabParent.transform.localPosition = PrefabParentSelecPosition.transform.localPosition;
         TitleObject.SetActive(false);
         TitleText.SetActive(false);
-
+        ScrollView.GetComponent<RectTransform>().offsetMin = ScrollbarTypePosition.GetComponent<RectTransform>().offsetMin;
         
+
     }
 
     public static ADNDynamicScroll instance
@@ -481,6 +483,9 @@ public class ADNDynamicScroll : MonoBehaviour
         PrefabParent.transform.position = PrefabParentPosition;
         TitleObject.SetActive(true);
         TitleText.SetActive(true);
+
+        ScrollView.GetComponent<RectTransform>().offsetMin = ScrollbarRestPosition.GetComponent<RectTransform>().offsetMin;
+        ScrollBar.enabled = true;
     }
     public void ShowAllInstances(string _text, string SpotifyId){
         bool all_Null = false;
@@ -531,6 +536,8 @@ public class ADNDynamicScroll : MonoBehaviour
             PrefabParent.transform.position = PrefabParentPosition;
             TitleObject.SetActive(true);
             TitleText.SetActive(true);
+            ScrollBar.enabled = true;
+            ScrollView.GetComponent<RectTransform>().offsetMin = ScrollbarRestPosition.GetComponent<RectTransform>().offsetMin;
         }
         
         if (all_Full || all_Null)
@@ -662,6 +669,12 @@ public class ADNDynamicScroll : MonoBehaviour
         Instance.GetComponent<PF_ADNMusicalEventSystem>().ChangeName(Instances.Count, Min);
         Instance.GetComponent<PF_ADNMusicalEventSystem>().SetPrefab(PrefabToSet, Type);
         Instance.GetComponent<PF_ADNMusicalEventSystem>().SetPlaceHolder(PlaceHolderText);
+
+        if (!Editable)
+        {
+            Instance.GetComponentInChildren<TMP_InputField>().interactable = false;
+            Instance.GetComponent<PF_ADNMusicalEventSystem>().EraseButton.SetActive(false);
+        }
         
         
     }
