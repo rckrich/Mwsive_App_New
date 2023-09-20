@@ -1342,6 +1342,7 @@ public class PF_SurfManager : Manager
 
     private void OnCallback_GetSpotifyPlaylist(object[] _value){
         ProfileItemsPlaylist = (PlaylistRoot)_value[1];
+        SurfProfile = true;
     }
 
     
