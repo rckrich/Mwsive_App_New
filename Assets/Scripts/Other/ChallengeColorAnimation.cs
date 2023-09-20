@@ -87,26 +87,33 @@ public class ChallengeColorAnimation : MonoBehaviour
 
     public void FromCenterToLeft()
     {
-        topDoMove = waveMask.transform.DOMoveX(leftRestPosition.transform.position.x, 3).SetLoops(-1).SetEase(Ease.Flash);
+        if(topDoMove == null)
+        {
+            topDoMove = waveMask.transform.DOMoveX(leftRestPosition.transform.position.x, 3).SetLoops(-1).SetEase(Ease.Flash);
+        }
+        
     }
 
     public void ColorUp()
     {
-
-        float twenable = -380f;
-        var sequence = DOTween.Sequence();
-        colorDoMove = sequence;
-        sequence.Append(DOTween.To(() => twenable, x => twenable = x, 0f, 28f));
-        sequence.OnUpdate(() => {
-            colorbackground.GetComponent<RectTransform>().offsetMax = new Vector2(colorbackground.GetComponent<RectTransform>().offsetMax.x, twenable);
-        });
-        sequence.OnComplete(() => {
-            waveMask.transform.DOMoveY(leftRestPosition.transform.position.y, 2f).OnComplete(() => {
-                topDoMove.Kill();
-                isComplete = true;
-            }).SetEase(Ease.Flash);
-        });
-        sequence.SetEase(Ease.Flash);
+        if(colorDoMove == null)
+        {
+            float twenable = -380f;
+            var sequence = DOTween.Sequence();
+            colorDoMove = sequence;
+            sequence.Append(DOTween.To(() => twenable, x => twenable = x, 0f, 28f));
+            sequence.OnUpdate(() => {
+                colorbackground.GetComponent<RectTransform>().offsetMax = new Vector2(colorbackground.GetComponent<RectTransform>().offsetMax.x, twenable);
+            });
+            sequence.OnComplete(() => {
+                waveMask.transform.DOMoveY(leftRestPosition.transform.position.y, 2f).OnComplete(() => {
+                    topDoMove.Kill();
+                    isComplete = true;
+                }).SetEase(Ease.Flash);
+            });
+            sequence.SetEase(Ease.Flash);
+        }
+       
 
     }
 
