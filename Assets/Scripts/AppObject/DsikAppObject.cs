@@ -6,6 +6,7 @@ using UnityEngine;
 public class DsikAppObject : AppObject
 {
     protected const int LIMIT_OF_DISPLAY_DISK = 100;
+    protected const int DISK_FOR_A_SONG = 1;
 
     public GameObject diskCircle;
     public TextMeshProUGUI diskCounter;
@@ -53,7 +54,7 @@ public class DsikAppObject : AppObject
             }
             else if (_event.type.Equals("SUBSTRACT"))
             {
-                AppManager.instance.currentMwsiveUser.total_disks -= 10;
+                AppManager.instance.currentMwsiveUser.total_disks -= DISK_FOR_A_SONG;
                 if (AppManager.instance.currentMwsiveUser.total_disks >= LIMIT_OF_DISPLAY_DISK)
                 {
                     diskCounter.text = "+99";
