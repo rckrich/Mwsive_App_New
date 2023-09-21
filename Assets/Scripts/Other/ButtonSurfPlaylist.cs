@@ -129,7 +129,7 @@ public class ButtonSurfPlaylist : ViewModel
         
         if(_spotifyid != null){
             trackID = _spotifyid;
-            if (AppManager.instance.SearchTrackOnCurrentPlaylist(_spotifyid))
+            if (isRecommended)
             {
                 mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
                 //Pintar de morado el que está en playlist
@@ -291,7 +291,7 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void AddToPlaylistButton(string _trackid, float _time)
     {
-        if (!AppManager.instance.SearchTrackOnCurrentPlaylist(trackID))
+        if (!isRecommended)
         {
             
             SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
@@ -320,7 +320,7 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void AddToPlaylistSwipe(string _trackid, float _time)
     {
-        if (!AppManager.instance.SearchTrackOnCurrentPlaylist(trackID))
+        if (!isRecommended)
         {
 
             SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
@@ -362,7 +362,7 @@ public class ButtonSurfPlaylist : ViewModel
     public void SelectedPlaylistNameEventListener(SelectedPlaylistNameAppEvent _event)
     {
         playlistText.text = _event.playlistName;
-        if (AppManager.instance.SearchTrackOnCurrentPlaylist(trackID))
+        if (isRecommended)
         {
             mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
         }
@@ -414,6 +414,11 @@ public class ButtonSurfPlaylist : ViewModel
         {
             Debug.Log(trackInfoRoot.is_piked);
             mwsiveButton.OnClickOlaButton(.5f, trackID);
+        }
+
+        if (trackInfoRoot.is_recommended)
+        {
+            mwsiveButton.ChangeAddToPlaylistButtonColor(.5f);
         }
 
         CalculateKorM(trackInfoRoot.total_piks, trackTotalPicks);
