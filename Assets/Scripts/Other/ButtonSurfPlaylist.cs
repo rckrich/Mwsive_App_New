@@ -209,7 +209,7 @@ public class ButtonSurfPlaylist : ViewModel
 
         if (AppManager.instance.isLogInMode)
         {
-            MwsiveConnectionManager.instance.GetTrackInformation_Auth(trackID, Callback_GetTrackInformation);
+            MwsiveConnectionManager.instance.GetTrackInformation_Auth(trackID, AppManager.instance.GetCurrentPlaylist().id, Callback_GetTrackInformation);
         }
         else
         {

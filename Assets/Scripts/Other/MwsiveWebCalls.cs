@@ -1841,12 +1841,12 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_GetTrackInformation_Auth(string _token, MwsiveWebCallback _callback, string _track_id)
+    public static IEnumerator CR_GetTrackInformation_Auth(string _token, MwsiveWebCallback _callback, string _track_id, string _playlist_id)
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/tracks/" + _track_id + "/info";
-        string url = "http://192.241.129.184/api/tracks/" + _track_id + "/info";
+        //string url = "https://mwsive.com/tracks/" + _track_id + "/info/" + _playlist_id;
+        string url = "http://192.241.129.184/api/tracks/" + _track_id + "/info/" + _playlist_id;
 
         Debug.Log("Track info url is: " + url);
 

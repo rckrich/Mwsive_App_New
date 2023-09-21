@@ -619,10 +619,10 @@ public class MwsiveConnectionManager : MonoBehaviour
         Debug.Log(((TrackInfoRoot)_value[1]));
     }
 
-    public void GetTrackInformation_Auth(string _track_id, MwsiveWebCallback _callback = null)
+    public void GetTrackInformation_Auth(string _track_id, string _playlist_id, MwsiveWebCallback _callback = null)
     {
         _callback += Callback_GetTrackInformation_Auth;
-        StartCoroutine(MwsiveWebCalls.CR_GetTrackInformation_Auth(ProgressManager.instance.progress.userDataPersistance.access_token, _callback, _track_id));
+        StartCoroutine(MwsiveWebCalls.CR_GetTrackInformation_Auth(ProgressManager.instance.progress.userDataPersistance.access_token, _callback, _track_id, _playlist_id));
     }
 
     private void Callback_GetTrackInformation_Auth(object[] _value)
