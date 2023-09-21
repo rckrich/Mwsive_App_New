@@ -44,6 +44,9 @@ public class ButtonSurfPlaylist : ViewModel
     private Color gray = new Color(0.8f, 0.8f, 0.8f);
     private GameObject Surf;
     private ChallengeAppObject Challenge;
+    private string trackId;
+    private float time;
+
     public bool SuccesfulEnded = false;
     public bool AmILastPosition = false;
     private TrackInfoRoot trackInfoRoot;
@@ -82,6 +85,7 @@ public class ButtonSurfPlaylist : ViewModel
         else
         {
             buttonColor.GetComponent<Image>().color = gray;
+            playlistText.color = Color.black;
         }
     }
 
@@ -295,8 +299,9 @@ public class ButtonSurfPlaylist : ViewModel
         {
             
             SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
-            if (AppManager.instance.isLogInMode && !trackID.Equals(""))
-                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomend); ;
+            trackId = _trackid;
+            time = _time;
+            
         }
         else
         {
@@ -340,14 +345,17 @@ public class ButtonSurfPlaylist : ViewModel
         }
         else
         {
-            AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
-                mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
-                UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");
-            });
-
-            AppManager.instance.yours = true;
             InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(gray, Color.black));
+            if (AppManager.instance.isLogInMode && !trackID.Equals(""))
+                MwsiveConnectionManager.instance.PostTrackAction(trackId, "RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomend); ;
+           AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
+              mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
+              UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");
+           });
+           AppManager.instance.yours = true;
+           
         }
+
     }
 
     private void Callback_RemoveToPlaylist(object[] _value)
@@ -420,6 +428,7 @@ public class ButtonSurfPlaylist : ViewModel
         {
             mwsiveButton.ChangeAddToPlaylistButtonColor(.5f);
         }
+        
 
         CalculateKorM(trackInfoRoot.total_piks, trackTotalPicks);
         CalculateKorM(trackInfoRoot.total_recommendations, trackTotalRecommendation);
