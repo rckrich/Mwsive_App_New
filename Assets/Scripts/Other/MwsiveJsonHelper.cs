@@ -361,6 +361,7 @@ public class TrackActionRoot
     public string track_id { get; set; }
     public string action { get; set; }
     public float duration { get; set; }
+    public string playlist_id { get; set; }
 }
 
 public class CreateMwsiveUserRoot

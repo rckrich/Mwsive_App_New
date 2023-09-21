@@ -296,13 +296,13 @@ public class ButtonSurfPlaylist : ViewModel
             
             SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
             if (AppManager.instance.isLogInMode && !trackID.Equals(""))
-                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time, Callback_PostTrackActionRecomend); ;
+                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomend); ;
         }
         else
         {
             SpotifyConnectionManager.instance.RemoveItemsFromPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_RemoveToPlaylist);
             if (AppManager.instance.isLogInMode && !trackID.Equals(""))
-                MwsiveConnectionManager.instance.PostTrackAction(trackID, "NOT_RECOMMEND", _time, Callback_PostTrackActionNORecomend);
+                MwsiveConnectionManager.instance.PostTrackAction(trackID, "NOT_RECOMMEND", _time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionNORecomend);
         }
     }
 
@@ -325,7 +325,7 @@ public class ButtonSurfPlaylist : ViewModel
 
             SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
             if (AppManager.instance.isLogInMode && !trackID.Equals(""))
-                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time, Callback_PostTrackActionRecomend); ;
+                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomend);
         }
     }
 

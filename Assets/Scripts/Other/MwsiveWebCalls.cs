@@ -368,7 +368,7 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_PostTrackAction(string _token, string _track_id, string _action, float _duration, MwsiveWebCallback _callback)
+    public static IEnumerator CR_PostTrackAction(string _token, string _track_id, string _action, float _duration, string _playlist_id, MwsiveWebCallback _callback)
     {
         string jsonResult = "";
 
@@ -379,7 +379,8 @@ public class MwsiveWebCalls : MonoBehaviour
         {
             track_id = _track_id,
             action = _action,
-            duration = _duration
+            duration = _duration,
+            playlist_id = _playlist_id
         };
         string jsonRaw = JsonConvert.SerializeObject(newAction);
 
