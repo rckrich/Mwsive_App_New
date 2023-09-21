@@ -396,7 +396,16 @@ public class ButtonSurfPlaylist : ViewModel
     {
         trackInfoRoot = (TrackInfoRoot)_value[1];
 
-        
+        if (AppManager.instance.isLogInMode)
+        {
+            if(trackInfoRoot.top_curators != null)
+            {
+                for(int i = 0; i < trackInfoRoot.top_curators.Count; i++)
+                {
+                    ImageManager.instance.GetImage(trackInfoRoot.top_curators[i].image, topCuratorImages[i], (RectTransform)this.transform);
+                }
+            }
+        }
 
         isPicked = trackInfoRoot.is_piked;
         isRecommended = trackInfoRoot.is_recommended;
