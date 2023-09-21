@@ -249,7 +249,7 @@ public class PF_SurfManager : Manager
         Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
         if (CurrentPosition < MwsiveSongs.Count - 4) {
             SpotifyPreviewAudioManager.instance.StopTrack();
-            DOTween.CompleteAll(true);
+            
             UIAniManager.instance.SurfSide(MwsiveSongs[CurrentPosition], 1, -MaxRotation, 0, true);
 
             UIAniManager.instance.CompleteSurfAddSong(AddSong, 1.5f);
