@@ -741,7 +741,7 @@ public class UIAniManager : MonoBehaviour
         GA.transform.position = RestPositionDown;
         GA.SetActive(true);
         GA.GetComponent<CanvasGroup>().DOFade(1f, .7f).SetEase(_AnimationFade);
-        GA.transform.DOMove(FinalPosition, .7f, false).SetEase(_AnimationMove).OnComplete(() => {StartCoroutine(WaitMessage(1.5F, GA)); });
+        GA.transform.DOMove(FinalPosition, .7f, false).SetEase(_AnimationMove).OnComplete(() => {StartCoroutine(WaitMessage(1.5F, GA)); }).OnKill(() => { UIMessages.Remove(GA); Destroy(GA); });
         
     }
 
