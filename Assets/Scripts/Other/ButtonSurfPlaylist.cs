@@ -97,6 +97,70 @@ public class ButtonSurfPlaylist : ViewModel
         
         
     }
+    public void InitializeMwsiveSong(MwsiveData _data)
+    {
+        if (_data.playlist_name != null)
+        {
+            playlistText.text = _data.playlist_name;
+        }
+        if (_data.song_name != null)
+        {
+            if (_data.song_name.Length > 27)
+            {
+                string _text2 = "";
+                for (int i = 0; i < 27; i++)
+                {
+                    _text2 = _text2 + _data.song_name[i];
+                }
+                _text2 = _text2 + "...";
+                trackName.text = _text2;
+            }
+            else
+            {
+                trackName.text = _data.song_name;
+            }
+        }
+
+        if (_data.album_name != null)
+        {
+            albumName.text = _data.album_name;
+        }
+        if (_data.artists != null)
+        {
+            artistName.text = _data.artists;
+        }
+
+        if (_data.album_image_url != null)
+        {
+            ImageManager.instance.GetImage(_data.album_image_url, trackCover, (RectTransform)this.transform);
+        }
+
+        if (_data.id != null)
+        {
+            trackID = _data.id;
+            if (isRecommended)
+            {
+                mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
+                //Pintar de morado el que está en playlist
+            }
+        }
+
+        if (_data.uri != null)
+        {
+            uris[0] = _data.uri;
+        }
+
+        if (_data.preview_url != null)
+        {
+            previewURL = _data.preview_url;
+        }
+
+        if (_data.external_url != null)
+        {
+            externalURL = _data.external_url;
+        }
+        TrackPoints = _data.challenge_trackpoints;
+    }
 
     public void InitializeMwsiveSong(string _playlistName, string _trackname, string _album, string _artist, string _image, string _spotifyid, string _url, string _previewURL, string _externalURL, bool _trackPoints = false)
     {
