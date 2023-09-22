@@ -434,7 +434,7 @@ public class ButtonSurfPlaylist : ViewModel
 
         CalculateKorM(trackInfoRoot.total_piks, trackTotalPicks);
         CalculateKorM(trackInfoRoot.total_recommendations, trackTotalRecommendation);
-        CalculateKorM(trackInfoRoot.total_piks_followed, trackTopCuratorsThatVoted, " amigos también votaron por \r\nesta canción");
+        CalculateKorM(trackInfoRoot.followed_piks, trackTopCuratorsThatVoted, " amigos también votaron por \r\nesta canción");
 
         
     }
