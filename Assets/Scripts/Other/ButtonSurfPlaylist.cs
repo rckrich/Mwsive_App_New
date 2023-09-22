@@ -315,12 +315,14 @@ public class ButtonSurfPlaylist : ViewModel
     {
         Debug.Log("RECOMMEND CALLBACK");
         gameObject.GetComponentInParent<ButtonSurfPlaylist>().PlusOrLessOne(true, "RECOMMEND");
+        isRecommended = true;
     }
 
     private void Callback_PostTrackActionNORecomend(object[] _value)
     {
         Debug.Log("NOT_RECOMMEND CALLBACK");
         gameObject.GetComponentInParent<ButtonSurfPlaylist>().PlusOrLessOne(false, "RECOMMEND");
+        isRecommended = false;
     }
 
     public void AddToPlaylistSwipe(string _trackid, float _time)
@@ -410,7 +412,7 @@ public class ButtonSurfPlaylist : ViewModel
             {
                 for(int i = 0; i < trackInfoRoot.top_curators.Count; i++)
                 {
-                    ImageManager.instance.GetImage(trackInfoRoot.top_curators[i].image, topCuratorImages[i], (RectTransform)this.transform);
+                    ImageManager.instance.GetImage(trackInfoRoot.top_curators[i].image, topCuratorImages[i], (RectTransform)this.transform, "PROFILEIMAGE");
                 }
             }
         }

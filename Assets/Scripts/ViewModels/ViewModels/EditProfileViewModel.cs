@@ -185,4 +185,11 @@ public class EditProfileViewModel : ViewModel
     {
         inputProfileName.text = "";
     }
+
+    public void OnClick_PrefabBackButton()
+    {
+        SetFalseXImage();
+        NewScreenManager.instance.BackToPreviousView();
+        NewScreenManager.instance.GetCurrentView().GetComponent<ProfileViewModel>().Initialize();
+    }
 }

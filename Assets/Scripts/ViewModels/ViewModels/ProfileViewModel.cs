@@ -201,10 +201,9 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_BackButtonSurf()
     {
-        principalScroll.verticalNormalizedPosition = 1;
-        surfManager.SetActive(true);
-        OpenView(ViewID.SurfViewModel);
-
+            principalScroll.verticalNormalizedPosition = 1;
+            surfManager.SetActive(true);
+            OpenView(ViewID.SurfViewModel);
 #if PLATFORM_ANDROID
         AppManager.instance.ResetAndroidBackAction();
 #endif
@@ -277,7 +276,15 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_Follow()
     {
-        MwsiveConnectionManager.instance.PostFollow(profileId, Callback_PostFollow);
+       
+        if (AppManager.instance.currentMwsiveUser.platform_id.Equals(profileId))
+        {
+            NewScreenManager.instance.ChangeToSpawnedView("editarPerfil");
+        }
+        else
+        {
+            MwsiveConnectionManager.instance.PostFollow(profileId, Callback_PostFollow);
+        }
     }
 
     private void Callback_PostFollow(object[] _value)
@@ -455,13 +462,22 @@ public class ProfileViewModel : ViewModel
 
     private void FollowButtonInitilization()
     {
-        if (followButton == null) return;
-
-        followButton.interactable = AppManager.instance.isLogInMode;
-
-        if (AppManager.instance.isLogInMode)
+        
+        if (AppManager.instance.currentMwsiveUser.platform_id.Equals(profileId))
         {
-            MwsiveConnectionManager.instance.GetIsFollowing(profileId, Callback_GetIsFollowing);
+            followButtonText.text = "Editar perfil";
+
+        }
+        else
+        {
+            if (followButton == null) return;
+
+            followButton.interactable = AppManager.instance.isLogInMode;
+
+            if (AppManager.instance.isLogInMode)
+            {
+                MwsiveConnectionManager.instance.GetIsFollowing(profileId, Callback_GetIsFollowing);
+            }
         }
     }
 
@@ -479,21 +495,24 @@ public class ProfileViewModel : ViewModel
 
     private void Callback_GetIsFollowing(object[] _value)
     {
-        IsFollowingRoot isFollowingRoot = (IsFollowingRoot)_value[1];
+        
+            IsFollowingRoot isFollowingRoot = (IsFollowingRoot)_value[1];
 
-        if (followButton == null) return;
+            if (followButton == null) return;
 
-        if (isFollowingRoot.is_following)
-        {
-            followButtonText.text = "Dejar de seguir";
-            followButtonText.color = unfollowTextColor;
-            followButtonImage.color = unfollowColor;
-        }
-        else {
-            followButtonText.text = "Seguir";
-            followButtonText.color = followTextColor;
-            followButtonImage.color = followColor;
-        }
+            if (isFollowingRoot.is_following)
+            {
+                followButtonText.text = "Dejar de seguir";
+                followButtonText.color = unfollowTextColor;
+                followButtonImage.color = unfollowColor;
+            }
+            else
+            {
+                followButtonText.text = "Seguir";
+                followButtonText.color = followTextColor;
+                followButtonImage.color = followColor;
+            }
+        
     }
 
     private void ClearScrolls(Transform _scrolls)

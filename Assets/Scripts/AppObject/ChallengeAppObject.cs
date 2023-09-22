@@ -20,11 +20,12 @@ public class ChallengeAppObject : AppObject
 
     private bool PointsPosted = false;
 
-
+   
 
     public override void Initialize(params object[] list)
     {
         challenges = (Challenges)list[0];
+        
         if (challenges.name.Length > 27)
         {
             string _text2 = "";
@@ -51,6 +52,7 @@ public class ChallengeAppObject : AppObject
 
         disk.text = challenges.disks.ToString();
     }
+
     public void OnClick_OpenChallenge(){
         List<string> tracks = new List<string>();
         foreach (MwsiveTrack item in challenges.mwsive_tracks)
@@ -62,12 +64,13 @@ public class ChallengeAppObject : AppObject
 
     public void OpenChallengeCallBack(object[] _value){
         SeveralTrackRoot severalTrackRoot = (SeveralTrackRoot)_value[1];
-
+      
         NewScreenManager.instance.ChangeToSpawnedView("surf");
         
         NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().Challenge = true;
         NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().SetChallengeCallback(gameObject.GetComponent<ChallengeAppObject>());
         NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(severalTrackRoot.tracks);
+      
     }
 
 
