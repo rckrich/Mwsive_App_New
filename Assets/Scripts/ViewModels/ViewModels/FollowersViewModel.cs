@@ -31,7 +31,7 @@ public class FollowersViewModel : ViewModel
             foreach(MwsiveUser user in mwsiveFollowersRoot.followers)
             {
                 MwisiveFollowerHolder instance = GameObject.Instantiate(FollowersHolderPrefab, instanceParent).GetComponent<MwisiveFollowerHolder>();
-                instance.Initialize(user.display_name, user.platform_id, user.image);
+                instance.Initialize(user.display_name, user.platform_id, user.image_url);
                 offset++;
             }
         }
@@ -42,7 +42,7 @@ public class FollowersViewModel : ViewModel
             foreach (MwsiveUser user in mwsiveFollowers.followers)
             {
                 MwisiveFollowerHolder instance = GameObject.Instantiate(FollowersHolderPrefab, instanceParent).GetComponent<MwisiveFollowerHolder>();
-                instance.Initialize( user.display_name, user.platform_id, user.image);
+                instance.Initialize( user.display_name, user.platform_id, user.image_url);
                 //instance.SetImage(user.image);
                 offset++;
             }
@@ -122,7 +122,7 @@ public class FollowersViewModel : ViewModel
             foreach(MwsiveUser user in mwsiveFollowedRoot.followed)
             {
                 MwisiveFollowerHolder instance = GameObject.Instantiate(FollowersHolderPrefab, instanceParent).GetComponent<MwisiveFollowerHolder>();
-                instance.Initialize(user.display_name, user.platform_id, user.image);
+                instance.Initialize(user.display_name, user.platform_id, user.image_url);
                 //instance.SetImage(user.image);
                 offset++;
             }
@@ -134,7 +134,7 @@ public class FollowersViewModel : ViewModel
             foreach (MwsiveUser user in mwsiveFollowed.followed)
             {
                 MwisiveFollowerHolder instance = GameObject.Instantiate(FollowersHolderPrefab, instanceParent).GetComponent<MwisiveFollowerHolder>();
-                instance.Initialize(user.display_name, user.platform_id, user.image);
+                instance.Initialize(user.display_name, user.platform_id, user.image_url);
                 //instance.SetImage(user.image);
                 offset++;
             }
