@@ -559,7 +559,8 @@ public class PF_SurfManager : Manager
 
                         artists = artists.Remove(artists.Length - 2);
 
-                        instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.name, item.album.name, artists, item.album.images[0].url, item.id, item.uri, item.preview_url, item.external_urls.spotify);
+                        string currentPlaylistName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
+                        instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(currentPlaylistName, item.name, item.album.name, artists, item.album.images[0].url, item.id, item.uri, item.preview_url, item.external_urls.spotify);
 
                         SpawnedSongs++;
                     }
@@ -619,7 +620,8 @@ public class PF_SurfManager : Manager
 
                         artists = artists.Remove(artists.Length - 2);
 
-                        instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.name, albumname, artists, image, item.id, item.uri, item.preview_url, item.external_urls.spotify);
+                        string currentPlaylistName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
+                        instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(currentPlaylistName, item.name, albumname, artists, image, item.id, item.uri, item.preview_url, item.external_urls.spotify);
 
                         SpawnedSongs++;
                     }

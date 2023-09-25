@@ -490,7 +490,8 @@ public class SurfManager : Manager
 
                     artists = artists.Remove(artists.Length - 2);
 
-                    instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.name, item.album.name, artists, item.album.images[0].url, item.id, item.uri, item.preview_url, item.external_urls.spotify);
+                    string currentPlaylistName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
+                    instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(currentPlaylistName, item.name, item.album.name, artists, item.album.images[0].url, item.id, item.uri, item.preview_url, item.external_urls.spotify);
                     
                     SpawnedSongs++;
                 }
@@ -539,7 +540,8 @@ public class SurfManager : Manager
 
                     artists = artists.Remove(artists.Length - 2);
 
-                    instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.name, albumname, artists, image, item.id, item.uri, item.preview_url, item.external_urls.spotify);
+                    string currentPlaylistName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
+                    instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(currentPlaylistName, item.name, albumname, artists, image, item.id, item.uri, item.preview_url, item.external_urls.spotify);
                     
                     SpawnedSongs++;
                 }
@@ -685,7 +687,8 @@ public class SurfManager : Manager
 
                     artists = artists.Remove(artists.Length - 2);
 
-                    instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, item.name, item.album.name, artists, item.album.images[0].url, item.id, item.uri, item.preview_url, item.external_urls.spotify);
+                    string currentPlayListName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
+                    instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(currentPlayListName, item.name, item.album.name, artists, item.album.images[0].url, item.id, item.uri, item.preview_url, item.external_urls.spotify);
                     
                     SpawnedSongs++;
                 }
@@ -737,7 +740,8 @@ public class SurfManager : Manager
             }
 
             artists = artists.Remove(artists.Length - 2);
-            Instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(AppManager.instance.GetCurrentPlaylist().name, trackRoot.name, trackRoot.album.name, artists, trackRoot.album.images[0].url, trackRoot.id, trackRoot.uri, trackRoot.preview_url, trackRoot.external_urls.spotify);
+            string currentPlaylistName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
+            Instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(currentPlaylistName, trackRoot.name, trackRoot.album.name, artists, trackRoot.album.images[0].url, trackRoot.id, trackRoot.uri, trackRoot.preview_url, trackRoot.external_urls.spotify);
             PrefabPosition++;
 
             UIAniManager.instance.SurfShareSpawn(Instance);
