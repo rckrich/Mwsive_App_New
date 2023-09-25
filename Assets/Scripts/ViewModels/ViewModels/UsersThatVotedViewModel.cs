@@ -11,13 +11,16 @@ public class UsersThatVotedViewModel : ViewModel
     [Header("Curators Gameobject References")]
     public GameObject curatorPrefab;
     public Transform curatorScrollContent;
+    
 
     private string trackId;
     private int offset;
+
     public ScrollRect scrollRect;
     public float end;
     int onlyone = 0;
     public RectTransform Scroll;
+    public GameObject text_NoPicks;
 
     public override void Initialize(params object[] list)
     {
@@ -33,7 +36,11 @@ public class UsersThatVotedViewModel : ViewModel
     private void Callback_GetCuratorsThatVoted(object[] _value)
     {
         MwsiveCuratorsRoot mwsiveCuratorsRoot = (MwsiveCuratorsRoot)_value[1];
-
+        if(mwsiveCuratorsRoot.curators.Count == 0)
+        {
+            text_NoPicks.SetActive(true);
+            return;
+        }
         foreach(MwsiveUser mwsiveUser in mwsiveCuratorsRoot.curators)
         {
             GameObject curatorInstance = GameObject.Instantiate(curatorPrefab, curatorScrollContent);
