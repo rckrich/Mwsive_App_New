@@ -327,9 +327,14 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void AddToPlaylistSwipe(string _trackid, float _time)
     {
+        if (!AppManager.instance.isLogInMode)
+        {
+            UIMessage.instance.UIMessageInstanciate("Debes inciar sesión para poder realizar esta acción");
+            return;
+        }
+
         if (!isRecommended)
         {
-
             SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
             if (AppManager.instance.isLogInMode && !trackID.Equals(""))
                 MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomend);

@@ -10,11 +10,22 @@ public class MwsiveControllerButtons : MonoBehaviour
     
     public void OnClickOlaButton() {
 
+        if (!AppManager.instance.isLogInMode)
+        {
+            UIMessage.instance.UIMessageInstanciate("Debes inciar sesión para poder realizar esta acción");
+            return;
+        }
 
         GetPrefabFromSurf().GetComponentInChildren<MwsiveButton>().OnClickOlaButton(AnimationDuration, GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().trackID, GetTime());
     }
 
     public void OnClickAddToPlaylistButton() {
+
+        if (!AppManager.instance.isLogInMode)
+        {
+            UIMessage.instance.UIMessageInstanciate("Debes inciar sesión para poder realizar esta acción");
+            return;
+        }
 
         GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().AddToPlaylistButton(GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().trackID, GetTime());
     }
