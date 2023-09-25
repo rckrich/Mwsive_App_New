@@ -412,7 +412,7 @@ public class ButtonSurfPlaylist : ViewModel
             {
                 for(int i = 0; i < trackInfoRoot.top_curators.Count; i++)
                 {
-                    ImageManager.instance.GetImage(trackInfoRoot.top_curators[i].image, topCuratorImages[i], (RectTransform)this.transform, "PROFILEIMAGE");
+                    ImageManager.instance.GetImage(trackInfoRoot.top_curators[i].image_url, topCuratorImages[i], (RectTransform)this.transform, "PROFILEIMAGE");
                 }
             }
         }

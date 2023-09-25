@@ -415,8 +415,8 @@ public class PostUserLinkRoot
 public class TrackInfoRoot
 {
     public int total_piks { get; set; }
-    public int total_recommendations { get; set; }
     public int? followed_piks { get; set; }
+    public int total_recommendations { get; set; }
     public List<TopCurator> top_curators { get; set; }
     public bool is_piked { get; set; }
     public bool is_recommended { get; set; }
@@ -424,7 +424,7 @@ public class TrackInfoRoot
 
 public class TopCurator
 {
-    public string image { get; set; }
+    public string image_url { get; set; }
 }
 
 public class PostUserPhoto
