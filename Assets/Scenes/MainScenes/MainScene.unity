@@ -55990,6 +55990,7 @@ GameObject:
   - component: {fileID: 6794475419224381373}
   - component: {fileID: 8804113374209759705}
   - component: {fileID: 5666101168672591407}
+  - component: {fileID: 8804113374209759707}
   - component: {fileID: 8804113374209759706}
   m_Layer: 5
   m_Name: ProfilePhoto
@@ -67534,6 +67535,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AspectMode: 4
   m_AspectRatio: 0.5
+--- !u!114 &8804113374209759707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3373752814321900038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec7d49e42c7ea7740a46efa51eb9cdf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewID: 0
+  networkLoadingCanvas: {fileID: 0}
+  scrollViewContent: {fileID: 0}
+  finishedLoading: 1
+  sprite: {fileID: 3373752814321900038}
 --- !u!224 &8810684579829807112
 RectTransform:
   m_ObjectHideFlags: 0
