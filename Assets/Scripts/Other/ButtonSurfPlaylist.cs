@@ -94,7 +94,7 @@ public class ButtonSurfPlaylist : ViewModel
         RemoveEventListener<SelectedPlaylistNameAppEvent>(SelectedPlaylistNameEventListener);
         RemoveEventListener<ChangeColorAppEvent>(ChangeEventListener);
         durationBar.CheckforPoints = false;
-        
+        ClearData();
         
     }
     public void InitializeMwsiveSong(MwsiveData _data)
@@ -147,7 +147,7 @@ public class ButtonSurfPlaylist : ViewModel
 
         if (_data.uri != null)
         {
-            uris[0] = _data.uri;
+            //uris[0] = _data.uri;
         }
 
         if (_data.preview_url != null)
@@ -218,6 +218,30 @@ public class ButtonSurfPlaylist : ViewModel
         TrackPoints = _trackPoints;
 
         
+    }
+
+    public void ClearData()
+    {
+        
+         playlistText.text = null;       
+         trackName.text = null;       
+         albumName.text = null;
+         artistName.text = null;
+        trackCover.sprite = null;
+        trackId = null;
+        isRecommended = false;
+        mwsiveButton.AddToPlaylistButtonColorButtonColorAgain(0.5f);
+
+        uris = null;
+        previewURL = null;
+        externalURL = null;
+        TrackPoints = false;
+
+    }
+
+    public void UpdateData()
+    {
+
     }
 
     public void LastPosition(){

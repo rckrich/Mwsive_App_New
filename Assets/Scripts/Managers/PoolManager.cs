@@ -33,6 +33,7 @@ public class PoolManager : MonoBehaviour
         {
             GameObject _prefab = Instantiate(prefab);
             _prefab.SetActive(false);
+            _prefab.name = _prefab.name + i;
             _prefab.transform.SetParent(gameObject.transform);
             pooledObjects.Add(_prefab);
         }
@@ -52,9 +53,18 @@ public class PoolManager : MonoBehaviour
     }
 
 
-    public void RecoverPooledObject()
+    public void RecoverPooledObject(GameObject _object)
     {
-        //Antes de que se muera el surf manager hay que recuperar los items de las pools. 
+        //Antes de que se muera el surf manager hay que recuperar los items de las pools.
+        foreach(GameObject item in pooledObjects)
+        {
+            if(item.transform.root.name != gameObject.name)
+            {
+                Debug.Log("AA");
+                item.transform.SetParent(gameObject.transform);
+                item.SetActive(false);
+            }
+        }
     }
 }
 
