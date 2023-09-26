@@ -950,13 +950,14 @@ public class PF_SurfManager : Manager
         else if (touch.tapCount == 2) {
             //this coroutine has been called twice. We should stop the next one here otherwise we get two double tap
             StopCoroutine("singleOrDouble");
-
+            Debug.Log(OlaButton.GetComponent<MwsiveControllerButtons>().IsItOlaColorButtonActive());
             GameObject Instance = Instantiate(MwsiveOla, Vector3.zero, Quaternion.identity);
             Instance.transform.SetParent(GameObject.Find("SpawnableCanvas").transform);
             Instance.GetComponent<RectTransform>().offsetMin = new Vector2(100, 250);
             Instance.GetComponent<RectTransform>().offsetMax = new Vector2(-100, -250);
 
             UIAniManager.instance.DoubleClickOla(Instance);
+            Debug.Log(OlaButton.GetComponent<MwsiveControllerButtons>().IsItOlaColorButtonActive());
             if (!OlaButton.GetComponent<MwsiveControllerButtons>().IsItOlaColorButtonActive()) {
                 OlaButton.GetComponent<MwsiveControllerButtons>().OnClickOlaButton();
 

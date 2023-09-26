@@ -444,6 +444,7 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void OnClick_UserThatVoted()
     {
+        Surf.gameObject.SetActive(false);
         NewScreenManager.instance.ChangeToSpawnedView("usuariosQueVotaron");
         NewScreenManager.instance.GetCurrentView().GetComponent<UsersThatVotedViewModel>().Initialize(trackID);
     }
