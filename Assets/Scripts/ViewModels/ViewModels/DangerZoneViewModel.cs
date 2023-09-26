@@ -4,20 +4,24 @@ using UnityEngine;
 
 public class DangerZoneViewModel : ViewModel
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Initialize(params object[] list)
     {
-
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_BackButton();
+                }
+            });
+        }
+#endif
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-   public void OnClick_BackButton()
+    public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
+        NewScreenManager.instance.GetCurrentView().GetComponent<OptionsViewModel>().SetAndroidBackAction();
     }
 }

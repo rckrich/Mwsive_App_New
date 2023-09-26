@@ -26,25 +26,27 @@ public class EditProfileViewModel : ViewModel
     public TextMeshProUGUI urlYoutube;
     public Image imageYoutube;
 
-
-
+    private bool isPrefab = false;
 
     public override void Initialize(params object[] list)
     {
+        if(list != null)
+            isPrefab = (bool)list[0];
+
         imageTiktok.sprite = noHaveUrl;
         imageInstagram.sprite = noHaveUrl;
         imageYoutube.sprite = noHaveUrl;
         imageExternal.sprite = noHaveUrl;
         inputProfileName.text = AppManager.instance.currentMwsiveUser.display_name;
 
-        if(AppManager.instance.currentMwsiveUser.image_url != null)
+        if (AppManager.instance.currentMwsiveUser.image_url != null)
         {
-            ImageManager.instance.GetImage(AppManager.instance.currentMwsiveUser.image_url, imageProfile, (RectTransform)this.transform, "PROFILEIMAGE" );
+            ImageManager.instance.GetImage(AppManager.instance.currentMwsiveUser.image_url, imageProfile, (RectTransform)this.transform, "PROFILEIMAGE");
         }
 
-        if(AppManager.instance.currentMwsiveUser.user_links.Count != 0)
+        if (AppManager.instance.currentMwsiveUser.user_links.Count != 0)
         {
-            foreach(UserLink url in AppManager.instance.currentMwsiveUser.user_links)
+            foreach (UserLink url in AppManager.instance.currentMwsiveUser.user_links)
             {
                 if (url.link == null)
                 {
@@ -108,10 +110,10 @@ public class EditProfileViewModel : ViewModel
 
     public void OnValueChange_ProfileName()
     {
-       
+
         if (inputProfileName.text.Equals("") || inputProfileName.text.Length <= 6)
         {
-            if(AppManager.instance.currentMwsiveUser.display_name != inputProfileName.text)
+            if (AppManager.instance.currentMwsiveUser.display_name != inputProfileName.text)
                 CallPopUP(PopUpViewModelTypes.MessageOnly, "Necesitas escribir un nombre", "por favor escribe un nombre con mas de 6 caracteres", "Aceptar");
         }
         else
@@ -126,7 +128,7 @@ public class EditProfileViewModel : ViewModel
     {
         AppManager.instance.RefreshUser();
     }
-    
+
     public void OnClick_TiktokUrlAdd()
     {
         NewScreenManager.instance.ChangeToSpawnedView("addURL");
@@ -191,5 +193,27 @@ public class EditProfileViewModel : ViewModel
         SetFalseXImage();
         NewScreenManager.instance.BackToPreviousView();
         NewScreenManager.instance.GetCurrentView().GetComponent<ProfileViewModel>().Initialize();
+    }
+
+    public void SetAndroidAction()
+    {
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    if(isPrefab)
+                    {
+                        OnClick_PrefabBackButton();
+                    }
+                    else
+                    {
+                        OnClick_BackButton();
+                    }
+                }
+            });
+        }
+#endif
     }
 }

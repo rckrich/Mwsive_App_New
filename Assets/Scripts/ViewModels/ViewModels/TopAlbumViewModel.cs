@@ -58,5 +58,21 @@ public class TopAlbumViewModel : ViewModel
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.ExploreViewModel);
+        NewScreenManager.instance.GetCurrentView().GetComponent<Descubrir_ViewModel>().SetAndroidActionExploreViewModel(true);
+    }
+
+    public void SetAndroidBackAction()
+    {
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_BackButton();
+                }
+            });
+        }
+#endif
     }
 }

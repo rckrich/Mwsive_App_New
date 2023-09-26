@@ -109,20 +109,7 @@ public class Descubrir_ViewModel : ViewModel
         MwsiveConnectionManager.instance.GetRecommendedAlbums(Callback_GetRecommendedAlbums);
         MwsiveConnectionManager.instance.GetGenres(Callback_GetGenres);
 
-
-#if PLATFORM_ANDROID
-        if (Application.platform == RuntimePlatform.Android)
-        {
-            AppManager.instance.SetAndroidBackAction(() => {
-                if (finishedLoading)
-                {
-                    GameObject.FindObjectOfType<MenuOptions>().OnClick(1);
-                }
-                AppManager.instance.SetAndroidBackAction(null);
-            });
-        }
-#endif
-
+        SetAndroidActionExploreViewModel(true);
     }
 
     private void Callback_GetChallenges(object[] _list)
@@ -1430,5 +1417,37 @@ public class Descubrir_ViewModel : ViewModel
     private void ShimmerSetActive(int _index, bool _active)
     {
         shimmers[_index].SetActive(_active);
+    }
+
+    public void SetAndroidActionExploreViewModel(bool _value)
+    {
+#if PLATFORM_ANDROID
+        if (_value)
+        {
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                AppManager.instance.SetAndroidBackAction(() => {
+                    if (finishedLoading)
+                    {
+                        GameObject.FindObjectOfType<MenuOptions>().OnClick(1);
+                    }
+                    AppManager.instance.SetAndroidBackAction(null);
+                });
+            }
+        }
+        else
+        {
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                AppManager.instance.SetAndroidBackAction(() => {
+                    if (finishedLoading)
+                    {
+                        GameObject.FindObjectOfType<DescubrirButton>().OnClick_CancelarButton();
+                    }
+                    SetAndroidActionExploreViewModel(true);
+                });
+            }
+        }
+#endif
     }
 }

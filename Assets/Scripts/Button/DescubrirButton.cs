@@ -24,6 +24,7 @@ public class DescubrirButton : MonoBehaviour
     
 
     public void OnClick_BuscarButton(){
+        this.transform.parent.GetComponentInParent<Descubrir_ViewModel>().SetAndroidActionExploreViewModel(false);
         float twenable = 0f;
         UIAniManager.instance.VerticalTransitionToCustomPosition(HeaderBackground, HeaderPosPosition,ScrollView, true );
         var sequence = DG.Tweening.DOTween.Sequence();

@@ -35,6 +35,18 @@ public class AlbumViewModel : ViewModel
     {
         shimmer.SetActive(true);
         GetAlbum();
+
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_BackButton();
+                }
+            });
+        }
+#endif
     }
     public void GetAlbum()
     {

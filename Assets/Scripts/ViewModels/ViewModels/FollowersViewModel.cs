@@ -84,6 +84,7 @@ public class FollowersViewModel : ViewModel
     {
         Debug.Log(NewScreenManager.instance.GetCurrentView());
         NewScreenManager.instance.BackToPreviousView();
+        NewScreenManager.instance.GetCurrentView().GetComponent<ProfileViewModel>().SetAndroidBackAction();
     }
 
 
@@ -221,6 +222,20 @@ public class FollowersViewModel : ViewModel
     {
         profileID = "";
         GetCurrentFollowed();
+    }
 
+    public void SetAndroidBAckAction()
+    {
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_BackButton();
+                }
+            });
+        }
+#endif
     }
 }

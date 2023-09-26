@@ -20,7 +20,18 @@ public class AddUrlViewModel : ViewModel
         {
             SetPlaceHolderInputText();
         }
-        
+
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_BackButton();
+                }
+            });
+        }
+#endif
     }
 
     public void OnEndEdit_URL()
@@ -125,7 +136,8 @@ public class AddUrlViewModel : ViewModel
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
-        NewScreenManager.instance.GetCurrentView().GetComponent<EditProfileViewModel>().Initialize();
+        NewScreenManager.instance.GetCurrentView().GetComponent<EditProfileViewModel>().Initialize(null);
+        NewScreenManager.instance.GetCurrentView().GetComponent<EditProfileViewModel>().SetAndroidAction();
         EndSearch();
     }
 

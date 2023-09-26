@@ -213,6 +213,7 @@ public class ProfileViewModel : ViewModel
     {
         OpenView(ViewID.OptionsViewModel);
         NewScreenManager.instance.GetCurrentView().GetComponent<OptionsViewModel>().GetSettings();
+        NewScreenManager.instance.GetCurrentView().GetComponent<OptionsViewModel>().Initialize();
     }
 
     public void OnClick_Followers()
@@ -247,7 +248,7 @@ public class ProfileViewModel : ViewModel
     public void OnClick_EditProfile()
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.EditProfileViewModel, false);
-        NewScreenManager.instance.GetCurrentView().GetComponent<EditProfileViewModel>().Initialize();
+        NewScreenManager.instance.GetCurrentView().GetComponent<EditProfileViewModel>().Initialize(!isCurrentUserProfileView);
     }
 
     public void OnClick_Surf()
@@ -555,6 +556,29 @@ public class ProfileViewModel : ViewModel
     private void Listener_ChangeProfileSpriteAppEvent(ChangeProfileSpriteAppEvent _event)
     {
         profilePicture.sprite = _event.newSprite;
+    }
+
+    public void SetAndroidBackAction()
+    {
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    if (!isCurrentUserProfileView)
+                    {
+                        OnClick_BackButtonSurf();
+                    }
+                    else
+                    {
+                        OnClick_BackButtonPrefab();
+                    }
+                }
+                AppManager.instance.SetAndroidBackAction(null);
+            });
+        }
+#endif
     }
 }
 
