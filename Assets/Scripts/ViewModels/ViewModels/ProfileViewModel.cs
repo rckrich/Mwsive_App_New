@@ -29,6 +29,8 @@ public class ProfileViewModel : ViewModel
 
     
     private bool isCurrentUserProfileView = true;
+    private bool isLogInFromOutside = false;
+
     private MwsiveUserRoot mwsiveUserRoot;
 
     private string profileId = "";
@@ -104,7 +106,11 @@ public class ProfileViewModel : ViewModel
 
     private void Callback_ProfileViewModelInitialize(object[] list)
     {
-        AppManager.instance.StartAppProcessFromOutside();
+        AppManager.instance.StartAppProcessFromOutside(Callback_StartAppProcess_ProfileViewModelInitialize);
+    }
+
+    private void Callback_StartAppProcess_ProfileViewModelInitialize(object[] _value)
+    {
         GetUserBasedOnEmptyProfileID(profileId);
     }
 
@@ -119,7 +125,6 @@ public class ProfileViewModel : ViewModel
         }
         else
         {
-            
             MwsiveConnectionManager.instance.GetMwsiveUser(_profileId, Callback_GetMwsiveUser);                     
         }
     }
@@ -277,15 +282,41 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_Follow()
     {
-       
-        if (AppManager.instance.currentMwsiveUser.platform_id.Equals(profileId))
-        {
-            NewScreenManager.instance.ChangeToSpawnedView("editarPerfil");
+        if (AppManager.instance.isLogInMode) {
+            if (AppManager.instance.currentMwsiveUser.platform_id.Equals(profileId))
+            {
+                NewScreenManager.instance.ChangeToSpawnedView("editarPerfil");
+            }
+            else {
+                MwsiveConnectionManager.instance.PostFollow(profileId, Callback_PostFollow);
+            }
         }
         else
         {
-            MwsiveConnectionManager.instance.PostFollow(profileId, Callback_PostFollow);
+            CallPopUP(PopUpViewModelTypes.OptionChoice, "Neceseitas permiso", "Necesitas crear una cuenta de Mwsive para poder realizar está acción, presiona Crear Cuenta para hacer una.", "Crear Cuenta");
+            PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+
+            popUpViewModel.SetPopUpCancelAction(() => {
+                NewScreenManager.instance.BackToPreviousView();
+
+            });
+
+            popUpViewModel.SetPopUpAction(() => {
+                LogInManager.instance.StartLogInProcess(Callback_PostFollowInitialize);
+                NewScreenManager.instance.BackToPreviousView();
+            });
         }
+    }
+
+    private void Callback_PostFollowInitialize(object[] _value)
+    {
+        AppManager.instance.StartAppProcessFromOutside(Callback_PostStartAppProcess_PostFollow);
+    }
+
+    private void Callback_PostStartAppProcess_PostFollow(object[] _value)
+    {
+        isLogInFromOutside = true;
+        MwsiveConnectionManager.instance.GetMwsiveUser(profileId, Callback_GetMwsiveUser);
     }
 
     private void Callback_PostFollow(object[] _value)
@@ -463,22 +494,19 @@ public class ProfileViewModel : ViewModel
 
     private void FollowButtonInitilization()
     {
-        
-        if (AppManager.instance.currentMwsiveUser.platform_id.Equals(profileId))
-        {
-            followButtonText.text = "Editar perfil";
-
-        }
-        else
-        {
-            if (followButton == null) return;
-
-            followButton.interactable = AppManager.instance.isLogInMode;
-
-            if (AppManager.instance.isLogInMode)
+        if (AppManager.instance.isLogInMode) {
+            if (AppManager.instance.currentMwsiveUser.platform_id.Equals(profileId))
+            {
+                followButtonText.text = "Editar perfil";
+            }
+            else
             {
                 MwsiveConnectionManager.instance.GetIsFollowing(profileId, Callback_GetIsFollowing);
             }
+        }
+        else
+        {
+            followButtonText.text = "Seguir";
         }
     }
 
@@ -496,23 +524,29 @@ public class ProfileViewModel : ViewModel
 
     private void Callback_GetIsFollowing(object[] _value)
     {
-        
-            IsFollowingRoot isFollowingRoot = (IsFollowingRoot)_value[1];
+        IsFollowingRoot isFollowingRoot = (IsFollowingRoot)_value[1];
 
-            if (followButton == null) return;
+        if (isLogInFromOutside && !isFollowingRoot.is_following && !AppManager.instance.currentMwsiveUser.platform_id.Equals(profileId))
+        {
+            isLogInFromOutside = false;
+            MwsiveConnectionManager.instance.PostFollow(profileId, Callback_PostFollow);
+            return;
+        }
 
-            if (isFollowingRoot.is_following)
-            {
-                followButtonText.text = "Dejar de seguir";
-                followButtonText.color = unfollowTextColor;
-                followButtonImage.color = unfollowColor;
-            }
-            else
-            {
-                followButtonText.text = "Seguir";
-                followButtonText.color = followTextColor;
-                followButtonImage.color = followColor;
-            }
+        if (followButton == null) return;
+
+        if (isFollowingRoot.is_following)
+        {
+            followButtonText.text = "Dejar de seguir";
+            followButtonText.color = unfollowTextColor;
+            followButtonImage.color = unfollowColor;
+        }
+        else
+        {
+            followButtonText.text = "Seguir";
+            followButtonText.color = followTextColor;
+            followButtonImage.color = followColor;
+        }
         
     }
 

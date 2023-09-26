@@ -40,6 +40,8 @@ public class AppManager : Manager
         get { return _profileSprite; }
     }
 
+    private LogInCallback previousAction;
+
 #if PLATFORM_ANDROID
     private System.Action androidBackAction;
 #endif
@@ -74,13 +76,14 @@ public class AppManager : Manager
         }
     }
 
-    public void StartAppProcessFromOutside()
+    public void StartAppProcessFromOutside(LogInCallback _callback = null)
     {
         StartSearch();
         if (ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted)
         {
             // Normal Spotify Login flow
             SetLogInMode(true);
+            previousAction = _callback;
             SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile_OutsideLogInFlow);
         }
     }
@@ -320,9 +323,6 @@ public class AppManager : Manager
 
         currentMwsiveUser = mwsiveUserRoot.user;
 
-        /*if (mwsiveUserRoot.user.image_url != null)
-            ImageManager.instance.GetImage(mwsiveUserRoot.user.image_url, profilePicture, (RectTransform)surfTransform);*/
-
         SpotifyConnectionManager.instance.GetPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, Callback_GetCurrentMwsiveUserPlaylist_OutsideLogInFlow);
     }
 
@@ -330,7 +330,6 @@ public class AppManager : Manager
     {
         if (WebCallsUtils.IsResponseItemNotFound((long)_value[0]))
         {
-
             SpotifyConnectionManager.instance.CreatePlaylist(profileID, Callback_CreatePlaylist_OutsideLogInFlow);
             return;
         }
@@ -340,6 +339,8 @@ public class AppManager : Manager
         MwsiveConnectionManager.instance.PutLastSavedPlaylist(searchedPlaylist.id);
 
         InvokeEvent<SelectedPlaylistNameAppEvent>(new SelectedPlaylistNameAppEvent(currentPlaylist.name));
+
+        StartPreviousAction();
 
         EndSearch();
     }
@@ -352,6 +353,8 @@ public class AppManager : Manager
         MwsiveConnectionManager.instance.PutLastSavedPlaylist(spotifyPlaylistRoot.id);
 
         InvokeEvent<SelectedPlaylistNameAppEvent>(new SelectedPlaylistNameAppEvent(currentPlaylist.name));
+
+        StartPreviousAction();
 
         EndSearch();
     }
@@ -409,5 +412,14 @@ public class AppManager : Manager
     }
 
     #endregion
+
+    private void StartPreviousAction()
+    {
+        if (previousAction != null)
+        {
+            previousAction(null);
+            previousAction = null;
+        }
+    }
 
 }
