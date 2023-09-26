@@ -5,6 +5,7 @@ using System.Net.NetworkInformation;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class ButtonSurfPlaylist : ViewModel
 {
@@ -138,6 +139,7 @@ public class ButtonSurfPlaylist : ViewModel
                 mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
                 //Pintar de morado el que está en playlist
             }
+           
         }
         
         if(_url != null){
@@ -377,15 +379,7 @@ public class ButtonSurfPlaylist : ViewModel
     public void SelectedPlaylistNameEventListener(SelectedPlaylistNameAppEvent _event)
     {
         playlistText.text = _event.playlistName;
-        if (isRecommended)
-        {
-            mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
-        }
-        else
-        {
-            mwsiveButton.AddToPlaylistButtonColorButtonColorAgain(0.5f);
-        }
-        
+      
     }
 
     public void OnClick_PlayOnSpotify()
@@ -434,6 +428,10 @@ public class ButtonSurfPlaylist : ViewModel
         if (trackInfoRoot.is_recommended)
         {
             mwsiveButton.ChangeAddToPlaylistButtonColor(.5f);
+        }
+        else
+        {
+            mwsiveButton.AddToPlaylistButtonColorButtonColorAgain(0.5f);
         }
         
 
