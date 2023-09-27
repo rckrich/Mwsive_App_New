@@ -22,6 +22,7 @@ public class PlaylistViewModel : ViewModel
     public ExternalUrls url;
     public string stringUrl;
     public bool isExplore = false;
+    public GameObject shimmer;
 
     private List<Track> trackList = new List<Track>();
     private SpotifyPlaylistRoot searchedPlaylist;
@@ -32,7 +33,7 @@ public class PlaylistViewModel : ViewModel
     {
         if (!id.Equals(""))
         {
-            StartSearch();
+            shimmer.SetActive(true);
             SpotifyConnectionManager.instance.GetPlaylist(id, Callback_GetPlaylist);
             SpotifyConnectionManager.instance.GetPlaylistItems(id, Callback_SurfButton, "ES", 100);
         }
@@ -63,14 +64,14 @@ public class PlaylistViewModel : ViewModel
                 NumberofTracksToCompare++;
                 
             }
-            EndSearch();
+            shimmer.SetActive(false);
         }
         if (NumberofTracks == NumberofTracksToCompare)
         {
             SurfButton.SetActive(false);
         }
         if(_tracks.items.Count == 0){
-            EndSearch();
+            shimmer.SetActive(false);
             UIMessage.instance.UIMessageInstanciate("Esta Playlist esta vacia");
         }
     }
@@ -214,7 +215,7 @@ public class PlaylistViewModel : ViewModel
 
     public void GetSeveralTracks(string[] _tracksID, string _playlist_name)
     {
-        StartSearch();
+        shimmer.SetActive(true);
         isExplore = true;
         playlistName.text = _playlist_name;
         SpotifyConnectionManager.instance.GetSeveralTracks(_tracksID, Callback_GetSeveralTracks);
@@ -243,7 +244,7 @@ public class PlaylistViewModel : ViewModel
             }
 
         }
-        EndSearch();
+        shimmer.SetActive(false);
     }
 
     public void SetPlaylistID(string _id) { id = _id; }
