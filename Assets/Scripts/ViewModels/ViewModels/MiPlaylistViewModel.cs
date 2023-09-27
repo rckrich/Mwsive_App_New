@@ -17,11 +17,13 @@ public class MiPlaylistViewModel : ViewModel
     int onlyone = 0;
     public string profileID;
     public RectTransform Scroll;
+    public GameObject shimmer;
 
 
 
     public void GetCurrentUserPlaylist()
     {
+        shimmer.SetActive(true);
         offset = OFFSET_START;
         SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_OnClick_GetCurrentUserPlaylists);
     }
@@ -39,10 +41,12 @@ public class MiPlaylistViewModel : ViewModel
             if (!item.@public) { instance.PublicTrue(); }
             if (item.images != null && item.images.Count > 0) { instance.SetImage(item.images[0].url); }              
         }
+        shimmer.SetActive(false);
     }
 
     public void GetUserPlaylist(string _profileId)
     {
+        shimmer.SetActive(true);
         profileID = _profileId;
         offset = OFFSET_START;
         SpotifyConnectionManager.instance.GetUserPlaylists(_profileId, Callback_OnClick_GetCurrentUserPlaylists);

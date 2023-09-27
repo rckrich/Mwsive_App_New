@@ -24,6 +24,7 @@ public class UsersThatVotedViewModel : ViewModel
 
     public override void Initialize(params object[] list)
     {
+        SpotifyPreviewAudioManager.instance.StopTrack();
         trackId = list[0].ToString();
         GetCuratorsThatVoted();
     }
@@ -63,6 +64,7 @@ public class UsersThatVotedViewModel : ViewModel
 
     public void OnClick_Backbutton()
     {
+        SurfManager.instance.SetActive(true);
         NewScreenManager.instance.BackToPreviousView();
     }
 

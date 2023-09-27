@@ -15,6 +15,7 @@ public class SurfMiPlaylistViewModel : ViewModel
     int onlyone = 0;
     //public HolderManager holderManager;
     public List<Image> imagenes;
+    public GameObject shimmer;
     
     void Start()
     {
@@ -27,7 +28,7 @@ public class SurfMiPlaylistViewModel : ViewModel
 
         if (AppManager.instance.isLogInMode)
         {
-            StartSearch();
+            shimmer.SetActive(true);
             SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_OnClick_GetCurrentUserPlaylists);
 
 #if PLATFORM_ANDROID
@@ -77,7 +78,7 @@ public class SurfMiPlaylistViewModel : ViewModel
     private void Callback_MiPlaylistViewModelInitialize(object[] _value)
     {
         AppManager.instance.StartAppProcessFromOutside();
-        StartSearch();
+        shimmer.SetActive(true);
         SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_OnClick_GetCurrentUserPlaylists);
     }
 
@@ -104,7 +105,7 @@ public class SurfMiPlaylistViewModel : ViewModel
             if (item.images != null && item.images.Count > 0) { instance.SetImage(item.images[0].url); }
         }
 
-        EndSearch();
+        shimmer.SetActive(false);
     }
 
     public void OnReachEnd()
@@ -113,7 +114,7 @@ public class SurfMiPlaylistViewModel : ViewModel
         {
             if (scrollRect.verticalNormalizedPosition <= end)
             {
-                StartSearch();
+                shimmer.SetActive(true);
                 SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_GetMoreUserPlaylists, 20, offset);
                 offset += 20;
                 onlyone = 1;
@@ -146,7 +147,7 @@ public class SurfMiPlaylistViewModel : ViewModel
         }
         onlyone = 0;
 
-        EndSearch();
+        shimmer.SetActive(false);
     }
      
 
