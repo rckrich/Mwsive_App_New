@@ -38,9 +38,7 @@ public class MwsiveButton : AppObject
                 }
                 else
                 {
-                    UIAniManager.instance.FadeIn(OlaColorButton, AnimationDuration);
-                    OlaColorButton.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), .3f).OnComplete(() => { OlaColorButton.transform.DOScale(new Vector3(1f, 1f, 1f), .3f); });
-                    IsItOlaColorButtonActive = true;
+                    PIKButtonColorOn();
                 }           
             }        
         }else{
@@ -49,22 +47,33 @@ public class MwsiveButton : AppObject
                 if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
                 {
                     MwsiveConnectionManager.instance.PostTrackAction(_trackid, "UNPIK", _time, null, Callback_TrackActionUNPIK);
+                    
                 }
 
             }
         }  
     }
 
+    private void PIKButtonColorOn()
+    {
+        UIAniManager.instance.FadeIn(OlaColorButton, AnimationDuration);
+        OlaColorButton.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), .3f).OnComplete(() => { OlaColorButton.transform.DOScale(new Vector3(1f, 1f, 1f), .3f); });
+        IsItOlaColorButtonActive = true;
+    }
 
+    public void PIKButtonColorOff()
+    {
+        UIAniManager.instance.FadeOut(OlaColorButton, AnimationDuration);
+        IsItOlaColorButtonActive = false;
+        OlaColorButton.transform.DOScale(new Vector3(0f, 0f, 0f), .3f);
+    }
     private void Callback_TrackActionPIK(object[] _value)
     {
         RootTrackAction rootTrackAction = (RootTrackAction)_value[1];
         Debug.Log(rootTrackAction);
         InvokeEvent<ChangeDiskAppEvent>(new ChangeDiskAppEvent(rootTrackAction.disks, "SUBSTRACT"));
 
-        UIAniManager.instance.FadeIn(OlaColorButton, AnimationDuration);
-        OlaColorButton.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), .3f).OnComplete(() => { OlaColorButton.transform.DOScale(new Vector3(1f, 1f, 1f), .3f); });
-        IsItOlaColorButtonActive = true;
+        PIKButtonColorOn();
 
         gameObject.GetComponentInParent<ButtonSurfPlaylist>().PlusOrLessOne(true, "PIK");
 
@@ -72,10 +81,18 @@ public class MwsiveButton : AppObject
 
     private void Callback_TrackActionUNPIK(object[] _value)
     {
-        UIAniManager.instance.FadeOut(OlaColorButton, AnimationDuration);
-        IsItOlaColorButtonActive = false;
-        OlaColorButton.transform.DOScale(new Vector3(0f, 0f, 0f), .3f);
+        PIKButtonColorOff();
         gameObject.GetComponentInParent<ButtonSurfPlaylist>().PlusOrLessOne(false, "PIK");
+
+        try
+        {
+            SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().isPicked = false;
+
+        }catch(System.NullReferenceException)
+        {
+           // SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetCurrentMwsiveData().isPicked = false;
+
+        }
     }
 
 
@@ -100,7 +117,19 @@ public class MwsiveButton : AppObject
     {    
       UIAniManager.instance.FadeOut(AddColorButton, _AnimationDuration);
       AddColorButton.transform.DOScale(new Vector3(0f, 0f, 0f), .3f);
-      IsiTAddColorButtonActive = false;        
+      IsiTAddColorButtonActive = false;
+
+        try
+        {
+            SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().isRecommended = false;
+
+        }
+        catch (System.NullReferenceException)
+        {
+            // SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetCurrentMwsiveData().isRecommended = false;
+
+        }
+
     }
 
     public void OnClickCompartirButton(float _AnimationDuration){

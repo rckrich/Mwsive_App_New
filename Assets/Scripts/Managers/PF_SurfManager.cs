@@ -21,15 +21,17 @@ public class PF_SurfManager : Manager
     public float SurfSuccessSensitivity = 2.2f;
     public Vector2 LeftRightOffset;
     public bool CanGetRecomendations = false;
-    private SpotifyPlaylistRoot searchedPlaylist, PagePlaylist;
-    private PlaylistRoot ProfileItemsPlaylist, PageItemPlaylist;
-    private RecommendationsRoot recommendationsRoot, PageRecommendationRoot;
+    private SpotifyPlaylistRoot searchedPlaylist;
+    private PlaylistRoot ProfileItemsPlaylist;
+    private RecommendationsRoot recommendationsRoot;
     private PlaylistRoot UserPlaylists;
-    private AlbumRoot albumroot, PageAlbumroot;
+    private AlbumRoot albumroot;
     private ChallengeAppObject challenge;
+    private TrackInfoRoot trackInfoRoot;
 
     private List<MwsiveData> MwsiveSongsData = new List<MwsiveData>();
     public List<GameObject> ActiveMwsiveSongs = new List<GameObject>();
+    public int CurrentPosition = 0;
 
     [HideInInspector]
     public bool canSwipe = true;
@@ -38,7 +40,7 @@ public class PF_SurfManager : Manager
     public bool Challenge = false;
 
     private Vector2 ControllerPostion = new Vector2();
-    private int CurrentPosition = 0;
+    
     private int PrefabPosition = 0;
     private string idPagingPlItems;
     private int ProfilePlaylistPosition = 0;
@@ -225,18 +227,18 @@ public class PF_SurfManager : Manager
 
     public void OnEndDrag() {
         while (HasSwipeEnded) {
-            if (ActiveMwsiveSongs[0].transform.position.x >= ControllerPostion.x * SurfSuccessSensitivity) {
+            if (ActiveMwsiveSongs[1].transform.position.x >= ControllerPostion.x * SurfSuccessSensitivity) {
                 if (CurrentPosition > MwsiveSongs.Count - 4) {
                     SideScrollSuccess();
                 }
 
                 break;
 
-            } else if (ActiveMwsiveSongs[0].transform.position.y >= ControllerPostion.y * SurfSuccessSensitivity * 1.5) {
+            } else if (ActiveMwsiveSongs[1].transform.position.y >= ControllerPostion.y * SurfSuccessSensitivity * 1.5) {
                 UpScrollSuccess();
                 break;
 
-            } else if (ActiveMwsiveSongs[0].transform.position.y <= ControllerPostion.y / SurfSuccessSensitivity) {
+            } else if (ActiveMwsiveSongs[1].transform.position.y <= ControllerPostion.y / SurfSuccessSensitivity) {
                 DownScrollSuccess();
                 break;
 
@@ -269,8 +271,9 @@ public class PF_SurfManager : Manager
             UIAniManager.instance.SurfTransitionOtherSongs(ActiveMwsiveSongs[4], RestPositions[2], 1);
 
             GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().PauseTopMove();
+            
 
-            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().AddToPlaylistSwipe(GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID, ResetTimer());
+            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().AddToPlaylistSwipe(GetCurrentMwsiveData().id, ResetTimer());
             CurrentPosition++;
 
             if (Challenge)
@@ -280,11 +283,11 @@ public class PF_SurfManager : Manager
 
 
 
-            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+            SurfManagerLogic();
             Success = true;
         } else if (MwsiveSongs.Count - 4 == CurrentPosition && HasSideScrollEnded) {
             HasSideScrollEnded = false;
-            UIAniManager.instance.SurfSideLastPosition(ActiveMwsiveSongs[0], RestPositions[0], 1, -MaxRotation, 0, gameObject);
+            UIAniManager.instance.SurfSideLastPosition(ActiveMwsiveSongs[1], RestPositions[0], 1, -MaxRotation, 0, gameObject);
             ResetSideScroll();
             UIAniManager.instance.SurfAddSongLastPosition(AddSong, 1.5f);
         } else {
@@ -316,7 +319,7 @@ public class PF_SurfManager : Manager
         */
 
         Debug.Log("SideScrollSucces");
-
+        
         HasSwipeEnded = true;
     }
     private void DownScrollSuccess() {
@@ -344,7 +347,7 @@ public class PF_SurfManager : Manager
 
             GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().PauseTopMove();
 
-            string _trackid = GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID;
+            string _trackid = GetCurrentMwsiveData().id;
             if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
             {
                 MwsiveConnectionManager.instance.PostTrackAction(_trackid, "DOWN", ResetTimer());
@@ -354,15 +357,15 @@ public class PF_SurfManager : Manager
             {
                 GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().ForceRestart();
             }
-            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+            
             ActiveMwsiveSongs[2].GetComponent<ButtonSurfPlaylist>().CheckIfDurationBarCanPlay();
             ActiveMwsiveSongs[3].GetComponent<ButtonSurfPlaylist>().CheckIfDurationBarCanPlay();
-
+            SurfManagerLogicPreviousSong();
         }
         else {
             ResetValue();
         }
-        SurfManagerLogicPreviousSong();
+        
 
         Debug.Log("DownScrollSucess");
         HasSwipeEnded = true;
@@ -385,11 +388,11 @@ public class PF_SurfManager : Manager
 
             UIAniManager.instance.SurfTransitionOtherSongs(ActiveMwsiveSongs[4], RestPositions[2], 1);
 
-            
-            string _trackid = GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID;
+
+            string _trackid = GetCurrentMwsiveData().id;
             if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
             {
-                MwsiveConnectionManager.instance.PostTrackAction(GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID, "UP", ResetTimer());
+                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "UP", ResetTimer());
             }
 
             GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().PauseTopMove();
@@ -399,14 +402,14 @@ public class PF_SurfManager : Manager
                 GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().ForceRestart();
             }
 
-            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+            SurfManagerLogic();
             UIAniManager.instance.SurfAddSongReset(AddSong);
         } else {
             ResetValue();
         }
 
 
-        SurfManagerLogic();
+        
 
         Debug.Log("UpScrollSuccess");
         HasSwipeEnded = true;
@@ -482,9 +485,9 @@ public class PF_SurfManager : Manager
         
         UIAniManager.instance.SurfAddSongReset(AddSong);
 
-        UIAniManager.instance.SurfResetOtherSongs(ActiveMwsiveSongs[1], RestPositions[1], true);
-        UIAniManager.instance.SurfResetOtherSongs(ActiveMwsiveSongs[2], RestPositions[2], true);
-        UIAniManager.instance.SurfResetOtherSongs(ActiveMwsiveSongs[3], RestPositions[3], false);
+        UIAniManager.instance.SurfResetOtherSongs(ActiveMwsiveSongs[2], RestPositions[1], true);
+        UIAniManager.instance.SurfResetOtherSongs(ActiveMwsiveSongs[3], RestPositions[2], true);
+        UIAniManager.instance.SurfResetOtherSongs(ActiveMwsiveSongs[4], RestPositions[3], false);
     }
 
 
@@ -673,7 +676,7 @@ public class PF_SurfManager : Manager
     }
     public void DynamicPrefabSpawnerPLItems(object[] _value, bool PlayFirstTrack = true, bool CanSpawnBuffer = true, string _spotifyid = null)
     {
-        PageItemPlaylist = (PlaylistRoot)_value[0];
+        PlaylistRoot PageItemPlaylist = (PlaylistRoot)_value[0];
            
             int SpawnedSongs = 0;
             foreach (var item in PageItemPlaylist.items)
@@ -825,9 +828,39 @@ public class PF_SurfManager : Manager
         
         */
     }
+    private void GetMwsiveInfo( )
+    {
+        if (AppManager.instance.isLogInMode)
+        {
+            MwsiveConnectionManager.instance.GetTrackInformation_Auth(GetCurrentMwsiveData().id, AppManager.instance.GetCurrentPlaylist().id, Callback_GetTrackInformation);
+        }
+        else
+        {
+            MwsiveConnectionManager.instance.GetTrackInformation_NoAuth(GetCurrentMwsiveData().id, Callback_GetTrackInformation);
+        }
+    }
+
+    private void Callback_GetTrackInformation(object[] _value)
+    {
+        trackInfoRoot = (TrackInfoRoot)_value[1];
+
+        if (AppManager.instance.isLogInMode)
+        {
+            if (trackInfoRoot.top_curators != null)
+            {
+                GetCurrentMwsiveData().top_curators = trackInfoRoot.top_curators;
+            }
+        }
+
+        GetCurrentMwsiveData().isPicked = trackInfoRoot.is_piked;
+        GetCurrentMwsiveData().isRecommended = trackInfoRoot.is_recommended;
+
+        GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().InitializeMwsiveDB(GetCurrentMwsiveData());
+    }
 
     private void SurfManagerLogicInitialize()
     {
+        
         SpawnPrefab();
         if (MwsiveSongsData.Count == 0)
         {
@@ -837,8 +870,10 @@ public class PF_SurfManager : Manager
         if (MwsiveSongsData[CurrentPosition] != null)
         {
             GameObject instance = SpawnPrefab();
+            GetMwsiveInfo();
             instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[CurrentPosition]);
             instance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+
         }
         if (MwsiveSongsData.Count > CurrentPosition + 1)
         {
@@ -854,11 +889,20 @@ public class PF_SurfManager : Manager
         }
         
     }
+
+
+
     private void SurfManagerLogicPreviousSong()
     {
-        ActiveMwsiveSongs.RemoveAt(1);
+        Debug.LogWarning("AAAA");
+        ActiveMwsiveSongs.RemoveAt(ActiveMwsiveSongs.Count-1);
         SpawnPrefabBack();
 
+
+
+
+        GetMwsiveInfo();
+        GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
 
     }
 
@@ -871,6 +915,7 @@ public class PF_SurfManager : Manager
         {
 
             GameObject instance = SpawnPrefab();
+            GetMwsiveInfo();
             if (CurrentPosition < MwsiveSongsData.Count && CurrentPosition > 4)
             {
                 instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[CurrentPosition + 2]);
@@ -881,6 +926,7 @@ public class PF_SurfManager : Manager
                 instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[CurrentPosition + 2]);
 
             }
+            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
         }
         else
         {
@@ -903,7 +949,7 @@ public class PF_SurfManager : Manager
         GameObject Instance = PoolManager.instance.GetPooledObject();
         Instance.transform.position = RestPositions[4].transform.position;
         Instance.GetComponent<CanvasGroup>().alpha = RestPositions[4].GetComponent<CanvasGroup>().alpha;
-        
+        ActiveMwsiveSongs.Insert(0, Instance);
         return Instance;
     }
 
@@ -993,6 +1039,7 @@ public class PF_SurfManager : Manager
 
             UIAniManager.instance.DoubleClickOla(Instance);
             if (!OlaButton.GetComponent<MwsiveControllerButtons>().IsItOlaColorButtonActive()) {
+                GetCurrentMwsiveData().isPicked = true;
                 OlaButton.GetComponent<MwsiveControllerButtons>().OnClickOlaButton();
 
             }
@@ -1004,6 +1051,7 @@ public class PF_SurfManager : Manager
         GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
     }
 
+    /*
     public void SurfPaging()
     {
         
@@ -1214,7 +1262,7 @@ public class PF_SurfManager : Manager
     {
         PageItemPlaylist = (PlaylistRoot)_value[1];
     }
-
+    */
     public void SurfProfileADN( string profileId = null, List<string> value = null){
 
         

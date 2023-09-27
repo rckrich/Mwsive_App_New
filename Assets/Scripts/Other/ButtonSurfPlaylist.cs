@@ -97,6 +97,37 @@ public class ButtonSurfPlaylist : ViewModel
         ClearData();
         
     }
+
+    public void InitializeMwsiveDB(MwsiveData _data)
+    {
+        if (_data.top_curators != null)
+        {
+            for (int i = 0; i < _data.top_curators.Count; i++)
+            {
+                ImageManager.instance.GetImage(_data.top_curators[i].image, topCuratorImages[i], (RectTransform)this.transform);
+            }
+        }
+
+        CalculateKorM(_data.total_piks, trackTotalPicks);
+        CalculateKorM(_data.total_recommendations, trackTotalRecommendation);
+        CalculateKorM(_data.total_piks_followed, trackTopCuratorsThatVoted, " amigos también votaron por \r\nesta canción");
+
+
+        if (_data.isPicked)
+        {
+
+            mwsiveButton.OnClickOlaButton(.5f, trackID);
+
+        }
+        if (_data.isRecommended)
+        {
+
+            mwsiveButton.ChangeAddToPlaylistButtonColor(.5f);
+
+        }
+    }
+
+
     public void InitializeMwsiveSong(MwsiveData _data)
     {
         if (_data.playlist_name != null)
@@ -147,7 +178,7 @@ public class ButtonSurfPlaylist : ViewModel
 
         if (_data.uri != null)
         {
-            //uris[0] = _data.uri;
+            uris.Add(_data.uri);
         }
 
         if (_data.preview_url != null)
@@ -160,6 +191,32 @@ public class ButtonSurfPlaylist : ViewModel
             externalURL = _data.external_url;
         }
         TrackPoints = _data.challenge_trackpoints;
+
+        if(_data.top_curators != null)
+        {
+            for (int i = 0; i < _data.top_curators.Count; i++)
+            {
+                ImageManager.instance.GetImage(_data.top_curators[i].image, topCuratorImages[i], (RectTransform)this.transform);
+            }
+        }
+
+        CalculateKorM(_data.total_piks, trackTotalPicks);
+        CalculateKorM(_data.total_recommendations, trackTotalRecommendation);
+        CalculateKorM(_data.total_piks_followed, trackTopCuratorsThatVoted, " amigos también votaron por \r\nesta canción");
+
+
+        if (_data.isPicked)
+        {
+            
+            mwsiveButton.OnClickOlaButton(.5f, trackID);
+            
+        }
+        if(_data.isRecommended)
+        {
+            
+            mwsiveButton.ChangeAddToPlaylistButtonColor(.5f);
+            
+        }
     }
 
     public void InitializeMwsiveSong(string _playlistName, string _trackname, string _album, string _artist, string _image, string _spotifyid, string _url, string _previewURL, string _externalURL, bool _trackPoints = false)
@@ -223,21 +280,23 @@ public class ButtonSurfPlaylist : ViewModel
     public void ClearData()
     {
         
-         playlistText.text = null;       
-         trackName.text = null;       
-         albumName.text = null;
-         artistName.text = null;
+        playlistText.text = null;       
+        trackName.text = null;       
+        albumName.text = null;
+        artistName.text = null;
         trackCover.sprite = null;
         trackId = null;
         isRecommended = false;
         mwsiveButton.AddToPlaylistButtonColorButtonColorAgain(0.5f);
+        mwsiveButton.PIKButtonColorOff();
 
-        uris = null;
+        uris.Clear();
         previewURL = null;
         externalURL = null;
         TrackPoints = false;
 
     }
+
 
     public void UpdateData()
     {
@@ -254,27 +313,34 @@ public class ButtonSurfPlaylist : ViewModel
         Challenge = _challenge;
         AmILastPosition = true;
     }
+    
 
     public void PlayAudioPreview()
     {
+        Debug.LogWarning("AAAA PLAY");
         try
         {
-            if(transform.IsChildOf(Surf.GetComponent<PF_SurfManager>().GetCurrentPrefab().transform) && TrackPoints){
-               durationBar.SetCallBack(gameObject.GetComponent<ButtonSurfPlaylist>());
+            if(SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().id == trackId && TrackPoints)
+            {
                 durationBar.CheckforPoints = true;
-            }else{
+            }
+            else
+            {
                 durationBar.CheckforPoints = false;
             }
         }
         catch (System.NullReferenceException)
         {
-            if(transform.IsChildOf(Surf.GetComponent<SurfManager>().GetCurrentPrefab().transform) && TrackPoints){
-                durationBar.SetCallBack(gameObject.GetComponent<ButtonSurfPlaylist>());
+            /*
+            if (SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetCurrentMwsiveData().id == trackId && TrackPoints)
+            {
                 durationBar.CheckforPoints = true;
             }
-            else{
+            else
+            {
                 durationBar.CheckforPoints = false;
             }
+            */
         }
         
         SpotifyPreviewAudioManager.instance.GetTrack(previewURL, Callback_GetTrack);
@@ -299,14 +365,7 @@ public class ButtonSurfPlaylist : ViewModel
             
         }
 
-        if (AppManager.instance.isLogInMode)
-        {
-            MwsiveConnectionManager.instance.GetTrackInformation_Auth(trackID, AppManager.instance.GetCurrentPlaylist().id, Callback_GetTrackInformation);
-        }
-        else
-        {
-            MwsiveConnectionManager.instance.GetTrackInformation_NoAuth(trackID, Callback_GetTrackInformation);
-        }
+        
     }
 
     public void CheckIfDurationBarCanPlay(){
@@ -486,43 +545,6 @@ public class ButtonSurfPlaylist : ViewModel
             buttonColor.GetComponent<Image>().color = gray;
             playlistText.color = Color.black;
         }
-    }
-
-    public void Callback_GetTrackInformation(object[] _value)
-    {
-        trackInfoRoot = (TrackInfoRoot)_value[1];
-
-        if (AppManager.instance.isLogInMode)
-        {
-            if(trackInfoRoot.top_curators != null)
-            {
-                for(int i = 0; i < trackInfoRoot.top_curators.Count; i++)
-                {
-                    ImageManager.instance.GetImage(trackInfoRoot.top_curators[i].image, topCuratorImages[i], (RectTransform)this.transform);
-                }
-            }
-        }
-
-        isPicked = trackInfoRoot.is_piked;
-        isRecommended = trackInfoRoot.is_recommended;
-
-        if (trackInfoRoot.is_piked)
-        {
-            Debug.Log(trackInfoRoot.is_piked);
-            mwsiveButton.OnClickOlaButton(.5f, trackID);
-        }
-
-        if (trackInfoRoot.is_recommended)
-        {
-            mwsiveButton.ChangeAddToPlaylistButtonColor(.5f);
-        }
-        
-
-        CalculateKorM(trackInfoRoot.total_piks, trackTotalPicks);
-        CalculateKorM(trackInfoRoot.total_recommendations, trackTotalRecommendation);
-        CalculateKorM(trackInfoRoot.total_piks_followed, trackTopCuratorsThatVoted, " amigos también votaron por \r\nesta canción");
-
-        
     }
 
     public void OnClick_UserThatVoted()

@@ -85,8 +85,13 @@ public class MwsiveData
     public bool challenge_songeded = false;
     public bool challenge_AmILastPosition = false;
 
+    public int total_piks { get; set; }
+    public int total_recommendations { get; set; }
+    public int? total_piks_followed { get; set; }
+    public List<TopCurator> top_curators { get; set; }
+    
     public bool isRecommended = false;
-    public bool isPicked= false;
+    public bool isPicked = false;
 
 
 }
