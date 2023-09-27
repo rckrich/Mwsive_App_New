@@ -260,7 +260,7 @@ public class ProfileViewModel : ViewModel
     {
         surfManager.SetActive(true);
         OpenView(ViewID.SurfViewModel);
-        #if PLATFORM_ANDROID
+#if PLATFORM_ANDROID
         AppManager.instance.ResetAndroidBackAction();
 #endif
     }
@@ -462,8 +462,6 @@ public class ProfileViewModel : ViewModel
     public void OnClick_SurfButton(){
         MwsiveConnectionManager.instance.GetMwsiveUser(profileId, Callback_GetDNASeveralTracks);
         NewScreenManager.instance.ChangeToSpawnedView("surf");
-        
-        
     }
 
     public void Callback_GetDNASeveralTracks(object[] _value){
