@@ -473,16 +473,62 @@ public class ProfileViewModel : ViewModel
             
             foreach (var item in mwsiveuser.user.user_lists)
             {
-                if(item.type == "OST" || item.type == "LATEST_DISCOVERIES" || item.type == "ON_LOVE" || item.type == "GUILTY_PLEASURE" || item.type == "ON_REPEAT"){
+                if(item.type == "ON_REPEAT")
+                {
                     foreach (var _track in item.items_list)
                     {
                         tracks.Add(_track);
                     }
                 }
             }
+
+            foreach (var item in mwsiveuser.user.user_lists)
+            {
+                if (item.type == "GUILTY_PLEASURE")
+                {
+                    foreach (var _track in item.items_list)
+                    {
+                        tracks.Add(_track);
+                    }
+                }
+            }
+
+            foreach (var item in mwsiveuser.user.user_lists)
+            {
+                if (item.type == "ON_LOVE")
+                {
+                    foreach (var _track in item.items_list)
+                    {
+                        tracks.Add(_track);
+                    }
+                }
+            }
+
+            foreach (var item in mwsiveuser.user.user_lists)
+            {
+                if (item.type == "LATEST_DISCOVERIES")
+                {
+                    foreach (var _track in item.items_list)
+                    {
+                        tracks.Add(_track);
+                    }
+                }
+            }
+
+            foreach (var item in mwsiveuser.user.user_lists)
+            {
+                if (item.type == "OST")
+                {
+                    foreach (var _track in item.items_list)
+                    {
+                        tracks.Add(_track);
+                    }
+                }
+            }
+           
         }
-        
-        if(tracks != null){
+
+        if (tracks != null){
             NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().SurfProfileADN(profileId, tracks);
         }else{
             NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().SurfProfileADN(profileId);

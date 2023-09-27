@@ -28,6 +28,8 @@ public class PF_SurfManager : Manager
     private AlbumRoot albumroot, PageAlbumroot;
     private ChallengeAppObject challenge;
 
+    private List<MwsiveData> MwssiveSongsData = new List<MwsiveData>();
+
     [HideInInspector]
     public bool canSwipe = true;
     public float time = 0;
