@@ -44,7 +44,7 @@ public class PoolManager : MonoBehaviour
     {
         for (int i = 0; i < pooledObjects.Count; i++)
         {
-            if (!pooledObjects[i].activeInHierarchy)
+            if (!pooledObjects[i].activeInHierarchy  || pooledObjects[i].GetComponent<SurfAni>().isAvailable)
             {
                 return pooledObjects[i];
             }

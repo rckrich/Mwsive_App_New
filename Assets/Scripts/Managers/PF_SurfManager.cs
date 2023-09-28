@@ -145,13 +145,13 @@ public class PF_SurfManager : Manager
 
         if (Controller.transform.position.x > ControllerPostion.x * 1.1) {
             Controller.vertical = false;
-            SideScrollAnimation();
+            //SideScrollAnimation();
         } if (Controller.transform.position.y > ControllerPostion.y * 1.1) {
             Controller.horizontal = false;
-            UpScrollAnimation();
+            //UpScrollAnimation();
         } if (Controller.transform.position.y < ControllerPostion.y * .9) {
             Controller.horizontal = false;
-            DownScrollAnimation();
+            //DownScrollAnimation();
         }
 
 
@@ -160,39 +160,45 @@ public class PF_SurfManager : Manager
 
 
     private void SideScrollAnimation() {
-
-        DOTween.Kill(ActiveMwsiveSongs[1]);
-        DOTween.Kill(ActiveMwsiveSongs[2]);
-        DOTween.Kill(ActiveMwsiveSongs[3]);
-        DOTween.Kill(ActiveMwsiveSongs[4]);
+        
         float var = Controller.transform.position.x / ControllerPostion.x * .25f;
         float Fade = ControllerPostion.x / Controller.transform.position.x;
 
-        UIAniManager.instance.SurfSide(ActiveMwsiveSongs[1], var, -MaxRotation, Fade, false);
-        UIAniManager.instance.SurfAddSong(AddSong, var);
+        ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(var, -MaxRotation, Fade, false);
+        ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfSide(true);
 
-        if (CurrentPosition < MwsiveSongs.Count - 4) {
-            UIAniManager.instance.SurfTransitionOtherSongs(ActiveMwsiveSongs[2], RestPositions[0], var);
-            UIAniManager.instance.SurfTransitionOtherSongs(ActiveMwsiveSongs[3], RestPositions[1], var);
-            UIAniManager.instance.SurfTransitionOtherSongs(ActiveMwsiveSongs[4], RestPositions[2], var);
+        AddSong.GetComponent<SurfAni>().SetValues(var);
+        AddSong.GetComponent<SurfAni>().Play_SurfAddSong(true);
+
+        if (CurrentPosition < MwsiveSongsData.Count - 1)
+        {
+            ActiveMwsiveSongs[2].GetComponent<SurfAni>().SetValues(var, null, 1, null, null, RestPositions[0]);
+            ActiveMwsiveSongs[2].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs(true);
+
+            ActiveMwsiveSongs[3].GetComponent<SurfAni>().SetValues(var, null, 1, null, null, RestPositions[1]);
+            ActiveMwsiveSongs[3].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs(true);
+
+            ActiveMwsiveSongs[4].GetComponent<SurfAni>().SetValues(var, null, 1, null, null, RestPositions[2]);
+            ActiveMwsiveSongs[4].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs(true);
         }
-
         Success = false;
     }
 
 
     private void DownScrollAnimation() {
-        DOTween.Kill(ActiveMwsiveSongs[0]);
-        DOTween.Kill(ActiveMwsiveSongs[1]);
-        DOTween.Kill(ActiveMwsiveSongs[2]);
-        DOTween.Kill(ActiveMwsiveSongs[3]);
+        
         float var = Controller.transform.position.y / ControllerPostion.y;
         float Fade = ControllerPostion.y / Controller.transform.position.y;
 
-        UIAniManager.instance.SurfVerticalDown(ActiveMwsiveSongs[1], var * -.5f, MaxRotation, Fade, true);
+        ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(var * -.5f, MaxRotation, Fade, true);
+        ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_VerticalDown1(true);
 
-        UIAniManager.instance.SurfTransitionOtherSongs(ActiveMwsiveSongs[2], RestPositions[1], var * .25f);
-        UIAniManager.instance.SurfTransitionOtherSongs(ActiveMwsiveSongs[3], RestPositions[2], var * .25f);
+        ActiveMwsiveSongs[2].GetComponent<SurfAni>().SetValues(var * .25f, null, 1, null, null, RestPositions[0]);
+        ActiveMwsiveSongs[2].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs(true);
+
+        ActiveMwsiveSongs[3].GetComponent<SurfAni>().SetValues(var * .25f, null, 1, null, null, RestPositions[1]);
+        ActiveMwsiveSongs[3].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs(true);
+        
         Success = false;
 
 
@@ -201,22 +207,24 @@ public class PF_SurfManager : Manager
 
 
     private void UpScrollAnimation() {
-        DOTween.Kill(ActiveMwsiveSongs[1]);
-        DOTween.Kill(ActiveMwsiveSongs[2]);
-        DOTween.Kill(ActiveMwsiveSongs[3]);
-        DOTween.Kill(ActiveMwsiveSongs[4]);
 
         float var = Controller.transform.position.y / ControllerPostion.y;
         float Fade = Controller.transform.position.y / ControllerPostion.y;
         float VAR2 = ControllerPostion.y / Controller.transform.position.y;
 
-        UIAniManager.instance.SurfVerticalUp(ActiveMwsiveSongs[1], var * .5f, MaxRotation, Fade, false);
+        ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(var * .5f, MaxRotation, Fade, false);
+        ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_VerticalUp(true);
 
+        if (CurrentPosition < MwsiveSongsData.Count - 1) {
 
-        if (CurrentPosition < MwsiveSongs.Count - 4) {
-            UIAniManager.instance.SurfTransitionOtherSongs(ActiveMwsiveSongs[2], RestPositions[0], VAR2 * .25f);
-            UIAniManager.instance.SurfTransitionOtherSongs(ActiveMwsiveSongs[3], RestPositions[1], VAR2 * .25f);
-            UIAniManager.instance.SurfTransitionOtherSongs(ActiveMwsiveSongs[4], RestPositions[2], VAR2 * .25f);
+            ActiveMwsiveSongs[2].GetComponent<SurfAni>().SetValues(VAR2 * .25f, null, 1, null, null, RestPositions[0]);
+            ActiveMwsiveSongs[2].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs(true);
+
+            ActiveMwsiveSongs[3].GetComponent<SurfAni>().SetValues(VAR2 * .25f, null, 1, null, null, RestPositions[1]);
+            ActiveMwsiveSongs[3].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs(true);
+
+            ActiveMwsiveSongs[4].GetComponent<SurfAni>().SetValues(VAR2 * .25f, null, 1, null, null, RestPositions[2]);
+            ActiveMwsiveSongs[4].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs(true);
         }
 
 
@@ -261,16 +269,22 @@ public class PF_SurfManager : Manager
         Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
         if (CurrentPosition < MwsiveSongsData.Count -1) {
             SpotifyPreviewAudioManager.instance.StopTrack();
-            
-            UIAniManager.instance.SurfSide(ActiveMwsiveSongs[1], 1, -MaxRotation, 0, true);
 
-            UIAniManager.instance.CompleteSurfAddSong(AddSong, 1.5f);
+            ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, -MaxRotation, 0, true);
+            ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfSide(true);
 
-            UIAniManager.instance.SurfTransitionOtherSongs(ActiveMwsiveSongs[2], RestPositions[0], 1);
-            UIAniManager.instance.SurfTransitionOtherSongs(ActiveMwsiveSongs[3], RestPositions[1], 1);
-            UIAniManager.instance.SurfTransitionOtherSongs(ActiveMwsiveSongs[4], RestPositions[2], 1);
+            AddSong.GetComponent<SurfAni>().Play_CompleteAddSurfAddSong(true);
 
-            GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().PauseTopMove();
+            ActiveMwsiveSongs[2].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[0]);
+            ActiveMwsiveSongs[2].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs(true);
+
+            ActiveMwsiveSongs[3].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[1]);
+            ActiveMwsiveSongs[3].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs(true);
+
+            ActiveMwsiveSongs[4].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[2]);
+            ActiveMwsiveSongs[4].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs(true);
+
+            //GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().PauseTopMove();
             
 
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().AddToPlaylistSwipe(GetCurrentMwsiveData().id, ResetTimer());
@@ -287,9 +301,13 @@ public class PF_SurfManager : Manager
             Success = true;
         } else if (MwsiveSongs.Count - 4 == CurrentPosition && HasSideScrollEnded) {
             HasSideScrollEnded = false;
-            UIAniManager.instance.SurfSideLastPosition(ActiveMwsiveSongs[1], RestPositions[0], 1, -MaxRotation, 0, gameObject);
+
+            ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, -MaxRotation, 0, null, null, RestPositions[0]);
+            ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfSideLasPosition(true);
+
             ResetSideScroll();
-            UIAniManager.instance.SurfAddSongLastPosition(AddSong, 1.5f);
+            AddSong.GetComponent<SurfAni>().Play_CompleteAddSurfAddSong(true);
+            
         } else {
             ResetValue();
         }
@@ -333,17 +351,23 @@ public class PF_SurfManager : Manager
             ActiveMwsiveSongs[0].GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[CurrentPosition - 1]);
             SpotifyPreviewAudioManager.instance.StopTrack();
             Success = true;
-            UIAniManager.instance.SurfVerticalDown(ActiveMwsiveSongs[1], 1, -MaxRotation, 0, true);
 
-            UIAniManager.instance.SurfTransitionBackSong(ActiveMwsiveSongs[0], RestPositions[0], MaxRotation);
-            UIAniManager.instance.SurfTransitionBackSongDown(ActiveMwsiveSongs[1], RestPositions[1]);
-            UIAniManager.instance.SurfTransitionOtherSongs(ActiveMwsiveSongs[2], RestPositions[2], 1);
-            UIAniManager.instance.SurfTransitionBackHideSong(ActiveMwsiveSongs[3], RestPositions[3], 1);
+            ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, -MaxRotation, 0, true);
+            ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_VerticalDown1(true);
 
+            ActiveMwsiveSongs[0].GetComponent<SurfAni>().SetValues(null, MaxRotation, null, null, null, RestPositions[0]);
+            ActiveMwsiveSongs[0].GetComponent<SurfAni>().Play_SurfBackSong(true);
 
-            UIAniManager.instance.SurfAddSongReset(AddSong);
+            ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(null, 1, null, null, null, RestPositions[1]);
+            ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfTransitionBackSongDown(true);
 
+            ActiveMwsiveSongs[2].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[2]);
+            ActiveMwsiveSongs[2].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs(true);
 
+            ActiveMwsiveSongs[3].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[3]);
+            ActiveMwsiveSongs[3].GetComponent<SurfAni>().Play_SurfTransitionBackHideSong(true);
+
+            AddSong.GetComponent<SurfAni>().Play_SurfAddsongReset(true);
 
             GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().PauseTopMove();
 
@@ -380,16 +404,25 @@ public class PF_SurfManager : Manager
             SpotifyPreviewAudioManager.instance.StopTrack();
             Success = true;
 
-            UIAniManager.instance.SurfVerticalUp(ActiveMwsiveSongs[1], 1, MaxRotation, 0, true);
+            ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, MaxRotation, 0, true);
+            ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_VerticalUp(true);
+
+            
+
+            ActiveMwsiveSongs[2].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[0]);
+            ActiveMwsiveSongs[2].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs(true);
+
+            ActiveMwsiveSongs[3].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[1]);
+            ActiveMwsiveSongs[3].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs(true);
+
+            ActiveMwsiveSongs[4].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[2]);
+            ActiveMwsiveSongs[4].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs(true);
 
 
-            UIAniManager.instance.SurfTransitionOtherSongs(ActiveMwsiveSongs[2], RestPositions[0], 1);
-            UIAniManager.instance.SurfTransitionOtherSongs(ActiveMwsiveSongs[3], RestPositions[1], 1);
-
-            UIAniManager.instance.SurfTransitionOtherSongs(ActiveMwsiveSongs[4], RestPositions[2], 1);
 
 
-            string _trackid = GetCurrentMwsiveData().id;
+
+                string _trackid = GetCurrentMwsiveData().id;
             if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
             {
                 MwsiveConnectionManager.instance.PostTrackAction(_trackid, "UP", ResetTimer());
@@ -465,7 +498,8 @@ public class PF_SurfManager : Manager
     public void ResetValue() {
 
         if (!Success) {
-            DOTween.KillAll(false, new object[] { 0, 1 });
+            ///DOTween.KillAll(false, new object[] { 0, 1 });
+            ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfReset(true);
             UIAniManager.instance.SurfReset(ActiveMwsiveSongs[1]);
             Reset();
         } else {
@@ -482,16 +516,22 @@ public class PF_SurfManager : Manager
 
         Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
 
-        
-        UIAniManager.instance.SurfAddSongReset(AddSong);
+        ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfAddsongReset(true);
+
+        ActiveMwsiveSongs[2].GetComponent<SurfAni>().SetValues(null, null, null, null, true, RestPositions[1]);
+        ActiveMwsiveSongs[2].GetComponent<SurfAni>().Play_SurfResetfOtherSongs(true);
+
+        ActiveMwsiveSongs[3].GetComponent<SurfAni>().SetValues(null, null, null, null, true, RestPositions[2]);
+        ActiveMwsiveSongs[3].GetComponent<SurfAni>().Play_SurfResetfOtherSongs(true);
+
+        ActiveMwsiveSongs[4].GetComponent<SurfAni>().SetValues(null, null, null, null, false, RestPositions[3]);
+        ActiveMwsiveSongs[4].GetComponent<SurfAni>().Play_SurfResetfOtherSongs(true);
+
 
         UIAniManager.instance.SurfResetOtherSongs(ActiveMwsiveSongs[2], RestPositions[1], true);
         UIAniManager.instance.SurfResetOtherSongs(ActiveMwsiveSongs[3], RestPositions[2], true);
         UIAniManager.instance.SurfResetOtherSongs(ActiveMwsiveSongs[4], RestPositions[3], false);
     }
-
-
-
 
 
     public GameObject GetBeforeCurrentPrefab() {
@@ -979,6 +1019,7 @@ public class PF_SurfManager : Manager
         Instance.transform.SetParent(MwsiveContainer.transform);
         Instance.transform.SetAsFirstSibling();
         Instance.SetActive(true);
+        Instance.GetComponent<SurfAni>().isAvailable = false;
 
         //MwsiveSongs.Add(Instance);
 

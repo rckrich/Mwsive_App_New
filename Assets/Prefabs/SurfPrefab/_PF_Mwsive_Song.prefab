@@ -973,6 +973,7 @@ GameObject:
   - component: {fileID: 3721661596377340091}
   - component: {fileID: 8150483325409811147}
   - component: {fileID: 2490045760259224199}
+  - component: {fileID: 328173869794337803}
   m_Layer: 5
   m_Name: _PF_Mwsive_Song
   m_TagString: MwsiveSong
@@ -1059,6 +1060,25 @@ MonoBehaviour:
   trackTopCuratorsThatVoted: {fileID: 7038916977082941938}
   SuccesfulEnded: 0
   AmILastPosition: 0
+--- !u!114 &328173869794337803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987369042212565383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f97bf637b03b9b40a1e4089d614d408, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainCanvas: {fileID: 0}
+  MoveTransitionDuration: 0.5
+  ScaleTransitionDuration: 1
+  FadeTransitionDuration: 1
+  ColorTransitionDuration: 0.5
+  SurfTransitionDuration: 0.5
+  IsAddSongSurfDone: 1
 --- !u!1 &3281972464926652253
 GameObject:
   m_ObjectHideFlags: 0
