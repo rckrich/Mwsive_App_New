@@ -10,12 +10,14 @@ public class TopSongsViewModel : ViewModel
     public Transform trackScrollContent;
     public int count;
     public ScrollRect scrollRect;
+    public GameObject shimmer;
 
     private float end = -0.01f;
     
 
     void Start()
     {
+        shimmer.SetActive(true);
         MwsiveConnectionManager.instance.GetRecommendedTracks(Callback_GetRecommendedTracks);
     }
 
@@ -24,7 +26,7 @@ public class TopSongsViewModel : ViewModel
         MwsiveRecommendedTracksRoot mwsiveRecommendedTracksRoot = (MwsiveRecommendedTracksRoot)_list[1];
 
         string[] tracks_ids = new string[mwsiveRecommendedTracksRoot.tracks.Count];
-
+        shimmer.SetActive(false);
         for (int i = 0; i < mwsiveRecommendedTracksRoot.tracks.Count; i++)
         {
             tracks_ids[i] = mwsiveRecommendedTracksRoot.tracks[i].mwsive_track.spotify_track_id;

@@ -9,19 +9,21 @@ public class TopPlaylistViewModel : ViewModel
     public Transform playlistScrollContent;
     public ScrollRect scrollRect;
     public float end = -0.01f;
+    public GameObject shimmer;
 
     private int count;
     private const int MAXIMUM_VERTICAL_SCROLL_SPAWNS = 20;
 
     void Start()
     {
+        shimmer.SetActive(true);
         MwsiveConnectionManager.instance.GetRecommendedPlaylists(Callback_GetRecommendedPlaylists);
     }
 
     private void Callback_GetRecommendedPlaylists(object[] _list)
     {
         MwsiveRecommendedPlaylistsRoot mwsiveRecommendedPlaylistsRoot = (MwsiveRecommendedPlaylistsRoot)_list[1];
-
+        shimmer.SetActive(false); 
         int maxSpawnCounter = 0;
 
         for (int i = 0; i < mwsiveRecommendedPlaylistsRoot.playlists.Count; i++)

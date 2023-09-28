@@ -10,11 +10,13 @@ public class TopCuratorsViewModel : ViewModel
     public Transform curatorScrollContent;
     public int count;
     public ScrollRect scrollRect;
+    public GameObject shimmer;
 
     private float end = -0.01f;
 
     void Start()
     {
+        shimmer.SetActive(true);
         MwsiveConnectionManager.instance.GetRecommendedCurators(Callback_GetRecommendedCurators);
     }
 
@@ -22,7 +24,7 @@ public class TopCuratorsViewModel : ViewModel
     {
 
         MwsiveRecommendedCuratorsRoot mwsiveRecommendedCuratorsRoot = (MwsiveRecommendedCuratorsRoot)_list[1];
-
+        shimmer.SetActive(false);
         foreach (Curator curator in mwsiveRecommendedCuratorsRoot.curators)
         {
             GameObject curatorInstance = GameObject.Instantiate(curatorPrefab, curatorScrollContent);

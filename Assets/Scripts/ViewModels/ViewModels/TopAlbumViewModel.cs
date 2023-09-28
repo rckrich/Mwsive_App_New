@@ -10,11 +10,12 @@ public class TopAlbumViewModel : ViewModel
     public Transform albumScrollContent;
     public int count;
     public ScrollRect scrollRect;
-
+    public GameObject shimmer;
     private float end = -0.01f;
 
     void Start()
     {
+        shimmer.SetActive(true);
         MwsiveConnectionManager.instance.GetRecommendedAlbums(Callback_GetRecommendedAlbums);
     }
 
@@ -24,6 +25,7 @@ public class TopAlbumViewModel : ViewModel
 
         string[] albums_ids = new string[mwsiveRecommendedAlbumsRoot.albums.Count];
 
+        shimmer.SetActive(false);
         for (int i = 0; i < mwsiveRecommendedAlbumsRoot.albums.Count; i++)
         {
             albums_ids[i] = mwsiveRecommendedAlbumsRoot.albums[i].spotify_id;

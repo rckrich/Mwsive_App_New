@@ -118,12 +118,15 @@ public class MusicalDNA
 
 public class Badge
 {
-    public int id;
-    public string name { get; set; }
+    public int id { get; set; }
     public string type { get; set; }
     public string group { get; set; }
-    public string description { get; set; }
-    public MwsiveTrack track { get; set; }
+    public object description { get; set; }
+    public int mwsive_user_id { get; set; }
+    public int mwsive_track_id { get; set; }
+    public DateTime created_at { get; set; }
+    public DateTime updated_at { get; set; }
+    public MwsiveTrack mwsive_track { get; set; }
 }
 
 public class Settings

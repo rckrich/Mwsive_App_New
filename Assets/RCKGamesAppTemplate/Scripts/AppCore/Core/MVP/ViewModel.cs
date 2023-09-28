@@ -60,12 +60,12 @@ public abstract class ViewModel : AppObject
 
     protected virtual void CallErrorPopUp() { NewScreenManager.instance.ChangeToMainView(ViewID.ErrorViewModel, true); }
 
-    protected virtual void CallPopUP(PopUpViewModelTypes _type, string _titleText, string _descriptionText, string _actionButtonText = "")
+    protected virtual void CallPopUP(PopUpViewModelTypes _type, string _titleText, string _descriptionText, string _actionButtonText = "", Sprite _sprite = null)
     {
         
         NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
         PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
-        popUpViewModel.Initialize(_type, _titleText, _descriptionText, _actionButtonText);
+        popUpViewModel.Initialize(_type, _titleText, _descriptionText, _actionButtonText, _sprite);
         popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); });
         CallWaitAFrame();
     }

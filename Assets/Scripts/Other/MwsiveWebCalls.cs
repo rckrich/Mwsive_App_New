@@ -861,15 +861,10 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/me/badges";
-        string url = "http://192.241.129.184/api/me/badges";
+        //string url = "http://mwsive.com/api/me/badges/offset/limit";
+        string url = "http://192.241.129.184/api/me/badges/" + _offset.ToString() + "/" + _limit.ToString();
 
-        Dictionary<string, string> parameters = new Dictionary<string, string>();
-        parameters.Add("offset", _offset.ToString());
-        parameters.Add("limit", _limit.ToString());
-
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);
-
+        Debug.Log(url);
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Accept", "application/json");
@@ -886,7 +881,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch badges. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                Debug.Log("Protocol Error or Connection Error on fetch profile");
                 yield break;
             }
             else

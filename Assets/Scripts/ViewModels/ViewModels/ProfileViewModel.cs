@@ -132,7 +132,7 @@ public class ProfileViewModel : ViewModel
     public void OnClick_SpawnInsigniasButton()
     {
         NewScreenManager.instance.ChangeToSpawnedView("insignias");
-        Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
+        NewScreenManager.instance.GetCurrentView().GetComponent<InsigniasViewModel>().Initialize();
     }
 
     public void OnClick_SpawnADNButton(int identifier)

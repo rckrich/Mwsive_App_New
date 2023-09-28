@@ -10,12 +10,14 @@ public class GenreViewModel : ViewModel
     public Transform instanceParent;
     public string artists;
     public TextMeshProUGUI name;
+    public GameObject shimmer;
 
     private SeveralTrackRoot severalTrackRoot;
 
 
     public void GetSeveralTracks(string[] _genreID, string _name)
     {
+        shimmer.SetActive(true);
         SpotifyConnectionManager.instance.GetSeveralTracks(_genreID, Callback_GetSeveralTracks);
         name.text = _name;
     }
@@ -23,7 +25,7 @@ public class GenreViewModel : ViewModel
     public void Callback_GetSeveralTracks(object[] _value)
     {
         severalTrackRoot = (SeveralTrackRoot)_value[1];
-
+        shimmer.SetActive(false);
         foreach (Track track in severalTrackRoot.tracks)
         {
             if (track != null)

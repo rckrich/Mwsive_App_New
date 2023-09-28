@@ -9,18 +9,20 @@ public class TopArtistViewModel : ViewModel
     public Transform artistScrollContent;
     public int count;
     public ScrollRect scrollRect;
+    public GameObject shimmer;
 
     private float end = -0.01f;
 
     void Start()
     {
+        shimmer.SetActive(true);
         MwsiveConnectionManager.instance.GetRecommendedArtists(Callback_GetRecommendedArtists);
     }
 
     private void Callback_GetRecommendedArtists(object[] _list)
     {
         MwsiveRecommendedArtistsRoot mwsiveRecommendedArtistsRoot = (MwsiveRecommendedArtistsRoot)_list[1];
-
+        shimmer.SetActive(false);
         string[] artists_ids = new string[mwsiveRecommendedArtistsRoot.artists.Count];
 
         for (int i = 0; i < mwsiveRecommendedArtistsRoot.artists.Count; i++)

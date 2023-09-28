@@ -8,12 +8,14 @@ public class TopGenreViewModel : ViewModel
     public GameObject genrePrefab;
     public RectTransform genrePrefabRectTransform;
     public Transform genreScrollContent;
+    public GameObject shimmer;
    
 
     private const int MAXIMUM_HORIZONTAL_SCROLL_SPAWNS = 20;
 
     void Start()
     {
+        shimmer.SetActive(true);
         MwsiveConnectionManager.instance.GetGenres(Callback_GetGenres);
     }
 
@@ -22,7 +24,7 @@ public class TopGenreViewModel : ViewModel
         MwsiveGenresRoot mwsiveGenresRoot = (MwsiveGenresRoot)_list[1];
 
         int maxSpawnCounter = 0;
-
+        shimmer.SetActive(false);
         for (int i = 0; i < mwsiveGenresRoot.genres.Count; i++)
         {
             if (maxSpawnCounter < MAXIMUM_HORIZONTAL_SCROLL_SPAWNS)

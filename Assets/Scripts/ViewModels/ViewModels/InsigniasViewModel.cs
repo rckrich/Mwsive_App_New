@@ -5,28 +5,26 @@ using UnityEngine.UI;
 
 public class InsigniasViewModel : ViewModel
 {
+    private const int LIMIT = 20;
     // Start is called before the first frame update
     public ScrollRect scrollRect;
-    public int offset = 1;
+    public int offset = 0;
 
     [Header("Instance Referecnes")]
-    public GameObject FollowersHolderPrefab;
+    public GameObject BadgeHolderPrefab;
     public Transform instanceParent;
-    void Start()
+
+    public override void Initialize(params object[] list)
     {
         StartSearch();
-        MwsiveConnectionManager.instance.GetBadges(Callback_GetBadges);
+        MwsiveConnectionManager.instance.GetBadges(Callback_GetBadges, offset, LIMIT);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void OnClick_SpawnPopUpButton()
     {
         //CallPopUP(PopUpViewModelTypes.MessageOnly, )
     }
+
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
@@ -38,12 +36,11 @@ public class InsigniasViewModel : ViewModel
 
         foreach (Badge badge in badgesRoot.badges)
         {
-            BadgeHolder instance = GameObject.Instantiate(FollowersHolderPrefab, instanceParent).GetComponent<BadgeHolder>();
-            instance.Initialize();
-            
+            BadgeHolder instance = GameObject.Instantiate(BadgeHolderPrefab, instanceParent).GetComponent<BadgeHolder>();
+            instance.Initialize(badge);
+            offset++;
         }
-        EndSearch();
-        offset += 50;
+        EndSearch();  
     }
 }
     

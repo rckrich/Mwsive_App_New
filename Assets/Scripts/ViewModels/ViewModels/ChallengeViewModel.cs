@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ChallengeViewModel : ViewModel
 {
+    private const int ARRAY_WITH_NEWLOADINGSYSTEM = 1;
     private const int ITEM_LIMIT = 20;
 
     public GameObject challengePrefabR;
@@ -15,6 +16,8 @@ public class ChallengeViewModel : ViewModel
     public GameObject ScrollComplete;
     public TextMeshProUGUI resentText;
     public TextMeshProUGUI completeText;
+    public GameObject shimmer;
+    public GameObject completados;
 
     private int offsetResent;
     private int offsetComplete;
@@ -27,14 +30,14 @@ public class ChallengeViewModel : ViewModel
 
     public void GetChallenges()
     {
-        StartSearch();
+        shimmer.SetActive(true);
         MwsiveConnectionManager.instance.GetChallenges(Callback_GetChallenges, offsetResent, ITEM_LIMIT);
     }
 
     private void Callback_GetChallenges(object[] _value)
     {
         MwsiveChallengesRoot mwsiveChallengesRoot = (MwsiveChallengesRoot)_value[1];
-
+        shimmer.SetActive(false);
         foreach (Challenges challenges in mwsiveChallengesRoot.challenges)
         { 
            GameObject challengeInstance = GameObject.Instantiate(challengePrefabR, challengeScrollContentR);
@@ -42,7 +45,7 @@ public class ChallengeViewModel : ViewModel
            challengeAppObject.Initialize(challenges, false);   
         }
         offsetResent += ITEM_LIMIT;
-        EndSearch();
+        
     }
 
     public void OnClick_OnBackButton()
@@ -52,14 +55,14 @@ public class ChallengeViewModel : ViewModel
 
     public void GetCompleteChallenges()
     {
-        StartSearch();
+        completados.SetActive(true);
         MwsiveConnectionManager.instance.GetCompleteChallenges(Callback_GetCompleteChallenges, offsetComplete, ITEM_LIMIT);
     }
 
     private void Callback_GetCompleteChallenges(object[] _value)
     {
         MwsiveChallengesRoot mwsiveChallengesRoot = (MwsiveChallengesRoot)_value[1];
-
+        completados.SetActive(false);
         foreach (Challenges challenges in mwsiveChallengesRoot.challenges)
         {
             GameObject challengeInstance = GameObject.Instantiate(challengePrefabC, challengeScrollContentC);
@@ -67,7 +70,7 @@ public class ChallengeViewModel : ViewModel
             challengeAppObject.Initialize(challenges, true);
         }
         offsetComplete += ITEM_LIMIT;
-        EndSearch();
+       
     }
 
     public void OnClick_Resents()
@@ -94,7 +97,7 @@ public class ChallengeViewModel : ViewModel
 
     private void ClearChallenges(Transform _content)
     {
-        for(int i = 0; i < _content.childCount; i++)
+        for(int i = ARRAY_WITH_NEWLOADINGSYSTEM; i < _content.childCount; i++)
         {
             Destroy(_content.GetChild(i).gameObject);
         }
