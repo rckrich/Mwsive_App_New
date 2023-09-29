@@ -44,7 +44,7 @@ public class ButtonSurfPlaylist : ViewModel
     private Color gray = new Color(0.8f, 0.8f, 0.8f);
     private GameObject Surf;
     private ChallengeAppObject Challenge;
-    private string trackId;
+    
     private float time;
 
     public bool SuccesfulEnded = false;
@@ -285,7 +285,7 @@ public class ButtonSurfPlaylist : ViewModel
         albumName.text = null;
         artistName.text = null;
         trackCover.sprite = null;
-        trackId = null;
+        trackID = null;
         isRecommended = false;
         mwsiveButton.AddToPlaylistButtonColorButtonColorAgain(0.5f);
         mwsiveButton.PIKButtonColorOff();
@@ -320,7 +320,7 @@ public class ButtonSurfPlaylist : ViewModel
         Debug.LogWarning("AAAA PLAY");
         try
         {
-            if(SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().id == trackId && TrackPoints)
+            if(SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().id == trackID && TrackPoints)
             {
                 durationBar.CheckforPoints = true;
             }
@@ -371,9 +371,8 @@ public class ButtonSurfPlaylist : ViewModel
     public void CheckIfDurationBarCanPlay(){
         try
         {
-            if(Surf != null)
-            {
-                if (transform.IsChildOf(Surf.GetComponent<PF_SurfManager>().GetCurrentPrefab().transform))
+            
+                if (SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().id == trackID)
                 {
                     durationBar.canPlay = true;
                     if (TrackPoints)
@@ -385,13 +384,12 @@ public class ButtonSurfPlaylist : ViewModel
                 {
                     durationBar.canPlay = false;
                 }
-            }
+            
             
         }
         catch (System.NullReferenceException)
         {
-            if(Surf != null)
-            {
+            
                 if (transform.IsChildOf(Surf.GetComponent<SurfManager>().GetCurrentPrefab().transform))
                 {
                     durationBar.canPlay = true;
@@ -405,7 +403,7 @@ public class ButtonSurfPlaylist : ViewModel
                 {
                     durationBar.canPlay = false;
                 }
-            }
+            
            
         }
     }
@@ -446,7 +444,7 @@ public class ButtonSurfPlaylist : ViewModel
         {
             
             SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
-            trackId = _trackid;
+            trackID = _trackid;
             time = _time;
             
         }
@@ -494,7 +492,7 @@ public class ButtonSurfPlaylist : ViewModel
         {
             InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(gray, Color.black));
             if (AppManager.instance.isLogInMode && !trackID.Equals(""))
-                MwsiveConnectionManager.instance.PostTrackAction(trackId, "RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomend); ;
+                MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomend); ;
            AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
               mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
               UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");

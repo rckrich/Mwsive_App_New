@@ -52,7 +52,7 @@ public class PF_SurfManager : Manager
     private int trackstospawn = 0;
     private int trackstospawntotal = 0;
     private bool HasFirstPlaylistPlayed = false;
-
+    private int SpawnPosition;
 
 
     private bool SurfPaged = false;
@@ -352,7 +352,7 @@ public class PF_SurfManager : Manager
             SpotifyPreviewAudioManager.instance.StopTrack();
             Success = true;
 
-            ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, -MaxRotation, 0, true);
+            ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, -MaxRotation, 0, true, true, RestPositions[1]);
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_VerticalDown1();
 
             ActiveMwsiveSongs[0].GetComponent<SurfAni>().SetValues(null, MaxRotation, null, null, null, RestPositions[0]);
@@ -366,6 +366,8 @@ public class PF_SurfManager : Manager
 
             ActiveMwsiveSongs[3].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[3]);
             ActiveMwsiveSongs[3].GetComponent<SurfAni>().Play_SurfTransitionBackHideSong();
+
+            ActiveMwsiveSongs[4].GetComponent<SurfAni>().isAvailable = true;
 
             AddSong.GetComponent<SurfAni>().Play_SurfAddsongReset();
 
@@ -418,7 +420,7 @@ public class PF_SurfManager : Manager
             ActiveMwsiveSongs[4].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[2]);
             ActiveMwsiveSongs[4].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();
 
-
+            ActiveMwsiveSongs[0].GetComponent<SurfAni>().isAvailable = true;
 
 
 
@@ -516,7 +518,7 @@ public class PF_SurfManager : Manager
 
         Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
 
-        ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfAddsongReset();
+        AddSong.GetComponent<SurfAni>().Play_SurfAddsongReset();
 
         ActiveMwsiveSongs[2].GetComponent<SurfAni>().SetValues(null, null, null, null, true, RestPositions[1]);
         ActiveMwsiveSongs[2].GetComponent<SurfAni>().Play_SurfResetfOtherSongs();
@@ -927,7 +929,7 @@ public class PF_SurfManager : Manager
         {
             SpawnPrefab().GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[CurrentPosition + 3]);
         }
-        
+        SpawnPosition = CurrentPosition + 2;
     }
 
 
@@ -956,14 +958,17 @@ public class PF_SurfManager : Manager
 
             GameObject instance = SpawnPrefab();
             GetMwsiveInfo();
-            if (CurrentPosition < MwsiveSongsData.Count && CurrentPosition > 4)
+            if (SpawnPosition < MwsiveSongsData.Count && CurrentPosition > 4)
             {
-                instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[CurrentPosition + 2]);
+                SpawnPosition++;
+                instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[SpawnPosition]);
+
             }
-            else if (CurrentPosition == MwsiveSongsData.Count && CurrentPosition > 4)
+            else if (SpawnPosition == MwsiveSongsData.Count && CurrentPosition > 4)
             {
+                SpawnPosition++;
                 //MwsiveSongsData[CurrentPosition + 3].challenge_AmILastPosition = true;
-                instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[CurrentPosition + 2]);
+                instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[SpawnPosition]);
 
             }
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
@@ -988,8 +993,13 @@ public class PF_SurfManager : Manager
     {
         GameObject Instance = PoolManager.instance.GetPooledObject();
         Instance.transform.position = RestPositions[4].transform.position;
-        Instance.GetComponent<CanvasGroup>().alpha = RestPositions[4].GetComponent<CanvasGroup>().alpha;
+        Instance.GetComponent<CanvasGroup>().alpha = 1;
+        Instance.transform.SetParent(MwsiveContainer.transform);
+        Instance.GetComponent<SurfAni>().isAvailable = false;
         ActiveMwsiveSongs.Insert(0, Instance);
+        Instance.GetComponent<RectTransform>().offsetMin = new Vector2(LeftRightOffset.x, 0);
+        Instance.GetComponent<RectTransform>().offsetMax = new Vector2(LeftRightOffset.y, 0);
+        Instance.SetActive(true);
         return Instance;
     }
 

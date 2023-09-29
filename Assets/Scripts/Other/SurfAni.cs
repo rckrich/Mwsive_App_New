@@ -20,7 +20,7 @@ public class SurfAni : MonoBehaviour
     private bool isItFinished;
     private bool visible;
     private GameObject Position;
-    private Vector2 FinalPosition, RestPositionSide, RestPositionDown, RestPositionUp;
+    private Vector3 FinalPosition, RestPositionSide, RestPositionDown, RestPositionUp;
 
     public bool isAvailable, debug;
 
@@ -40,9 +40,9 @@ public class SurfAni : MonoBehaviour
     {
         MainCanvas = UIAniManager.instance.MainCanvas;
         FinalPosition = MainCanvas.transform.position;
-        RestPositionDown = new Vector2(MainCanvas.transform.position.x, -2 * MainCanvas.transform.position.y);
-        RestPositionUp = new Vector2(MainCanvas.transform.position.x, 2 * MainCanvas.transform.position.y);
-        RestPositionSide = new Vector2(MainCanvas.transform.position.x * 4, MainCanvas.transform.position.y);
+        RestPositionDown = new Vector3(MainCanvas.transform.position.x, -2 * MainCanvas.transform.position.y, 0f);
+        RestPositionUp = new Vector3(MainCanvas.transform.position.x, 2 * MainCanvas.transform.position.y, 0f);
+        RestPositionSide = new Vector3(MainCanvas.transform.position.x * 4, MainCanvas.transform.position.y, 0f);
         //RestPositionLeft = new Vector2(MainCanvas.transform.position.x * -2, MainCanvas.transform.position.y);
     }
     // Update is called once per frame
@@ -124,6 +124,7 @@ public class SurfAni : MonoBehaviour
                 isAvailable = true;
             }
             gameObject.transform.DORotate(new Vector3(0f, 0f, 0f), SurfTransitionDuration / 2);
+
         });
     }
 
@@ -160,7 +161,7 @@ public class SurfAni : MonoBehaviour
         SurfTransitionBackSongDown[0] = gameObject.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha, SurfTransitionDuration).Pause();
         SurfTransitionBackSongDown[1] = gameObject.transform.DOScale(Position.transform.localScale, SurfTransitionDuration).Pause();
         SurfTransitionBackSongDown[2] = gameObject.transform.DORotate(new Vector3(0, 0, 0), SurfTransitionDuration).Pause();
-
+        SurfTransitionBackSongDown[3] = gameObject.transform.DOMove(Position.transform.position, SurfTransitionDuration, false);
     }
 
     private void SetUp_SurfResetOtherSongs()
@@ -205,9 +206,9 @@ public class SurfAni : MonoBehaviour
 
 
         
-        SurfTransitionOtherSongs[0] = gameObject.transform.DOMove(pos, SurfTransitionDuration, false).Pause();
-        SurfTransitionOtherSongs[1] = gameObject.GetComponent<CanvasGroup>().DOFade(aplha, SurfTransitionDuration).Pause();
-        SurfTransitionOtherSongs[2] = gameObject.transform.DOScale(scale, SurfTransitionDuration);
+        SurfTransitionOtherSongs[0] = gameObject.transform.DOMove(Position.transform.position, SurfTransitionDuration, false).Pause();
+        SurfTransitionOtherSongs[1] = gameObject.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha*fade, SurfTransitionDuration).Pause();
+        SurfTransitionOtherSongs[2] = gameObject.transform.DOScale(Position.transform.localScale, SurfTransitionDuration);
         SurfTransitionOtherSongs[3] = gameObject.transform.DORotate(new Vector3(0, 0, 0), SurfTransitionDuration).Pause();
 
 
@@ -223,7 +224,7 @@ public class SurfAni : MonoBehaviour
         SurfTransitionBackHideSong[0] = gameObject.transform.DOMove(Position.transform.position, SurfTransitionDuration, false).Pause();
         SurfTransitionBackHideSong[1] = gameObject.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha * fade, SurfTransitionDuration).Pause();
         SurfTransitionBackHideSong[2] = gameObject.transform.DOScale(Position.transform.localScale, SurfTransitionDuration).Pause();
-        SurfTransitionBackHideSong[0].OnComplete(() => { gameObject.SetActive(false); });
+        
     }
 
     private void SetUp_SurfAddSong()
@@ -406,17 +407,20 @@ public class SurfAni : MonoBehaviour
 
     public void Play_VerticalUp()
     {
-        fade = Mathf.Clamp(var * 2, 0, 1);
+        
         isAvailable = false;
         if (VerticalUp == null)
         {
+            
             SetUp_SurfVerticalUp();
         }
         else
         {
+
+
             Restart_VerticalUp();
         }
-        
+        Debug.LogWarning(fade);
         foreach (Tweener item in VerticalUp)
         {
             item.SetAutoKill(false);
@@ -478,7 +482,7 @@ public class SurfAni : MonoBehaviour
     public void Play_SurfTransitionBackHideSong()
     {
         fade = Mathf.Clamp(var * 2, 0, 1);
-        isAvailable = false;
+        
         if (SurfTransitionBackHideSong == null)
         {
             SetUp_SurfTransitionBackHideSong();
@@ -505,7 +509,7 @@ public class SurfAni : MonoBehaviour
         }
         else
         {
-            SetUp_SurfResetOtherSongs();
+            Restart_SurfResetOtherSongs();
         }
         foreach (Tweener item in SurfResetOtherSongs)
         {
@@ -537,6 +541,8 @@ public class SurfAni : MonoBehaviour
 
     public void Play_SurfTransitionOtherSongs()
     {
+        
+        fade = Mathf.Clamp(var * 2, 0, 1);
         if (SurfTransitionOtherSongs == null)
         {
             SetUp_SurfTransitionOtherSongs();
@@ -632,7 +638,7 @@ public class SurfAni : MonoBehaviour
     private void Restart_SurfSide()
     {
         SurfSide[0].ChangeValues(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y), new Vector2(RestPositionSide.x * var, RestPositionSide.y));
-        SurfSide[1].ChangeValues(gameObject.transform.localRotation, new Vector3(0f, 0f, maxRotation * var));
+        SurfSide[1].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0f, 0f, maxRotation * var));
         SurfSide[2].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, fade);
 
     }
@@ -640,7 +646,7 @@ public class SurfAni : MonoBehaviour
     private void Restart_SurfSideLastPosition()
     {
         SurfSideLastPosition[0].ChangeValues(gameObject.transform.position, new Vector2(RestPositionSide.x * var, RestPositionSide.y));
-        SurfSideLastPosition[1].ChangeValues(gameObject.transform.rotation, new Vector3(0f, 0f, maxRotation * var));
+        SurfSideLastPosition[1].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0f, 0f, maxRotation * var));
         SurfSideLastPosition[2].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, fade);
 
     }
@@ -650,10 +656,10 @@ public class SurfAni : MonoBehaviour
 
         
         SurfSideTransitionBack[0].ChangeValues(gameObject.transform.position, Position.transform.position);
-        SurfSideTransitionBack[1].ChangeValues(gameObject.transform.rotation, new Vector3(0f, 0f, maxRotation * var));
+        SurfSideTransitionBack[1].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0f, 0f, maxRotation * var));
         SurfSideTransitionBack[2].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, Position.GetComponent<CanvasGroup>().alpha);
         SurfSideTransitionBack[3].ChangeValues(gameObject.transform.localScale, Position.transform.localScale);
-        SurfSideTransitionBack[4].ChangeValues(gameObject.transform.rotation, new Vector3(0, 0, 0));
+        SurfSideTransitionBack[4].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0, 0, 0));
         
 
     }
@@ -674,8 +680,8 @@ public class SurfAni : MonoBehaviour
 
         
         SurfReset[0].ChangeValues(gameObject.transform.position, FinalPosition);
-        SurfReset[1].ChangeValues(gameObject.transform.rotation, new Vector3(0f, 0f, 0f));
-        SurfReset[2].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, 1);
+        SurfReset[1].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0f, 0f, 0f));
+        SurfReset[2].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, (System.Single)1);
 
     }
 
@@ -683,8 +689,8 @@ public class SurfAni : MonoBehaviour
     {
 
         
-        VerticalUp[0].ChangeValues(gameObject.transform.position, new Vector2(RestPositionUp.x, RestPositionUp.y * var));
-        VerticalUp[1].ChangeValues(gameObject.transform.rotation, new Vector3(0f, 0f, maxRotation * var));
+        VerticalUp[0].ChangeValues(gameObject.transform.position, new Vector3(RestPositionUp.x, RestPositionUp.y * var, 0f));
+        VerticalUp[1].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0f, 0f, maxRotation * var));
         VerticalUp[2].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, fade);
 
     }
@@ -692,7 +698,7 @@ public class SurfAni : MonoBehaviour
     private void Restart_VerticalDown1()
     {
         
-        VerticalDown1[0].ChangeValues(gameObject.transform.rotation, new Vector3(0f, 0f, maxRotation * var));
+        VerticalDown1[0].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0f, 0f, maxRotation * var));
         VerticalDown1[1].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, fade);
 
     }
@@ -701,7 +707,7 @@ public class SurfAni : MonoBehaviour
     {
 
         VerticalDown2[0].ChangeValues(gameObject.transform.position, new Vector2(RestPositionDown.x, RestPositionDown.y * var));
-        VerticalDown2[1].ChangeValues(gameObject.transform.rotation, new Vector3(0f, 0f, maxRotation * var));
+        VerticalDown2[1].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0f, 0f, maxRotation * var));
         VerticalDown2[2].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, fade);
 
 
@@ -713,8 +719,8 @@ public class SurfAni : MonoBehaviour
         
         SurfTransitionBackSongDown[0].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, Position.GetComponent<CanvasGroup>().alpha);
         SurfTransitionBackSongDown[1].ChangeValues(gameObject.transform.localScale, Position.transform.localScale);
-        SurfTransitionBackSongDown[2].ChangeValues(gameObject.transform.rotation, new Vector3(0, 0, 0));
-        
+        SurfTransitionBackSongDown[2].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0, 0, 0));
+        SurfTransitionBackSongDown[3].ChangeValues(gameObject.transform.position, Position.transform.position);
 
     }
 
@@ -730,10 +736,10 @@ public class SurfAni : MonoBehaviour
     {
 
         SurfTransitionBackSong[0].ChangeValues(gameObject.transform.position, Position.transform.position);
-        SurfTransitionBackSong[2].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, Position.GetComponent<CanvasGroup>().alpha);
-        SurfTransitionBackSong[1].ChangeValues(gameObject.transform.localScale, Position.transform.localScale);
+        SurfTransitionBackSong[1].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, Position.GetComponent<CanvasGroup>().alpha);
+        SurfTransitionBackSong[2].ChangeValues(gameObject.transform.localScale, Position.transform.localScale);
 
-        SurfTransitionBackSong[3].ChangeValues(gameObject.transform.rotation, new Vector3(0, 0, 0));
+        SurfTransitionBackSong[3].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0, 0, 0));
         
 
     }
@@ -745,7 +751,7 @@ public class SurfAni : MonoBehaviour
         SurfTransitionOtherSongs[1].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, Position.GetComponent<CanvasGroup>().alpha);
         SurfTransitionOtherSongs[2].ChangeValues(gameObject.transform.localScale, Position.transform.localScale);
 
-        SurfTransitionOtherSongs[3].ChangeValues(gameObject.transform.rotation, new Vector3(0, 0, 0));
+        SurfTransitionOtherSongs[3].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0, 0, 0));
 
     }
 

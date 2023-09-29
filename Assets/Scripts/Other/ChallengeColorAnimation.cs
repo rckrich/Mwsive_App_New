@@ -152,14 +152,13 @@ public class ChallengeColorAnimation : MonoBehaviour
             sequence.SetEase(Ease.InSine);
             sequence.OnComplete(() =>
             {
-                Debug.Log("aaa");
+                
                 topDoMove.Kill();
                 isComplete = true;
             });
             sequence.SetId(1);
             sequence.OnKill(() =>
             {
-                Debug.Log("aaa");
                 
             });
         }
