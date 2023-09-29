@@ -441,7 +441,7 @@ public class SurfAni : MonoBehaviour
         }
     }
 
-    public void Play_VerticalDown2(bool _value)
+    public void Play_VerticalDown2()
     {
         if (VerticalDown2 == null)
         {
@@ -458,7 +458,7 @@ public class SurfAni : MonoBehaviour
         }
     }
 
-    public void Play_SurfTransitionBackSongDown(bool _value)
+    public void Play_SurfTransitionBackSongDown()
     {
         if (SurfTransitionBackSongDown == null)
         {
@@ -475,7 +475,7 @@ public class SurfAni : MonoBehaviour
         }
     }
 
-    public void Play_SurfTransitionBackHideSong(bool _value)
+    public void Play_SurfTransitionBackHideSong()
     {
         fade = Mathf.Clamp(var * 2, 0, 1);
         isAvailable = false;
@@ -497,7 +497,7 @@ public class SurfAni : MonoBehaviour
     }
 
     
-    public void Play_SurfResetfOtherSongs(bool _value)
+    public void Play_SurfResetfOtherSongs()
     {
         if (SurfResetOtherSongs == null)
         {
@@ -514,7 +514,7 @@ public class SurfAni : MonoBehaviour
         }
     }
 
-    public void Play_SurfBackSong(bool _value)
+    public void Play_SurfBackSong()
     {
         isAvailable = false;
         gameObject.transform.eulerAngles = new Vector3(0f, 0f, maxRotation);
@@ -683,7 +683,7 @@ public class SurfAni : MonoBehaviour
     {
 
         
-        VerticalUp[0].ChangeValues(gameObject.transform.position, new Vector2(RestPositionUp.x, RestPositionUp.y * var);
+        VerticalUp[0].ChangeValues(gameObject.transform.position, new Vector2(RestPositionUp.x, RestPositionUp.y * var));
         VerticalUp[1].ChangeValues(gameObject.transform.rotation, new Vector3(0f, 0f, maxRotation * var));
         VerticalUp[2].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, fade);
 
