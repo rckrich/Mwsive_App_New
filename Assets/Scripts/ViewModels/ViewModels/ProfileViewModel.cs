@@ -24,7 +24,10 @@ public class ProfileViewModel : ViewModel
     public Color unfollowColor;
     public Color followTextColor;
     public Color unfollowTextColor;
-
+    [Header("Badges References")]
+    public GameObject BadgesHolderPrefab;
+    public Transform BadgesContent;
+    public GameObject noBadges;
     [Header("Social Media Button")]
 
     
@@ -132,7 +135,7 @@ public class ProfileViewModel : ViewModel
     public void OnClick_SpawnInsigniasButton()
     {
         NewScreenManager.instance.ChangeToSpawnedView("insignias");
-        NewScreenManager.instance.GetCurrentView().GetComponent<InsigniasViewModel>().Initialize();
+        NewScreenManager.instance.GetCurrentView().GetComponent<InsigniasViewModel>().Initialize(profileId);
     }
 
     public void OnClick_SpawnADNButton(int identifier)
@@ -657,6 +660,62 @@ public class ProfileViewModel : ViewModel
             });
         }
 #endif
+    }
+
+    public void OnClick_NoBadges()
+    {
+        CallPopUP(PopUpViewModelTypes.MessageOnly, "<br>Has mas PIKS", "Has más PIK para conseguir Badges", "Cerrar");
+    }
+
+    public void GetBadgesCall()
+    {
+        string _profileid = profileId;
+        if (_profileid.Equals(""))
+           _profileid = AppManager.instance.currentMwsiveUser.platform_id;
+        MwsiveConnectionManager.instance.GetBadges(_profileid, "engagement", Callback_GetBadgesCall, 0, 3);
+    }
+
+    private void Callback_GetBadgesCall(object[] _value)
+    {
+        MwsiveBadgesRoot badgesRoot = (MwsiveBadgesRoot)_value[1];
+        int count = 0;
+        if (badgesRoot != null)
+        {
+            noBadges.SetActive(false);
+            foreach (Badge badge in badgesRoot.badges)
+            {
+                BadgeHolder instance = GameObject.Instantiate(BadgesHolderPrefab, instanceParent).GetComponent<BadgeHolder>();
+                instance.Initialize(badge);
+                count++;
+            }
+        }
+
+        if(count < 3)
+        {
+            string _profileid = profileId;
+            if (_profileid.Equals(""))
+                _profileid = AppManager.instance.currentMwsiveUser.platform_id;
+            MwsiveConnectionManager.instance.GetBadges(_profileid, "track", Callback_GetBadgesTrack, count, 3);
+        }
+    }
+
+    private void Callback_GetBadgesTrack(object[] _value)
+    {
+        MwsiveBadgesRoot badgesRoot = (MwsiveBadgesRoot)_value[1];
+        if(badgesRoot != null)
+        {
+            noBadges.SetActive(false);
+            foreach (Badge badge in badgesRoot.badges)
+            {
+                BadgeHolder instance = GameObject.Instantiate(BadgesHolderPrefab, instanceParent).GetComponent<BadgeHolder>();
+                instance.Initialize(badge);
+            }
+        }
+        else
+        {
+            noBadges.SetActive(true);
+        }
+        
     }
 }
 

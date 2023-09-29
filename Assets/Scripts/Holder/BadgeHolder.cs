@@ -24,7 +24,6 @@ public class BadgeHolder : ViewModel
 
         type = badges.type;
         group = badges.group;
-        track = badges.mwsive_track;
         typeSwitch();
     }
 
@@ -33,7 +32,8 @@ public class BadgeHolder : ViewModel
         switch (type)
         {
            case "track":
-                if (track.name.Length > 27)
+                track = badges.mwsive_track;
+                if (track.name.Length > 20)
                 {
                     string _text2 = "";
                     for (int k = 0; k < 27; k++)
@@ -52,14 +52,19 @@ public class BadgeHolder : ViewModel
                 image.sprite = sprites[0];
                 
                 break;
-           
 
+            case "engagement":
+
+                badgeText.text = group;
+                image.sprite = sprites[1];
+
+                break;
         }
     }
 
     public void OnClick_Badge()
     {
-        CallPopUP(PopUpViewModelTypes.MessageOnly, badgeText.text, ("<br> Fuiste de los primeros " + group + " en hacer pik a esta canción"), "Aceptar", image.sprite);
+        CallPopUP(PopUpViewModelTypes.MessageOnly, "Top #" + group + "<br>" + track.name, ("<br> Fuiste de los primeros " + group + " en hacer pik a esta canción"), "Aceptar", image.sprite);
     }
 
 }

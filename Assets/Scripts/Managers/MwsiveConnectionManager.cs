@@ -304,10 +304,10 @@ public class MwsiveConnectionManager : MonoBehaviour
         Debug.Log(((MwsiveCuratorsRoot)_value[1]));
     }
 
-    public void GetBadges(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
+    public void GetBadges(string userid, string type, MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
     {
         _callback += Callback_GetBadges;
-        StartCoroutine(MwsiveWebCalls.CR_GetBadges(ProgressManager.instance.progress.userDataPersistance.access_token, _callback, _offset, _limit));
+        StartCoroutine(MwsiveWebCalls.CR_GetBadges(ProgressManager.instance.progress.userDataPersistance.access_token, userid, type, _callback, _offset, _limit));
     }
 
     private void Callback_GetBadges(object[] _value)

@@ -857,12 +857,12 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_GetBadges(string _token, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
+    public static IEnumerator CR_GetBadges(string _token, string userid, string type, MwsiveWebCallback _callback, int _offset = 0, int _limit = 20)
     {
         string jsonResult = "";
 
-        //string url = "http://mwsive.com/api/me/badges/offset/limit";
-        string url = "http://192.241.129.184/api/me/badges/" + _offset.ToString() + "/" + _limit.ToString();
+        //string url = "http://mwsive.com/api/users/{user_id}/badges/{type}/{offset}/{limit}";
+        string url = "http://192.241.129.184/api/users/" + userid + "/badges/" + type + "/" + _offset.ToString() + "/" + _limit.ToString();
 
         Debug.Log(url);
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
