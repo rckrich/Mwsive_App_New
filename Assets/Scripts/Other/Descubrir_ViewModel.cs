@@ -1367,6 +1367,7 @@ public class Descubrir_ViewModel : ViewModel
     public void OnClick_VerMasAlbum()
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.TopAlbumViewModel);
+        NewScreenManager.instance.GetCurrentView().GetComponent<TopAlbumViewModel>().Initialize();
     }
 
     public void OnClick_VerMasArtist()
@@ -1377,11 +1378,13 @@ public class Descubrir_ViewModel : ViewModel
     public void OnClick_VerMasCurators()
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.TopCuratorsViewModel);
+        NewScreenManager.instance.GetCurrentView().GetComponent<TopCuratorsViewModel>().Initialize();
     }
 
     public void OnClick_VerMasSongs()
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.TopSongsViewModel);
+        NewScreenManager.instance.GetCurrentView().GetComponent<TopSongsViewModel>();
     }
 
     public void OnClick_VerMasPlaylist()

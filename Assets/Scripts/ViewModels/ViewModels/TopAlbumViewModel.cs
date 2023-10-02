@@ -13,6 +13,12 @@ public class TopAlbumViewModel : ViewModel
     public GameObject shimmer;
     private float end = -0.01f;
 
+    public override void Initialize(params object[] list)
+    {
+#if PLATFORM_ANDROID
+        SetAndroidBackAction();
+#endif
+    }
     void Start()
     {
         shimmer.SetActive(true);

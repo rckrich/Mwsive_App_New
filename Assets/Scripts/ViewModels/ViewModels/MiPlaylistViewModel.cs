@@ -19,7 +19,12 @@ public class MiPlaylistViewModel : ViewModel
     public RectTransform Scroll;
     public GameObject shimmer;
 
-
+    public override void Initialize(params object[] list)
+    {
+#if PLATFORM_ANDROID
+        SetAndroidBackAction();
+#endif
+    }
 
     public void GetCurrentUserPlaylist()
     {
@@ -107,5 +112,20 @@ public class MiPlaylistViewModel : ViewModel
     {
         NewScreenManager.instance.ChangeToSpawnedView("crearPlaylist");
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
+    }
+
+    public void SetAndroidBackAction()
+    {
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_BackButton();
+                }
+            });
+        }
+#endif
     }
 }

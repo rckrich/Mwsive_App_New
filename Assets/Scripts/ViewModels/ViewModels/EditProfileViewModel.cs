@@ -30,6 +30,9 @@ public class EditProfileViewModel : ViewModel
 
     public override void Initialize(params object[] list)
     {
+#if PLATFORM_ANDROID
+        SetAndroidAction();
+#endif
         if(list != null)
             isPrefab = (bool)list[0];
 
@@ -193,6 +196,7 @@ public class EditProfileViewModel : ViewModel
         SetFalseXImage();
         NewScreenManager.instance.BackToPreviousView();
         NewScreenManager.instance.GetCurrentView().GetComponent<ProfileViewModel>().Initialize();
+
     }
 
     public void SetAndroidAction()

@@ -151,8 +151,4 @@ public class ADNMusicalPrefabInitializaer : MonoBehaviour
         ADNDynamicScroll.instance.HideShowHeader();
         ADNDynamicScroll.instance.ShowAllInstances(Title.text, id);
     }
-
-    
-
-
 }

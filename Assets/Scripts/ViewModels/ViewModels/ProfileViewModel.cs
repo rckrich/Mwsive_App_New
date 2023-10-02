@@ -143,7 +143,7 @@ public class ProfileViewModel : ViewModel
         NewScreenManager.instance.ChangeToSpawnedView("adn");
         
         NewScreenManager.instance.GetCurrentView().gameObject.GetComponent<ADNDynamicScroll>().Initialize(identifier, currentuser, profileId);
-
+        NewScreenManager.instance.GetCurrentView().GetComponent<AdnViewModel>().Initialize();
     }
     public void OnClick_SetEditableDNA()
     {
@@ -156,12 +156,14 @@ public class ProfileViewModel : ViewModel
         {
             NewScreenManager.instance.ChangeToSpawnedView("miPlaylist");
             NewScreenManager.instance.GetCurrentView().GetComponent<MiPlaylistViewModel>().GetCurrentUserPlaylist();
+            NewScreenManager.instance.GetCurrentView().GetComponent<MiPlaylistViewModel>().Initialize();
             Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
         }
         else
         {
             NewScreenManager.instance.ChangeToSpawnedView("miPlaylist");
             NewScreenManager.instance.GetCurrentView().GetComponent<MiPlaylistViewModel>().GetUserPlaylist(profileId);
+            NewScreenManager.instance.GetCurrentView().GetComponent<MiPlaylistViewModel>().Initialize();
         }
         
     }
@@ -391,7 +393,7 @@ public class ProfileViewModel : ViewModel
                 }
             }
         }
-
+        GetBadgesCall();
         GetCurrentUserPlaylists();
         
     }
@@ -409,7 +411,7 @@ public class ProfileViewModel : ViewModel
         profileId = mwsiveUserRoot.user.platform_id;
 
         GetCurrentUserPlaylists();
-
+        GetBadgesCall();
         if (mwsiveUserRoot.user.user_links.Count != 0)
         {
             foreach (UserLink url in mwsiveUserRoot.user.user_links)
@@ -679,43 +681,50 @@ public class ProfileViewModel : ViewModel
     {
         MwsiveBadgesRoot badgesRoot = (MwsiveBadgesRoot)_value[1];
         int count = 0;
-        if (badgesRoot != null)
+        if (badgesRoot.badges.Count > 0)
         {
-            noBadges.SetActive(false);
-            foreach (Badge badge in badgesRoot.badges)
+            if (badgesRoot != null)
             {
-                BadgeHolder instance = GameObject.Instantiate(BadgesHolderPrefab, instanceParent).GetComponent<BadgeHolder>();
-                instance.Initialize(badge);
-                count++;
+                noBadges.SetActive(false);
+                foreach (Badge badge in badgesRoot.badges)
+                {
+                    BadgeHolder instance = GameObject.Instantiate(BadgesHolderPrefab, BadgesContent).GetComponent<BadgeHolder>();
+                    instance.Initialize(badge);
+                    count++;
+                }
             }
         }
-
         if(count < 3)
         {
+            Debug.Log("count: " + count);
             string _profileid = profileId;
+
             if (_profileid.Equals(""))
                 _profileid = AppManager.instance.currentMwsiveUser.platform_id;
             MwsiveConnectionManager.instance.GetBadges(_profileid, "track", Callback_GetBadgesTrack, count, 3);
+            
         }
     }
 
     private void Callback_GetBadgesTrack(object[] _value)
     {
         MwsiveBadgesRoot badgesRoot = (MwsiveBadgesRoot)_value[1];
-        if(badgesRoot != null)
+        if (badgesRoot.badges.Count > 0)
         {
-            noBadges.SetActive(false);
-            foreach (Badge badge in badgesRoot.badges)
+            if (badgesRoot != null)
             {
-                BadgeHolder instance = GameObject.Instantiate(BadgesHolderPrefab, instanceParent).GetComponent<BadgeHolder>();
-                instance.Initialize(badge);
+                noBadges.SetActive(false);
+                foreach (Badge badge in badgesRoot.badges)
+                {
+                    BadgeHolder instance = GameObject.Instantiate(BadgesHolderPrefab, BadgesContent).GetComponent<BadgeHolder>();
+                    instance.Initialize(badge);
+                }
             }
         }
         else
         {
             noBadges.SetActive(true);
         }
-        
     }
 }
 

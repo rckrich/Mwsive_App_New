@@ -29,6 +29,13 @@ public class PlaylistViewModel : ViewModel
     public PlaylistRoot playlist  = null;
     private int NumberofTracks, NumberofTracksToCompare;
 
+
+    public override void Initialize(params object[] list)
+    {
+#if PLATFORM_ANDROID
+        SetAndroidBackAction();
+#endif
+    }
     public void GetPlaylist()
     {
         if (!id.Equals(""))
@@ -165,6 +172,15 @@ public class PlaylistViewModel : ViewModel
     {
         NewScreenManager.instance.BackToPreviousView();
         SpotifyPreviewAudioManager.instance.StopTrack();
+        if (NewScreenManager.instance.GetCurrentView().GetComponent<ProfileViewModel>())
+        {
+            NewScreenManager.instance.GetCurrentView().GetComponent<ProfileViewModel>().SetAndroidBackAction();
+        }
+
+        if (NewScreenManager.instance.GetCurrentView().GetComponent<SurfMiPlaylistViewModel>())
+        {
+            NewScreenManager.instance.GetCurrentView().GetComponent<SurfMiPlaylistViewModel>().SetAndroidBackAction();
+        }
     }
 
     public void OnClick_SurfButton(){
@@ -256,6 +272,21 @@ public class PlaylistViewModel : ViewModel
         {
             Destroy(_scroll.GetChild(i).gameObject);
         }
+    }
+
+    public void SetAndroidBackAction()
+    {
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_BackButton();
+                }
+            });
+        }
+#endif
     }
 }
 

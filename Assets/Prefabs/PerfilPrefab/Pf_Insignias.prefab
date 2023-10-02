@@ -370,8 +370,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -502,7 +502,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4308731104279312847
 RectTransform:
   m_ObjectHideFlags: 0
@@ -510,19 +510,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4703858262010011088}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8923326910470866703}
-  m_Father: {fileID: 7479211823385140533}
+  m_Father: {fileID: 7479211822611119047}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -68}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.0021362305, y: -190.75508}
+  m_SizeDelta: {x: -39.979996, y: 90.6}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &7479211822097740541
 GameObject:
   m_ObjectHideFlags: 0
@@ -690,6 +690,7 @@ RectTransform:
   - {fileID: 3161945857500430743}
   - {fileID: 7479211823870604192}
   - {fileID: 7479211823669658278}
+  - {fileID: 4308731104279312847}
   - {fileID: 7479211823922555411}
   - {fileID: 7479211823141341247}
   m_Father: {fileID: 0}
@@ -717,6 +718,7 @@ MonoBehaviour:
   finishedLoading: 1
   scrollRect: {fileID: 0}
   offset: 0
+  noBadgesObject: {fileID: 4703858262010011088}
   BadgeHolderPrefab: {fileID: 331966943669959748, guid: 3df4594bd9e3a9e46a0a0c1430e138a9, type: 3}
   instanceParent: {fileID: 7479211823385140533}
 --- !u!1 &7479211822900563123
@@ -1143,8 +1145,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4308731104279312847}
+  m_Children: []
   m_Father: {fileID: 7479211823907251183}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

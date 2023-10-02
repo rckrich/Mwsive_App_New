@@ -38,7 +38,6 @@ public class ADNDynamicScroll : MonoBehaviour
 
     
     public void Initialize(int _TypeOfADN, bool _Editable, string _profileId) {
-        
         TypeOfADN = _TypeOfADN;
         Editable = _Editable;
         
@@ -705,5 +704,5 @@ public class ADNDynamicScroll : MonoBehaviour
         }
         
     }
-    
+
 }

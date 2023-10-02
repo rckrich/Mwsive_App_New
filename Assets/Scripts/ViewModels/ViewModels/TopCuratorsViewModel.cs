@@ -13,7 +13,12 @@ public class TopCuratorsViewModel : ViewModel
     public GameObject shimmer;
 
     private float end = -0.01f;
-
+    public override void Initialize(params object[] list)
+    {
+#if PLATFORM_ANDROID
+        SetAndroidBackAction();
+#endif
+    }
     void Start()
     {
         shimmer.SetActive(true);
@@ -45,5 +50,20 @@ public class TopCuratorsViewModel : ViewModel
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.ExploreViewModel);
+    }
+
+    public void SetAndroidBackAction()
+    {
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_BackButton();
+                }
+            });
+        }
+#endif
     }
 }

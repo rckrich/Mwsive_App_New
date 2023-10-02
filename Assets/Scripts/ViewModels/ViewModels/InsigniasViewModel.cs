@@ -21,6 +21,9 @@ public class InsigniasViewModel : ViewModel
 
     public override void Initialize(params object[] list)
     {
+#if PLATFORM_ANDROID
+        SetAndroidBackAction();
+#endif
         StartSearch();
         userid = list[0].ToString();
         if (userid.Equals(""))
@@ -36,12 +39,13 @@ public class InsigniasViewModel : ViewModel
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
+        NewScreenManager.instance.GetCurrentView().GetComponent<ProfileViewModel>().SetAndroidBackAction();
     }
 
     private void Callback_GetBadgesEngagemend(object[] _value)
     {
         MwsiveBadgesRoot badgesRoot = (MwsiveBadgesRoot)_value[1];
-        if(badgesRoot != null)
+        if (badgesRoot != null)
         {
             foreach (Badge badge in badgesRoot.badges)
             {
@@ -50,6 +54,10 @@ public class InsigniasViewModel : ViewModel
                 offset++;
             }
             areEngagementBadges = true;
+        }
+        if (offset == 0)
+        {
+            areEngagementBadges = false;
         }
         MwsiveConnectionManager.instance.GetBadges(userid, "track", Callback_GetBadgesTrack, offset, LIMIT);
     }
@@ -67,13 +75,18 @@ public class InsigniasViewModel : ViewModel
             }
             areTrackBadges = true;
         }
+        if (offset == 0)
+        {
+            areTrackBadges = false;
+        }
         TurnOn_NoBadges();
         EndSearch();
     }
 
     private void TurnOn_NoBadges()
     {
-        if (areEngagementBadges && areTrackBadges)
+
+        if (!areEngagementBadges && !areTrackBadges)
         {
             noBadgesObject.SetActive(true);
         }
@@ -84,7 +97,23 @@ public class InsigniasViewModel : ViewModel
 
 
     }
+
+    public void SetAndroidBackAction()
+    {
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_BackButton();
+                }
+            });
+        }
+# endif
+    }
 }
-    
+
+
 
 

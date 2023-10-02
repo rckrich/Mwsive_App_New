@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class PF_SurfViewModel : ViewModel
 {
-
+    public override void Initialize(params object[] list)
+    {
+#if PLATFORM_ANDROID
+        SetAndroidBackAction();
+#endif
+    }
     public void OnClick_BackButton()
     {
         StopAllCoroutines();
@@ -17,4 +22,18 @@ public class PF_SurfViewModel : ViewModel
         SpotifyPreviewAudioManager.instance.StopTrack();
     }
 
+    public void SetAndroidBackAction()
+    {
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_BackButton();
+                }
+            });
+        }
+#endif
+    }
 }

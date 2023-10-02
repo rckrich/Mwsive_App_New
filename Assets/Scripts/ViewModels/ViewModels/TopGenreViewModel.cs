@@ -13,6 +13,12 @@ public class TopGenreViewModel : ViewModel
 
     private const int MAXIMUM_HORIZONTAL_SCROLL_SPAWNS = 20;
 
+    public override void Initialize(params object[] list)
+    {
+#if PLATFORM_ANDROID
+        SetAndroidBackAction();
+#endif
+    }
     void Start()
     {
         shimmer.SetActive(true);
@@ -41,5 +47,20 @@ public class TopGenreViewModel : ViewModel
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.ExploreViewModel);
+    }
+
+    public void SetAndroidBackAction()
+    {
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_BackButton();
+                }
+            });
+        }
+#endif
     }
 }
