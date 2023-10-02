@@ -291,6 +291,7 @@ public class ProfileViewModel : ViewModel
             if (AppManager.instance.currentMwsiveUser.platform_id.Equals(profileId))
             {
                 NewScreenManager.instance.ChangeToSpawnedView("editarPerfil");
+                NewScreenManager.instance.GetCurrentView().GetComponent<EditProfileViewModel>().Initialize(true);
             }
             else {
                 MwsiveConnectionManager.instance.PostFollow(profileId, Callback_PostFollow);
