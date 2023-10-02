@@ -65,9 +65,10 @@ public class TopSongsViewModel : ViewModel
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.ExploreViewModel);
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
     }
 
-    public void SetAndroidBackAction()
+    public override void SetAndroidBackAction()
     {
 #if PLATFORM_ANDROID
         if (Application.platform == RuntimePlatform.Android)

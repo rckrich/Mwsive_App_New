@@ -10,19 +10,20 @@ public class PF_SurfViewModel : ViewModel
         SetAndroidBackAction();
 #endif
     }
+
     public void OnClick_BackButton()
     {
         StopAllCoroutines();
         SpotifyPreviewAudioManager.instance.StopTrack();
         NewScreenManager.instance.BackToPreviousView();
-        
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
     }
 
     private void OnDestroy() {
         SpotifyPreviewAudioManager.instance.StopTrack();
     }
 
-    public void SetAndroidBackAction()
+    public override void SetAndroidBackAction()
     {
 #if PLATFORM_ANDROID
         if (Application.platform == RuntimePlatform.Android)

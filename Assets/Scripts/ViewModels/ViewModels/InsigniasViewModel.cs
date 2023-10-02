@@ -39,7 +39,7 @@ public class InsigniasViewModel : ViewModel
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
-        NewScreenManager.instance.GetCurrentView().GetComponent<ProfileViewModel>().SetAndroidBackAction();
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
     }
 
     private void Callback_GetBadgesEngagemend(object[] _value)
@@ -98,7 +98,7 @@ public class InsigniasViewModel : ViewModel
 
     }
 
-    public void SetAndroidBackAction()
+    public override void SetAndroidBackAction()
     {
 #if PLATFORM_ANDROID
         if (Application.platform == RuntimePlatform.Android)

@@ -274,7 +274,7 @@ public class PlaylistViewModel : ViewModel
         }
     }
 
-    public void SetAndroidBackAction()
+    public override void SetAndroidBackAction()
     {
 #if PLATFORM_ANDROID
         if (Application.platform == RuntimePlatform.Android)

@@ -75,4 +75,11 @@ public class SurfViewModel : ViewModel
     {
         profilePicture.sprite = _event.newSprite;
     }
+
+    public override void SetAndroidBackAction()
+    {
+#if PLATFORM_ANDROID
+        AppManager.instance.ResetAndroidBackAction();
+#endif
+    }
 }

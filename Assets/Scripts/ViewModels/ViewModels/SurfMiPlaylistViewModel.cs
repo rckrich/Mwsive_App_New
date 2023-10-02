@@ -154,12 +154,8 @@ public class SurfMiPlaylistViewModel : ViewModel
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
         SurfManager.instance.SetActive(true);
-        //TODO Saber si es surf principal o no para apagar o prender las tarjetas
-       
-#if PLATFORM_ANDROID
-        AppManager.instance.ResetAndroidBackAction();
-#endif
     }
 
     public void OnClick_SpawnCrearPlaylistButton()
@@ -177,7 +173,7 @@ public class SurfMiPlaylistViewModel : ViewModel
 
         InitializePlaylistList();
     }
-    public void SetAndroidBackAction()
+    public override void SetAndroidBackAction()
     {
 #if PLATFORM_ANDROID
         if (Application.platform == RuntimePlatform.Android)

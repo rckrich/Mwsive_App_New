@@ -12,12 +12,12 @@ public class AdnViewModel : ViewModel
     }
     public void OnClick_BackButton()
     {
-        Debug.Log("Botón");
+        Debug.Log("Bot?n");
         NewScreenManager.instance.BackToPreviousView();
-        NewScreenManager.instance.GetCurrentView().GetComponent<ProfileViewModel>().SetAndroidBackAction();
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
     }
 
-    public void SetAndroidBackAction()
+    public override void SetAndroidBackAction()
     {
 #if PLATFORM_ANDROID
         if (Application.platform == RuntimePlatform.Android)

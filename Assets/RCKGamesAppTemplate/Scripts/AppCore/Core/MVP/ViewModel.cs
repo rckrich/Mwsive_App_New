@@ -58,6 +58,8 @@ public abstract class ViewModel : AppObject
 
     public virtual void EndSearch(string popUpTitle, string popPupMessage) { StartCoroutine(CR_EndSearch(popUpTitle, popPupMessage)); }
 
+    public virtual void SetAndroidBackAction() { }
+
     protected virtual void CallErrorPopUp() { NewScreenManager.instance.ChangeToMainView(ViewID.ErrorViewModel, true); }
 
     protected virtual void CallPopUP(PopUpViewModelTypes _type, string _titleText, string _descriptionText, string _actionButtonText = "", Sprite _sprite = null)

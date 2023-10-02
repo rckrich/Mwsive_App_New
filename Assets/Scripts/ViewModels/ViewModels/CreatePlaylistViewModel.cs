@@ -15,13 +15,21 @@ public class CreatePlaylistViewModel : ViewModel
 
     public override void Initialize(params object[] list)
     {
-        if(list.Length > 0)
+
+#if PLATFORM_ANDROID
+        SetAndroidBackAction();
+#endif
+
+        if (list.Length > 0)
         {
             surfMiPlaylistViewModel = (SurfMiPlaylistViewModel)list[0];
         }
 
         StartSearch();
         SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
+
+
+
     }
 
     private void Callback_GetUserProfile(object[] _value)
@@ -74,5 +82,21 @@ public class CreatePlaylistViewModel : ViewModel
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
+    }
+
+    public override void SetAndroidBackAction()
+    {
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_BackButton();
+                }
+            });
+        }
+# endif
     }
 }

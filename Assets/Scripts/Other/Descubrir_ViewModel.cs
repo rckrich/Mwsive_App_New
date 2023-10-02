@@ -108,8 +108,6 @@ public class Descubrir_ViewModel : ViewModel
         MwsiveConnectionManager.instance.GetRecommendedTracks(Callback_GetRecommendedTracks);
         MwsiveConnectionManager.instance.GetRecommendedAlbums(Callback_GetRecommendedAlbums);
         MwsiveConnectionManager.instance.GetGenres(Callback_GetGenres);
-
-        SetAndroidActionExploreViewModel(true);
     }
 
     private void Callback_GetChallenges(object[] _list)
@@ -1422,35 +1420,10 @@ public class Descubrir_ViewModel : ViewModel
         shimmers[_index].SetActive(_active);
     }
 
-    public void SetAndroidActionExploreViewModel(bool _value)
+    public override void SetAndroidBackAction()
     {
 #if PLATFORM_ANDROID
-        if (_value)
-        {
-            if (Application.platform == RuntimePlatform.Android)
-            {
-                AppManager.instance.SetAndroidBackAction(() => {
-                    if (finishedLoading)
-                    {
-                        GameObject.FindObjectOfType<MenuOptions>().OnClick(1);
-                    }
-                    AppManager.instance.SetAndroidBackAction(null);
-                });
-            }
-        }
-        else
-        {
-            if (Application.platform == RuntimePlatform.Android)
-            {
-                AppManager.instance.SetAndroidBackAction(() => {
-                    if (finishedLoading)
-                    {
-                        GameObject.FindObjectOfType<DescubrirButton>().OnClick_CancelarButton();
-                    }
-                    SetAndroidActionExploreViewModel(true);
-                });
-            }
-        }
+        AppManager.instance.ResetAndroidBackAction();
 #endif
     }
 }

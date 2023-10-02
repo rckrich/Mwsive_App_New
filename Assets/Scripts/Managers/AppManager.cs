@@ -104,6 +104,8 @@ public class AppManager : Manager
 
     public void SetAndroidBackAction(System.Action action)
     {
+        if (androidBackAction != null) androidBackAction = null;
+
         this.androidBackAction = action;
     }
 

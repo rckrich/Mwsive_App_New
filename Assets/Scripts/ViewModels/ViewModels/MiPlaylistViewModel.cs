@@ -106,6 +106,7 @@ public class MiPlaylistViewModel : ViewModel
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
     }
 
     public void OnClick_SpawnCrearPlaylistButton()
@@ -114,7 +115,7 @@ public class MiPlaylistViewModel : ViewModel
         Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
 
-    public void SetAndroidBackAction()
+    public override void SetAndroidBackAction()
     {
 #if PLATFORM_ANDROID
         if (Application.platform == RuntimePlatform.Android)

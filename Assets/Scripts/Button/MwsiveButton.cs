@@ -60,7 +60,22 @@ public class MwsiveButton : AppObject
     private void Callback_TrackActionPIK(object[] _value)
     {
         RootTrackAction rootTrackAction = (RootTrackAction)_value[1];
-        Debug.Log(rootTrackAction);
+
+        if (rootTrackAction.badges != null)
+        {
+            foreach (Badge badge in rootTrackAction.badges)
+            {
+                if (badge.type.Equals("engagement"))
+                {
+                    UIMessage.instance.UIMessageInstanciate("Conseguiste la insignia " + char.ToUpper(badge.group.ToCharArray()[0]) + badge.group.Substring(1));
+                }
+                else if (badge.type.Equals("track"))
+                {
+                    UIMessage.instance.UIMessageInstanciate("Conseguiste la insignia Top #" + badge.group + " de " + badge.mwsive_track.name);
+                }
+            }
+        }
+
         InvokeEvent<ChangeDiskAppEvent>(new ChangeDiskAppEvent(rootTrackAction.disks, "SUBSTRACT"));
 
         UIAniManager.instance.FadeIn(OlaColorButton, AnimationDuration);

@@ -86,21 +86,7 @@ public class ProfileViewModel : ViewModel
         }
 
 #if PLATFORM_ANDROID
-        if (Application.platform == RuntimePlatform.Android)
-        {
-            AppManager.instance.SetAndroidBackAction(() => {
-                if (finishedLoading) {
-                    if (!isCurrentUserProfileView)
-                    {
-                        OnClick_BackButtonSurf();
-                    }
-                    else {
-                        OnClick_BackButtonPrefab();
-                    }
-                }
-                AppManager.instance.SetAndroidBackAction(null);
-            });
-        }
+        SetAndroidBackAction();
 #endif
 
         FollowButtonInitilization();
@@ -211,12 +197,10 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_BackButtonSurf()
     {
-            principalScroll.verticalNormalizedPosition = 1;
-            surfManager.SetActive(true);
-            OpenView(ViewID.SurfViewModel);
-#if PLATFORM_ANDROID
-        AppManager.instance.ResetAndroidBackAction();
-#endif
+        principalScroll.verticalNormalizedPosition = 1;
+        surfManager.SetActive(true);
+        OpenView(ViewID.SurfViewModel);
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
     }
 
     public void OnClick_OptionsButton()
@@ -283,6 +267,7 @@ public class ProfileViewModel : ViewModel
     public void OnClick_BackButtonPrefab()
     {
         NewScreenManager.instance.BackToPreviousView();
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
     }
 
     public void OnClick_Follow()
@@ -642,7 +627,7 @@ public class ProfileViewModel : ViewModel
         profilePicture.sprite = _event.newSprite;
     }
 
-    public void SetAndroidBackAction()
+    public override void SetAndroidBackAction()
     {
 #if PLATFORM_ANDROID
         if (Application.platform == RuntimePlatform.Android)
@@ -650,16 +635,16 @@ public class ProfileViewModel : ViewModel
             AppManager.instance.SetAndroidBackAction(() => {
                 if (finishedLoading)
                 {
-                    if (!isCurrentUserProfileView)
+                    if (isCurrentUserProfileView)
                     {
                         OnClick_BackButtonSurf();
                     }
                     else
                     {
                         OnClick_BackButtonPrefab();
+
                     }
                 }
-                AppManager.instance.SetAndroidBackAction(null);
             });
         }
 #endif

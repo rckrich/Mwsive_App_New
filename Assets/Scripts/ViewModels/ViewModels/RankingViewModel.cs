@@ -63,4 +63,11 @@ public class RankingViewModel : ScrollViewModel
     {
         selectTimePanel.SetActive(true);
     }
+
+    public override void SetAndroidBackAction()
+    {
+#if PLATFORM_ANDROID
+        AppManager.instance.ResetAndroidBackAction();
+#endif
+    }
 }

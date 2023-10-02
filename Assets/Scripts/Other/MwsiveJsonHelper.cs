@@ -438,6 +438,7 @@ public class PostUserPhoto
 public class RootTrackAction
 {
     public int disks { get; set; }
+    public List<Badge> badges { get; set; }
 }
 
 #endregion
