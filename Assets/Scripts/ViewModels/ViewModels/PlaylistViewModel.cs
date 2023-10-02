@@ -185,7 +185,7 @@ public class PlaylistViewModel : ViewModel
             {
                 
                 NewScreenManager.instance.ChangeToSpawnedView("surf");
-                if(playlist !=  null)
+                if(playlist !=  null || playlist.items.Count > 0)
                 {
                     NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerPLItems(new object[] { playlist }, true, true, id);
                 }

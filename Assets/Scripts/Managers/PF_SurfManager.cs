@@ -32,6 +32,7 @@ public class PF_SurfManager : Manager
     private List<MwsiveData> MwsiveSongsData = new List<MwsiveData>();
     public List<GameObject> ActiveMwsiveSongs = new List<GameObject>();
     public int CurrentPosition = 0;
+    public int SpawnPosition;
 
     [HideInInspector]
     public bool canSwipe = true;
@@ -52,12 +53,6 @@ public class PF_SurfManager : Manager
     private int trackstospawn = 0;
     private int trackstospawntotal = 0;
     private bool HasFirstPlaylistPlayed = false;
-    private int SpawnPosition;
-
-
-    private bool SurfPaged = false;
-    private bool FirstSongplayed = false;
-
 
     [SerializeField]
     private int SongsMaxToPaginate;
@@ -87,7 +82,12 @@ public class PF_SurfManager : Manager
             AddEventListener<TimerAppEvent>(TimerAppEventListener);
             
         }
-        
+
+
+        if(MwsiveSongsData != null && MwsiveSongsData.Count > 0)
+        {
+            SurfManagerLogicInitialize();
+        }
 
 
 
@@ -104,6 +104,7 @@ public class PF_SurfManager : Manager
         StopTimer();
         swipeListener.OnSwipe.RemoveListener(OnSwipe);
         RemoveEventListener<TimerAppEvent>(TimerAppEventListener);
+        ActiveMwsiveSongs.Clear();
 
     }
 
@@ -145,13 +146,13 @@ public class PF_SurfManager : Manager
 
         if (Controller.transform.position.x > ControllerPostion.x * 1.1) {
             Controller.vertical = false;
-            //SideScrollAnimation();
+            SideScrollAnimation();
         } if (Controller.transform.position.y > ControllerPostion.y * 1.1) {
             Controller.horizontal = false;
-            //UpScrollAnimation();
+            UpScrollAnimation();
         } if (Controller.transform.position.y < ControllerPostion.y * .9) {
             Controller.horizontal = false;
-            //DownScrollAnimation();
+            DownScrollAnimation();
         }
 
 
@@ -234,7 +235,7 @@ public class PF_SurfManager : Manager
     }
 
     public void OnEndDrag() {
-        while (HasSwipeEnded) {
+        while (HasSwipeEnded && HasSideScrollEnded) {
             if (ActiveMwsiveSongs[1].transform.position.x >= ControllerPostion.x * SurfSuccessSensitivity) {
                 if (CurrentPosition > MwsiveSongs.Count - 4) {
                     SideScrollSuccess();
@@ -289,6 +290,7 @@ public class PF_SurfManager : Manager
 
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().AddToPlaylistSwipe(GetCurrentMwsiveData().id, ResetTimer());
             CurrentPosition++;
+            SpawnPosition++;
 
             if (Challenge)
             {
@@ -299,13 +301,15 @@ public class PF_SurfManager : Manager
 
             SurfManagerLogic();
             Success = true;
-        } else if (MwsiveSongs.Count - 4 == CurrentPosition && HasSideScrollEnded) {
+        } else if (MwsiveSongsData.Count - 1 == CurrentPosition && HasSideScrollEnded) {
             HasSideScrollEnded = false;
 
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, -MaxRotation, 0, null, null, RestPositions[0]);
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfSideLasPosition();
+            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().AddToPlaylistSwipe(GetCurrentMwsiveData().id, ResetTimer());
 
             ResetSideScroll();
+            AddSong.SetActive(true);
             AddSong.GetComponent<SurfAni>().Play_CompleteAddSurfAddSong();
             
         } else {
@@ -313,28 +317,6 @@ public class PF_SurfManager : Manager
         }
 
 
-
-        /*
-
-        if (CurrentPosition == PrefabPosition - 4) {
-            if (SurfPaged)
-            {
-                SurfPaging();
-            }
-            else if (CanGetRecomendations)
-            {
-                SpawnRecommendations();
-            } else if (SurfProfile) {
-                SurfProfileADN();
-            } else if (!CanGetRecomendations && !SpawnedBuffer && !SurfProfile) {
-                SpawnPrefab();
-                SpawnPrefab();
-                SpawnPrefab();
-                SpawnedBuffer = true;
-            }
-
-        }
-        */
 
         Debug.Log("SideScrollSucces");
         
@@ -367,7 +349,6 @@ public class PF_SurfManager : Manager
             ActiveMwsiveSongs[3].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[3]);
             ActiveMwsiveSongs[3].GetComponent<SurfAni>().Play_SurfTransitionBackHideSong();
 
-            ActiveMwsiveSongs[4].GetComponent<SurfAni>().isAvailable = true;
 
             AddSong.GetComponent<SurfAni>().Play_SurfAddsongReset();
 
@@ -379,6 +360,7 @@ public class PF_SurfManager : Manager
                 MwsiveConnectionManager.instance.PostTrackAction(_trackid, "DOWN", ResetTimer());
             }
             CurrentPosition--;
+            SpawnPosition--;
             if (Challenge)
             {
                 GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().ForceRestart();
@@ -420,7 +402,7 @@ public class PF_SurfManager : Manager
             ActiveMwsiveSongs[4].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[2]);
             ActiveMwsiveSongs[4].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();
 
-            ActiveMwsiveSongs[0].GetComponent<SurfAni>().isAvailable = true;
+            
 
 
 
@@ -432,6 +414,7 @@ public class PF_SurfManager : Manager
 
             GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().PauseTopMove();
             CurrentPosition++;
+            SpawnPosition++;
             if (Challenge)
             {
                 GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().ForceRestart();
@@ -450,41 +433,6 @@ public class PF_SurfManager : Manager
         HasSwipeEnded = true;
     }
 
-
-    public void SpawnRecommendations() {
-        if (CanGetRecomendations) {
-            List<string> _artists = new List<string>();
-            List<string> _tracks = new List<string>();
-
-            if (recommendationsRoot == null) {
-                for (int i = searchedPlaylist.tracks.items.Count - 1; i > searchedPlaylist.tracks.items.Count - 3; i--)
-                {
-                    _artists.Add(searchedPlaylist.tracks.items[i].track.artists[0].id);
-                    _tracks.Add(searchedPlaylist.tracks.items[i].track.id);
-
-                }
-            } else {
-                for (int i = recommendationsRoot.tracks.Count - 1; i > recommendationsRoot.tracks.Count - 3; i--)
-                {
-                    _artists.Add(recommendationsRoot.tracks[i].artists[0].id);
-                    _tracks.Add(recommendationsRoot.tracks[i].id);
-
-                }
-            }
-
-
-            SpotifyConnectionManager.instance.GetRecommendations(_artists.ToArray(), _tracks.ToArray(), Callback_SpawnRecommendations, 20);
-        }
-
-
-    }
-    private void Callback_SpawnRecommendations(object[] _value)
-    {
-        recommendationsRoot = (RecommendationsRoot)_value[1];
-        DynamicPrefabSpawnerRecommendations(new object[] { recommendationsRoot });
-
-    }
-
     public void ResetSideScroll() {
 
 
@@ -492,11 +440,20 @@ public class PF_SurfManager : Manager
         DOTween.Complete(ActiveMwsiveSongs[3]);
         DOTween.Complete(ActiveMwsiveSongs[4]);
         DOTween.Complete(AddSong);
+
+        
+        
+    }
+
+    public void OnCallback_ResetSideAnimation()
+    {
         Reset();
-        if (Success) {
+        if (Success)
+        {
             Success = false;
         }
     }
+
     public void ResetValue() {
 
         if (!Success) {
@@ -526,13 +483,13 @@ public class PF_SurfManager : Manager
         ActiveMwsiveSongs[3].GetComponent<SurfAni>().SetValues(null, null, null, null, true, RestPositions[2]);
         ActiveMwsiveSongs[3].GetComponent<SurfAni>().Play_SurfResetfOtherSongs();
 
-        ActiveMwsiveSongs[4].GetComponent<SurfAni>().SetValues(null, null, null, null, false, RestPositions[3]);
+        ActiveMwsiveSongs[4].GetComponent<SurfAni>().SetValues(null, null, null, null, true, RestPositions[3]);
         ActiveMwsiveSongs[4].GetComponent<SurfAni>().Play_SurfResetfOtherSongs();
 
 
         UIAniManager.instance.SurfResetOtherSongs(ActiveMwsiveSongs[2], RestPositions[1], true);
         UIAniManager.instance.SurfResetOtherSongs(ActiveMwsiveSongs[3], RestPositions[2], true);
-        UIAniManager.instance.SurfResetOtherSongs(ActiveMwsiveSongs[4], RestPositions[3], false);
+        UIAniManager.instance.SurfResetOtherSongs(ActiveMwsiveSongs[4], RestPositions[3], true);
     }
 
 
@@ -915,21 +872,38 @@ public class PF_SurfManager : Manager
             GetMwsiveInfo();
             instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[CurrentPosition]);
             instance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+            SpawnPosition = CurrentPosition;
 
         }
-        if (MwsiveSongsData.Count > CurrentPosition + 1)
+        if (MwsiveSongsData.Count-1 >= CurrentPosition + 1)
         {
+             
             SpawnPrefab().GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[CurrentPosition + 1]);
+            SpawnPosition++;
         }
-        if (MwsiveSongsData.Count >= CurrentPosition + 2)
+        else
+        {
+            SpawnPrefab();
+        }
+        if (MwsiveSongsData.Count-1 >= CurrentPosition + 2)
         {
             SpawnPrefab().GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[CurrentPosition + 2]);
+            SpawnPosition++;
         }
-        if (MwsiveSongsData.Count >= CurrentPosition + 3)
+        else
+        {
+            SpawnPrefab();
+        }
+        if (MwsiveSongsData.Count-1 >= CurrentPosition + 3)
         {
             SpawnPrefab().GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[CurrentPosition + 3]);
+            SpawnPosition++;
         }
-        SpawnPosition = CurrentPosition + 2;
+        else
+        {
+            SpawnPrefab();
+        }
+        
     }
 
 
@@ -937,6 +911,7 @@ public class PF_SurfManager : Manager
     private void SurfManagerLogicPreviousSong()
     {
         Debug.LogWarning("AAAA");
+        ActiveMwsiveSongs[ActiveMwsiveSongs.Count - 1].GetComponent<SurfAni>().isAvailable = true;
         ActiveMwsiveSongs.RemoveAt(ActiveMwsiveSongs.Count-1);
         SpawnPrefabBack();
 
@@ -951,6 +926,7 @@ public class PF_SurfManager : Manager
     private void SurfManagerLogic(bool _firstTime = false)
     {
         Debug.LogWarning(MwsiveSongsData.Count);
+        Debug.Log(MwsiveSongs);
         Debug.LogWarning(CurrentPosition);
         
         if (!_firstTime)
@@ -958,15 +934,15 @@ public class PF_SurfManager : Manager
 
             GameObject instance = SpawnPrefab();
             GetMwsiveInfo();
-            if (SpawnPosition < MwsiveSongsData.Count && CurrentPosition > 4)
+            if (SpawnPosition < MwsiveSongsData.Count && SpawnPosition > 3)
             {
-                SpawnPosition++;
+                
                 instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[SpawnPosition]);
 
             }
-            else if (SpawnPosition == MwsiveSongsData.Count && CurrentPosition > 4)
+            else if (SpawnPosition == MwsiveSongsData.Count && SpawnPosition > 3)
             {
-                SpawnPosition++;
+                
                 //MwsiveSongsData[CurrentPosition + 3].challenge_AmILastPosition = true;
                 instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[SpawnPosition]);
 
@@ -982,23 +958,20 @@ public class PF_SurfManager : Manager
 
     }
 
-    private void SpawnBuffer()
-    {
-        SpawnPrefab();
-        SpawnPrefab();
-        SpawnPrefab();
-        SpawnedBuffer = true;
-    }
     private GameObject SpawnPrefabBack()
     {
+
         GameObject Instance = PoolManager.instance.GetPooledObject();
-        Instance.transform.position = RestPositions[4].transform.position;
-        Instance.GetComponent<CanvasGroup>().alpha = 1;
+        Debug.LogWarning(Instance.name);
+        
+        Instance.GetComponent<CanvasGroup>().alpha = 0;
         Instance.transform.SetParent(MwsiveContainer.transform);
+        Instance.transform.SetAsLastSibling();
         Instance.GetComponent<SurfAni>().isAvailable = false;
         ActiveMwsiveSongs.Insert(0, Instance);
         Instance.GetComponent<RectTransform>().offsetMin = new Vector2(LeftRightOffset.x, 0);
         Instance.GetComponent<RectTransform>().offsetMax = new Vector2(LeftRightOffset.y, 0);
+        Instance.GetComponent<SurfAni>().ResetRestPosition();
         Instance.SetActive(true);
         return Instance;
     }
@@ -1021,7 +994,9 @@ public class PF_SurfManager : Manager
         } else {
             Instance.transform.position = RestPositions[3].transform.position;
             Instance.GetComponent<CanvasGroup>().alpha = 0;
+            ActiveMwsiveSongs[0].GetComponent<SurfAni>().isAvailable = true;
             ActiveMwsiveSongs.RemoveAt(0);
+
             ActiveMwsiveSongs.Add(Instance);
 
         }

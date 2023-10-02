@@ -32,10 +32,11 @@ public class PoolManager : MonoBehaviour
         for(int i = 0; i < maxAmmountOfPrefabs; i++)
         {
             GameObject _prefab = Instantiate(prefab);
-            _prefab.SetActive(false);
+            
             _prefab.name = _prefab.name + i;
             _prefab.transform.SetParent(gameObject.transform);
             pooledObjects.Add(_prefab);
+            _prefab.SetActive(false);
         }
     }
 

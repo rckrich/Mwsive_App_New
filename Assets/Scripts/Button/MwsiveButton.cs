@@ -90,7 +90,7 @@ public class MwsiveButton : AppObject
 
         }catch(System.NullReferenceException)
         {
-           // SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetCurrentMwsiveData().isPicked = false;
+            SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetCurrentMwsiveData().isPicked = false;
 
         }
     }
@@ -126,7 +126,7 @@ public class MwsiveButton : AppObject
         }
         catch (System.NullReferenceException)
         {
-            // SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetCurrentMwsiveData().isRecommended = false;
+             SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetCurrentMwsiveData().isRecommended = false;
 
         }
 
