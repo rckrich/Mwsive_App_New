@@ -360,6 +360,7 @@ public class Descubrir_ViewModel : ViewModel
 
     private void SpotifySearch()
     {
+
         loading.SetActive(true);
         switch (numEnpantalla)
         {
@@ -1430,4 +1431,5 @@ public class Descubrir_ViewModel : ViewModel
         AppManager.instance.ResetAndroidBackAction();
 #endif
     }
+
 }

@@ -22,6 +22,6 @@ public class DangerZoneViewModel : ViewModel
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
-        NewScreenManager.instance.GetCurrentView().GetComponent<OptionsViewModel>().SetAndroidBackAction();
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
     }
 }

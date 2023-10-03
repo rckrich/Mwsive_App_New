@@ -152,6 +152,7 @@ public class TrackViewModel : ViewModel
     {
         NewScreenManager.instance.BackToPreviousView();
         SpotifyPreviewAudioManager.instance.StopTrack();
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
 
 #if PLATFORM_ANDROID
         AppManager.instance.SetAndroidBackAction(null);
@@ -167,6 +168,7 @@ public class TrackViewModel : ViewModel
         }else{
 
             NewScreenManager.instance.ChangeToSpawnedView("surf");
+            NewScreenManager.instance.GetCurrentView().GetComponent<PF_SurfManager>().Initialize();
             NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSong(new object[] { recommendations });
         }
         

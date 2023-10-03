@@ -19,6 +19,7 @@ public class AddSongOptions : ViewModel
 
     public Button AddItemsToPlaylistButton;
 
+    
     private void Start()
     {
         if (AddItemsToPlaylistButton != null)
@@ -26,17 +27,8 @@ public class AddSongOptions : ViewModel
             AddItemsToPlaylistButton.interactable = AppManager.instance.isLogInMode;
             AddItemsToPlaylistButton.GetComponentInChildren<Image>().color = AppManager.instance.isLogInMode ? AddItemsToPlaylistButton.colors.normalColor : AddItemsToPlaylistButton.colors.disabledColor;
         }
-
 #if PLATFORM_ANDROID
-        if (Application.platform == RuntimePlatform.Android)
-        {
-            AppManager.instance.SetAndroidBackAction(() => {
-                if (finishedLoading)
-                {
-                    OnClick_BackButton();
-                }
-            });
-        }
+        SetAndroidBackAction();
 #endif
 
     }
@@ -71,9 +63,22 @@ public class AddSongOptions : ViewModel
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
-#if PLATFORM_ANDROID
-        AppManager.instance.SetAndroidBackAction(null);
-#endif
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
     }
 
+
+    public override void SetAndroidBackAction()
+    {
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_BackButton();
+                }
+            });
+        }
+#endif
+    }
 }

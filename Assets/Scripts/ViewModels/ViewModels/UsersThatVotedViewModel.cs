@@ -27,6 +27,10 @@ public class UsersThatVotedViewModel : ViewModel
         SpotifyPreviewAudioManager.instance.StopTrack();
         trackId = list[0].ToString();
         GetCuratorsThatVoted();
+
+#if PLATFORM_ANDROID
+        SetAndroidBackAction();
+#endif
     }
 
     public void GetCuratorsThatVoted()
@@ -66,6 +70,21 @@ public class UsersThatVotedViewModel : ViewModel
     {
         SurfManager.instance.SetActive(true);
         NewScreenManager.instance.BackToPreviousView();
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
     }
 
+    public override void SetAndroidBackAction()
+    {
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_Backbutton();
+                }
+            });
+        }
+#endif
+    }
 }

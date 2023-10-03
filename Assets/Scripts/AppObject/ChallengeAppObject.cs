@@ -66,7 +66,7 @@ public class ChallengeAppObject : AppObject
         SeveralTrackRoot severalTrackRoot = (SeveralTrackRoot)_value[1];
       
         NewScreenManager.instance.ChangeToSpawnedView("surf");
-        
+        NewScreenManager.instance.GetCurrentView().GetComponent<PF_SurfViewModel>().Initialize();
         NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().Challenge = true;
         NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().SetChallengeCallback(gameObject.GetComponent<ChallengeAppObject>());
         NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(severalTrackRoot.tracks);

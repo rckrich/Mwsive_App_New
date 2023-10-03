@@ -160,6 +160,7 @@ public class AlbumViewModel : ViewModel
     {
         NewScreenManager.instance.BackToPreviousView();
         SpotifyPreviewAudioManager.instance.StopTrack();
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
     }
 
     public void OnClick_Surf()
