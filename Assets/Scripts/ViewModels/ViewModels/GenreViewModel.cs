@@ -14,6 +14,12 @@ public class GenreViewModel : ViewModel
 
     private SeveralTrackRoot severalTrackRoot;
 
+    public override void Initialize(params object[] list)
+    {
+#if PLATFORM_ANDROID
+        SetAndroidBackAction();
+#endif
+    }
 
     public void GetSeveralTracks(string[] _genreID, string _name)
     {
@@ -49,11 +55,28 @@ public class GenreViewModel : ViewModel
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
     }
 
     public void OnClick_SurfButton()
     {
         NewScreenManager.instance.ChangeToSpawnedView("surf");
+        NewScreenManager.instance.GetCurrentView().GetComponent<PF_SurfViewModel>().Initialize();
         NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(severalTrackRoot.tracks);
+    }
+
+    public override void SetAndroidBackAction()
+    {
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_BackButton();
+                }
+            });
+        }
+#endif
     }
 }

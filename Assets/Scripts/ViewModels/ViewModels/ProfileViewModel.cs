@@ -230,11 +230,13 @@ public class ProfileViewModel : ViewModel
         if (profileId.Equals(""))
         {
             NewScreenManager.instance.GetCurrentView().GetComponent<FollowersViewModel>().ProfileIDReset_GetFollowed();
+            NewScreenManager.instance.GetCurrentView().GetComponent<FollowersViewModel>().Initialize();
             
         }
         else
         {
             NewScreenManager.instance.GetCurrentView().GetComponent<FollowersViewModel>().GetFollowed(profileId);
+            NewScreenManager.instance.GetCurrentView().GetComponent<FollowersViewModel>().Initialize();
         }
     }
     
@@ -453,6 +455,7 @@ public class ProfileViewModel : ViewModel
     public void OnClick_SurfButton(){
         MwsiveConnectionManager.instance.GetMwsiveUser(profileId, Callback_GetDNASeveralTracks);
         NewScreenManager.instance.ChangeToSpawnedView("surf");
+        NewScreenManager.instance.GetCurrentView().GetComponent<PF_SurfViewModel>().Initialize();
     }
 
     public void Callback_GetDNASeveralTracks(object[] _value){
@@ -682,12 +685,12 @@ public class ProfileViewModel : ViewModel
         }
         if(count < 3)
         {
-            Debug.Log("count: " + count);
+            count -= 3;
             string _profileid = profileId;
 
             if (_profileid.Equals(""))
                 _profileid = AppManager.instance.currentMwsiveUser.platform_id;
-            MwsiveConnectionManager.instance.GetBadges(_profileid, "track", Callback_GetBadgesTrack, count, 3);
+            MwsiveConnectionManager.instance.GetBadges(_profileid, "track", Callback_GetBadgesTrack, 0 , count);
             
         }
     }
@@ -695,6 +698,7 @@ public class ProfileViewModel : ViewModel
     private void Callback_GetBadgesTrack(object[] _value)
     {
         MwsiveBadgesRoot badgesRoot = (MwsiveBadgesRoot)_value[1];
+
         if (badgesRoot.badges.Count > 0)
         {
             if (badgesRoot != null)

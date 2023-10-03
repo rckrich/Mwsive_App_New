@@ -22,6 +22,13 @@ public class FollowersViewModel : ViewModel
     private string profileID = "";
     private bool sceneActive;
 
+    public override void Initialize(params object[] list)
+    {
+#if PLATFORM_ANDROID
+        SetAndroidBackAction();
+#endif
+    }
+
     private void Callback_GetFollowers(object[] _value)
     {
         if (profileID.Equals(""))

@@ -23,7 +23,11 @@ public class DescubrirButton : MonoBehaviour
     public GameObject ScrollView;
     
 
+    
     public void OnClick_BuscarButton(){
+#if PLATFORM_ANDROID
+        SetAndroidBackAction();
+#endif
         float twenable = 0f;
         UIAniManager.instance.VerticalTransitionToCustomPosition(HeaderBackground, HeaderPosPosition,ScrollView, true );
         var sequence = DG.Tweening.DOTween.Sequence();
@@ -54,5 +58,17 @@ public class DescubrirButton : MonoBehaviour
         TextArea.enabled = false;
         PlaceHolder.SetActive(true);
         button.enabled = true;
+    }
+
+    public void SetAndroidBackAction()
+    {
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                OnClick_CancelarButton();
+            });
+        }
+#endif
     }
 }
