@@ -15,6 +15,9 @@ public class TopArtistViewModel : ViewModel
 
     void Start()
     {
+#if PLATFORM_ANDROID
+        SetAndroidBackAction();
+#endif
         shimmer.SetActive(true);
         MwsiveConnectionManager.instance.GetRecommendedArtists(Callback_GetRecommendedArtists);
     }
@@ -57,5 +60,21 @@ public class TopArtistViewModel : ViewModel
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.ExploreViewModel);
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
+    }
+
+    public override void SetAndroidBackAction()
+    {
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_BackButton();
+                }
+            });
+        }
+#endif
     }
 }

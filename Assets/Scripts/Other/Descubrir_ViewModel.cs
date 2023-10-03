@@ -1382,17 +1382,19 @@ public class Descubrir_ViewModel : ViewModel
     public void OnClick_VerMasSongs()
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.TopSongsViewModel);
-        NewScreenManager.instance.GetCurrentView().GetComponent<TopSongsViewModel>();
+        NewScreenManager.instance.GetCurrentView().GetComponent<TopSongsViewModel>().Initialize();
     }
 
     public void OnClick_VerMasPlaylist()
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.TopPlaylistViewModel);
+        NewScreenManager.instance.GetCurrentView().GetComponent<TopPlaylistViewModel>().Initialize();
     }
 
     public void OnClick_VerMasGenre()
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.TopGenreViewModel);
+        NewScreenManager.instance.GetCurrentView().GetComponent<TopGenreViewModel>().Initialize();
     }
 
     public void OnClick_ClearText()
