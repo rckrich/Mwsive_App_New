@@ -67,7 +67,7 @@ public class MwsiveButton : AppObject
             {
                 if (badge.type.Equals("engagement"))
                 {
-                    UIMessage.instance.UIMessageInstanciate("Conseguiste la insignia " + char.ToUpper(badge.group.ToCharArray()[0]) + badge.group.Substring(1));
+                    UIMessage.instance.UIMessageInstanciate("Conseguiste la insignia " + FixedBadgeGroupString(badge.group));
                 }
                 else if (badge.type.Equals("track"))
                 {
@@ -84,6 +84,23 @@ public class MwsiveButton : AppObject
 
         gameObject.GetComponentInParent<ButtonSurfPlaylist>().PlusOrLessOne(true, "PIK");
 
+    }
+
+    private string FixedBadgeGroupString(string _value)
+    {
+        string fixedBadgeGroup = _value;
+
+        switch (fixedBadgeGroup)
+        {
+            case "song_master":
+                return "Song Master";
+            case "wave_master":
+                return "Wave Master";
+            case "music_master":
+                return "Music Master";
+        }
+
+        return char.ToUpper(fixedBadgeGroup.ToCharArray()[0]) + fixedBadgeGroup.Substring(1);
     }
 
     private void Callback_TrackActionUNPIK(object[] _value)

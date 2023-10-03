@@ -19,6 +19,8 @@ public class InsigniasViewModel : ViewModel
     private string userid;
     private bool areTrackBadges = false;
     private bool areEngagementBadges = false;
+    private float end = -0.01f;
+    int onlyone = 0;
 
     public override void Initialize(params object[] list)
     {
@@ -112,6 +114,20 @@ public class InsigniasViewModel : ViewModel
             });
         }
 # endif
+    }
+
+    public void OnReachEnd()
+    {
+          if (onlyone == 0)
+            {
+                if (scrollRect.verticalNormalizedPosition <= end)
+                {
+                     MwsiveConnectionManager.instance.GetBadges(userid, "track", Callback_GetBadgesTrack, trackOffset, LIMIT);
+                     onlyone = 1;
+                }
+            }
+      
+
     }
 }
 

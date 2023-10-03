@@ -712,5 +712,6 @@ public class ProfileViewModel : ViewModel
             noBadges.SetActive(true);
         }
     }
+
 }
 
