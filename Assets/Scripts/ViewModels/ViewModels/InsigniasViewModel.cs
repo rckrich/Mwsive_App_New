@@ -8,7 +8,8 @@ public class InsigniasViewModel : ViewModel
     private const int LIMIT = 21;
     // Start is called before the first frame update
     public ScrollRect scrollRect;
-    public int offset = 0;
+    public int engamentOffset = 0;
+    public int trackOffset = 0;
     public GameObject noBadgesObject;
 
     [Header("Instance Referecnes")]
@@ -28,7 +29,7 @@ public class InsigniasViewModel : ViewModel
         userid = list[0].ToString();
         if (userid.Equals(""))
             userid = AppManager.instance.currentMwsiveUser.platform_id;
-        MwsiveConnectionManager.instance.GetBadges(userid, "engagement", Callback_GetBadgesEngagemend, offset, LIMIT);
+        MwsiveConnectionManager.instance.GetBadges(userid, "engagement", Callback_GetBadgesEngagemend, engamentOffset, LIMIT);
     }
 
     public void OnClick_SpawnPopUpButton()
@@ -51,15 +52,15 @@ public class InsigniasViewModel : ViewModel
             {
                 BadgeHolder instance = GameObject.Instantiate(BadgeHolderPrefab, instanceParent).GetComponent<BadgeHolder>();
                 instance.Initialize(badge);
-                offset++;
+                engamentOffset++;
             }
             areEngagementBadges = true;
         }
-        if (offset == 0)
+        if (engamentOffset == 0)
         {
             areEngagementBadges = false;
         }
-        MwsiveConnectionManager.instance.GetBadges(userid, "track", Callback_GetBadgesTrack, offset, LIMIT);
+        MwsiveConnectionManager.instance.GetBadges(userid, "track", Callback_GetBadgesTrack, trackOffset, LIMIT);
     }
 
     private void Callback_GetBadgesTrack(object[] _value)
@@ -71,11 +72,11 @@ public class InsigniasViewModel : ViewModel
             {
                 BadgeHolder instance = GameObject.Instantiate(BadgeHolderPrefab, instanceParent).GetComponent<BadgeHolder>();
                 instance.Initialize(badge);
-                offset++;
+                trackOffset++;
             }
             areTrackBadges = true;
         }
-        if (offset == 0)
+        if (trackOffset == 0)
         {
             areTrackBadges = false;
         }

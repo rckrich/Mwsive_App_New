@@ -16,7 +16,7 @@ public class MwsiveButton : AppObject
 
     
 
-    private const int PIK_PRICE = 10;
+    private const int PIK_PRICE = 1;
 
     private float AnimationDuration = .5f;
 
@@ -71,7 +71,7 @@ public class MwsiveButton : AppObject
                 }
                 else if (badge.type.Equals("track"))
                 {
-                    UIMessage.instance.UIMessageInstanciate("Conseguiste la insignia Top #" + badge.group + " de " + badge.mwsive_track.name);
+                    UIMessage.instance.UIMessageInstanciate("Conseguiste la insignia Top #" + badge.group + " de esta canción");
                 }
             }
         }
