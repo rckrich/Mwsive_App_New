@@ -22,8 +22,12 @@ public class ChallengeViewModel : ViewModel
     private int offsetResent;
     private int offsetComplete;
 
-    private void Start()
+    public override void Initialize(params object[] list)
     {
+#if PLATFORM_ANDROID
+        SetAndroidBackAction();
+#endif
+
         ClearChallenges(challengeScrollContentR);
         GetChallenges();
     }
@@ -51,6 +55,7 @@ public class ChallengeViewModel : ViewModel
     public void OnClick_OnBackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
     }
 
     public void GetCompleteChallenges()
@@ -101,6 +106,21 @@ public class ChallengeViewModel : ViewModel
         {
             Destroy(_content.GetChild(i).gameObject);
         }
+    }
+
+    public override void SetAndroidBackAction()
+    {
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_OnBackButton();
+                }
+            });
+        }
+#endif
     }
 
 }

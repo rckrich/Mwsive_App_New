@@ -19,9 +19,7 @@ public class TopPlaylistViewModel : ViewModel
 #if PLATFORM_ANDROID
         SetAndroidBackAction();
 #endif
-    }
-    void Start()
-    {
+
         shimmer.SetActive(true);
         MwsiveConnectionManager.instance.GetRecommendedPlaylists(Callback_GetRecommendedPlaylists);
     }

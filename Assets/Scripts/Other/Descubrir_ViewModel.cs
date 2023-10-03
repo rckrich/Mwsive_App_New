@@ -1371,6 +1371,7 @@ public class Descubrir_ViewModel : ViewModel
     public void OnClick_VerMasArtist()
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.TopArtistViewModel);
+        NewScreenManager.instance.GetCurrentView().GetComponent<TopArtistViewModel>().Initialize();
     }
 
     public void OnClick_VerMasCurators()
@@ -1407,6 +1408,7 @@ public class Descubrir_ViewModel : ViewModel
     public void OnClick_VerMasChallenges()
     {
         NewScreenManager.instance.ChangeToSpawnedView("challenges");
+        NewScreenManager.instance.GetCurrentView().GetComponent<ChallengeViewModel>().Initialize();
     }
 
     private void ShimmersSetActive(bool active)

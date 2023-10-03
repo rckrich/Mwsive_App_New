@@ -13,7 +13,7 @@ public class TopArtistViewModel : ViewModel
 
     private float end = -0.01f;
 
-    void Start()
+    public override void Initialize(params object[] list)
     {
 #if PLATFORM_ANDROID
         SetAndroidBackAction();
