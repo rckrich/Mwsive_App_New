@@ -63,9 +63,8 @@ public class DsikAppObject : AppObject
                 {
                     diskCounter.text = AppManager.instance.currentMwsiveUser.total_disks.ToString();
                 }
-                InvokeEvent<ReadDiskAppEvent>(new ReadDiskAppEvent());
             }
-
+            InvokeEvent<ReadDiskAppEvent>(new ReadDiskAppEvent());
         }
     }
 }

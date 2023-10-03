@@ -33,15 +33,18 @@ public class ExploreDiskAppObject : DsikAppObject
     {
         if (AppManager.instance.isLogInMode)
         {
-            diskCircle.SetActive(true);
-            if (AppManager.instance.currentMwsiveUser.total_disks >= LIMIT_OF_DISPLAY_DISK)
+            if (AppManager.instance.isLogInMode)
             {
-                diskCounter.text = "+99";
+                diskCircle.SetActive(true);
+                if (AppManager.instance.currentMwsiveUser.total_disks >= LIMIT_OF_DISPLAY_DISK)
+                {
+                    diskCounter.text = "+99";
+                }
+                else
+                {
+                    diskCounter.text = AppManager.instance.currentMwsiveUser.total_disks.ToString();
+                }
             }
-            else
-            {
-                diskCounter.text = AppManager.instance.currentMwsiveUser.total_disks.ToString();
-            }  
         }
     }
 }

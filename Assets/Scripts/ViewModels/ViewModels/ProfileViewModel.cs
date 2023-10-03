@@ -42,6 +42,8 @@ public class ProfileViewModel : ViewModel
     private string tiktokUrl = "";
     private string instagramUrl = "";
     private string youtubeUrl = "";
+    private bool areTrackBadges = true;
+    private bool areEngagementBadges = true;
 
     private void OnEnable()
     {
@@ -671,7 +673,7 @@ public class ProfileViewModel : ViewModel
         {
             if (badgesRoot != null)
             {
-                noBadges.SetActive(false);
+               
                 foreach (Badge badge in badgesRoot.badges)
                 {
                     BadgeHolder instance = GameObject.Instantiate(BadgesHolderPrefab, BadgesContent).GetComponent<BadgeHolder>();
@@ -679,6 +681,10 @@ public class ProfileViewModel : ViewModel
                     count++;
                 }
             }
+        }
+        else
+        {
+            areEngagementBadges = false;
         }
         if(count < 3)
         {
@@ -699,19 +705,35 @@ public class ProfileViewModel : ViewModel
         {
             if (badgesRoot != null)
             {
-                noBadges.SetActive(false);
                 foreach (Badge badge in badgesRoot.badges)
                 {
                     BadgeHolder instance = GameObject.Instantiate(BadgesHolderPrefab, BadgesContent).GetComponent<BadgeHolder>();
                     instance.Initialize(badge);
                 }
             }
+
         }
         else
         {
-            noBadges.SetActive(true);
+            areTrackBadges = false;
         }
+
+        TurnOn_NoBadges();
     }
 
+    private void TurnOn_NoBadges()
+    {
+
+        if (!areEngagementBadges && !areTrackBadges)
+        {
+            noBadges.SetActive(true);
+        }
+        else
+        {
+            noBadges.SetActive(false);
+        }
+
+
+    }
 }
 
