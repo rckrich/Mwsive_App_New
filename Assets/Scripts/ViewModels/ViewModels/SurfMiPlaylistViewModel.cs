@@ -48,7 +48,13 @@ public class SurfMiPlaylistViewModel : ViewModel
         else {
             CallPopUP(PopUpViewModelTypes.OptionChoice, "Neceseitas permiso", "Necesitas crear una cuenta de Mwsive para poder realizar está acción, presiona Crear Cuenta para hacer una.", "Crear Cuenta");
             PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
-
+#if PLATFORM_ANDROID
+            PopUpViewModel currentPopUp = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+            AppManager.instance.SetAndroidBackAction(() => {
+                currentPopUp.ExitButtonOnClick();
+                this.SetAndroidBackAction();
+            });
+#endif
             popUpViewModel.SetPopUpCancelAction(() => {
                 NewScreenManager.instance.BackToPreviousView();
                 OnClick_BackButton();

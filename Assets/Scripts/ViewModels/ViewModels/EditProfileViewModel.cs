@@ -117,7 +117,17 @@ public class EditProfileViewModel : ViewModel
         if (inputProfileName.text.Equals("") || inputProfileName.text.Length <= 6)
         {
             if (AppManager.instance.currentMwsiveUser.display_name != inputProfileName.text)
+            {
                 CallPopUP(PopUpViewModelTypes.MessageOnly, "Necesitas escribir un nombre", "por favor escribe un nombre con mas de 6 caracteres", "Aceptar");
+#if PLATFORM_ANDROID
+                PopUpViewModel currentPopUp = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+                AppManager.instance.SetAndroidBackAction(() => {
+                    currentPopUp.ExitButtonOnClick();
+                    this.SetAndroidBackAction();
+                });
+#endif
+            }
+
         }
         else
         {

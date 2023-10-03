@@ -37,6 +37,13 @@ public class InsigniasViewModel : ViewModel
     public void OnClick_SpawnPopUpButton()
     {
         CallPopUP(PopUpViewModelTypes.MessageOnly, "Consigue mas insignias", "Sigue haciendo PIK para conseguir insignias", "Cerrar");
+#if PLATFORM_ANDROID
+        PopUpViewModel currentPopUp = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+        AppManager.instance.SetAndroidBackAction(() => {
+            currentPopUp.ExitButtonOnClick();
+            this.SetAndroidBackAction();
+        });
+#endif
     }
 
     public void OnClick_BackButton()
