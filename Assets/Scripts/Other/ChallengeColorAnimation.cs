@@ -18,15 +18,6 @@ public class ChallengeColorAnimation : MonoBehaviour
     private bool amIEnabled = false;
     private bool PlaySwitch = false;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-        
-    }
-
-
-
     public void Initialize()
     {
         if (!isComplete)
@@ -38,9 +29,6 @@ public class ChallengeColorAnimation : MonoBehaviour
             ColorUp();
             amIEnabled = true;
             PlaySwitch = true;
-
-            Debug.Log(waveMask.transform.position);
-
         }
 
     }
@@ -96,7 +84,6 @@ public class ChallengeColorAnimation : MonoBehaviour
         {
             
             colorDoMove.Restart();
-            Debug.Log(waveMask.transform.position);
             topDoMove.Restart();
         }
         
@@ -115,10 +102,8 @@ public class ChallengeColorAnimation : MonoBehaviour
         waveMask.GetComponent<RectTransform>().anchoredPosition = centerRestPosition.GetComponent<RectTransform>().anchoredPosition;
 
         if (topDoMove == null)
-        {
-            
-            topDoMove = waveMask.transform.DOMoveX(leftRestPosition.transform.position.x, 3).SetLoops(-1).SetEase(Ease.Linear).SetId(0);
-           
+        {  
+            topDoMove = waveMask.transform.DOMoveX(leftRestPosition.transform.position.x, 3).SetLoops(-1).SetEase(Ease.Linear).SetId(0);   
         }
         
     }
@@ -134,7 +119,7 @@ public class ChallengeColorAnimation : MonoBehaviour
             colorDoMove = sequence;
             sequence.OnPlay(() =>
             {
-                
+       
                 
             });
             sequence.Append(DOTween.To(() => twenable, x => twenable = x, 0f, 30f));
@@ -143,7 +128,7 @@ public class ChallengeColorAnimation : MonoBehaviour
                 if(twenable > -2)
                 {
                     
-                    waveMask.transform.DOMoveY(leftRestPosition.transform.position.y, 2f).OnComplete(() => {
+                   waveMask.transform.DOMoveY(leftRestPosition.transform.position.y, 2f).OnComplete(() => {
                         
                     }).SetEase(Ease.Linear);
                 }
@@ -152,7 +137,6 @@ public class ChallengeColorAnimation : MonoBehaviour
             sequence.SetEase(Ease.InSine);
             sequence.OnComplete(() =>
             {
-                Debug.Log("aaa");
                 topDoMove.Kill();
                 isComplete = true;
             });
