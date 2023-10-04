@@ -723,10 +723,11 @@ public class UIAniManager : MonoBehaviour
     
     List< GameObject> UIMessages = new List<GameObject>();
 
-    public void UIMessage(GameObject GA){
+    public void UIMessage(GameObject GA)
+    {
         foreach (GameObject item in UIMessages)
         {
-            if(item != null)
+            if (item != null)
             {
                 DOTween.Complete(item, true);
             }
@@ -734,31 +735,38 @@ public class UIAniManager : MonoBehaviour
             {
                 UIMessages.Remove(item);
             }
-            
+
         }
         UIMessages.Add(GA);
         SetPosition();
         GA.transform.position = RestPositionDown;
         GA.SetActive(true);
         GA.GetComponent<CanvasGroup>().DOFade(1f, .7f).SetEase(_AnimationFade);
-        GA.transform.DOMove(FinalPosition, .7f, false).SetEase(_AnimationMove).OnComplete(() => { StartCoroutine(WaitMessage(1.5F, GA)); });
-       
+        Vector3 PositionToMove = new Vector2(FinalPosition.x, FinalPosition.y + (250 * UIMessages.Count));
+        GA.transform.DOMove(PositionToMove, .7f, false).SetEase(_AnimationMove).OnComplete(() => { StartCoroutine(WaitMessage(1.5F, GA)); });
+
     }
 
-    IEnumerator WaitMessage(float time, GameObject GA){
-        
+    IEnumerator WaitMessage(float time, GameObject GA)
+    {
+
         yield return new WaitForSeconds(time);
-        if(GA != null)
+        if (GA != null)
         {
             GA.GetComponent<CanvasGroup>().DOFade(0f, .5f).OnComplete(() => { UIMessages.Remove(GA); Destroy(GA); });
 
             GA.transform.DOMove(RestPositionDown, 1f, false);
         }
-        
+        else
+        {
+            UIMessages.Remove(GA);
+        }
+
         yield break;
     }
 
 
-    
+
+
 
 }

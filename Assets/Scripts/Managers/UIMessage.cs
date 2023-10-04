@@ -21,6 +21,10 @@ public class UIMessage : MonoBehaviour
 
     public GameObject MessagePF;
 
+    private void Start()
+    {
+    }
+
 
 
     public void UIMessageInstanciate(string _text){
