@@ -62,6 +62,7 @@ public class PoolManager : MonoBehaviour
             if(item.transform.root.name != gameObject.name)
             {
                 Debug.Log("AA");
+                item.GetComponent<SurfAni>().ClearData();
                 item.transform.SetParent(gameObject.transform);
                 item.SetActive(false);
             }

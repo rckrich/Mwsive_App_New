@@ -741,7 +741,8 @@ public class UIAniManager : MonoBehaviour
         GA.transform.position = RestPositionDown;
         GA.SetActive(true);
         GA.GetComponent<CanvasGroup>().DOFade(1f, .7f).SetEase(_AnimationFade);
-        GA.transform.DOMove(FinalPosition, .7f, false).SetEase(_AnimationMove).OnComplete(() => { StartCoroutine(WaitMessage(1.5F, GA)); });
+        Vector3 PositionToMove = new Vector3(FinalPosition.transform.position.x, FinalPosition.transform.position.y * UIMessages.count, FinalPosition.transform.position.z)
+        GA.transform.DOMove(PositionToMove, .7f, false).SetEase(_AnimationMove).OnComplete(() => { StartCoroutine(WaitMessage(1.5F, GA)); });
        
     }
 
@@ -753,6 +754,8 @@ public class UIAniManager : MonoBehaviour
             GA.GetComponent<CanvasGroup>().DOFade(0f, .5f).OnComplete(() => { UIMessages.Remove(GA); Destroy(GA); });
 
             GA.transform.DOMove(RestPositionDown, 1f, false);
+        }else{
+            UIMessages.Remove(GA);
         }
         
         yield break;

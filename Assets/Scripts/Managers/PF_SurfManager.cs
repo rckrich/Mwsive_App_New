@@ -676,6 +676,9 @@ public class PF_SurfManager : Manager
     public void DynamicPrefabSpawnerPLItems(object[] _value, bool PlayFirstTrack = true, bool CanSpawnBuffer = true, string _spotifyid = null)
     {
         PlaylistRoot PageItemPlaylist = (PlaylistRoot)_value[0];
+
+        
+        
            
             int SpawnedSongs = 0;
             foreach (var item in PageItemPlaylist.items)
@@ -718,12 +721,19 @@ public class PF_SurfManager : Manager
 
             }
 
-
+        if (PageItemPlaylist.total > 100) { 
+        
+        }
 
 
 
         SurfManagerLogic(true);
 
+    }
+
+    private void PageItemPlaylist(int _offset, )
+    {
+      //  SpotifyConnectionManager.instance.GetPlaylistItems(idPagingPlItems, OnCallback_SurfPagingPLitems, "ES", 100, _offset);
     }
 
     public void DynamicPrefabSpawnerPL(object[] _value, bool PlayFirstTrack = true, bool CanSpawnBuffer = true)
