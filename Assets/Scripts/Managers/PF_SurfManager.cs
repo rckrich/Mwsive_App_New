@@ -1171,159 +1171,19 @@ public class PF_SurfManager : Manager
         {
             SpotifyConnectionManager.instance.GetUserPlaylists(profileId, Callback_OnClick_GetUserPlaylists);
         }
-        if (value != null)
+        if (value != null )
         {
             SpotifyConnectionManager.instance.GetSeveralTracks(value.ToArray(), OnCallBack_SpawnSeveralTracks);
         }
-        
 
-
-        
-        
-        if (profileId != null){
-           
-            if(value != null){
-                if (value.Count > 4)
-                {
-                    SpotifyConnectionManager.instance.GetUserPlaylists(profileId, Callback_OnClick_GetUserPlaylists);
-                }
-                else
-                {
-                    SpotifyConnectionManager.instance.GetUserPlaylists(profileId, Callback_OnClick_GetUserPlaylistsNoADN);
-                }
-                
-            }else{
-                SpotifyConnectionManager.instance.GetUserPlaylists(profileId, Callback_OnClick_GetUserPlaylistsNoADN);
-            }
-            
-            
-        }
-
-        if(SurfProfile){
-
-
-
-            
-            if(ProfilePlaylistPosition <= UserPlaylists.items.Count){
-
-                //Checar cuantos items tienes si es mayor de 50 Iniciar Paginacion sino solo spawnear
-                if(UserPlaylists.items[ProfilePlaylistPosition].tracks.total == 0) {
-                    ProfilePlaylistPosition++;
-                    SpotifyConnectionManager.instance.GetPlaylistItems(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallback_GetSpotifyPlaylistNotEnoughTracks, "ES", 100, 0);
-                    return;
-                }
-
-                if (ProfileItemsPlaylist.items.Count < SongsMaxToPaginate) {
-                    if (ProfileItemsPlaylist.items.Count > 4) {
-                        if (!HasFirstPlaylistPlayed) {
-                            HasFirstPlaylistPlayed = true;
-                            DynamicPrefabSpawnerPLItems(new object[] { ProfileItemsPlaylist }, true, false);
-                        } else {
-                            DynamicPrefabSpawnerPLItems(new object[] { ProfileItemsPlaylist }, false, false);
-                        }
-
-                        ProfilePlaylistPosition++;
-                        SpotifyConnectionManager.instance.GetPlaylistItems(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallback_GetSpotifyPlaylist, "ES", 100, 0);
-                    }
-                    else {
-                        if (ProfileItemsPlaylist.items.Count != 0)
-                        {
-                            if (!HasFirstPlaylistPlayed) {
-                                HasFirstPlaylistPlayed = true;
-                                DynamicPrefabSpawnerPLItems(new object[] { ProfileItemsPlaylist }, true, false);
-                            } else {
-                                DynamicPrefabSpawnerPLItems(new object[] { ProfileItemsPlaylist }, false, false);
-                            }
-                        }
-                        ProfilePlaylistPosition++;
-
-                        if (CurrentPosition >= MwsiveSongs.Count - 4)
-                        {
-                            SpotifyConnectionManager.instance.GetPlaylistItems(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallback_GetSpotifyPlaylistNotEnoughTracks, "ES", 100, 0);
-                        }
-                        else
-                        {
-                            SpotifyConnectionManager.instance.GetPlaylistItems(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallback_GetSpotifyPlaylist, "ES", 100, 0);
-                        }
-
-
-                    }
-
-
-                } else {
-
-                    bool NextBatch = false;
-
-                    Debug.LogWarning("Trackstospawn: " + trackstospawn + " spawntotal: " + trackstospawntotal + " PlaylistCount " + ProfileItemsPlaylist.items.Count + "Position" + ProfilePlaylistPosition);
-
-                    trackstospawn += SongsMaxToPaginate;
-                    if (trackstospawn  < ProfileItemsPlaylist.items.Count)
-                    {
-
-                    } else {
-
-                        trackstospawntotal += ProfileItemsPlaylist.items.Count;
-
-                        if (trackstospawntotal >= UserPlaylists.items[ProfilePlaylistPosition].tracks.total)
-                        {
-                            ProfilePlaylistPosition++;
-                            trackstospawntotal = 0;
-
-                        }
-                        NextBatch = true;
-                        
-
-
-                    }
-                    if (trackstospawn > ProfileItemsPlaylist.items.Count)
-                    {
-                        trackstospawn = ProfileItemsPlaylist.items.Count;
-                    }
-
-                    List<Track> ListOfTracksToSpawn = new List<Track>();
-                    for (int i = SurfProfileOffsetPosition; i < trackstospawn; i++)
-                    {
-                        ListOfTracksToSpawn.Add(ProfileItemsPlaylist.items[i].track);
-                    }
-
-                    if (!HasFirstPlaylistPlayed)
-                    {
-                        HasFirstPlaylistPlayed = true;
-                        DynamicPrefabSpawnerSeveralTracks(ListOfTracksToSpawn, true, false);
-                    }
-                    else
-                    {
-                        DynamicPrefabSpawnerSeveralTracks(ListOfTracksToSpawn, false, false);
-                    }
-
-                    if (NextBatch)
-                    {
-                        SpotifyConnectionManager.instance.GetPlaylistItems(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallback_GetSpotifyPlaylist, "ES", 100, trackstospawntotal);
-                        trackstospawn = 0;
-                    }
-                    
-
-                   
-
-
-                    SurfProfileOffsetPosition = trackstospawn;
-                    
-                    
-                    
-                }
-
-            }
-            else if(!SpawnedBuffer)
+        if (SurfProfile)
+        {
+            if (ProfilePlaylistPosition <= UserPlaylists.items.Count)
             {
-                SpawnPrefab();
-                SpawnPrefab();
-                SpawnPrefab();
-                SpawnedBuffer = true;
+                SpotifyConnectionManager.instance.GetPlaylistItems(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallback_GetSpotifyPlaylist, "ES", 100, 0);
+                ProfilePlaylistPosition++;
             }
         }
-        
-        
-
 
     }
 
@@ -1331,6 +1191,7 @@ public class PF_SurfManager : Manager
 
         SeveralTrackRoot severaltrack = (SeveralTrackRoot)_value[1];
         DynamicPrefabSpawnerSeveralTracks(severaltrack.tracks, true, false);
+        SurfProfile = true;
         SurfProfileADN();
     }
 
@@ -1340,53 +1201,17 @@ public class PF_SurfManager : Manager
     private void OnCallback_GetSpotifyPlaylist(object[] _value){
         ProfileItemsPlaylist = (PlaylistRoot)_value[1];
 
-        // DynamicPrefabSpawnerPLItems(ProfileItemsPlaylist, false, false, ProfileItemsPlaylist.)
-    }
-
-    
-
-    private void OnCallback_GetSpotifyPlaylistNotEnoughTracks(object[] _value)
-    {
-        ProfileItemsPlaylist = (PlaylistRoot)_value[1];
-        SurfProfile = true;
+        DynamicPrefabSpawnerPLItems(new object[] { ProfileItemsPlaylist }, false, false, UserPlaylists.items[ProfilePlaylistPosition].id);
         SurfProfileADN();
-
     }
 
-    private void OnCallback_GetSpotifyPlaylist_Next(object[] _value)
-    {
-        ProfileItemsPlaylist = (PlaylistRoot)_value[1];
-        UpScrollSuccess();
-
-    }
+   
 
 
     private void Callback_OnClick_GetUserPlaylists(object[] _value){
 
         UserPlaylists = (PlaylistRoot)_value[1];
-
-        foreach (var item in UserPlaylists.items)
-        {
-            SpotifyConnectionManager.instance.GetPlaylistItems(item.id, OnCallback_GetSpotifyPlaylist, "ES", 100, 0);
-        }
-        
-        
-
     }
-
-    private void Callback_OnClick_GetUserPlaylistsNoADN(object[] _value){
-
-        UserPlaylists = (PlaylistRoot)_value[1];
-        
-        SpotifyConnectionManager.instance.GetPlaylistItems(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallback_GetSpotifyPlaylistNotEnoughTracks, "ES", 100, 0);
-        
-    }
-
-    public void UpdateDisk(){
-        
-    }
-
-
     
 
     public void StartTimer()

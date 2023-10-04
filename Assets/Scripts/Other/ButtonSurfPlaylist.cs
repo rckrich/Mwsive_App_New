@@ -294,7 +294,7 @@ public class ButtonSurfPlaylist : ViewModel
         trackCover.sprite = null;
         trackID = null;
         isRecommended = false;
-        mwsiveButton.AddToPlaylistButtonColorButtonColorAgain(0.5f);
+        mwsiveButton.AddToPlaylistButtonClear();
         mwsiveButton.PIKButtonColorOff();
 
         uris.Clear();

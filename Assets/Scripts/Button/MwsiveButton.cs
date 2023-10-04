@@ -113,6 +113,16 @@ public class MwsiveButton : AppObject
         } 
     }
 
+    public void AddToPlaylistButtonClear()
+    {
+        IsiTAddColorButtonActive = false;
+        AddColorButton.GetComponent<CanvasGroup>().alpha = 0;
+        AddColorButton.SetActive(false);
+        AddColorButton.transform.localScale = new Vector3(0f, 0f, 0f);
+
+    }
+
+
     public void AddToPlaylistButtonColorButtonColorAgain(float _AnimationDuration) 
     {    
       UIAniManager.instance.FadeOut(AddColorButton, _AnimationDuration);
