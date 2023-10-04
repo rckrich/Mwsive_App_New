@@ -104,13 +104,6 @@ public class ChallengeAppObject : AppObject
                     NewScreenManager.instance.BackToPreviousView();
                 });
 
-#if PLATFORM_ANDROID
-                PopUpViewModel currentPopUp = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
-                AppManager.instance.SetAndroidBackAction(() => {
-                    currentPopUp.ExitButtonOnClick();
-                    this.SetAndroidBackAction();
-                });
-#endif
             }
         }
     }
@@ -147,18 +140,5 @@ public class ChallengeAppObject : AppObject
         popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); });
     }
 
-    public override void SetAndroidBackAction()
-    {
-#if PLATFORM_ANDROID
-        if (Application.platform == RuntimePlatform.Android)
-        {
-            AppManager.instance.SetAndroidBackAction(() => {
-                if (finishedLoading)
-                {
-                    OnClick_BackButton();
-                }
-            });
-        }
-# endif
-    }
+    
 }
