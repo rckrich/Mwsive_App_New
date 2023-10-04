@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class ProfileViewModel : ViewModel
 {
+    private const int LIMIT_OF_BADGES = 3;
+
     public List<GameObject> DNAButtons = new List<GameObject>();
     public TextMeshProUGUI displayName;
     public Image profilePicture;
@@ -151,7 +153,6 @@ public class ProfileViewModel : ViewModel
             NewScreenManager.instance.ChangeToSpawnedView("miPlaylist");
             NewScreenManager.instance.GetCurrentView().GetComponent<MiPlaylistViewModel>().GetCurrentUserPlaylist();
             NewScreenManager.instance.GetCurrentView().GetComponent<MiPlaylistViewModel>().Initialize();
-            Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
         }
         else
         {
@@ -164,7 +165,6 @@ public class ProfileViewModel : ViewModel
     public void OnClick_SpawnPopUpButton()
     {
         NewScreenManager.instance.ChangeToSpawnedView("popUp");
-        Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
 
     public void GetCurrentUserPlaylists()
@@ -270,7 +270,6 @@ public class ProfileViewModel : ViewModel
             SurfManager.instance.canSwipe = true;
 
         NewScreenManager.instance.ChangeToMainView(_value, false);
-        Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
 
     }
 
@@ -332,7 +331,6 @@ public class ProfileViewModel : ViewModel
     }
 
     public void OnClick_Share(){
-        Debug.Log(profileId);
         NativeShareManager.instance.OnClickShareMwsiveProfile(profileId);
     }
 
@@ -708,9 +706,11 @@ public class ProfileViewModel : ViewModel
         {
             areEngagementBadges = false;
         }
-        if(count < 3)
+
+        if(count < LIMIT_OF_BADGES)
         {
-            count -= 3;
+            count = LIMIT_OF_BADGES - count;
+            Debug.Log(count);
             string _profileid = profileId;
 
             if (_profileid.Equals(""))

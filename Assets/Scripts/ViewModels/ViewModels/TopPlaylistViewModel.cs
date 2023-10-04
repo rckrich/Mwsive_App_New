@@ -19,7 +19,7 @@ public class TopPlaylistViewModel : ViewModel
 #if PLATFORM_ANDROID
         SetAndroidBackAction();
 #endif
-
+        ClearScrolls(playlistScrollContent);
         shimmer.SetActive(true);
         MwsiveConnectionManager.instance.GetRecommendedPlaylists(Callback_GetRecommendedPlaylists);
     }
@@ -27,7 +27,7 @@ public class TopPlaylistViewModel : ViewModel
     private void Callback_GetRecommendedPlaylists(object[] _list)
     {
         MwsiveRecommendedPlaylistsRoot mwsiveRecommendedPlaylistsRoot = (MwsiveRecommendedPlaylistsRoot)_list[1];
-        shimmer.SetActive(false); 
+        shimmer.SetActive(false);
         int maxSpawnCounter = 0;
 
         for (int i = 0; i < mwsiveRecommendedPlaylistsRoot.playlists.Count; i++)
@@ -59,7 +59,8 @@ public class TopPlaylistViewModel : ViewModel
 #if PLATFORM_ANDROID
         if (Application.platform == RuntimePlatform.Android)
         {
-            AppManager.instance.SetAndroidBackAction(() => {
+            AppManager.instance.SetAndroidBackAction(() =>
+            {
                 if (finishedLoading)
                 {
                     OnClick_BackButton();
@@ -68,4 +69,14 @@ public class TopPlaylistViewModel : ViewModel
         }
 #endif
     }
+
+    private void ClearScrolls(Transform _scrolls)
+    {
+        foreach (Transform child in _scrolls.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+    }
 }
+

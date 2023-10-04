@@ -128,7 +128,6 @@ public class PF_SurfManager : Manager
                 DownScrollSuccess();
                 break;
         }
-        //Debug.Log(swipe);
     }
 
     public void ValChange() {
@@ -184,9 +183,6 @@ public class PF_SurfManager : Manager
         UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition + 1], RestPositions[1], var * .25f);
         UIAniManager.instance.SurfTransitionOtherSongs(MwsiveSongs[CurrentPosition + 2], RestPositions[2], var * .25f);
         Success = false;
-
-
-        Debug.Log("DownScrollAnimation");
     }
 
 
@@ -211,8 +207,6 @@ public class PF_SurfManager : Manager
 
 
         Success = false;
-
-        Debug.Log("UpScrollAnimation");
     }
 
     public void OnEndDrag() {
@@ -306,9 +300,6 @@ public class PF_SurfManager : Manager
 
         }
 
-
-        Debug.Log("SideScrollSucces");
-
         HasSwipeEnded = true;
     }
     private void DownScrollSuccess() {
@@ -354,7 +345,6 @@ public class PF_SurfManager : Manager
         }
 
 
-        Debug.Log("DownScrollSucess");
         HasSwipeEnded = true;
     }
     private void UpScrollSuccess() {
