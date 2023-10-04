@@ -177,6 +177,7 @@ public class PlaylistViewModel : ViewModel
         }
         else
         {
+            
             if (searchedPlaylist.tracks.items.Count == 0)
             {
                 UIMessage.instance.UIMessageInstanciate("Esta Playlist no tiene contenido");
@@ -185,9 +186,17 @@ public class PlaylistViewModel : ViewModel
             {
                 
                 NewScreenManager.instance.ChangeToSpawnedView("surf");
-                if(playlist !=  null || playlist.items.Count > 0)
+                if(playlist !=  null)
                 {
-                    NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerPLItems(new object[] { playlist }, true, true, id);
+                    if(playlist.items.Count > 0)
+                    {
+                        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerPLItems(new object[] { playlist }, true, true, id);
+                    }
+                    else
+                    {
+                        SpotifyConnectionManager.instance.GetPlaylistItems(id, Callback_SurfButtonNoPl, "ES", 100);
+                    }
+                    
                 }
                 else
                 {

@@ -100,8 +100,7 @@ public class ButtonSurfPlaylist : ViewModel
         RemoveEventListener<SelectedPlaylistNameAppEvent>(SelectedPlaylistNameEventListener);
         RemoveEventListener<ChangeColorAppEvent>(ChangeEventListener);
         durationBar.CheckforPoints = false;
-        ClearData();
-        Debug.LogError("aaa");
+        
     }
 
     public void InitializeMwsiveDB(MwsiveData _data)
@@ -561,7 +560,7 @@ public class ButtonSurfPlaylist : ViewModel
 
     private void CalculateKorM(int? _numberOfVotes, TextMeshProUGUI _textMeshProUGUI, string _text = null)
     {
-        Debug.Log(_numberOfVotes.ToString());
+        
         if(_numberOfVotes == null) { _numberOfVotes = 0; }
         if (_numberOfVotes >= THOUSEND_CONVERT_TO_K && _numberOfVotes < MILLION_CONVERT_TO_M)
         {

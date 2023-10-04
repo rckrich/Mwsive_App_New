@@ -438,7 +438,7 @@ public class SurfAni : MonoBehaviour
 
             Restart_VerticalUp();
         }
-        Debug.LogWarning(fade);
+        
         foreach (Tweener item in VerticalUp)
         {
             item.SetAutoKill(false);
