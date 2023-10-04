@@ -1097,6 +1097,13 @@ public static class SpotifyWebCalls
             {
                 //Catch response code for multiple requests to the server in a short timespan.
 
+                if (webRequest.responseCode.Equals(WebCallsUtils.GATEWAY_TIMEOUT))
+                {
+                    DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch recommendations. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                    _callback(new object[] { webRequest.responseCode, null });
+                    yield break;
+                }
+
                 if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
                 {
                     WebCallsUtils.ReauthenticateUser(_callback);
