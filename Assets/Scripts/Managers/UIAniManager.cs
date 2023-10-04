@@ -308,7 +308,14 @@ public class UIAniManager : MonoBehaviour
         
     }
     public void FadeOut(GameObject GA, float TransitionDuration){
-        GA.GetComponent<CanvasGroup>().DOFade(0, TransitionDuration).OnComplete(() => {GA.SetActive(false);}).SetEase(_AnimationFade);
+        try
+        {
+            GA.GetComponent<CanvasGroup>().DOFade(0, TransitionDuration).OnComplete(() => { GA.SetActive(false); }).SetEase(_AnimationFade);
+        }
+        catch (MissingReferenceException e)
+        {
+            return;
+        }
     }
 
     public void FadeOut(GameObject GA){

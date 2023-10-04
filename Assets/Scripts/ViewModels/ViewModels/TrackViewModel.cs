@@ -153,16 +153,10 @@ public class TrackViewModel : ViewModel
         NewScreenManager.instance.BackToPreviousView();
         SpotifyPreviewAudioManager.instance.StopTrack();
         NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
-
-#if PLATFORM_ANDROID
-        AppManager.instance.SetAndroidBackAction(null);
-#endif
     }
 
     public void OnClick_Surf()
     {
-        
-
         if(recommendations.tracks.Count == 0){
             UIMessage.instance.UIMessageInstanciate("No hay recomendaciones");
         }else{
@@ -173,5 +167,20 @@ public class TrackViewModel : ViewModel
         }
         
     }
-    
+
+    public override void SetAndroidBackAction()
+    {
+#if PLATFORM_ANDROID
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AppManager.instance.SetAndroidBackAction(() => {
+                if (finishedLoading)
+                {
+                    OnClick_ButtonBack();
+                }
+            });
+        }
+#endif
+    }
+
 }
