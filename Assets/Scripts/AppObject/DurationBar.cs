@@ -12,10 +12,39 @@ public class DurationBar : AppObject
     public bool canPlay = false;
     public bool CheckforPoints;
     private ButtonSurfPlaylist SurfPlaylist;
+    private PF_SurfManager surf;
 
     void Start()
     {
         durationImage = GetComponent<Image>();
+    }
+    private void OnEnable()
+    {
+        try
+        {
+            surf = SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>();
+        }
+        catch (System.NullReferenceException)
+        {
+
+        }
+    }
+        
+    public void ResetFillAmount()
+    {
+        if(durationImage != null)
+        {
+            durationImage.fillAmount = 0;
+        }
+        
+    }
+
+
+    private void OnDisable()
+    {
+        surf = null;
+        CheckforPoints = false;
+        canPlay = false;
     }
 
     void Update()
@@ -23,16 +52,21 @@ public class DurationBar : AppObject
         if (durationImage != null && SpotifyPreviewAudioManager.instance.audioSource.isPlaying && canPlay)
         {
             durationImage.fillAmount = SpotifyPreviewAudioManager.instance.GetAudioSourceTime() / SpotifyPreviewAudioManager.instance.GetAudioClipLenght();
-            if(CheckforPoints && durationImage.fillAmount > .9f && SurfPlaylist != null && !SurfPlaylist.SuccesfulEnded){
-                SurfPlaylist.SuccesfulEnded = true;
-                SurfPlaylist.LastPosition();
-                Debug.Log("SongEnded");
-                
+            if(surf != null)
+            {
+                if (CheckforPoints && durationImage.fillAmount > .9f && !surf.GetCurrentMwsiveData().challenge_songeded)
+                {
+
+                    surf.GetCurrentMwsiveData().challenge_songeded = true;
+                    
+                    surf.GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().LastPosition();
+                    Debug.Log("SongEnded");
+
+                }
             }
+            
         }
     }
-    public void SetCallBack(ButtonSurfPlaylist _SurfPlaylist){
-        SurfPlaylist = _SurfPlaylist;
-    }
+    
 
 }

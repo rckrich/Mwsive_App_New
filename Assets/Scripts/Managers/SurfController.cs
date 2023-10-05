@@ -49,6 +49,7 @@ public class SurfController : MonoBehaviour
     }
 
     public GameObject ReturnCurrentView(){
+        /// Se tiene que agregar el control de herarquia si es que el current view esta nulo
         return CurrentView;
     }
     private void ControlHierarchy()

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System.Linq;
+using UnityEngine.UIElements;
 
 public class SurfAni : MonoBehaviour
 {
@@ -12,237 +14,798 @@ public class SurfAni : MonoBehaviour
     public float ColorTransitionDuration = 0.5f;
     public float SurfTransitionDuration = 0.5f;
 
+    private float var;
+    private float maxRotation;
+    private float fade;
+    private bool isItFinished;
+    private bool visible;
+    private GameObject Position;
+    private Vector3 FinalPosition, RestPositionSide, RestPositionDown, RestPositionUp;
 
-    private static UIAniManager _instance;
-    private Vector2 FinalPosition, RestPositionSide, RestPositionDown, RestPositionUp;
-    public bool IsAddSongSurfDone = true;
+    public bool isAvailable, debug;
+
+    private Tweener[] SurfSide, SurfSideLastPosition, SurfSideTransitionBack, SurfReset, VerticalUp, VerticalDown1, VerticalDown2, SurfTransitionBackSongDown, SurfResetOtherSongs, SurfTransitionBackSong;
+    private Tweener[] SurfTransitionOtherSongs, SurfTransitionBackHideSong, SurfAddSong, SurfAddSongReset, CompleteAddSurfAddSong, SurfAddSongLastPosition;
+
+    private bool IsAddSongSurfDone = true;
+    private Vector3 pos, scale;
+    private float aplha;
     // Start is called before the first frame update
     void Start()
     {
         
+        SetPosition();
     }
     void SetPosition()
     {
+        MainCanvas = UIAniManager.instance.MainCanvas;
         FinalPosition = MainCanvas.transform.position;
-        RestPositionDown = new Vector2(MainCanvas.transform.position.x, -2 * MainCanvas.transform.position.y);
-        RestPositionUp = new Vector2(MainCanvas.transform.position.x, 2 * MainCanvas.transform.position.y);
-        RestPositionSide = new Vector2(MainCanvas.transform.position.x * 4, MainCanvas.transform.position.y);
+        RestPositionDown = new Vector3(MainCanvas.transform.position.x, -2 * MainCanvas.transform.position.y, 0f);
+        RestPositionUp = new Vector3(MainCanvas.transform.position.x, 3 * MainCanvas.transform.position.y, 0f);
+        RestPositionSide = new Vector3(MainCanvas.transform.position.x * 4, MainCanvas.transform.position.y, 0f);
         //RestPositionLeft = new Vector2(MainCanvas.transform.position.x * -2, MainCanvas.transform.position.y);
     }
+
+    public void ResetRestPosition()
+    {
+        gameObject.transform.position = RestPositionUp;
+    }
+
     // Update is called once per frame
-    public void SurfSide(GameObject GA, float var, float MaxRotation, float fade, bool IsItFinished)
+    private void SetUp_SurfSide()
     {
         SetPosition();
-        if (IsItFinished)
+        SurfSide = new Tweener[3];
+        SurfSide[0] = gameObject.transform.DOMove(new Vector2(RestPositionSide.x * var, RestPositionSide.y), SurfTransitionDuration, false).Pause();
+        SurfSide[1] = gameObject.transform.DORotate(new Vector3(0f, 0f, maxRotation * var), SurfTransitionDuration).Pause();
+        SurfSide[2] = gameObject.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration).Pause();
+        SurfSide[0].OnComplete(() => {
+        if (isItFinished)
         {
-            GA.transform.DOMove(new Vector2(RestPositionSide.x * var, RestPositionSide.y), SurfTransitionDuration, false).OnComplete(() => { GA.SetActive(false); GA.transform.position = RestPositionUp; });
+          isAvailable = true; gameObject.transform.position = RestPositionUp;
         }
-        else
-        {
-            GA.transform.DOMove(new Vector2(RestPositionSide.x * var, RestPositionSide.y), SurfTransitionDuration, false);
-        }
+        });
 
-        GA.transform.DORotate(new Vector3(0f, 0f, MaxRotation * var), SurfTransitionDuration);
-
-        GA.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration);
     }
 
-    public void SurfSideLastPosition(GameObject GA, GameObject Position, float var, float MaxRotation, float fade, GameObject SurfManager)
+    private void SetUp_SurfSideLastPosition()
     {
         SetPosition();
-        GA.transform.DOMove(new Vector2(RestPositionSide.x * var, RestPositionSide.y), SurfTransitionDuration, false).OnComplete(() => { SurfSideTransitionBack(GA, Position, -MaxRotation, SurfManager); });
-        GA.transform.DORotate(new Vector3(0f, 0f, MaxRotation * var), SurfTransitionDuration);
-        GA.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration);
+        
+        SurfSideLastPosition = new Tweener[3];
+        SurfSideLastPosition[0] = gameObject.transform.DOMove(new Vector2(RestPositionSide.x * var, RestPositionSide.y), SurfTransitionDuration, false).Pause();
+        SurfSideLastPosition[1] = gameObject.transform.DORotate(new Vector3(0f, 0f, maxRotation * var), SurfTransitionDuration).Pause();
+        SurfSideLastPosition[2] = gameObject.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration).Pause();
+        SurfSideLastPosition[0].OnComplete(() => {
+
+            Play_SurfSideTransitionBack();
+            SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().OnCallback_ResetSideAnimation();
+
+        });
+        
+        
     }
 
-    public void SurfSideTransitionBack(GameObject GA, GameObject Position, float Maxrotation, GameObject SurfManager)
+    private void SetUp_SurfSideTransitionBack()
     {
         SetPosition();
-        GA.transform.eulerAngles = new Vector3(0f, 0f, Maxrotation);
-        GA.transform.position = RestPositionUp;
+        
+        SurfSideTransitionBack = new Tweener[5];
 
-        GA.transform.DOMove(Position.transform.position, SurfTransitionDuration, false);
-        GA.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha, SurfTransitionDuration);
-        GA.transform.DOScale(Position.transform.localScale, SurfTransitionDuration);
-        GA.transform.DORotate(new Vector3(0, 0, 0), SurfTransitionDuration).OnComplete(() => { SurfManager.GetComponent<PF_SurfManager>().HasSideScrollEnded = true; });
+        SurfSideTransitionBack[0] = gameObject.transform.DOMove(Position.transform.position, SurfTransitionDuration, false).Pause();
+        SurfSideTransitionBack[1] = gameObject.transform.DORotate(new Vector3(0f, 0f, maxRotation * var), SurfTransitionDuration).Pause();
+        SurfSideTransitionBack[2] = gameObject.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha, SurfTransitionDuration).Pause();
+        SurfSideTransitionBack[3] = gameObject.transform.DOScale(Position.transform.localScale, SurfTransitionDuration).Pause();
+        SurfSideTransitionBack[4] =gameObject.transform.DORotate(new Vector3(0, 0, 0), SurfTransitionDuration).Pause();
 
+        SurfSideTransitionBack[0].OnComplete(() => {
+
+            try
+            {
+                SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().HasSideScrollEnded = true;
+            }
+            catch (System.NullReferenceException)
+            {
+                
+            }
+            });
 
     }
 
-    public void SurfReset(GameObject GA)
+    private void SetUp_SurfReset()
     {
 
         SetPosition();
-        GA.transform.DOMove(FinalPosition, SurfTransitionDuration, false);
-        GA.transform.DORotate(new Vector3(0f, 0f, 0f), SurfTransitionDuration);
-        GA.GetComponent<CanvasGroup>().DOFade(1, SurfTransitionDuration);
+        
+        SurfReset = new Tweener[3];
+
+        SurfReset[0] = gameObject.transform.DOMove(FinalPosition, SurfTransitionDuration, false).Pause();
+        SurfReset[1] =gameObject.transform.DORotate(new Vector3(0f, 0f, 0f), SurfTransitionDuration).Pause();
+        SurfReset[2] =gameObject.GetComponent<CanvasGroup>().DOFade(1, SurfTransitionDuration).Pause();
+
+
     }
 
-    public void SurfVerticalUp(GameObject GA, float var, float MaxRotation, float fade, bool IsItFinished)
+    private void SetUp_SurfVerticalUp()
     {
         SetPosition();
-        if (IsItFinished)
-        {
-            GA.transform.DOMove(new Vector2(RestPositionUp.x, RestPositionUp.y * var), SurfTransitionDuration, false).OnComplete(() => { GA.SetActive(false); });
-        }
-        else
-        {
-            GA.transform.DOMove(new Vector2(RestPositionUp.x, RestPositionUp.y * var), SurfTransitionDuration, false);
-        }
+        
+        VerticalUp = new Tweener[3];
 
+        VerticalUp[0] = gameObject.transform.DOMove(new Vector2(RestPositionUp.x, RestPositionUp.y * var), SurfTransitionDuration, false).Pause();
+        VerticalUp[1] = gameObject.transform.DORotate(new Vector3(0f, 0f, maxRotation * var), SurfTransitionDuration).Pause();
+        VerticalUp[2] = gameObject.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration).Pause();
 
+        VerticalUp[0].OnComplete(() => {
+            if (isItFinished)
+            {
+                isAvailable = true;
+            }
+            gameObject.transform.DORotate(new Vector3(0f, 0f, 0f), SurfTransitionDuration / 2);
 
-        GA.transform.DORotate(new Vector3(0f, 0f, MaxRotation * var), SurfTransitionDuration).OnComplete(() => { GA.transform.DORotate(new Vector3(0f, 0f, 0f), SurfTransitionDuration / 2); });
-        GA.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration);
+        });
     }
 
-
-
-
-    public void SurfVerticalDown(GameObject GA, float var, float MaxRotation, float fade, bool IsItFinished)
+    private void SetUp_SurfVerticalDown()
     {
-        GA.transform.DORotate(new Vector3(0f, 0f, MaxRotation * var), SurfTransitionDuration);
-        GA.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration);
+        
+        VerticalDown1 = new Tweener[2];
+        VerticalDown1[0] = gameObject.transform.DORotate(new Vector3(0f, 0f, maxRotation * var), SurfTransitionDuration).Pause();
+        VerticalDown1[1] = gameObject.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration).Pause();
+
     }
-    public void SurfVerticalDown(GameObject GA, float var, float MaxRotation, float fade, bool IsItFinished, GameObject position)
+
+    private void SetUp_SurfVerticalDown2()
     {
         SetPosition();
 
-        if (IsItFinished)
-        {
+        
+        VerticalDown2 = new Tweener[3];
 
-            GA.transform.DOMove(new Vector2(RestPositionDown.x, RestPositionDown.y * var), SurfTransitionDuration + .5f, false);
-        }
-        else
-        {
-
-            GA.transform.DOMove(new Vector2(RestPositionDown.x, RestPositionDown.y * var), SurfTransitionDuration, false);
-        }
-
-        GA.transform.DORotate(new Vector3(0f, 0f, MaxRotation * var), SurfTransitionDuration);
-        GA.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration);
-    }
-
-    public void SurfTransitionBackSongDown(GameObject GA, GameObject Position)
-    {
-
-        DOTween.Kill(GA);
-        GA.transform.DOMove(Position.transform.position, SurfTransitionDuration, false);
-        GA.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha, SurfTransitionDuration);
-        GA.transform.DOScale(Position.transform.localScale, SurfTransitionDuration);
-        GA.transform.DORotate(new Vector3(0, 0, 0), SurfTransitionDuration);
+        VerticalDown2[0] = gameObject.transform.DOMove(new Vector2(RestPositionDown.x, RestPositionDown.y * var), SurfTransitionDuration + .5f, false).Pause();
+        VerticalDown2[1] = gameObject.transform.DORotate(new Vector3(0f, 0f, maxRotation * var), SurfTransitionDuration).Pause();
+        VerticalDown2[2] = gameObject.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration).Pause();
 
 
     }
 
-
-
-    public void SurfResetOtherSongs(GameObject GA, GameObject Position, bool Visible)
+    private void SetUp_SurfTransitionBackSongDown()
     {
 
+        //DOTween.Kill(GA);
+        
+        SurfTransitionBackSongDown = new Tweener[4];
 
-        GA.transform.DOMove(Position.transform.position, SurfTransitionDuration, false);
-        GA.transform.DOScale(Position.transform.localScale, SurfTransitionDuration);
-        GA.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha, SurfTransitionDuration).OnComplete(() => { GA.SetActive(Visible); });
+        SurfTransitionBackSongDown[0] = gameObject.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha, SurfTransitionDuration).Pause();
+        SurfTransitionBackSongDown[1] = gameObject.transform.DOScale(Position.transform.localScale, SurfTransitionDuration).Pause();
+        SurfTransitionBackSongDown[2] = gameObject.transform.DORotate(new Vector3(0, 0, 0), SurfTransitionDuration).Pause();
+        SurfTransitionBackSongDown[3] = gameObject.transform.DOMove(Position.transform.position, SurfTransitionDuration, false);
+    }
+
+    private void SetUp_SurfResetOtherSongs()
+    {
+
+        
+        SurfResetOtherSongs = new Tweener[3];
+
+        SurfResetOtherSongs[0] = gameObject.transform.DOMove(Position.transform.position, SurfTransitionDuration, false).Pause();
+        SurfResetOtherSongs[1] = gameObject.transform.DOScale(Position.transform.localScale, SurfTransitionDuration).Pause();
+        SurfResetOtherSongs[2] = gameObject.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha, SurfTransitionDuration).Pause();
+        SurfResetOtherSongs[0].OnComplete(() => { if(visible)
+            {
+                isAvailable = false;
+
+            }
+            else
+            {
+                isAvailable = true;
+            }
+            
+
+
+        });
+    }
+
+    private void SetUp_SurfTransitionBackSong()
+    {
+        
+        SurfTransitionBackSong = new Tweener[4];
+        SurfTransitionBackSong[0] = gameObject.transform.DOMove(Position.transform.position, SurfTransitionDuration, false).Pause();
+        SurfTransitionBackSong[1] = gameObject.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha, SurfTransitionDuration).Pause();
+        SurfTransitionBackSong[2] = gameObject.transform.DOScale(Position.transform.localScale, SurfTransitionDuration).Pause();
+        SurfTransitionBackSong[3] = gameObject.transform.DORotate(new Vector3(0, 0, 0), SurfTransitionDuration).Pause();
 
     }
 
-    public void SurfTransitionBackSong(GameObject GA, GameObject Position, float Maxrotation)
+    private void SetUp_SurfTransitionOtherSongs()
     {
+        
+        SurfTransitionOtherSongs = new Tweener[4];
 
-        GA.SetActive(true);
-        GA.transform.eulerAngles = new Vector3(0f, 0f, Maxrotation);
-        GA.transform.DOMove(Position.transform.position, SurfTransitionDuration, false);
-        GA.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha, SurfTransitionDuration);
-        GA.transform.DOScale(Position.transform.localScale, SurfTransitionDuration);
-        GA.transform.DORotate(new Vector3(0, 0, 0), SurfTransitionDuration);
 
+        
+        SurfTransitionOtherSongs[0] = gameObject.transform.DOMove(Position.transform.position, SurfTransitionDuration, false).Pause();
+        SurfTransitionOtherSongs[1] = gameObject.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha*fade, SurfTransitionDuration).Pause();
+        SurfTransitionOtherSongs[2] = gameObject.transform.DOScale(Position.transform.localScale, SurfTransitionDuration);
+        SurfTransitionOtherSongs[3] = gameObject.transform.DORotate(new Vector3(0, 0, 0), SurfTransitionDuration).Pause();
+
+
+       
+        
     }
 
-
-
-    public void SurfTransitionOtherSongs(GameObject GA, GameObject Position, float var)
+    private void SetUp_SurfTransitionBackHideSong()
     {
-        DOTween.Kill(GA);
-        float fade = Mathf.Clamp(var * 2, 0, 1);
-        GA.SetActive(true);
-        GA.transform.DOMove(Position.transform.position, SurfTransitionDuration, false);
-        GA.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha * fade, SurfTransitionDuration);
-        GA.transform.DOScale(Position.transform.localScale, SurfTransitionDuration);
 
-        if (GA.transform.rotation != Quaternion.identity)
-        {
-            GA.transform.DORotate(new Vector3(0, 0, 0), SurfTransitionDuration);
-        }
-
+        
+        SurfTransitionBackHideSong = new Tweener[3];
+        SurfTransitionBackHideSong[0] = gameObject.transform.DOMove(Position.transform.position, SurfTransitionDuration, false).Pause();
+        SurfTransitionBackHideSong[1] = gameObject.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha * fade, SurfTransitionDuration).Pause();
+        SurfTransitionBackHideSong[2] = gameObject.transform.DOScale(Position.transform.localScale, SurfTransitionDuration).Pause();
+        
     }
 
-    public void SurfTransitionBackHideSong(GameObject GA, GameObject Position, float var)
+    private void SetUp_SurfAddSong()
     {
 
-        float fade = Mathf.Clamp(var * 2, 0, 1);
-        GA.transform.DOMove(Position.transform.position, SurfTransitionDuration, false);
-        GA.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha * fade, SurfTransitionDuration).OnComplete(() => { GA.SetActive(false); });
-        GA.transform.DOScale(Position.transform.localScale, SurfTransitionDuration);
+        
+        SurfAddSong = new Tweener[2];
 
+        SurfAddSong[0] = gameObject.transform.DOScale(new Vector3(1, 1, 1) * fade, SurfTransitionDuration).Pause();
+        SurfAddSong[1] = gameObject.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration).Pause();
     }
 
-    public void SurfAddSong(GameObject GA, float fade)
+    private void SetUp_SurfAddSongReset()
     {
-
-
-        GA.SetActive(true);
-        fade = Mathf.Clamp(fade * 1.5f, 0, 1f);
-        GA.transform.DOScale(new Vector3(1, 1, 1) * fade, SurfTransitionDuration);
-        GA.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration);
-
-
-    }
-    public void SurfAddSongReset(GameObject GA)
-    {
+        /*
         if (IsAddSongSurfDone)
         {
             if (GA.transform.localScale != new Vector3(0, 0, 0))
             {
                 DOTween.Kill(GA);
-                GA.transform.DOScale(new Vector3(0, 0, 0), 0.3F).OnComplete(() => { GA.SetActive(false); });
+                
 
             }
 
 
+        }*/
+
+        
+        SurfAddSongReset = new Tweener[1];
+
+        SurfAddSongReset[0] = gameObject.transform.DOScale(new Vector3(0, 0, 0), 0.3F).Pause();
+        SurfAddSongReset[0].OnComplete(() => { gameObject.SetActive(false); });
+
+
+
+    }
+
+    private void SetUp_CompleteSurfAddSong()
+    {
+
+
+        
+        //DOTween.Complete(GA);
+        
+        CompleteAddSurfAddSong = new Tweener[3];
+
+        CompleteAddSurfAddSong[0] = gameObject.GetComponent<CanvasGroup>().DOFade(1, 0.1f).Pause();
+        CompleteAddSurfAddSong[1] = gameObject.transform.DOScale(new Vector3(1, 1, 1) * fade, SurfTransitionDuration).Pause();
+        CompleteAddSurfAddSong[2] = gameObject.GetComponent<CanvasGroup>().DOFade(0, SurfTransitionDuration * 2).Pause();
+        CompleteAddSurfAddSong[0].OnComplete(() => { IsAddSongSurfDone = true; gameObject.SetActive(false); });
+
+    }
+
+    private void SetUp_SurfAddSongLastPosition()
+    {
+
+        //DOTween.Complete(GA);
+        
+        SurfAddSongLastPosition = new Tweener[3];
+
+        SurfAddSongLastPosition[0] = gameObject.transform.DOScale(new Vector3(1, 1, 1) * fade, SurfTransitionDuration).Pause();
+        SurfAddSongLastPosition[1] = gameObject.GetComponent<CanvasGroup>().DOFade(0, SurfTransitionDuration * 2).Pause();
+        SurfAddSongLastPosition[0].OnComplete(() => { gameObject.transform.localScale = new Vector3(0, 0, 0); gameObject.GetComponent<CanvasGroup>().alpha = 0; });
+
+
+    }
+
+    public void SurfShareSpawn()
+    { 
+        gameObject.transform.position = RestPositionUp;
+    }
+
+    public void SetValues(float? _var = null, float? _maxRotation = null, float? _fade = null, bool? _isItFinished = null, bool? _visible = null, GameObject _position = null) 
+    {
+        if(_var != null)
+        {
+            var = (float)_var;
+        }
+        if (_maxRotation != null)
+        {
+            maxRotation = (float)_maxRotation;
+        }
+        if (_fade != null)
+        {
+            fade = (float)_fade;
+        }
+        if (_isItFinished != null)
+        {
+            isItFinished = (bool)_isItFinished;
+        }
+        if (_visible != null)
+        {
+            visible = (bool)_visible;
+        }
+        if (_position != null)
+        {
+            Position = _position;
         }
 
     }
 
-    public void CompleteSurfAddSong(GameObject GA, float fade)
+    public void Play_SurfSide()
     {
+        if(SurfSide == null)
+        {
+            SetUp_SurfSide();
+        }
+        else
+        {
+            Restart_SurfSide();
+        }
 
+        foreach (Tweener item in SurfSide)
+        {
+            item.SetAutoKill(false);
+            item.Play();
+        }
+
+        
+        
+        
+        
+    }
+
+    public void Play_SurfSideLasPosition()
+    {
+        if (SurfSideLastPosition == null)
+        {
+            SetUp_SurfSideLastPosition();
+        }
+        else
+        {
+            Restart_SurfSideLastPosition();
+        }
+
+        foreach (Tweener item in SurfSideLastPosition)
+        {
+            item.SetAutoKill(false);
+            item.Play();
+        }
+        
+    }
+
+    public void Play_SurfSideTransitionBack()
+    {
+        gameObject.transform.eulerAngles = new Vector3(0f, 0f, maxRotation);
+        gameObject.transform.position = RestPositionUp;
+        if (SurfSideTransitionBack == null)
+        {
+            SetUp_SurfSideTransitionBack();
+        }
+        else
+        {
+            Restart_SurfSideTransitionBack();
+        }
+        foreach (Tweener item in SurfSideTransitionBack)
+        {
+            item.SetAutoKill(false);
+            item.Play();
+        }
+        
+    }
+
+    public void Play_SurfReset()
+    {
+        if (SurfReset == null)
+        {
+            SetUp_SurfReset();
+        }
+        else
+        {
+            Restart_SurfReset();
+        }
+        foreach (Tweener item in SurfReset)
+        {
+            item.SetAutoKill(false);
+            item.Play();
+        }
+    }
+
+    public void Play_VerticalUp()
+    {
+        
+        isAvailable = false;
+        if (VerticalUp == null)
+        {
+            
+            SetUp_SurfVerticalUp();
+        }
+        else
+        {
+
+
+            Restart_VerticalUp();
+        }
+        
+        foreach (Tweener item in VerticalUp)
+        {
+            item.SetAutoKill(false);
+            item.Play();
+        }
+    }
+
+    public void Play_VerticalDown1()
+    {
+        if (VerticalDown1 == null)
+        {
+            SetUp_SurfVerticalDown();
+        }
+        else
+        {
+            Restart_VerticalDown1();
+        }
+        foreach (Tweener item in VerticalDown1)
+        {
+            item.SetAutoKill(false);
+            item.Play();
+        }
+    }
+
+    public void Play_VerticalDown2()
+    {
+        if (VerticalDown2 == null)
+        {
+            SetUp_SurfVerticalDown2();
+        }
+        else
+        {
+            Restart_VerticalDown2();
+        }
+        foreach (Tweener item in VerticalDown2)
+        {
+            item.SetAutoKill(false);
+            item.Play();
+        }
+    }
+
+    public void Play_SurfTransitionBackSongDown()
+    {
+        if (SurfTransitionBackSongDown == null)
+        {
+            SetUp_SurfTransitionBackSongDown();
+        }
+        else
+        {
+            Restart_SurfTransitionBackSongDown();
+        }
+        foreach (Tweener item in SurfTransitionBackSongDown)
+        {
+            item.SetAutoKill(false);
+            item.Play();
+        }
+    }
+
+    public void Play_SurfTransitionBackHideSong()
+    {
+        fade = Mathf.Clamp(var * 2, 0, 1);
+        
+        if (SurfTransitionBackHideSong == null)
+        {
+            SetUp_SurfTransitionBackHideSong();
+        }
+        else
+        {
+            Restart_SurfTransitionBackHideSong();
+        }
+        
+        foreach (Tweener item in SurfTransitionBackHideSong)
+        {
+            item.SetAutoKill(false);
+            item.Play();
+        }
+        
+    }
+
+    
+    public void Play_SurfResetfOtherSongs()
+    {
+        if (SurfResetOtherSongs == null)
+        {
+            SetUp_SurfResetOtherSongs();
+        }
+        else
+        {
+            Restart_SurfResetOtherSongs();
+        }
+        foreach (Tweener item in SurfResetOtherSongs)
+        {
+            item.SetAutoKill(false);
+            item.Play();
+        }
+    }
+
+    public void Play_SurfBackSong()
+    {
+        isAvailable = false;
+        gameObject.transform.eulerAngles = new Vector3(0f, 0f, maxRotation);
+        if (SurfTransitionBackSong == null)
+        {
+            SetUp_SurfTransitionBackSong();
+        }
+        else
+        {
+            Restart_SurfTransitionBackSong();
+        }
+        
+        foreach (Tweener item in SurfTransitionBackSong)
+        {
+            item.SetAutoKill(false);
+            item.Play();
+        }
+        
+    }
+
+    public void Play_SurfTransitionOtherSongs()
+    {
+        
+        fade = Mathf.Clamp(var * 2, 0, 1);
+        if (SurfTransitionOtherSongs == null)
+        {
+            SetUp_SurfTransitionOtherSongs();
+        }
+        else
+        {
+            Restart_SurfTransitionOtherSongs();
+        }
+        foreach (Tweener item in SurfTransitionOtherSongs)
+        {
+            item.SetAutoKill(false);
+            item.Play();
+        }
+        
+    }
+
+    public void Play_SurfAddSong()
+    {
+        fade = Mathf.Clamp(fade * 1.5f, 0, 1f);
+
+        if (SurfAddSong == null)
+        {
+            SetUp_SurfAddSong();
+        }
+        else
+        {
+            Restart_SurfAddSong();
+        }
+
+        foreach (Tweener item in SurfAddSong)
+        {
+            item.SetAutoKill(false);
+            item.Play();
+        }
+        
+    }
+
+    public void Play_SurfAddsongReset()
+    {
+        if (SurfAddSongReset == null)
+        {
+            SetUp_SurfAddSongReset();
+        }
+        else
+        {
+            Restart_SurfAddSongReset();
+        }
+        foreach (Tweener item in SurfAddSongReset)
+        {
+            item.SetAutoKill(false);
+            item.Play();
+        }
+    }
+
+    public void Play_CompleteAddSurfAddSong()
+    {
         IsAddSongSurfDone = false;
-        DOTween.Complete(GA);
-        GA.GetComponent<CanvasGroup>().DOFade(1, 0.1f);
-
-        GA.transform.DOScale(new Vector3(1, 1, 1) * fade, SurfTransitionDuration);
-        GA.GetComponent<CanvasGroup>().DOFade(0, SurfTransitionDuration * 2).OnComplete(() => { IsAddSongSurfDone = true; });
+        if (CompleteAddSurfAddSong == null)
+        {
+            SetUp_CompleteSurfAddSong();
+        }
+        else
+        {
+            Restart_CompleteAddSurfAddSong();
+        }
+        
+        foreach (Tweener item in CompleteAddSurfAddSong)
+        {
+            item.SetAutoKill(false);
+            item.Play();
+        }
+        
     }
 
-    public void SurfAddSongLastPosition(GameObject GA, float fade)
+    public void Play_SurfAddSongLastPosition()
+    {
+        if (SurfAddSongLastPosition == null)
+        {
+            SetUp_SurfAddSongLastPosition();
+        }
+        else
+        {
+            Restart_SurfAdSongLastPosition();
+        }
+        foreach (Tweener item in SurfAddSongLastPosition)
+        {
+            item.SetAutoKill(false);
+            item.Play();
+        }
+    }
+
+    private void Restart_SurfSide()
+    {
+        SurfSide[0].ChangeValues(new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0f), new Vector3(RestPositionSide.x * var, RestPositionSide.y, 0f));
+        SurfSide[1].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0f, 0f, maxRotation * var));
+        SurfSide[2].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, fade);
+
+    }
+
+    private void Restart_SurfSideLastPosition()
+    {
+        SurfSideLastPosition[0].ChangeValues(gameObject.transform.position, new Vector3(RestPositionSide.x * var, RestPositionSide.y, 0f));
+        SurfSideLastPosition[1].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0f, 0f, maxRotation * var));
+        SurfSideLastPosition[2].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, fade);
+
+    }
+
+    private void Restart_SurfSideTransitionBack()
     {
 
-        DOTween.Complete(GA);
-        GA.GetComponent<CanvasGroup>().DOFade(1, 0.1f);
-        GA.transform.DOScale(new Vector3(1, 1, 1) * fade, SurfTransitionDuration);
-        GA.GetComponent<CanvasGroup>().DOFade(0, SurfTransitionDuration * 2).OnComplete(() => { GA.transform.localScale = new Vector3(0, 0, 0); GA.GetComponent<CanvasGroup>().alpha = 0; });
+        
+        SurfSideTransitionBack[0].ChangeValues(gameObject.transform.position, Position.transform.position);
+        SurfSideTransitionBack[1].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0f, 0f, maxRotation * var));
+        SurfSideTransitionBack[2].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, Position.GetComponent<CanvasGroup>().alpha);
+        SurfSideTransitionBack[3].ChangeValues(gameObject.transform.localScale, Position.transform.localScale);
+        SurfSideTransitionBack[4].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0, 0, 0));
+        
+
     }
 
-    public void DoubleClickOla(GameObject GA)
+
+    private void Restart_SurfTransitionBackHideSong()
     {
-        GA.transform.DOScale(new Vector3(1.5F, 1.5F, 1.5F), .3f);
-        GA.GetComponent<CanvasGroup>().DOFade(0, .3f).OnComplete(() => { Destroy(GA); });
+
+        SurfTransitionBackHideSong[0].ChangeValues(gameObject.transform.position, Position.transform.position);
+        SurfTransitionBackHideSong[1].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, Position.GetComponent<CanvasGroup>().alpha);
+        SurfTransitionBackHideSong[2].ChangeValues(gameObject.transform.localScale, Position.transform.localScale);
+        
+
+
+    }
+    private void Restart_SurfReset()
+    {
+
+        
+        SurfReset[0].ChangeValues(gameObject.transform.position, FinalPosition);
+        SurfReset[1].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0f, 0f, 0f));
+        SurfReset[2].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, (System.Single)1);
+
     }
 
-    public void SurfShareSpawn(GameObject GA)
+    private void Restart_VerticalUp()
     {
-        SetPosition();
-        GA.transform.position = RestPositionUp;
+
+        
+        VerticalUp[0].ChangeValues(gameObject.transform.position, new Vector3(RestPositionUp.x, RestPositionUp.y * var, 0f));
+        VerticalUp[1].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0f, 0f, maxRotation * var));
+        VerticalUp[2].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, fade);
+
     }
+
+    private void Restart_VerticalDown1()
+    {
+        
+        VerticalDown1[0].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0f, 0f, maxRotation * var));
+        VerticalDown1[1].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, fade);
+
+    }
+
+    private void Restart_VerticalDown2()
+    {
+
+        VerticalDown2[0].ChangeValues(gameObject.transform.position, new Vector2(RestPositionDown.x, RestPositionDown.y * var));
+        VerticalDown2[1].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0f, 0f, maxRotation * var));
+        VerticalDown2[2].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, fade);
+
+
+    }
+
+    private void Restart_SurfTransitionBackSongDown()
+    {
+
+        
+        SurfTransitionBackSongDown[0].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, Position.GetComponent<CanvasGroup>().alpha);
+        SurfTransitionBackSongDown[1].ChangeValues(gameObject.transform.localScale, Position.transform.localScale);
+        SurfTransitionBackSongDown[2].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0, 0, 0));
+        SurfTransitionBackSongDown[3].ChangeValues(gameObject.transform.position, Position.transform.position);
+
+    }
+
+    private void Restart_SurfResetOtherSongs()
+    {
+
+        SurfResetOtherSongs[0].ChangeValues(gameObject.transform.position, Position.transform.position);
+        SurfResetOtherSongs[1].ChangeValues(gameObject.transform.localScale, Position.transform.localScale);
+        SurfResetOtherSongs[2].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, Position.GetComponent<CanvasGroup>().alpha);
+    }
+
+    private void Restart_SurfTransitionBackSong()
+    {
+
+        SurfTransitionBackSong[0].ChangeValues(gameObject.transform.position, Position.transform.position);
+        SurfTransitionBackSong[1].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, Position.GetComponent<CanvasGroup>().alpha);
+        SurfTransitionBackSong[2].ChangeValues(gameObject.transform.localScale, Position.transform.localScale);
+
+        SurfTransitionBackSong[3].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0, 0, 0));
+        
+
+    }
+
+    private void Restart_SurfTransitionOtherSongs()
+    {
+
+        SurfTransitionOtherSongs[0].ChangeValues(gameObject.transform.position, Position.transform.position);
+        SurfTransitionOtherSongs[1].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, Position.GetComponent<CanvasGroup>().alpha);
+        SurfTransitionOtherSongs[2].ChangeValues(gameObject.transform.localScale, Position.transform.localScale);
+
+        SurfTransitionOtherSongs[3].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0, 0, 0));
+
+    }
+
+    private void Restart_SurfAddSong()
+    {
+
+        
+        SurfAddSong[0].ChangeValues(gameObject.transform.localScale, new Vector3(1, 1, 1) * fade);
+        SurfAddSong[1].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, fade);
+        
+
+    }
+
+    private void Restart_SurfAddSongReset()
+    {
+
+        SurfAddSongReset[0].ChangeValues(gameObject.transform.localScale, new Vector3(0, 0, 0));
+
+    }
+
+    private void Restart_CompleteAddSurfAddSong()
+    {
+
+        CompleteAddSurfAddSong[0].ChangeValues((System.Single)gameObject.GetComponent<CanvasGroup>().alpha, (System.Single)1);
+        CompleteAddSurfAddSong[1].ChangeValues(gameObject.transform.localScale, new Vector3(1, 1, 1) * fade);
+        CompleteAddSurfAddSong[2].ChangeValues((System.Single)gameObject.GetComponent<CanvasGroup>().alpha, (System.Single)0);
+
+    }
+
+    private void Restart_SurfAdSongLastPosition()
+    {
+
+
+        SurfAddSongLastPosition[0].ChangeValues(gameObject.transform.localScale, new Vector3(1, 1, 1) * fade);
+        SurfAddSongLastPosition[1].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, 0);
+
+
+    }
+
 }
