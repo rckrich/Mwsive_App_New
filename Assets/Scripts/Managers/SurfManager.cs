@@ -423,6 +423,11 @@ public class SurfManager : Manager
     }
     private void Callback_SpawnRecommendations(object[] _value)
     {
+        if (((long)_value[0]).Equals(WebCallsUtils.GATEWAY_TIMEOUT))
+        {
+            return;
+        }
+
         recommendationsRoot = (RecommendationsRoot)_value[1];
         DynamicPrefabSpawnerRecommendations(new object[] { recommendationsRoot });
         
