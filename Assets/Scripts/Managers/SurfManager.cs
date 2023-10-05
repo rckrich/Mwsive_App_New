@@ -522,6 +522,12 @@ public class SurfManager : Manager
         }
 
     }
+
+    public MwsiveData GetBeforeCurrentMwsiveData()
+    {
+        return MwsiveSongsData[CurrentPosition - 1];
+    }
+
     public MwsiveData GetCurrentMwsiveData()
     {
         return MwsiveSongsData[CurrentPosition];
@@ -978,6 +984,7 @@ public class SurfManager : Manager
         Instance.GetComponent<RectTransform>().offsetMax = new Vector2(LeftRightOffset.y, 0);
         Instance.GetComponent<SurfAni>().ResetRestPosition();
         Instance.SetActive(true);
+        Instance.transform.eulerAngles = new Vector3(0, 0, 0);
         MwsiveSongs.Add(Instance);
         return Instance;
     }
@@ -1001,7 +1008,7 @@ public class SurfManager : Manager
             Instance.transform.localScale = new Vector3 (1f,1f,1f);
             Instance.GetComponent<RectTransform>().offsetMin = new Vector2 (LeftRightOffset.x,0);
             Instance.GetComponent<RectTransform>().offsetMax = new Vector2 (LeftRightOffset.y,0);
-
+            Instance.transform.eulerAngles = new Vector3(0, 0, 0);
             MwsiveSongs.Insert(MwsiveSongs.IndexOf(GetCurrentPrefab()), Instance);
           
             Instance.transform.SetSiblingIndex(SiblingIndex+1);
@@ -1073,7 +1080,7 @@ public class SurfManager : Manager
         Instance.transform.SetAsFirstSibling();
         Instance.SetActive(true);
         Instance.GetComponent<SurfAni>().isAvailable = false;
-
+        Instance.transform.eulerAngles = new Vector3(0, 0, 0);
         //MwsiveSongs.Add(Instance);
 
         Instance.GetComponent<RectTransform>().offsetMin = new Vector2(LeftRightOffset.x, 0);

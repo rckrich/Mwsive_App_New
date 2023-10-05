@@ -519,6 +519,12 @@ public class PF_SurfManager : Manager
     {
         return MwsiveSongsData[CurrentPosition];
     }
+
+    public MwsiveData GetBeforeCurrentMwsiveData()
+    {
+        return MwsiveSongsData[CurrentPosition-1];
+    }
+
     public MwsiveData GetLastPrefab() {
 
         return MwsiveSongsData[MwsiveSongsData.Count - 1];
@@ -1076,6 +1082,7 @@ public class PF_SurfManager : Manager
         Instance.GetComponent<RectTransform>().offsetMin = new Vector2(LeftRightOffset.x, 0);
         Instance.GetComponent<RectTransform>().offsetMax = new Vector2(LeftRightOffset.y, 0);
         Instance.GetComponent<SurfAni>().ResetRestPosition();
+        Instance.transform.eulerAngles = new Vector3(0, 0, 0);
         Instance.SetActive(true);
         return Instance;
     }
@@ -1084,6 +1091,7 @@ public class PF_SurfManager : Manager
         
 
         GameObject Instance = PoolManager.instance.GetPooledObject();
+        
         if(PrefabPosition == 0)
         {
             Instance.transform.position = RestPositions[4].transform.position;
@@ -1111,7 +1119,7 @@ public class PF_SurfManager : Manager
         Instance.GetComponent<SurfAni>().isAvailable = false;
 
         //MwsiveSongs.Add(Instance);
-
+        Instance.transform.eulerAngles = new Vector3(0, 0, 0);
         Instance.GetComponent<RectTransform>().offsetMin = new Vector2(LeftRightOffset.x, 0);
         Instance.GetComponent<RectTransform>().offsetMax = new Vector2(LeftRightOffset.y, 0);
         if (PrefabPosition == 0)
@@ -1134,6 +1142,7 @@ public class PF_SurfManager : Manager
         }
 
         Instance.GetComponent<ButtonSurfPlaylist>().SetSurfManager(gameObject);
+        
 
         PrefabPosition++;
         return Instance;

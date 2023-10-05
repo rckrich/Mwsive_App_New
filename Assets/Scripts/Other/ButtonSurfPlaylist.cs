@@ -185,6 +185,7 @@ public class ButtonSurfPlaylist : ViewModel
 
         if (_data.uri != null)
         {
+            uris.Clear();
             uris.Add(_data.uri);
         }
 
@@ -480,6 +481,12 @@ public class ButtonSurfPlaylist : ViewModel
         gameObject.GetComponentInParent<ButtonSurfPlaylist>().PlusOrLessOne(true, "RECOMMEND");
     }
 
+    private void Callback_PostTrackActionRecomendSwipe(object[] _value)
+    {
+        Debug.Log("RECOMMEND CALLBACK");
+        gameObject.GetComponentInParent<ButtonSurfPlaylist>().PlusOrLessOne(true, "RECOMMEND", true);
+    }
+
     private void Callback_PostTrackActionNORecomend(object[] _value)
     {
         Debug.Log("NOT_RECOMMEND CALLBACK");
@@ -493,7 +500,7 @@ public class ButtonSurfPlaylist : ViewModel
 
             SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
             if (AppManager.instance.isLogInMode && !trackID.Equals(""))
-                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomend);
+                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomendSwipe);
         }
     }
 
@@ -611,7 +618,7 @@ public class ButtonSurfPlaylist : ViewModel
     }
 
 
-    public void PlusOrLessOne(bool _value, string _type)
+    public void PlusOrLessOne(bool _value, string _type, bool isSwipe = false)
     {
         if(_type == "PIK")
         {
@@ -627,25 +634,31 @@ public class ButtonSurfPlaylist : ViewModel
                 {
                     data = SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetCurrentMwsiveData().total_piks++;
                 }
+                data++;
                 CalculateKorM(data, trackTotalPicks);
             }
             else
             {
-                if(trackInfoRoot.total_piks > 0)
+                
+                int data;
+                try
                 {
-                    int data;
-                    try
-                    {
-                         data = SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().total_piks--;
+                        data = SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().total_piks--;
 
-                    } catch (System.NullReferenceException)
-                    {
-                         data = SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetCurrentMwsiveData().total_piks--;
-                    }
-
-
-                    CalculateKorM(data, trackTotalPicks);
+                } catch (System.NullReferenceException)
+                {
+                        data = SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetCurrentMwsiveData().total_piks--;
                 }
+
+                data--;
+
+                if (data < 0)
+                {
+                    data = 0;
+                }
+                
+                CalculateKorM(data, trackTotalPicks);
+                
                 
             }
             
@@ -653,24 +666,26 @@ public class ButtonSurfPlaylist : ViewModel
 
         if(_type == "RECOMMEND")
         {
-            if (_value)
+            if (!isSwipe)
             {
-                int data;
-                try
+                if (_value)
                 {
-                    data = SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().total_recommendations++;
+                    int data;
+                    try
+                    {
+                        data = SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().total_recommendations++;
 
+                    }
+                    catch (System.NullReferenceException)
+                    {
+                        data = SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetCurrentMwsiveData().total_recommendations++;
+                    }
+                    data++;
+                    CalculateKorM(data, trackTotalRecommendation);
                 }
-                catch (System.NullReferenceException)
+                else
                 {
-                    data = SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetCurrentMwsiveData().total_recommendations++;
-                }
-                CalculateKorM(data, trackTotalRecommendation);
-            }
-            else
-            {
-                if(trackInfoRoot.total_recommendations > 0)
-                {
+
                     int data;
                     try
                     {
@@ -681,10 +696,59 @@ public class ButtonSurfPlaylist : ViewModel
                     {
                         data = SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetCurrentMwsiveData().total_recommendations--;
                     }
+                    data--;
+                    if (data < 0)
+                    {
+                        data = 0;
+                    }
+
+                    CalculateKorM(data, trackTotalRecommendation);
+
+
+                }
+            }
+            else
+            {
+                if (_value)
+                {
+                    int data;
+                    try
+                    {
+                        data = SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetBeforeCurrentMwsiveData().total_recommendations++;
+
+                    }
+                    catch (System.NullReferenceException)
+                    {
+                        data = SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetBeforeCurrentMwsiveData().total_recommendations++;
+                    }
+                    data++;
                     CalculateKorM(data, trackTotalRecommendation);
                 }
-                
+                else
+                {
+
+                    int data;
+                    try
+                    {
+                        data = SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetBeforeCurrentMwsiveData().total_recommendations--;
+
+                    }
+                    catch (System.NullReferenceException)
+                    {
+                        data = SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetBeforeCurrentMwsiveData().total_recommendations--;
+                    }
+                    data--;
+                    if (data < 0)
+                    {
+                        data = 0;
+                    }
+
+                    CalculateKorM(data, trackTotalRecommendation);
+
+
+                }
             }
+            
         }
     }
 }

@@ -44,7 +44,7 @@ public class ChallengeColorAnimation : MonoBehaviour
             colorDoMove[0].Restart();
         }
         
-        Debug.Log("START ANIMATION");
+        
     }
 
     public void CompleteAnimation()
@@ -53,25 +53,29 @@ public class ChallengeColorAnimation : MonoBehaviour
 
         topDoMove[0].Complete();
         colorDoMove[0].Complete();
-        Debug.Log("COMPLETE ANIMATION");
+        
     }
 
     public void PauseAnimation()
     {
-        if (!isPaused)
+        if(topDoMove != null)
         {
-            topDoMove[0].Pause();
-            colorDoMove[0].Pause();
-            
-        }
-        else
-        {
-            topDoMove[0].Play();
-            colorDoMove[0].Play();
+            if (!isPaused)
+            {
+                topDoMove[0].Pause();
+                colorDoMove[0].Pause();
+
+            }
+            else
+            {
+                topDoMove[0].Play();
+                colorDoMove[0].Play();
+            }
         }
 
+
         isPaused = !isPaused;
-        Debug.Log("Pause ANIMATION");
+        
     }
 
     public void ForcePauseAnimation()
@@ -83,7 +87,7 @@ public class ChallengeColorAnimation : MonoBehaviour
         isPaused = true;
 
 
-        Debug.Log("FORCE PAUSE ANIMATION");
+        
     }
 
 
@@ -94,7 +98,7 @@ public class ChallengeColorAnimation : MonoBehaviour
         
         topDoMove[0].Kill();
         colorDoMove[0].Kill();
-        Debug.Log("KILL ANIMATION");
+        
     }
 
     public void ForceClear()
@@ -108,7 +112,7 @@ public class ChallengeColorAnimation : MonoBehaviour
             colorbackground.GetComponent<RectTransform>().offsetMax = InitialValue;
         }
 
-        Debug.Log("FORCE CLEAR ANIMATION");
+        
     }
 
     public void FromCenterToLeft()
