@@ -268,6 +268,10 @@ public class PF_SurfManager : Manager
         Controller.vertical = true;
         Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
         if (CurrentPosition < MwsiveSongsData.Count -1) {
+            if (Challenge)
+            {
+                GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().ForceClear();
+            }
             SpotifyPreviewAudioManager.instance.StopTrack();
 
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, -MaxRotation, 0, true);
@@ -291,10 +295,7 @@ public class PF_SurfManager : Manager
             CurrentPosition++;
             SpawnPosition++;
 
-            if (Challenge)
-            {
-                GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().ForceRestart();
-            }
+
 
 
 
@@ -331,6 +332,10 @@ public class PF_SurfManager : Manager
         if (CurrentPosition > 0) {
             ActiveMwsiveSongs[0].GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[CurrentPosition - 1]);
             SpotifyPreviewAudioManager.instance.StopTrack();
+            if (Challenge)
+            {
+                GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().ForceClear();
+            }
             Success = true;
 
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, -MaxRotation, 0, true, true, RestPositions[1]);
@@ -351,7 +356,6 @@ public class PF_SurfManager : Manager
 
             AddSong.GetComponent<SurfAni>().Play_SurfAddsongReset();
 
-            GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().PauseTopMove();
 
             string _trackid = GetCurrentMwsiveData().id;
             if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
@@ -360,10 +364,7 @@ public class PF_SurfManager : Manager
             }
             CurrentPosition--;
             SpawnPosition--;
-            if (Challenge)
-            {
-                GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().ForceRestart();
-            }
+     
             
             ActiveMwsiveSongs[2].GetComponent<ButtonSurfPlaylist>().CheckIfDurationBarCanPlay();
             ActiveMwsiveSongs[3].GetComponent<ButtonSurfPlaylist>().CheckIfDurationBarCanPlay();
@@ -378,14 +379,16 @@ public class PF_SurfManager : Manager
         HasSwipeEnded = true;
     }
     private void UpScrollSuccess() {
-        Debug.Log(MwsiveSongsData.Count);
-        Debug.LogWarning("aaaaaaaaaaa");
         Controller.enabled = false;
         Controller.horizontal = true;
         Controller.vertical = true;
         Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
         if (CurrentPosition < MwsiveSongsData.Count -1) {
             SpotifyPreviewAudioManager.instance.StopTrack();
+            if (Challenge)
+            {
+                GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().ForceClear();
+            }
             Success = true;
 
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, MaxRotation, 0, true);
@@ -412,13 +415,9 @@ public class PF_SurfManager : Manager
                 MwsiveConnectionManager.instance.PostTrackAction(_trackid, "UP", ResetTimer());
             }
 
-            GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().PauseTopMove();
             CurrentPosition++;
             SpawnPosition++;
-            if (Challenge)
-            {
-                GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().ForceRestart();
-            }
+  
 
             SurfManagerLogic();
             UIAniManager.instance.SurfAddSongReset(AddSong);
@@ -527,11 +526,16 @@ public class PF_SurfManager : Manager
 
     }
 
-    public List<GameObject> GetInstances() {
-        return MwsiveSongs;
+    public List<MwsiveData> GetInstances() {
+        return MwsiveSongsData;
     }
     public void SetChallengeCallback(ChallengeAppObject _challenge) {
         challenge = _challenge;
+    }
+
+    public void CheckChallengeEnd()
+    {
+        challenge.CheckForPoints();
     }
 
     public void DynamicPrefabSpawnerRecommendations(object[] _value)
@@ -913,16 +917,12 @@ public class PF_SurfManager : Manager
         }
 
         
-
-        /*
         if (challenge)
         {
-            GetLastPrefab().GetComponent<ButtonSurfPlaylist>().SetCallbackLastPosition(challenge);
+            GetLastPrefab().challenge_AmILastPosition = true;
         }
         
 
-        
-        */
     }
     private void GetMwsiveInfo( )
     {

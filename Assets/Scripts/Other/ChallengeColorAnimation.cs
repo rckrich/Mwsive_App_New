@@ -10,135 +10,124 @@ public class ChallengeColorAnimation : MonoBehaviour
     public GameObject waveMask;
     public Transform leftRestPosition, centerRestPosition;
     public GameObject colorbackground;
-    private bool isComplete;
+
     
-    Tween topDoMove;
-    Tween colorDoMove;
+    
+    Tweener[] topDoMove;
+    Tweener[] colorDoMove;
     private float starttween;
-    private bool amIEnabled = false;
-    private bool PlaySwitch = false;
+    private Vector2 InitialValue;
+    private bool isPaused = false;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
-        
+
+        InitialValue = colorbackground.GetComponent<RectTransform>().offsetMax;
     }
 
 
-
-    public void Initialize()
+    public void StartAnimation()
     {
-        if (!isComplete)
+        if(topDoMove == null)
         {
+            colorbackground.GetComponent<RectTransform>().offsetMax = InitialValue;
             starttween = colorbackground.GetComponent<RectTransform>().offsetMax.y;
-            
             FromCenterToLeft();
 
             ColorUp();
-            amIEnabled = true;
-            PlaySwitch = true;
-
-            Debug.Log(waveMask.transform.position);
-
         }
-
-    }
-
-    public void ResumeAnimation()
-    {
-        if(topDoMove != null && colorDoMove != null)
+        else
         {
-            colorDoMove.Play();
-            
-            topDoMove.Play();
+            topDoMove[0].Restart();
+            colorDoMove[0].Restart();
         }
         
+        Debug.Log("START ANIMATION");
+    }
+
+    public void CompleteAnimation()
+    {
+
+
+        topDoMove[0].Complete();
+        colorDoMove[0].Complete();
+        Debug.Log("COMPLETE ANIMATION");
     }
 
     public void PauseAnimation()
     {
-        if(!isComplete  && amIEnabled) {
-            if (!PlaySwitch)
-            {
-                colorDoMove.Play();
-                
-            }
-            else
-            {
-                colorDoMove.Pause();
-                
-            }
-            PlaySwitch = !PlaySwitch;
+        if (!isPaused)
+        {
+            topDoMove[0].Pause();
+            colorDoMove[0].Pause();
+            
         }
-        
-        
-    }
+        else
+        {
+            topDoMove[0].Play();
+            colorDoMove[0].Play();
+        }
 
-    public void PauseTopMove()
-    {
-        topDoMove.Pause();
-        colorDoMove.Pause();
+        isPaused = !isPaused;
+        Debug.Log("Pause ANIMATION");
     }
 
     public void ForcePauseAnimation()
     {
-        if (!isComplete && amIEnabled)
-        {
-            colorDoMove.Pause();
-            PlaySwitch = false;
-        }
-    }
-
-    public void ForceRestart()
-    {
-        if (!isComplete && amIEnabled)
-        {
-            
-            colorDoMove.Restart();
-            Debug.Log(waveMask.transform.position);
-            topDoMove.Restart();
-        }
         
+         topDoMove[0].Pause();
+         colorDoMove[0].Pause();
+
+        isPaused = true;
+
+
+        Debug.Log("FORCE PAUSE ANIMATION");
     }
 
 
-    public void CompleteAnimation()
+    public void KillAnimation()
     {
-        isComplete = true; 
-        topDoMove.Complete(); 
-        colorDoMove.Complete();
+        topDoMove[0].Restart();
+        colorDoMove[0].Restart();
+        
+        topDoMove[0].Kill();
+        colorDoMove[0].Kill();
+        Debug.Log("KILL ANIMATION");
+    }
+
+    public void ForceClear()
+    {
+        if(topDoMove != null)
+        {
+            topDoMove[0].Restart();
+            topDoMove[0].Pause();
+            colorDoMove[0].Restart();
+            colorDoMove[0].Pause();
+            colorbackground.GetComponent<RectTransform>().offsetMax = InitialValue;
+        }
+
+        Debug.Log("FORCE CLEAR ANIMATION");
     }
 
     public void FromCenterToLeft()
     {
         waveMask.GetComponent<RectTransform>().anchoredPosition = centerRestPosition.GetComponent<RectTransform>().anchoredPosition;
+        topDoMove = new Tweener[1];
+        topDoMove[0] = waveMask.transform.DOMoveX(leftRestPosition.transform.position.x, 3).SetLoops(-1).SetEase(Ease.Linear);
+         topDoMove[0].SetAutoKill(false);
 
-        if (topDoMove == null)
-        {
-            
-            topDoMove = waveMask.transform.DOMoveX(leftRestPosition.transform.position.x, 3).SetLoops(-1).SetEase(Ease.Linear).SetId(0);
-           
-        }
-        
+
     }
 
     public void ColorUp()
     {
-        
-        if (colorDoMove == null)
-        {
 
             float twenable = starttween;
-            var sequence = DOTween.Sequence();
-            colorDoMove = sequence;
-            sequence.OnPlay(() =>
-            {
-                
-                
-            });
-            sequence.Append(DOTween.To(() => twenable, x => twenable = x, 0f, 30f));
-            sequence.OnUpdate(() => {
+            colorDoMove = new Tweener[1];
+            colorDoMove[0] =  DOTween.To(() => twenable, x => twenable = x, 0f, 30f);
+            colorDoMove[0].OnUpdate(() => {
                 colorbackground.GetComponent<RectTransform>().offsetMax = new Vector2(colorbackground.GetComponent<RectTransform>().offsetMax.x, twenable);
                 if(twenable > -2)
                 {
@@ -148,21 +137,19 @@ public class ChallengeColorAnimation : MonoBehaviour
                     }).SetEase(Ease.Linear);
                 }
             });
-            
-            sequence.SetEase(Ease.InSine);
-            sequence.OnComplete(() =>
+
+            colorDoMove[0].SetEase(Ease.InSine);
+            colorDoMove[0].OnComplete(() =>
             {
                 
-                topDoMove.Kill();
-                isComplete = true;
+                topDoMove[0].Complete();
+  
             });
-            sequence.SetId(1);
-            sequence.OnKill(() =>
-            {
-                
-            });
-        }
-       
+            colorDoMove[0].SetAutoKill(false);
+
+
+
+
 
     }
 

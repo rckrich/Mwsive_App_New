@@ -135,6 +135,7 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void InitializeMwsiveSong(MwsiveData _data)
     {
+        durationBar.ResetFillAmount();
         if (_data.playlist_name != null)
         {
             playlistText.text = _data.playlist_name;
@@ -223,6 +224,17 @@ public class ButtonSurfPlaylist : ViewModel
             mwsiveButton.ChangeAddToPlaylistButtonColor(.5f);
             
         }
+
+        if (_data.challenge_AmILastPosition)
+        {
+            AmILastPosition = true;
+        }
+
+        SuccesfulEnded = _data.challenge_songeded;
+
+
+
+
     }
 
     public void InitializeMwsiveSong(string _playlistName, string _trackname, string _album, string _artist, string _image, string _spotifyid, string _url, string _previewURL, string _externalURL, bool _trackPoints = false)
@@ -296,7 +308,7 @@ public class ButtonSurfPlaylist : ViewModel
         isRecommended = false;
         mwsiveButton.AddToPlaylistButtonClear();
         mwsiveButton.PIKButtonColorOff();
-
+        challengecoloranimation.ForceClear();
         uris.Clear();
         previewURL = null;
         externalURL = null;
@@ -311,20 +323,14 @@ public class ButtonSurfPlaylist : ViewModel
     }
 
     public void LastPosition(){
-        if(AmILastPosition && SuccesfulEnded){
-            Challenge.CheckForPoints();
+        if(SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().challenge_AmILastPosition){
+            SuccesfulEnded = true;
+            SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().CheckChallengeEnd();
         }
     }
-
-    public void SetCallbackLastPosition(ChallengeAppObject _challenge){
-        Challenge = _challenge;
-        AmILastPosition = true;
-    }
     
-
     public void PlayAudioPreview()
     {
-        Debug.LogWarning("AAAA PLAY");
         try
         {
             if(SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().id == trackID && TrackPoints)
@@ -378,14 +384,23 @@ public class ButtonSurfPlaylist : ViewModel
     public void CheckIfDurationBarCanPlay(){
         try
         {
-            
-                if (SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().id == trackID)
+            MwsiveData Current = SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData();
+                if (Current.id == trackID)
                 {
                     durationBar.canPlay = true;
-                    if (TrackPoints)
+                    if (Current.challenge_trackpoints)
                     {
-                        challengecoloranimation.Initialize();
-                    }
+                    
+                        if (Current.challenge_songeded)
+                        {
+                            challengecoloranimation.CompleteAnimation();
+                        }
+                        else
+                        {
+                            challengecoloranimation.StartAnimation();
+                        }
+                    
+                }
                 }
                 else
                 {
@@ -400,10 +415,6 @@ public class ButtonSurfPlaylist : ViewModel
                 if (SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetCurrentMwsiveData().id == trackID)
                 {
                     durationBar.canPlay = true;
-                    if (TrackPoints)
-                    {
-                        challengecoloranimation.Initialize();
-                    }
                     
                 }
                 else

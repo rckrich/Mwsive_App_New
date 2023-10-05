@@ -73,11 +73,11 @@ public class ChallengeAppObject : AppObject
 
     public void CheckForPoints(){
         Debug.Log("Check Coins");
-        List<GameObject> _list = NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().GetInstances();
+        List<MwsiveData> _list = NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().GetInstances();
         float counter = 0;
         for (int i = 0; i < _list.Count-3; i++)
         {
-            if(_list[i].GetComponent<ButtonSurfPlaylist>().SuccesfulEnded){
+            if(_list[i].challenge_songeded){
                 counter++;
             }
         }

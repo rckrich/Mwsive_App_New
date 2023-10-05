@@ -13,7 +13,6 @@ public class DurationBar : AppObject
     public bool CheckforPoints;
     private ButtonSurfPlaylist SurfPlaylist;
     private PF_SurfManager surf;
-    private SurfManager mainSurf;
 
     void Start()
     {
@@ -31,7 +30,16 @@ public class DurationBar : AppObject
         }
     }
         
-    
+    public void ResetFillAmount()
+    {
+        if(durationImage != null)
+        {
+            durationImage.fillAmount = 0;
+        }
+        
+    }
+
+
     private void OnDisable()
     {
         surf = null;
@@ -50,7 +58,8 @@ public class DurationBar : AppObject
                 {
 
                     surf.GetCurrentMwsiveData().challenge_songeded = true;
-                    SurfPlaylist.LastPosition();
+                    
+                    surf.GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().LastPosition();
                     Debug.Log("SongEnded");
 
                 }

@@ -442,7 +442,7 @@ public class SurfManager : Manager
     private void Callback_SpawnRecommendations(object[] _value)
     {
         recommendationsRoot = (RecommendationsRoot)_value[1];
-        DynamicPrefabSpawnerRecommendations(new object[] { recommendationsRoot });
+        DynamicPrefabSpawnerRecommendations(new object[] { recommendationsRoot }, false);
         
     }
 
@@ -539,7 +539,7 @@ public class SurfManager : Manager
         return MwsiveSongs;
     }
 
-    public void DynamicPrefabSpawnerRecommendations(object[] _value)
+    public void DynamicPrefabSpawnerRecommendations(object[] _value, bool FirsTimeSurf = true)
     {
         recommendationsRoot = (RecommendationsRoot)_value[0];
         int SpawnedSongs = 0;
@@ -581,8 +581,11 @@ public class SurfManager : Manager
 
         }
 
-
-        SurfManagerLogic(true);
+        if (true)
+        {
+            SurfManagerLogic(true);
+        }
+        
     }
 
     public void DynamicPrefabSpawnerAlbum(object[] _value)
