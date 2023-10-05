@@ -701,6 +701,7 @@ public class ProfileViewModel : ViewModel
                     count++;
                 }
             }
+            areEngagementBadges = true;
         }
         else
         {

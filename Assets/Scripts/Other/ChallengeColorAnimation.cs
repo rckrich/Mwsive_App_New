@@ -134,7 +134,7 @@ public class ChallengeColorAnimation : MonoBehaviour
                 }
             });
             
-            sequence.SetEase(Ease.InSine);
+            sequence.SetEase(Ease.Linear);
             sequence.OnComplete(() =>
             {
                 topDoMove.Kill();

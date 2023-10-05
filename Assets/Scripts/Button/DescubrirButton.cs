@@ -21,9 +21,18 @@ public class DescubrirButton : MonoBehaviour
     public GameObject PlaceHolder;
     public TMP_InputField TextArea;
     public GameObject ScrollView;
-    
 
-    
+
+    public void Initialize()
+    {
+        if (!button.enabled)
+        {
+#if PLATFORM_ANDROID
+            SetAndroidBackAction();
+#endif
+        }
+    }
+
     public void OnClick_BuscarButton(){
 #if PLATFORM_ANDROID
         SetAndroidBackAction();
