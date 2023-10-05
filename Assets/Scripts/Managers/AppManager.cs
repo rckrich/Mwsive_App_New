@@ -49,6 +49,7 @@ public class AppManager : Manager
     public SelectedPlaylistNameAppObject appObject;
     public ButtonSurfPlaylist buttonSurfPlaylist;
 
+    private SpotifyPlaylistRoot topSongsPlaylistSavedList = null;
     private SpotifyPlaylistRoot currentPlaylist = null;
     private SpotifyWebCallback refreshPlaylistCallback;
     private bool _isLogInMode = true;
@@ -253,7 +254,11 @@ public class AppManager : Manager
 
     private void Callback_GetGlobalTopTracks_LogInFlow(object[] _value)
     {
+        topSongsPlaylistSavedList = null;
+
         SpotifyPlaylistRoot searchedPlaylist = (SpotifyPlaylistRoot)_value[1];
+
+        topSongsPlaylistSavedList = searchedPlaylist;
 
         string[] trackSeeds = new string[5];
 
@@ -268,6 +273,12 @@ public class AppManager : Manager
 
     private void Callback_GetPersonalRecommendations_LogInFlow(object[] _value)
     {
+
+        if (((long)_value[0]).Equals(WebCallsUtils.GATEWAY_TIMEOUT)) {
+            SpotifyConnectionManager.instance.GetPlaylist(TOP_GLOBAL_PLAYLIST_ID, Callback_GetGlobalTopTracks_LogInFlow);
+            return;
+        }
+
         EndSearch();
         RecommendationsRoot recommendationsRoot = (RecommendationsRoot)_value[1];
         SurfManager.instance.DynamicPrefabSpawnerSong(new object[] { recommendationsRoot });
@@ -275,6 +286,19 @@ public class AppManager : Manager
 
     private void Callback_GetTopRecommendations_LogInFlow(object[] _value)
     {
+        if (((long)_value[0]).Equals(WebCallsUtils.GATEWAY_TIMEOUT))
+        {
+            EndSearch();
+            if (topSongsPlaylistSavedList != null)
+            {
+                SurfManager.instance.DynamicPrefabSpawnerPL(new object[] { topSongsPlaylistSavedList });
+            }
+            else {
+                //TODO: Call pop up of error 503
+            }
+            return;
+        }
+
         EndSearch();
         RecommendationsRoot recommendationsRoot = (RecommendationsRoot)_value[1];
         SurfManager.instance.DynamicPrefabSpawnerSong(new object[] { recommendationsRoot });
@@ -286,7 +310,11 @@ public class AppManager : Manager
 
     private void Callback_GetTopPlaylist_NoLogInFLow(object[] _value)
     {
+        topSongsPlaylistSavedList = null;
+
         SpotifyPlaylistRoot searchedPlaylist = (SpotifyPlaylistRoot)_value[1];
+
+        topSongsPlaylistSavedList = searchedPlaylist;
 
         string[] trackSeeds = new string[5];
 
@@ -301,6 +329,21 @@ public class AppManager : Manager
 
     private void Callback_GetTopRecommendations_NoLogInFlow(object[] _value)
     {
+
+        if (((long)_value[0]).Equals(WebCallsUtils.GATEWAY_TIMEOUT))
+        {
+            EndSearch();
+            if (topSongsPlaylistSavedList != null)
+            {
+                SurfManager.instance.DynamicPrefabSpawnerPL(new object[] { topSongsPlaylistSavedList });
+            }
+            else
+            {
+                //TODO: Call pop up of error 503
+            }
+            return;
+        }
+
         EndSearch();
         RecommendationsRoot recommendationsRoot = (RecommendationsRoot)_value[1];
         SurfManager.instance.DynamicPrefabSpawnerSong(new object[] { recommendationsRoot });

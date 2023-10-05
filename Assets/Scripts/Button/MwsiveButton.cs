@@ -130,10 +130,17 @@ public class MwsiveButton : AppObject
     }
 
     public void AddToPlaylistButtonColorButtonColorAgain(float _AnimationDuration) 
-    {    
-      UIAniManager.instance.FadeOut(AddColorButton, _AnimationDuration);
-      AddColorButton.transform.DOScale(new Vector3(0f, 0f, 0f), .3f);
-      IsiTAddColorButtonActive = false;        
+    {
+        try
+        {
+            UIAniManager.instance.FadeOut(AddColorButton, _AnimationDuration);
+            AddColorButton.transform.DOScale(new Vector3(0f, 0f, 0f), .3f);
+            IsiTAddColorButtonActive = false;
+        }
+        catch (MissingReferenceException e)
+        {
+            return;
+        }       
     }
 
     public void OnClickCompartirButton(float _AnimationDuration){
