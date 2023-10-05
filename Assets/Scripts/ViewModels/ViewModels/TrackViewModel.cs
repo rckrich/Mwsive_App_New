@@ -106,7 +106,20 @@ public class TrackViewModel : ViewModel
     private void Callback_GetRecommendations(object[] _value)
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
-        
+
+        if (((long)_value[0]).Equals(WebCallsUtils.GATEWAY_TIMEOUT))
+        {
+            CallPopUP(PopUpViewModelTypes.MessageOnly, "Error", "Hay problemas de comunicaci?n con el servidor. Intentar m?s tarde");
+#if PLATFORM_ANDROID
+            PopUpViewModel currentPopUp = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+            AppManager.instance.SetAndroidBackAction(() => {
+                currentPopUp.ExitButtonOnClick();
+                this.SetAndroidBackAction();
+            });
+#endif
+            return;
+        }
+
         RecommendationsRoot recommendationsRoot = (RecommendationsRoot)_value[1];
         recommendations = recommendationsRoot;
         InstanceTrackObjects(recommendationsRoot.tracks);
