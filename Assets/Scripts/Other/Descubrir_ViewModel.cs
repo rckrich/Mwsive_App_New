@@ -8,6 +8,7 @@ public class Descubrir_ViewModel : ViewModel
 {
     private const int MAXIMUM_HORIZONTAL_SCROLL_SPAWNS = 20;
 
+    public DescubrirButton descubrirButton;
     public DescubrirPaginas Descubrir;
     public List<GameObject> Prefabs = new List<GameObject>();
     public List<GameObject> LastPosition = new List<GameObject>();
@@ -60,6 +61,9 @@ public class Descubrir_ViewModel : ViewModel
         {
             ListOfLists.Add(new List<GameObject>());
         }
+
+        
+        
     }
 
     void Update()
@@ -110,6 +114,7 @@ public class Descubrir_ViewModel : ViewModel
         MwsiveConnectionManager.instance.GetGenres(Callback_GetGenres);
     }
 
+    
     private void Callback_GetChallenges(object[] _list)
     {
         ShimmerSetActive(0, false);
@@ -1428,7 +1433,9 @@ public class Descubrir_ViewModel : ViewModel
     public override void SetAndroidBackAction()
     {
 #if PLATFORM_ANDROID
+
         AppManager.instance.ResetAndroidBackAction();
+        descubrirButton.Initialize();
 #endif
     }
 
