@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 8523505}
   - component: {fileID: 8523506}
   m_Layer: 5
-  m_Name: SplashViewModel
+  m_Name: Splash_ViewModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -177,6 +177,37 @@ MonoBehaviour:
   networkLoadingCanvas: {fileID: 1310416290}
   scrollViewContent: {fileID: 0}
   finishedLoading: 1
+--- !u!1 &45892283
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 45892284}
+  m_Layer: 0
+  m_Name: -----APP-----
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &45892284
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 45892283}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &61811567
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,7 +221,7 @@ GameObject:
   - component: {fileID: 61811570}
   - component: {fileID: 61811569}
   m_Layer: 5
-  m_Name: _PopUpMessageOnly
+  m_Name: _PopUpMessageOnly_Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -415,7 +446,7 @@ GameObject:
   - component: {fileID: 168258801}
   - component: {fileID: 168258800}
   m_Layer: 5
-  m_Name: Button_Txt
+  m_Name: ActionButton_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -953,7 +984,7 @@ GameObject:
   - component: {fileID: 391112091}
   - component: {fileID: 391112090}
   m_Layer: 5
-  m_Name: Spotify_Logo
+  m_Name: SpotifyLogo_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1028,7 +1059,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: MainCamera_Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1120,7 +1151,7 @@ GameObject:
   - component: {fileID: 530595790}
   - component: {fileID: 530595789}
   m_Layer: 5
-  m_Name: PU_Image
+  m_Name: Logo_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1374,7 +1405,7 @@ GameObject:
   - component: {fileID: 587191996}
   - component: {fileID: 587191995}
   m_Layer: 5
-  m_Name: Description_Txt
+  m_Name: Description_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1510,7 +1541,7 @@ GameObject:
   - component: {fileID: 620164027}
   - component: {fileID: 620164026}
   m_Layer: 5
-  m_Name: MwsiveLogo_ImageAnim
+  m_Name: MwsiveLogo_Anim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1807,7 +1838,7 @@ GameObject:
   - component: {fileID: 719613658}
   - component: {fileID: 719613657}
   m_Layer: 5
-  m_Name: Fade_ImageAnim
+  m_Name: Fade_Anim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1903,7 +1934,7 @@ GameObject:
   - component: {fileID: 754871611}
   - component: {fileID: 754871610}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: NoLogInButton_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2037,7 +2068,7 @@ GameObject:
   - component: {fileID: 779179770}
   - component: {fileID: 779179769}
   m_Layer: 5
-  m_Name: Title_txt
+  m_Name: Title_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2305,7 +2336,7 @@ GameObject:
   - component: {fileID: 938450169}
   - component: {fileID: 938450168}
   m_Layer: 5
-  m_Name: Logo
+  m_Name: Logo_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2397,8 +2428,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 91895090}
   - {fileID: 564136007}
+  - {fileID: 91895090}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1099027744
@@ -2511,7 +2542,7 @@ GameObject:
   - component: {fileID: 1227150529}
   - component: {fileID: 1227150528}
   m_Layer: 5
-  m_Name: Background
+  m_Name: Background_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2689,7 +2720,7 @@ GameObject:
   - component: {fileID: 1316651496}
   - component: {fileID: 1316651495}
   m_Layer: 5
-  m_Name: SpawnableCanvas
+  m_Name: SpawnableCanvas_Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2865,7 +2896,7 @@ GameObject:
   - component: {fileID: 1476187349}
   - component: {fileID: 1476187348}
   m_Layer: 5
-  m_Name: MainCanvas
+  m_Name: MainCanvas_Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3397,7 +3428,7 @@ GameObject:
   - component: {fileID: 1806940616}
   - component: {fileID: 1806940617}
   m_Layer: 5
-  m_Name: _PopUpViewModel
+  m_Name: _PopUp_ViewModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3541,6 +3572,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1929066301
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1929066302}
+  m_Layer: 0
+  m_Name: -----SYSTEMS & MANAGERS-----
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1929066302
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929066301}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1933684333
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1933684334}
+  m_Layer: 0
+  m_Name: -----DON'T DESTROY ON LOAD-----
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1933684334
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933684333}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1975084156
 GameObject:
   m_ObjectHideFlags: 0
@@ -3553,7 +3646,7 @@ GameObject:
   - component: {fileID: 1975084159}
   - component: {fileID: 1975084158}
   m_Layer: 5
-  m_Name: Background
+  m_Name: Background_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3628,7 +3721,7 @@ GameObject:
   - component: {fileID: 2055281472}
   - component: {fileID: 2055281473}
   m_Layer: 5
-  m_Name: _LogInViewModel
+  m_Name: _LogIn_ViewModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3734,13 +3827,16 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 45892284}
   - {fileID: 519420032}
   - {fileID: 1476187351}
   - {fileID: 1316651494}
+  - {fileID: 1929066302}
   - {fileID: 121587700}
   - {fileID: 1027212843}
-  - {fileID: 1099027746}
-  - {fileID: 1701342181}
+  - {fileID: 1933684334}
   - {fileID: 714575753}
   - {fileID: 217785726}
   - {fileID: 1920432830}
+  - {fileID: 1099027746}
+  - {fileID: 1701342181}
