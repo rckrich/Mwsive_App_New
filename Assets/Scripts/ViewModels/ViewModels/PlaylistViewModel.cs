@@ -36,6 +36,7 @@ public class PlaylistViewModel : ViewModel
         SetAndroidBackAction();
 #endif
     }
+
     public void GetPlaylist()
     {
         if (!id.Equals(""))
@@ -82,7 +83,6 @@ public class PlaylistViewModel : ViewModel
             UIMessage.instance.UIMessageInstanciate("Esta Playlist esta vacia");
         }
     }
-    
 
     private void Callback_GetPlaylist(object[] _value)
     {

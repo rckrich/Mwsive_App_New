@@ -732,6 +732,8 @@ public class UIAniManager : MonoBehaviour
 
     public void UIMessage(GameObject GA)
     {
+
+        Debug.LogWarning("uimessage");
         foreach (GameObject item in UIMessages)
         {
             if (item != null)

@@ -6,7 +6,7 @@ using System;
 public class PoolManager : MonoBehaviour
 {
     
-    private int maxAmmountOfPrefabs = 20;
+    private int maxAmmountOfPrefabs = 8;
     public GameObject prefab;
 
     private List<GameObject> pooledObjects = new List<GameObject>();

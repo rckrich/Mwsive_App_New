@@ -109,7 +109,7 @@ public class ButtonSurfPlaylist : ViewModel
         {
             for (int i = 0; i < _data.top_curators.Count; i++)
             {
-                ImageManager.instance.GetImage(_data.top_curators[i].image, topCuratorImages[i], (RectTransform)this.transform);
+                ImageManager.instance.GetImage(_data.top_curators[i].image_url, topCuratorImages[i], (RectTransform)this.transform);
             }
         }
 
@@ -203,7 +203,7 @@ public class ButtonSurfPlaylist : ViewModel
         {
             for (int i = 0; i < _data.top_curators.Count; i++)
             {
-                ImageManager.instance.GetImage(_data.top_curators[i].image, topCuratorImages[i], (RectTransform)this.transform);
+                ImageManager.instance.GetImage(_data.top_curators[i].image_url, topCuratorImages[i], (RectTransform)this.transform);
             }
         }
 

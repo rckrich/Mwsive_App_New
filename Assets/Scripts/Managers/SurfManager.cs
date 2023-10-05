@@ -298,7 +298,7 @@ public class SurfManager : Manager
 
             CurrentPosition++;
             SpawnPosition++;
-            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+            
 
             SurfManagerLogic();
             Success = true;
@@ -350,7 +350,7 @@ public class SurfManager : Manager
             CurrentPosition--;
             
             SpawnPosition--;
-            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+            
 
             ActiveMwsiveSongs[2].GetComponent<ButtonSurfPlaylist>().CheckIfDurationBarCanPlay();
             ActiveMwsiveSongs[3].GetComponent<ButtonSurfPlaylist>().CheckIfDurationBarCanPlay();
@@ -400,7 +400,7 @@ public class SurfManager : Manager
             CurrentPosition++;
             SpawnPosition++;
             SurfManagerLogic();
-            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+            
             UIAniManager.instance.SurfAddSongReset(AddSong);
         }else{
             ResetValue();
@@ -933,9 +933,6 @@ public class SurfManager : Manager
 
     private void SurfManagerLogic(bool _firstTime = false)
     {
-        Debug.LogWarning(MwsiveSongsData.Count);
-        Debug.Log(MwsiveSongs);
-        Debug.LogWarning(CurrentPosition);
 
         if (!_firstTime)
         {

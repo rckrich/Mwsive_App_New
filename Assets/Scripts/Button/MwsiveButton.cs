@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-
 public class MwsiveButton : AppObject
 {
-
     public GameObject OlaColorButton;
     private bool IsItOlaColorButtonActive = false;
     public GameObject AddColorButton;
@@ -14,9 +12,7 @@ public class MwsiveButton : AppObject
     public GameObject CompartirColorButton;
     private bool IsItCompartirColorButtonActive = false;
 
-    
-
-    private const int PIK_PRICE = 10;
+    private const int PIK_PRICE = 1;
 
     private float AnimationDuration = .5f;
 
@@ -67,9 +63,26 @@ public class MwsiveButton : AppObject
         IsItOlaColorButtonActive = false;
         OlaColorButton.transform.DOScale(new Vector3(0f, 0f, 0f), .3f);
     }
+
     private void Callback_TrackActionPIK(object[] _value)
     {
         RootTrackAction rootTrackAction = (RootTrackAction)_value[1];
+
+        if (rootTrackAction.badges != null)
+        {
+            foreach (Badge badge in rootTrackAction.badges)
+            {
+                if (badge.type.Equals("engagement"))
+                {
+                    UIMessage.instance.UIMessageInstanciate("Conseguiste la insignia " + FixedBadgeGroupString(badge.group));
+                }
+                else if (badge.type.Equals("track"))
+                {
+                    UIMessage.instance.UIMessageInstanciate("Conseguiste la insignia Top #" + badge.group + " de esta canción");
+                }
+            }
+        }
+
         Debug.Log(rootTrackAction);
         InvokeEvent<ChangeDiskAppEvent>(new ChangeDiskAppEvent(rootTrackAction.disks, "SUBSTRACT"));
 
@@ -77,6 +90,21 @@ public class MwsiveButton : AppObject
 
         gameObject.GetComponentInParent<ButtonSurfPlaylist>().PlusOrLessOne(true, "PIK");
 
+    }
+
+    private string FixedBadgeGroupString(string _value) {
+        string fixedBadgeGroup = _value;
+
+        switch (fixedBadgeGroup) {
+            case "song_master":
+                return "Song Master";
+            case "wave_master":
+                return "Wave Master";
+            case "music_master":
+                return "Music Master";
+        }
+
+        return char.ToUpper(fixedBadgeGroup.ToCharArray()[0]) + fixedBadgeGroup.Substring(1);
     }
 
     private void Callback_TrackActionUNPIK(object[] _value)
@@ -94,8 +122,6 @@ public class MwsiveButton : AppObject
 
         }
     }
-
-
 
     public bool GetIsItOlaActive(){
         return IsItOlaColorButtonActive;
@@ -119,9 +145,7 @@ public class MwsiveButton : AppObject
         AddColorButton.GetComponent<CanvasGroup>().alpha = 0;
         AddColorButton.SetActive(false);
         AddColorButton.transform.localScale = new Vector3(0f, 0f, 0f);
-
     }
-
 
     public void AddToPlaylistButtonColorButtonColorAgain(float _AnimationDuration) 
     {    
@@ -132,7 +156,6 @@ public class MwsiveButton : AppObject
         try
         {
             SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().isRecommended = false;
-
         }
         catch (System.NullReferenceException)
         {
