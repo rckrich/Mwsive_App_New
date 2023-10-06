@@ -30,6 +30,5 @@ public class SplashViewModel : ViewModel
     private void OpenView(ViewID _value)
     {
         NewScreenManager.instance.ChangeToMainView(_value, false);
-        Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
 }

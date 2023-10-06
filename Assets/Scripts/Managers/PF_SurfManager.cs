@@ -202,9 +202,6 @@ public class PF_SurfManager : Manager
         ActiveMwsiveSongs[3].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();
         
         Success = false;
-
-
-        Debug.Log("DownScrollAnimation");
     }
 
 
@@ -231,8 +228,6 @@ public class PF_SurfManager : Manager
 
 
         Success = false;
-
-        Debug.Log("UpScrollAnimation");
     }
 
     public void OnEndDrag() {
@@ -318,10 +313,6 @@ public class PF_SurfManager : Manager
         } else {
             ResetValue();
         }
-
-
-
-        Debug.Log("SideScrollSucces");
         
         HasSwipeEnded = true;
     }
@@ -377,8 +368,6 @@ public class PF_SurfManager : Manager
             ResetValue();
         }
         
-
-        Debug.Log("DownScrollSucess");
         HasSwipeEnded = true;
     }
     private void UpScrollSuccess() {
@@ -436,9 +425,6 @@ public class PF_SurfManager : Manager
             }
         }
 
-
-
-        Debug.Log("UpScrollSuccess");
         HasSwipeEnded = true;
     }
 
@@ -476,7 +462,6 @@ public class PF_SurfManager : Manager
 
     }
     public void Reset() {
-        Debug.Log("Reset");
 
         Controller.horizontal = true;
         Controller.vertical = true;
@@ -1321,7 +1306,7 @@ public class PF_SurfManager : Manager
             RemoveEventListener<TimerAppEvent>(TimerAppEventListener);
             return;
         }
-        Debug.Log(_event.type.ToString());
+
         if (_event.type == "PAUSE")
         {
             StopTimer();

@@ -194,8 +194,6 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
         {
             case 0:
             if (searchRoot.artists != null && Instances.Count > 0){
-                Debug.Log(Instances.Count);
-                Debug.Log(searchRoot.artists.items.Count);
                 for (int i = 0; i < searchRoot.artists.items.Count; i++)
                 {
                     try

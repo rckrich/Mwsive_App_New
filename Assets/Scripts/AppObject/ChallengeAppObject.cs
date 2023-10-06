@@ -75,7 +75,6 @@ public class ChallengeAppObject : AppObject
 
 
     public void CheckForPoints(){
-        Debug.Log("Check Coins");
         List<MwsiveData> _list = NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().GetInstances();
         float counter = 0;
         for (int i = 0; i < _list.Count-3; i++)

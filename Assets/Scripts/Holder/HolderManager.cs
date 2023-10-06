@@ -25,7 +25,6 @@ public class HolderManager : MonoBehaviour
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
         SpotifyPlaylistRoot searchedPlaylist = (SpotifyPlaylistRoot)_value[1];
         playlistName = searchedPlaylist.name;
-        Debug.Log(playlistName);
 
     }
 }

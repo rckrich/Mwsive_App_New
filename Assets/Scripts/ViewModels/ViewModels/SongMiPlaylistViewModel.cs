@@ -84,7 +84,6 @@ public class SongMiPlaylistViewModel : ViewModel
     public void OnClick_SpawnCrearPlaylistButton()
     {
         NewScreenManager.instance.ChangeToSpawnedView("crearPlaylist");
-        Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
 
 }

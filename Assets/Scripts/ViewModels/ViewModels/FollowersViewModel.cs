@@ -89,7 +89,6 @@ public class FollowersViewModel : ViewModel
 
     public void OnClick_BackButton()
     {
-        Debug.Log(NewScreenManager.instance.GetCurrentView());
         NewScreenManager.instance.BackToPreviousView();
         NewScreenManager.instance.GetCurrentView().GetComponent<ProfileViewModel>().SetAndroidBackAction();
     }

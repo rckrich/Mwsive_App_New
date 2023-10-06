@@ -25,19 +25,14 @@ public class OpenGallery : Manager
 
     public void GetImageFromGallery()
     {
-        Debug.Log("Empezo el cambio");
         readaccessStatus = MediaServices.GetGalleryAccessStatus(GalleryAccessMode.Read);
-        Debug.Log(readaccessStatus);
         if(readaccessStatus == GalleryAccessStatus.NotDetermined)
         {
             MediaServices.RequestGalleryAccess(GalleryAccessMode.Read, callback: (result, error) =>
             {
-                Debug.Log("Request for gallery access finished.");
-                Debug.Log("Gallery access status: " + result.AccessStatus);
                 readaccessStatus = result.AccessStatus;
                 if (readaccessStatus == GalleryAccessStatus.Authorized)
                 {
-                    Debug.Log("Call GalleryAuthorized");
                     GalleryAuthorized();
                 }
                     
@@ -50,18 +45,14 @@ public class OpenGallery : Manager
 
     public void GalleryAuthorized()
     {
-        Debug.Log("Enter GalleryAuthorized");
         readaccessStatus = MediaServices.GetGalleryAccessStatus(GalleryAccessMode.Read);
         if (readaccessStatus == GalleryAccessStatus.Authorized)
         {
-
-            Debug.Log("Enter GalleryAuthorized's readaccessStatus");
 
             MediaServices.SelectImageFromGallery(canEdit: true, (textureData, error) =>
             {
                 if (error == null)
                 {
-                    Debug.Log("Select image from gallery finished successfully.");
                     currentTexture2D = textureData.GetTexture();
                     ((EditProfileViewModel)NewScreenManager.instance.GetCurrentView()).ChangePicture(currentTexture2D);
                 }
@@ -81,8 +72,7 @@ public class OpenGallery : Manager
         {
             MediaServices.RequestGalleryAccess(GalleryAccessMode.ReadWrite, callback: (result, error) =>
             {
-                Debug.Log("Request for gallery access finished.");
-                Debug.Log("Gallery access status: " + result.AccessStatus);
+
             });
         }
 
@@ -94,10 +84,6 @@ public class OpenGallery : Manager
                 {
                     currentTexture2D = textureData.GetTexture();
                     NewScreenManager.instance.GetCurrentView().GetComponent<EditProfileViewModel>().ChangePicture(currentTexture2D);
-
-                    Debug.Log("Select image from gallery finished successfully.");
-                    Debug.Log("Texture is " + currentTexture2D.ToString());
-                    Debug.Log("Post");
                 }
                 else
                 {

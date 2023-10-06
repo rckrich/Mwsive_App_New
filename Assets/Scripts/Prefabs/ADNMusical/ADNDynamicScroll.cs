@@ -453,7 +453,6 @@ public class ADNDynamicScroll : MonoBehaviour
             SaveTopONOFF(false);
         }
 
-        Debug.Log(Max + " " + Instances.Count);
         if (Max > Instances.Count)
         {
             Add.SetActive(true);
@@ -467,7 +466,6 @@ public class ADNDynamicScroll : MonoBehaviour
 
             if (item.activeSelf != true)
             {
-                Debug.Log("Show");
                 item.SetActive(true);
 
             }
@@ -498,7 +496,6 @@ public class ADNDynamicScroll : MonoBehaviour
         {
             string item_Place_Holder = item.GetComponent<PF_ADNMusicalEventSystem>().GetPlaceHolder();
             if (item.activeSelf != true){
-                Debug.Log("Show");
                 item.SetActive(true);
             }else{
                 item.GetComponent<PF_ADNMusicalEventSystem>().End(_text, SpotifyId);
@@ -628,7 +625,6 @@ public class ADNDynamicScroll : MonoBehaviour
         if(Instances.Count >= Max){
             Add.SetActive(false);
         }
-        Debug.Log(ScrollPosition);
         ScrollBar.verticalNormalizedPosition = -0.001f;
 
         SaveTopONOFF(false);

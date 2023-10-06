@@ -138,7 +138,6 @@ public class SurfManager : Manager
                 DownScrollSuccess();
             break;
         }
-        //Debug.Log(swipe);
     }
     
     public void ValChange(){
@@ -200,9 +199,6 @@ public class SurfManager : Manager
         ActiveMwsiveSongs[3].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();
 
         Success = false;
-
-
-        Debug.Log("DownScrollAnimation");
     }
 
 
@@ -229,8 +225,6 @@ public class SurfManager : Manager
 
 
         Success = false;
-
-        Debug.Log("UpScrollAnimation");
     }
 
     public void OnEndDrag(){
@@ -355,8 +349,6 @@ public class SurfManager : Manager
         else{
             ResetValue();
         }
-
-         Debug.Log("DownScrollSucess");  
         HasSwipeEnded = true;
     }
     
@@ -400,9 +392,6 @@ public class SurfManager : Manager
         }else{
             ResetValue();
         }
-
-            
-        Debug.Log("UpScrollSuccess"); 
         HasSwipeEnded = true;
     }
            
@@ -473,8 +462,6 @@ public class SurfManager : Manager
     }
     public void Reset()
     {
-        Debug.Log("Reset");
-
         Controller.horizontal = true;
         Controller.vertical = true;
         HasSwipeEnded = true;
@@ -1177,7 +1164,6 @@ public class SurfManager : Manager
         float time2 = time;
         StopCoroutine("Timer");
         time = 0;
-        Debug.Log(time2 + "--------");
         return time2;
     }
 
@@ -1197,8 +1183,6 @@ public class SurfManager : Manager
 
     private void TimerAppEventListener(TimerAppEvent _event)
     {
-        
-        Debug.Log(_event.type.ToString());
         if (_event.type == "PAUSE")
         {
             StopTimer();

@@ -54,7 +54,6 @@ public class SurfViewModel : ViewModel
         SpotifyPreviewAudioManager.instance.StopTrack();
         NewScreenManager.instance.ChangeToSpawnedView("profile");
         NewScreenManager.instance.GetCurrentView().Initialize(profileId);
-        Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
 
     public void OnClick_Discos()

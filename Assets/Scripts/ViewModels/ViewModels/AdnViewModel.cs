@@ -12,7 +12,6 @@ public class AdnViewModel : ViewModel
     }
     public void OnClick_BackButton()
     {
-        Debug.Log("Bot?n");
         NewScreenManager.instance.BackToPreviousView();
         NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
     }

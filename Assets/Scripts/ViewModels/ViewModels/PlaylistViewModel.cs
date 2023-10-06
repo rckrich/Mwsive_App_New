@@ -126,7 +126,6 @@ public class PlaylistViewModel : ViewModel
     }
     private void Callback_GetMorePlaylist(object[] _value)
     {
-        Debug.Log("more");
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
         PlaylistRoot playlistRoot = (PlaylistRoot)_value[1];
@@ -185,7 +184,6 @@ public class PlaylistViewModel : ViewModel
 
     public void OnClick_SurfButton(){
 
-        Debug.Log(isExplore);
         if (trackList.Count > 0)
         {
             NewScreenManager.instance.ChangeToSpawnedView("surf");

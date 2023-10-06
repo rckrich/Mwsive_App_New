@@ -189,7 +189,6 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
     public void OnClickInitializeCurator(){
         NewScreenManager.instance.ChangeToSpawnedView("profile");
         GameObject Instance = NewScreenManager.instance.GetCurrentView().gameObject;
-        Debug.Log(SpotifyID);
         Instance.GetComponent<ProfileViewModel>().Initialize(SpotifyID);
     }
 

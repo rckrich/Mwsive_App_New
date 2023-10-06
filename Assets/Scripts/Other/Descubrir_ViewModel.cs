@@ -122,7 +122,6 @@ public class Descubrir_ViewModel : ViewModel
 
         int maxSpawnCounter = 0;
         MwsiveChallengesRoot mwsiveChallengesRoot = (MwsiveChallengesRoot)_list[1];
-        Debug.Log("Challenge Root" + mwsiveChallengesRoot);
         //MwsiveConnectionManager.instance.GetAdvertising(Callback_GetAdvertasing);
         foreach(Challenges challenges in mwsiveChallengesRoot.challenges)
         {
@@ -224,7 +223,6 @@ public class Descubrir_ViewModel : ViewModel
             {
                 GameObject playlistInstance = GameObject.Instantiate(playlistPrefab, playlistScrollContent);
                 PlaylistAppObject playlist = playlistInstance.GetComponent<PlaylistAppObject>();
-                Debug.Log(mwsiveRecommendedPlaylistsRoot.playlists[i]);
                 playlist.Initialize(mwsiveRecommendedPlaylistsRoot.playlists[i], mwsiveRecommendedPlaylistsRoot.playlists[i].mwsive_tracks);
                 maxSpawnCounter++;
             }
@@ -1128,7 +1126,6 @@ public class Descubrir_ViewModel : ViewModel
 
                 break;
         }
-        Debug.Log("EndCheck");
         CheckForSpawnHasEnded = true;
         PositionInSearch = PositionInSearch + MaxPrefabsinScreen;
        
@@ -1195,7 +1192,6 @@ public class Descubrir_ViewModel : ViewModel
         }
 
         LastPosition[numEnpantalla].transform.SetAsLastSibling();
-        Debug.Log("Done Spawn");
     }
 
     private void CalculateMaxPrefabToCall()

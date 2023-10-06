@@ -83,7 +83,6 @@ public class MwsiveButton : AppObject
             }
         }
 
-        Debug.Log(rootTrackAction);
         InvokeEvent<ChangeDiskAppEvent>(new ChangeDiskAppEvent(rootTrackAction.disks, "SUBSTRACT"));
 
         PIKButtonColorOn();

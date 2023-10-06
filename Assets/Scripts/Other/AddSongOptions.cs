@@ -37,7 +37,6 @@ public class AddSongOptions : ViewModel
     {
         uri = AppManager.instance.uri;      
         NewScreenManager.instance.ChangeToSpawnedView("songMiPlaylist");
-        Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
 
     private void Callback_OnCLick_AddItemsToPlaylist(object[] _value)
@@ -51,7 +50,6 @@ public class AddSongOptions : ViewModel
     {
         trackViewModel.trackID = trackID;
         NewScreenManager.instance.ChangeToSpawnedView("cancion");
-        Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
 
     public void ListenOnSpotify()

@@ -24,7 +24,6 @@ public class DynamicScroll : MonoBehaviour
     }
 
     public void CheckForSpawn(){
-        Debug.Log(ScrollBar.verticalNormalizedPosition + " " + ScrollbarVerticalPos);
         if(Instances.Count != 0){
             if(ScrollBar.verticalNormalizedPosition  <= ScrollbarVerticalPos){
                 
@@ -46,7 +45,6 @@ public class DynamicScroll : MonoBehaviour
 
 
     public void DynamicPrefabSpawner(float howmanyprefabs){
-        Debug.Log(MaxPrefabsInScreen);
         if(MaxPrefabsInScreen ==0){
             
             CalculateMaxPrefabToCall();

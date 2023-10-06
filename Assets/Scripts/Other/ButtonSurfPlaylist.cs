@@ -403,19 +403,16 @@ public class ButtonSurfPlaylist : ViewModel
 
     private void Callback_PostTrackActionRecomend(object[] _value)
     {
-        Debug.Log("RECOMMEND CALLBACK");
         gameObject.GetComponentInParent<ButtonSurfPlaylist>().PlusOrLessOne(true, "RECOMMEND");
     }
 
     private void Callback_PostTrackActionRecomendSwipe(object[] _value)
     {
-        Debug.Log("RECOMMEND CALLBACK");
         gameObject.GetComponentInParent<ButtonSurfPlaylist>().PlusOrLessOne(true, "RECOMMEND", true);
     }
 
     private void Callback_PostTrackActionNORecomend(object[] _value)
     {
-        Debug.Log("NOT_RECOMMEND CALLBACK");
         gameObject.GetComponentInParent<ButtonSurfPlaylist>().PlusOrLessOne(false, "RECOMMEND");
     }
 

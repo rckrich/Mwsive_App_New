@@ -91,7 +91,6 @@ public class TrackViewModel : ViewModel
     {
         recommendShimmer.SetActive(true);
         seed_tracks[0] = trackID;
-        Debug.Log("aa");
         //seed_genres[0] = genre;
         //seed_artists[0] = artistId;
         if ((seed_artists.Length + /*seed_genres.Length +*/ seed_tracks.Length) > 5)

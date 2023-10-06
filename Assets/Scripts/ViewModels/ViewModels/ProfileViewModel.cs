@@ -711,7 +711,6 @@ public class ProfileViewModel : ViewModel
         if(count < LIMIT_OF_BADGES)
         {
             count = LIMIT_OF_BADGES - count;
-            Debug.Log(count);
             string _profileid = profileId;
 
             if (_profileid.Equals(""))
