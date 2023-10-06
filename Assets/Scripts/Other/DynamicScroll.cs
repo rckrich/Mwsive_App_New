@@ -84,7 +84,7 @@ public class DynamicScroll : MonoBehaviour
     public void SpawnPrefab(){
         
         Instance = Instantiate(Prefabs,PrefabPosition.transform.position, Quaternion.identity);
-        Instance.transform.SetParent(GameObject.Find(Container.name).transform);
+        Instance.transform.SetParent(Container.transform);
         Instance.transform.localScale = new Vector3(1,1,1); 
         Instances.Add(Instance);
         Instance.name =  Prefabs.name  + "-"+ Instances.Count;

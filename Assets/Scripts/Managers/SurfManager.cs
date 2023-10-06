@@ -167,7 +167,7 @@ public class SurfManager : Manager
         ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(var, -MaxRotation, Fade, false);
         ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfSide();
 
-        AddSong.GetComponent<SurfAni>().SetValues(var);
+        AddSong.GetComponent<SurfAni>().SetValues(1, null, var);
         AddSong.GetComponent<SurfAni>().Play_SurfAddSong();
 
         if (CurrentPosition < MwsiveSongsData.Count - 1)
@@ -283,6 +283,7 @@ public class SurfManager : Manager
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, -MaxRotation, 0, true);
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfSide();
 
+            AddSong.GetComponent<SurfAni>().SetValues(1, null, 1);
             AddSong.GetComponent<SurfAni>().Play_CompleteAddSurfAddSong();
 
             ActiveMwsiveSongs[2].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[0]);
@@ -335,11 +336,6 @@ public class SurfManager : Manager
 
             ActiveMwsiveSongs[3].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[3]);
             ActiveMwsiveSongs[3].GetComponent<SurfAni>().Play_SurfTransitionBackHideSong();
-
-
-            AddSong.GetComponent<SurfAni>().Play_SurfAddsongReset();
-
-
 
 
             string _trackid = GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID;
@@ -401,7 +397,6 @@ public class SurfManager : Manager
             SpawnPosition++;
             SurfManagerLogic();
             
-            UIAniManager.instance.SurfAddSongReset(AddSong);
         }else{
             ResetValue();
         }
@@ -996,6 +991,7 @@ public class SurfManager : Manager
     }
 
     private void Callback_SpawnSharePrefab(object[] _value){
+        /*
         TrackRoot trackRoot = (TrackRoot)_value[1];
         int SiblingIndex = GetCurrentPrefab().transform.GetSiblingIndex();
         if (trackRoot != null || trackRoot.preview_url != null){
@@ -1045,7 +1041,7 @@ public class SurfManager : Manager
         else{
             UIMessage.instance.UIMessageInstanciate("Esta canción no esta disponible");
         }
-        
+        */
     }
 
 
@@ -1143,7 +1139,7 @@ public class SurfManager : Manager
             StopCoroutine("singleOrDouble");
 
            GameObject Instance = Instantiate(MwsiveOla, Vector3.zero, Quaternion.identity);
-            Instance.transform.SetParent(GameObject.Find("SpawnableCanvas").transform);
+            Instance.transform.SetParent(GameObject.Find("SpawnableCanvas_Canvas").transform);
             Instance.GetComponent<RectTransform>().offsetMin = new Vector2(100,250);
             Instance.GetComponent<RectTransform>().offsetMax = new Vector2(-100,-250);
 

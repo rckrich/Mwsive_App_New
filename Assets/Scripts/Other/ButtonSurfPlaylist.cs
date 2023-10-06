@@ -44,7 +44,7 @@ public class ButtonSurfPlaylist : ViewModel
     private Color gray = new Color(0.8f, 0.8f, 0.8f);
     private GameObject Surf;
     private ChallengeAppObject Challenge;
-    private Sprite MwsiveCover;
+    public Sprite MwsiveCover;
     
     private float time;
 
@@ -58,7 +58,7 @@ public class ButtonSurfPlaylist : ViewModel
 
     private void Start()
     {
-        MwsiveCover = trackCover.sprite;
+        
     }
 
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
@@ -105,6 +105,7 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void InitializeMwsiveDB(MwsiveData _data)
     {
+       
         if (_data.top_curators != null)
         {
             for (int i = 0; i < _data.top_curators.Count; i++)
@@ -118,16 +119,19 @@ public class ButtonSurfPlaylist : ViewModel
         CalculateKorM(_data.total_piks_followed, trackTopCuratorsThatVoted, " amigos también votaron por \r\nesta canción");
 
 
+        
+            
+        if (_data.isRecommended)
+        {
+          mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
+            isRecommended = true;
+                //Pintar de morado el que está en playlist
+        }
+        
         if (_data.isPicked)
         {
 
-            mwsiveButton.OnClickOlaButton(.5f, trackID);
-
-        }
-        if (_data.isRecommended)
-        {
-
-            mwsiveButton.ChangeAddToPlaylistButtonColor(.5f);
+            mwsiveButton.PIKButtonColorOn();
 
         }
     }
@@ -176,14 +180,9 @@ public class ButtonSurfPlaylist : ViewModel
         if (_data.id != null)
         {
             trackID = _data.id;
-            if (isRecommended)
-            {
-                mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
-                //Pintar de morado el que está en playlist
-            }
         }
 
-        if (_data.uri != null)
+            if (_data.uri != null)
         {
             uris.Clear();
             uris.Add(_data.uri);
@@ -207,24 +206,7 @@ public class ButtonSurfPlaylist : ViewModel
                 ImageManager.instance.GetImage(_data.top_curators[i].image_url, topCuratorImages[i], (RectTransform)this.transform);
             }
         }
-
-        CalculateKorM(_data.total_piks, trackTotalPicks);
-        CalculateKorM(_data.total_recommendations, trackTotalRecommendation);
-        CalculateKorM(_data.total_piks_followed, trackTopCuratorsThatVoted, " amigos también votaron por \r\nesta canción");
-
-
-        if (_data.isPicked)
-        {
-            
-            mwsiveButton.OnClickOlaButton(.5f, trackID);
-            
-        }
-        if(_data.isRecommended)
-        {
-            
-            mwsiveButton.ChangeAddToPlaylistButtonColor(.5f);
-            
-        }
+ 
 
         if (_data.challenge_AmILastPosition)
         {
@@ -238,64 +220,7 @@ public class ButtonSurfPlaylist : ViewModel
 
     }
 
-    public void InitializeMwsiveSong(string _playlistName, string _trackname, string _album, string _artist, string _image, string _spotifyid, string _url, string _previewURL, string _externalURL, bool _trackPoints = false)
-    {
-        if(_playlistName != null){
-            playlistText.text = _playlistName;
-        }
-        if(_trackname != null){
-            if (_trackname.Length > 27)
-            {
-                string _text2 = "";
-                for (int i = 0; i < 27; i++)
-                {
-                    _text2 = _text2 + _trackname[i];
-                }
-                _text2 = _text2 + "...";
-                trackName.text = _text2;
-            }
-            else
-            {
-                trackName.text = _trackname;
-            }
-        }
-        
-        if(_album != null){
-            albumName.text = _album;
-        }
-        if(_artist != null){
-            artistName.text = _artist;
-        }
-        
-        if(_image != null){
-            trackCover.sprite = MwsiveCover;
-            ImageManager.instance.GetImage(_image, trackCover, (RectTransform)this.transform);
-        }
-        
-        if(_spotifyid != null){
-            trackID = _spotifyid;
-            if (isRecommended)
-            {
-                mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
-                //Pintar de morado el que está en playlist
-            }
-        }
-        
-        if(_url != null){
-            uris[0] = _url;
-        }
-        
-        if(_previewURL != null){
-            previewURL = _previewURL;
-        }
-        
-        if(_externalURL != null){
-            externalURL = _externalURL;
-        }
-        TrackPoints = _trackPoints;
-
-        
-    }
+   
 
     public void ClearData()
     {
@@ -304,7 +229,7 @@ public class ButtonSurfPlaylist : ViewModel
         trackName.text = null;       
         albumName.text = null;
         artistName.text = null;
-        trackCover.sprite = null;
+        trackCover.sprite = MwsiveCover;
         trackID = null;
         isRecommended = false;
         mwsiveButton.AddToPlaylistButtonClear();
@@ -469,6 +394,7 @@ public class ButtonSurfPlaylist : ViewModel
         }
         else
         {
+            isRecommended = false;
             SpotifyConnectionManager.instance.RemoveItemsFromPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_RemoveToPlaylist);
             if (AppManager.instance.isLogInMode && !trackID.Equals(""))
                 MwsiveConnectionManager.instance.PostTrackAction(trackID, "NOT_RECOMMEND", _time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionNORecomend);
@@ -515,6 +441,7 @@ public class ButtonSurfPlaylist : ViewModel
         }
         else
         {
+            isRecommended = true;
             InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(gray, Color.black));
             if (AppManager.instance.isLogInMode && !trackID.Equals(""))
                 MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomend); ;
@@ -666,10 +593,12 @@ public class ButtonSurfPlaylist : ViewModel
 
         if(_type == "RECOMMEND")
         {
+            
             if (!isSwipe)
             {
                 if (_value)
                 {
+                    
                     int data;
                     try
                     {
@@ -685,7 +614,7 @@ public class ButtonSurfPlaylist : ViewModel
                 }
                 else
                 {
-
+                    
                     int data;
                     try
                     {
@@ -711,6 +640,7 @@ public class ButtonSurfPlaylist : ViewModel
             {
                 if (_value)
                 {
+                    
                     int data;
                     try
                     {
@@ -726,7 +656,7 @@ public class ButtonSurfPlaylist : ViewModel
                 }
                 else
                 {
-
+                    
                     int data;
                     try
                     {

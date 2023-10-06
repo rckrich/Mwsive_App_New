@@ -294,10 +294,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 475241128846231159}
-  - component: {fileID: 8180964053046600168}
-  - component: {fileID: 7737953054673838827}
   m_Layer: 5
-  m_Name: PF_Mwsive_Song_Shimmer
+  m_Name: PF_MwsiveSong_Shimmer
   m_TagString: MwsiveSong
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -323,65 +321,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -23.999996, y: -24}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!225 &8180964053046600168
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1846589577873365725}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
---- !u!114 &7737953054673838827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1846589577873365725}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 018472c0f12b08a41b874b5fe53e22f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  viewID: 0
-  networkLoadingCanvas: {fileID: 0}
-  scrollViewContent: {fileID: 0}
-  finishedLoading: 1
-  playlistText: {fileID: 0}
-  trackName: {fileID: 0}
-  artistName: {fileID: 0}
-  albumName: {fileID: 0}
-  trackCover: {fileID: 0}
-  topCuratorImages:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  playlistName: 
-  appManager: {fileID: 7856825012133957732, guid: 2f52efafb86534fac9101708d943c976, type: 3}
-  transformImage: {fileID: 0}
-  trackID: 
-  uris:
-  - 
-  previewURL: 
-  mp3URL: 
-  isAdd: 0
-  externalURL: 
-  changeColor: 0
-  mwsiveButton: {fileID: 0}
-  challengecoloranimation: {fileID: 0}
-  loadingAnimGameObject: {fileID: 0}
-  durationBar: {fileID: 0}
-  buttonColor: {fileID: 44854314787326622}
-  TrackPoints: 0
-  trackTotalPicks: {fileID: 0}
-  trackTotalRecommendation: {fileID: 0}
-  trackTopCuratorsThatVoted: {fileID: 0}
-  SuccesfulEnded: 0
-  AmILastPosition: 0
 --- !u!1 &2095882674080153811
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,7 +490,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7737953054673838827}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ButtonSurfPlaylist, Scripts
         m_MethodName: OnClick_UserThatVoted
         m_Mode: 1

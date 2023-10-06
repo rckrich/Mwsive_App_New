@@ -48,6 +48,7 @@ public class AppManager : Manager
 
     public SelectedPlaylistNameAppObject appObject;
     public ButtonSurfPlaylist buttonSurfPlaylist;
+    public GameObject loadingCard;
 
     private SpotifyPlaylistRoot topSongsPlaylistSavedList = null;
     private SpotifyPlaylistRoot currentPlaylist = null;
@@ -62,7 +63,7 @@ public class AppManager : Manager
 
     public void StartAppProcess()
     {
-        StartSearch();
+        loadingCard.SetActive(true);
         if (ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted)
         {
             // Normal Spotify Login flow
@@ -79,7 +80,7 @@ public class AppManager : Manager
 
     public void StartAppProcessFromOutside(LogInCallback _callback = null)
     {
-        StartSearch();
+        loadingCard.SetActive(true);
         if (ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted)
         {
             // Normal Spotify Login flow
@@ -279,7 +280,7 @@ public class AppManager : Manager
             return;
         }
 
-        EndSearch();
+        loadingCard.SetActive(false);
         RecommendationsRoot recommendationsRoot = (RecommendationsRoot)_value[1];
         SurfManager.instance.DynamicPrefabSpawnerSong(new object[] { recommendationsRoot });
     }
@@ -288,7 +289,7 @@ public class AppManager : Manager
     {
         if (((long)_value[0]).Equals(WebCallsUtils.GATEWAY_TIMEOUT))
         {
-            EndSearch();
+            loadingCard.SetActive(false);
             if (topSongsPlaylistSavedList != null)
             {
                 SurfManager.instance.DynamicPrefabSpawnerPL(new object[] { topSongsPlaylistSavedList });
@@ -299,7 +300,7 @@ public class AppManager : Manager
             return;
         }
 
-        EndSearch();
+        loadingCard.SetActive(false);
         RecommendationsRoot recommendationsRoot = (RecommendationsRoot)_value[1];
         SurfManager.instance.DynamicPrefabSpawnerSong(new object[] { recommendationsRoot });
     }
@@ -332,7 +333,7 @@ public class AppManager : Manager
 
         if (((long)_value[0]).Equals(WebCallsUtils.GATEWAY_TIMEOUT))
         {
-            EndSearch();
+            loadingCard.SetActive(false);
             if (topSongsPlaylistSavedList != null)
             {
                 SurfManager.instance.DynamicPrefabSpawnerPL(new object[] { topSongsPlaylistSavedList });
@@ -344,7 +345,7 @@ public class AppManager : Manager
             return;
         }
 
-        EndSearch();
+        loadingCard.SetActive(false);
         RecommendationsRoot recommendationsRoot = (RecommendationsRoot)_value[1];
         SurfManager.instance.DynamicPrefabSpawnerSong(new object[] { recommendationsRoot });
     }
@@ -387,7 +388,7 @@ public class AppManager : Manager
 
         StartPreviousAction();
 
-        EndSearch();
+        loadingCard.SetActive(false);
     }
 
     private void Callback_CreatePlaylist_OutsideLogInFlow(object[] _value)
@@ -401,7 +402,7 @@ public class AppManager : Manager
 
         StartPreviousAction();
 
-        EndSearch();
+        loadingCard.SetActive(false);
     }
 
     #endregion
@@ -417,7 +418,7 @@ public class AppManager : Manager
         url = trackRoot.external_urls.spotify;
         uri = trackRoot.uri;       
         NewScreenManager.instance.ChangeToSpawnedView("listaDeOpciones");
-        EndSearch();
+        loadingCard.SetActive(false);
     }
 
     public void SetLogInMode(bool _value)

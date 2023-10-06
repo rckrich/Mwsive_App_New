@@ -203,22 +203,15 @@ public class PlaylistViewModel : ViewModel
             {
                 
                 NewScreenManager.instance.ChangeToSpawnedView("surf");
-                if(playlist !=  null)
+                try
                 {
-                    if(playlist.items.Count > 0)
-                    {
-                        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerPLItems(new object[] { playlist }, true, true, id);
-                    }
-                    else
-                    {
-                        SpotifyConnectionManager.instance.GetPlaylistItems(id, Callback_SurfButtonNoPl, "ES", 100);
-                    }
-                    
+                    NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerPLItems(new object[] { playlist }, true, true, id);
                 }
-                else
+                catch (System.NullReferenceException)
                 {
                     SpotifyConnectionManager.instance.GetPlaylistItems(id, Callback_SurfButtonNoPl, "ES", 100);
-                }
+                }                
+
                 
             }
         }

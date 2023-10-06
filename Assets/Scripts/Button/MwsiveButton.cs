@@ -50,7 +50,7 @@ public class MwsiveButton : AppObject
         }  
     }
 
-    private void PIKButtonColorOn()
+    public void PIKButtonColorOn()
     {
         UIAniManager.instance.FadeIn(OlaColorButton, AnimationDuration);
         OlaColorButton.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), .3f).OnComplete(() => { OlaColorButton.transform.DOScale(new Vector3(1f, 1f, 1f), .3f); });

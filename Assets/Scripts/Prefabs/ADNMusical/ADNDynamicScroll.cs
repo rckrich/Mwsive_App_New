@@ -15,7 +15,8 @@ public class ADNDynamicScroll : MonoBehaviour
     public List<GameObject> Instances = new List<GameObject>();
     private static ADNDynamicScroll _instance;
     public List<string> DataPlaceHolders = new List<string>(); 
-    public List<string> DataSpotifyID = new List<string>(); 
+    public List<string> DataSpotifyID = new List<string>();
+
     
 
     public TextMeshProUGUI Title, Subtitle; 
@@ -661,7 +662,7 @@ public class ADNDynamicScroll : MonoBehaviour
     public void SpawnPrefab(){
         
         Instance = Instantiate(Prefab,Add.transform.position, Quaternion.identity);
-        Instance.transform.SetParent(GameObject.Find("PF_Container").transform);
+        Instance.transform.SetParent(container.transform);
         Instance.transform.localScale = new Vector3(1,1,1); 
         Instances.Add(Instance);
         Instance.name =  Prefab.name  + "-"+ Instances.Count;

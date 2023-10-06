@@ -16,6 +16,7 @@ public class Descubrir_ViewModel : ViewModel
     public TMP_InputField Searchbar;
     public ScrollRect principalScroll;
     public List<ScrollRect> Scrollbar = new List<ScrollRect>();
+    public List<GameObject> ResultsContainer = new List<GameObject>();
     public List<List<GameObject>> ListOfLists = new List<List<GameObject>>();
     public List<GameObject> shimmers;
     [Header("Challenges Gameobject References")]
@@ -1238,7 +1239,7 @@ public class Descubrir_ViewModel : ViewModel
                 {
                     case 1:
                         Instance = Instantiate(Prefabs[1], PrefabsPosition.transform.position, Quaternion.identity);
-                        Instance.transform.SetParent(GameObject.Find("PF_ResultadosdeBusqueda_Container").transform);
+                        Instance.transform.SetParent(ResultsContainer[0].transform);
                         Instance.transform.localScale = new Vector3(1, 1, 1);
                         Instance.SetActive(IsVisible);
                         ListOfLists[numEnpantalla].Add(Instance);
@@ -1246,7 +1247,7 @@ public class Descubrir_ViewModel : ViewModel
 
                     case 2:
                         Instance = Instantiate(Prefabs[2], PrefabsPosition.transform.position, Quaternion.identity);
-                        Instance.transform.SetParent(GameObject.Find("PF_ResultadosdeBusqueda_Container").transform);
+                        Instance.transform.SetParent(ResultsContainer[0].transform);
                         Instance.transform.localScale = new Vector3(1, 1, 1);
                         Instance.SetActive(IsVisible);
                         ListOfLists[numEnpantalla].Add(Instance);
@@ -1254,21 +1255,21 @@ public class Descubrir_ViewModel : ViewModel
 
                     case 3:
                         Instance = Instantiate(Prefabs[3], PrefabsPosition.transform.position, Quaternion.identity);
-                        Instance.transform.SetParent(GameObject.Find("PF_ResultadosdeBusqueda_Container").transform);
+                        Instance.transform.SetParent(ResultsContainer[0].transform);
                         Instance.transform.localScale = new Vector3(1, 1, 1);
                         Instance.SetActive(IsVisible);
                         ListOfLists[numEnpantalla].Add(Instance);
                         return Instance;
                     case 4:
                         Instance = Instantiate(Prefabs[4], PrefabsPosition.transform.position, Quaternion.identity);
-                        Instance.transform.SetParent(GameObject.Find("PF_ResultadosdeBusqueda_Container").transform);
+                        Instance.transform.SetParent(ResultsContainer[0].transform);
                         Instance.transform.localScale = new Vector3(1, 1, 1);
                         Instance.SetActive(IsVisible);
                         ListOfLists[numEnpantalla].Add(Instance);
                         return Instance;
                     case 5:
                         Instance = Instantiate(Prefabs[5], PrefabsPosition.transform.position, Quaternion.identity);
-                        Instance.transform.SetParent(GameObject.Find("PF_ResultadosdeBusqueda_Container").transform);
+                        Instance.transform.SetParent(ResultsContainer[0].transform);
                         Instance.transform.localScale = new Vector3(1, 1, 1);
                         Instance.SetActive(IsVisible);
                         ListOfLists[numEnpantalla].Add(Instance);
@@ -1278,7 +1279,7 @@ public class Descubrir_ViewModel : ViewModel
 
             case 1:
                 Instance = Instantiate(Prefabs[1], PrefabsPosition.transform.position, Quaternion.identity);
-                Instance.transform.SetParent(GameObject.Find("PF_Curadores_Container").transform);
+                Instance.transform.SetParent(ResultsContainer[1].transform);
                 Instance.transform.localScale = new Vector3(1, 1, 1);
                 Instance.SetActive(IsVisible);
                 ListOfLists[numEnpantalla].Add(Instance);
@@ -1289,7 +1290,7 @@ public class Descubrir_ViewModel : ViewModel
                 {
                     case 2:
                         Instance = Instantiate(Prefabs[2], PrefabsPosition.transform.position, Quaternion.identity);
-                        Instance.transform.SetParent(GameObject.Find("PF_Genders_Container").transform);
+                        Instance.transform.SetParent(ResultsContainer[6].transform);
                         Instance.transform.localScale = new Vector3(1, 1, 1);
                         Instance.SetActive(IsVisible);
                         ListOfLists[numEnpantalla].Add(Instance);
@@ -1297,21 +1298,21 @@ public class Descubrir_ViewModel : ViewModel
 
                     case 3:
                         Instance = Instantiate(Prefabs[3], PrefabsPosition.transform.position, Quaternion.identity);
-                        Instance.transform.SetParent(GameObject.Find("PF_Genders_Container").transform);
+                        Instance.transform.SetParent(ResultsContainer[6].transform);
                         Instance.transform.localScale = new Vector3(1, 1, 1);
                         Instance.SetActive(IsVisible);
                         ListOfLists[numEnpantalla].Add(Instance);
                         return Instance;
                     case 4:
                         Instance = Instantiate(Prefabs[4], PrefabsPosition.transform.position, Quaternion.identity);
-                        Instance.transform.SetParent(GameObject.Find("PF_Genders_Container").transform);
+                        Instance.transform.SetParent(ResultsContainer[6].transform);
                         Instance.transform.localScale = new Vector3(1, 1, 1);
                         Instance.SetActive(IsVisible);
                         ListOfLists[numEnpantalla].Add(Instance);
                         return Instance;
                     case 5:
                         Instance = Instantiate(Prefabs[5], PrefabsPosition.transform.position, Quaternion.identity);
-                        Instance.transform.SetParent(GameObject.Find("PF_Genders_Container").transform);
+                        Instance.transform.SetParent(ResultsContainer[6].transform);
                         Instance.transform.localScale = new Vector3(1, 1, 1);
                         Instance.SetActive(IsVisible);
                         ListOfLists[numEnpantalla].Add(Instance);
@@ -1330,35 +1331,35 @@ public class Descubrir_ViewModel : ViewModel
                 break;
             case 1:
                 Instance = Instantiate(Prefabs[numEnpantalla], PrefabsPosition.transform.position, Quaternion.identity);
-                Instance.transform.SetParent(GameObject.Find("PF_Curadores_Container").transform);
+                Instance.transform.SetParent(ResultsContainer[1].transform);
                 Instance.transform.localScale = new Vector3(1, 1, 1);
                 Instance.SetActive(IsVisible);
                 ListOfLists[numEnpantalla].Add(Instance);
                 break;
             case 2:
                 Instance = Instantiate(Prefabs[numEnpantalla], PrefabsPosition.transform.position, Quaternion.identity);
-                Instance.transform.SetParent(GameObject.Find("PF_Songs_Container").transform);
+                Instance.transform.SetParent(ResultsContainer[2].transform);
                 Instance.transform.localScale = new Vector3(1, 1, 1);
                 Instance.SetActive(IsVisible);
                 ListOfLists[numEnpantalla].Add(Instance);
                 break;
             case 3:
                 Instance = Instantiate(Prefabs[numEnpantalla], PrefabsPosition.transform.position, Quaternion.identity);
-                Instance.transform.SetParent(GameObject.Find("PF_Artists_Container").transform);
+                Instance.transform.SetParent(ResultsContainer[3].transform);
                 Instance.transform.localScale = new Vector3(1, 1, 1);
                 Instance.SetActive(IsVisible);
                 ListOfLists[numEnpantalla].Add(Instance);
                 break;
             case 4:
                 Instance = Instantiate(Prefabs[numEnpantalla], PrefabsPosition.transform.position, Quaternion.identity);
-                Instance.transform.SetParent(GameObject.Find("PF_Albums_Container").transform);
+                Instance.transform.SetParent(ResultsContainer[4].transform);
                 Instance.transform.localScale = new Vector3(1, 1, 1);
                 Instance.SetActive(IsVisible);
                 ListOfLists[numEnpantalla].Add(Instance);
                 break;
             case 5:
                 Instance = Instantiate(Prefabs[numEnpantalla], PrefabsPosition.transform.position, Quaternion.identity);
-                Instance.transform.SetParent(GameObject.Find("PF_Playlists_Container").transform);
+                Instance.transform.SetParent(ResultsContainer[5].transform);
                 Instance.transform.localScale = new Vector3(1, 1, 1);
                 Instance.SetActive(IsVisible);
                 ListOfLists[numEnpantalla].Add(Instance);

@@ -34,7 +34,7 @@ public class SurfController : MonoBehaviour
             
         }
         if(IsThisMain){
-            _SurfManager = Main;
+            Main = _SurfManager;
         }
         ControlHierarchy();
 
@@ -46,6 +46,20 @@ public class SurfController : MonoBehaviour
         }else{
             return false;
         }
+    }
+
+    public GameObject ReturnMain()
+    {
+        if(Main !=null)
+        {
+            return Main;
+        }
+        else
+        {
+            ControlHierarchy();
+            return Main;
+        }
+        
     }
 
     public GameObject ReturnCurrentView(){

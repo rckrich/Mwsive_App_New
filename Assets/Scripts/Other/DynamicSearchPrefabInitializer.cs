@@ -166,7 +166,7 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
     public void OnClickInitializePrefabSong(){
         NewScreenManager.instance.ChangeToSpawnedView("cancion");
         GameObject Instance = NewScreenManager.instance.GetCurrentView().gameObject;
-        Instance.transform.SetParent(GameObject.Find("SpawnableCanvas").transform); 
+        Instance.transform.SetParent(GameObject.Find("SpawnableCanvas_Canvas").transform); 
         Instance.GetComponent<RectTransform>().offsetMin = new Vector2(0,0);
         Instance.GetComponent<RectTransform>().offsetMax = new Vector2(0,0);
         Instance.transform.localScale = new Vector3(1,1,1);
@@ -178,7 +178,7 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
     public void OnClickInitializePrefabAlbum(){
         NewScreenManager.instance.ChangeToSpawnedView("album");
         GameObject Instance = NewScreenManager.instance.GetCurrentView().gameObject;
-        Instance.transform.SetParent(GameObject.Find("SpawnableCanvas").transform); 
+        Instance.transform.SetParent(GameObject.Find("SpawnableCanvas_Canvas").transform); 
         Instance.GetComponent<RectTransform>().offsetMin = new Vector2(0,0);
         Instance.GetComponent<RectTransform>().offsetMax = new Vector2(0,0);
         Instance.transform.localScale = new Vector3(1,1,1);
@@ -199,7 +199,7 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
         
         NewScreenManager.instance.ChangeToSpawnedView("playlist");
         GameObject Instance = NewScreenManager.instance.GetCurrentView().gameObject;
-        Instance.transform.SetParent(GameObject.Find("SpawnableCanvas").transform); 
+        Instance.transform.SetParent(GameObject.Find("SpawnableCanvas_Canvas").transform); 
         Instance.GetComponent<RectTransform>().offsetMin = new Vector2(0,0);
         Instance.GetComponent<RectTransform>().offsetMax = new Vector2(0,0);
         Instance.transform.localScale = new Vector3(1,1,1);

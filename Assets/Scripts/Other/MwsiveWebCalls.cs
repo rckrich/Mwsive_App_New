@@ -35,7 +35,7 @@ public class MwsiveWebCalls : MonoBehaviour
 
         string jsonRaw = JsonConvert.SerializeObject(createMwsiveUserRoot);
 
-        Debug.Log("Body request for creating a playlist is:" + jsonRaw);
+        DebugLogManager.instance.DebugLog("Body request for creating a playlist is:" + jsonRaw);
 
         using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonRaw, "application/json"))
         {
@@ -52,7 +52,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on create profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on create profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -62,7 +62,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Create Mwsive user " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Create Mwsive user " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveCreatedRoot mwsiveCreatedRoot = JsonConvert.DeserializeObject<MwsiveCreatedRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveCreatedRoot });
@@ -70,7 +70,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed on create mwsive user " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on create mwsive user " + jsonResult);
             yield break;
         }
     }
@@ -90,7 +90,7 @@ public class MwsiveWebCalls : MonoBehaviour
 
         string jsonRaw = JsonConvert.SerializeObject(logInMwsiveRoot);
 
-        Debug.Log("Body request for login is: " + jsonRaw);
+        DebugLogManager.instance.DebugLog("Body request for login is: " + jsonRaw);
 
         using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonRaw, "application/json"))
         {
@@ -106,7 +106,7 @@ public class MwsiveWebCalls : MonoBehaviour
 
                 if (webRequest.isDone)
                 {
-                    Debug.Log("Response code 404. No Mwsive user found, creating new Mwsive User");
+                    DebugLogManager.instance.DebugLog("Response code 404. No Mwsive user found, creating new Mwsive User");
                     _callback(new object[] { webRequest.responseCode, null });
                     yield break;
                 }
@@ -121,7 +121,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -131,7 +131,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Mwisve login " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Mwisve login " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveLoginRoot mwsiveLoginRoot = JsonConvert.DeserializeObject<MwsiveLoginRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveLoginRoot });
@@ -139,7 +139,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed on mwsive log in " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on mwsive log in " + jsonResult);
             yield break;
         }
     }
@@ -161,14 +161,14 @@ public class MwsiveWebCalls : MonoBehaviour
             if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
             {
                 //Catch response code for multiple requests to the server in a short timespan.
-                Debug.Log(webRequest.responseCode);
+                DebugLogManager.instance.DebugLog(webRequest.responseCode);
 
                 if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
                 {
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -177,13 +177,13 @@ public class MwsiveWebCalls : MonoBehaviour
 
                 if (webRequest.isDone)
                 {
-                    Debug.Log("Mwsive logout " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Mwsive logout " + jsonResult);
                     _callback(new object[] { webRequest.responseCode, null });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on mwsive log out " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on mwsive log out " + jsonResult);
             yield break;
         }
     }
@@ -211,7 +211,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -221,7 +221,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch Mwsive User result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch Mwsive User result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveUserRoot mwsiveUserRoot = JsonConvert.DeserializeObject<MwsiveUserRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveUserRoot });
@@ -229,7 +229,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed on fetch mwsive user: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch mwsive user: " + jsonResult);
             yield break;
 
         }
@@ -257,7 +257,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -267,7 +267,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch Mwsive User result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch Mwsive User result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveUserRoot mwsiveUserRoot = JsonConvert.DeserializeObject<MwsiveUserRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveUserRoot });
@@ -275,7 +275,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed on fetch mwsive user: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on fetch mwsive user: " + jsonResult);
             yield break;
 
         }
@@ -304,7 +304,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -313,13 +313,13 @@ public class MwsiveWebCalls : MonoBehaviour
 
                 if (webRequest.isDone)
                 {
-                    Debug.Log("Delete Mwsive user " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Delete Mwsive user " + jsonResult);
                     _callback(new object[] { webRequest.responseCode, null });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on delete mwsive user " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on delete mwsive user " + jsonResult);
             yield break;
         }
     }
@@ -347,8 +347,8 @@ public class MwsiveWebCalls : MonoBehaviour
                 {
                     //TODO Response when unauthorized
                 }
-                Debug.Log(webRequest.responseCode);
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog(webRequest.responseCode);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -357,13 +357,13 @@ public class MwsiveWebCalls : MonoBehaviour
 
                 if (webRequest.isDone)
                 {
-                    Debug.Log("Put Last Saved Playlist " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Put Last Saved Playlist " + jsonResult);
                     _callback(new object[] { webRequest.responseCode, _playlist_id });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on put Last Saved Playlist " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on put Last Saved Playlist " + jsonResult);
             yield break;
         }
     }
@@ -384,7 +384,7 @@ public class MwsiveWebCalls : MonoBehaviour
         };
         string jsonRaw = JsonConvert.SerializeObject(newAction);
 
-        Debug.Log("Body request for creating a playlist is:" + jsonRaw);
+        DebugLogManager.instance.DebugLog("Body request for creating a playlist is:" + jsonRaw);
 
         using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonRaw, "application/json"))
         {
@@ -402,7 +402,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -412,7 +412,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Post Track action " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Post Track action " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     RootTrackAction rootTrackAction = JsonConvert.DeserializeObject<RootTrackAction>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, rootTrackAction });
@@ -420,7 +420,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed on post track action " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on post track action " + jsonResult);
             yield break;
         }
     }
@@ -447,7 +447,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -457,7 +457,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch Mwsive Curators result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch Mwsive Curators result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveCuratorsRoot mwsiveCuratorsRoot = JsonConvert.DeserializeObject<MwsiveCuratorsRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveCuratorsRoot });
@@ -465,7 +465,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch Mwsive Curators result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch Mwsive Curators result: " + jsonResult);
             yield break;
 
         }
@@ -499,7 +499,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -509,14 +509,14 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch following that vote result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch following that vote result: " + jsonResult);
                     int following_that_voted = JsonConvert.DeserializeObject<int>(jsonResult);
                     _callback(new object[] { webRequest.responseCode, following_that_voted });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed fetch following that vote result result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch following that vote result result: " + jsonResult);
             yield break;
 
         }
@@ -545,7 +545,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -555,7 +555,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch Mwsive followers result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch Mwsive followers result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveFollowersRoot mwsiveFollowersRoot = JsonConvert.DeserializeObject<MwsiveFollowersRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveFollowersRoot });
@@ -563,7 +563,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch Mwsive followers result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch Mwsive followers result: " + jsonResult);
             yield break;
 
         }
@@ -592,7 +592,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile");
                 yield break;
             }
             else
@@ -602,7 +602,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch Mwsive followers result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch Mwsive followers result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveFollowedRoot mwsiveFollowedRoot = JsonConvert.DeserializeObject<MwsiveFollowedRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveFollowedRoot });
@@ -610,7 +610,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch Mwsive followers result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch Mwsive followers result: " + jsonResult);
             yield break;
 
         }
@@ -639,7 +639,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -649,7 +649,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch Mwsive followers result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch Mwsive followers result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveFollowersRoot mwsiveFollowersRoot = JsonConvert.DeserializeObject<MwsiveFollowersRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveFollowersRoot });
@@ -657,7 +657,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch Mwsive followers result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch Mwsive followers result: " + jsonResult);
             yield break;
 
         }
@@ -686,7 +686,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -696,7 +696,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch Mwsive followers result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch Mwsive followers result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveFollowedRoot mwsiveFollowedRoot = JsonConvert.DeserializeObject<MwsiveFollowedRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveFollowedRoot });
@@ -704,7 +704,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch Mwsive followers result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch Mwsive followers result: " + jsonResult);
             yield break;
 
         }
@@ -724,7 +724,7 @@ public class MwsiveWebCalls : MonoBehaviour
 
         string jsonRaw = JsonConvert.SerializeObject(postFollowRoot);
 
-        Debug.Log("Body request for creating a playlist is:" + jsonRaw);
+        DebugLogManager.instance.DebugLog("Body request for creating a playlist is:" + jsonRaw);
 
         using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonRaw, "application/json"))
         {
@@ -742,7 +742,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile");
                 yield break;
             }
             else
@@ -751,13 +751,13 @@ public class MwsiveWebCalls : MonoBehaviour
 
                 if (webRequest.isDone)
                 {
-                    Debug.Log("Post follow " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Post follow " + jsonResult);
                     _callback(new object[] { webRequest.responseCode, null });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on post follow " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on post follow " + jsonResult);
             yield break;
         }
     }
@@ -785,7 +785,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch is following. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch is following. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -795,7 +795,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch is following result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch is following result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     IsFollowingRoot isFollowingRoot = JsonConvert.DeserializeObject<IsFollowingRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, isFollowingRoot });
@@ -803,7 +803,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch is following result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch is following result: " + jsonResult);
             yield break;
 
         }
@@ -832,8 +832,8 @@ public class MwsiveWebCalls : MonoBehaviour
 
                     //TODO Response when unauthorized
                 }
-                Debug.Log(webRequest.responseCode);
-                Debug.Log("Protocol Error or Connection Error on fetch curators by name. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog(webRequest.responseCode);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch curators by name. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -843,7 +843,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch Curators by name result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch Curators by name result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveCuratorsRoot mwsiveCuratorsRoot = JsonConvert.DeserializeObject<MwsiveCuratorsRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveCuratorsRoot });
@@ -851,7 +851,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch curators by name result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch curators by name result: " + jsonResult);
             yield break;
 
         }
@@ -864,7 +864,7 @@ public class MwsiveWebCalls : MonoBehaviour
         //string url = "http://mwsive.com/api/users/{user_id}/badges/{type}/{offset}/{limit}";
         string url = "http://192.241.129.184/api/users/" + userid + "/badges/" + type + "/" + _offset.ToString() + "/" + _limit.ToString();
 
-        Debug.Log(url);
+        DebugLogManager.instance.DebugLog(url);
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Accept", "application/json");
@@ -881,7 +881,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile");
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile");
                 yield break;
             }
             else
@@ -891,7 +891,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch Badges result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch Badges result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveBadgesRoot mwsiveBadgesRoot = JsonConvert.DeserializeObject<MwsiveBadgesRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveBadgesRoot });
@@ -899,7 +899,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch badges result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch badges result: " + jsonResult);
             yield break;
 
         }
@@ -932,7 +932,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -941,13 +941,13 @@ public class MwsiveWebCalls : MonoBehaviour
 
                 if (webRequest.isDone)
                 {
-                    Debug.Log("Post badge complete user " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Post badge complete user " + jsonResult);
                     _callback(new object[] { webRequest.responseCode, null });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on post badge complete " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on post badge complete " + jsonResult);
             yield break;
         }
     }
@@ -961,7 +961,7 @@ public class MwsiveWebCalls : MonoBehaviour
         textureBytes = imageTexture.EncodeToPNG();
 
         string base64 = "data:image/png;base64," + Convert.ToBase64String(textureBytes);
-        Debug.Log(base64);
+        DebugLogManager.instance.DebugLog(base64);
 
         PostUserPhoto postUserPhoto = new PostUserPhoto { image = base64 };
 
@@ -986,7 +986,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -995,13 +995,13 @@ public class MwsiveWebCalls : MonoBehaviour
 
                 if (webRequest.isDone)
                 {
-                    Debug.Log("Post profile picture " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Post profile picture " + jsonResult);
                     _callback(new object[] { webRequest.responseCode, null });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on post profile picture complete " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on post profile picture complete " + jsonResult);
             yield break;
         }
     }
@@ -1033,7 +1033,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1042,13 +1042,13 @@ public class MwsiveWebCalls : MonoBehaviour
 
                 if (webRequest.isDone)
                 {
-                    Debug.Log("Post display name " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Post display name " + jsonResult);
                     _callback(new object[] { webRequest.responseCode, null });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on post display name complete " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on post display name complete " + jsonResult);
             yield break;
         }
     }
@@ -1080,7 +1080,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on post user link. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on post user link. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1089,13 +1089,13 @@ public class MwsiveWebCalls : MonoBehaviour
 
                 if (webRequest.isDone)
                 {
-                    Debug.Log("Post user link complete");
+                    DebugLogManager.instance.DebugLog("Post user link complete");
                     _callback(new object[] { webRequest.responseCode, null });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on post user link complete");
+            DebugLogManager.instance.DebugLog("Failed on post user link complete");
             yield break;
         }
     }
@@ -1121,7 +1121,7 @@ public class MwsiveWebCalls : MonoBehaviour
 
         string jsonRaw = JsonConvert.SerializeObject(musicalDNA);
 
-        Debug.Log("Body request for updating musical dna is:" + jsonRaw);
+        DebugLogManager.instance.DebugLog("Body request for updating musical dna is:" + jsonRaw);
 
 
         using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonRaw, "application/json"))
@@ -1140,7 +1140,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on post musical dna. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on post musical dna. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1149,13 +1149,13 @@ public class MwsiveWebCalls : MonoBehaviour
 
                 if (webRequest.isDone)
                 {
-                    Debug.Log("Post Musical ADN " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Post Musical ADN " + jsonResult);
                     _callback(new object[] { webRequest.responseCode, null });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on post Musical ADN " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on post Musical ADN " + jsonResult);
             yield break;
         }
     }
@@ -1190,7 +1190,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1200,7 +1200,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch ranking result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch ranking result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveRankingRoot mwsiveRankingRoot = JsonConvert.DeserializeObject<MwsiveRankingRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveRankingRoot });
@@ -1208,7 +1208,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch ranking result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch ranking result: " + jsonResult);
             yield break;
         }
     }
@@ -1236,7 +1236,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1246,7 +1246,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch settings result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch settings result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveSettingsRoot mwsiveSettingsRoot = JsonConvert.DeserializeObject<MwsiveSettingsRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveSettingsRoot });
@@ -1254,7 +1254,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch settings result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch settings result: " + jsonResult);
             yield break;
         }
     }
@@ -1288,7 +1288,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1298,7 +1298,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch challenges result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch challenges result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveChallengesRoot mwsiveChallengesRoot = JsonConvert.DeserializeObject<MwsiveChallengesRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveChallengesRoot });
@@ -1306,7 +1306,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch challenges result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch challenges result: " + jsonResult);
             yield break;
         }
     }
@@ -1335,7 +1335,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1345,7 +1345,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch complete challenges result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch complete challenges result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveChallengesRoot mwsiveChallengesRoot = JsonConvert.DeserializeObject<MwsiveChallengesRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveChallengesRoot });
@@ -1353,7 +1353,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch complete challenges result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch complete challenges result: " + jsonResult);
             yield break;
         }
     }
@@ -1372,7 +1372,7 @@ public class MwsiveWebCalls : MonoBehaviour
 
         string jsonRaw = JsonConvert.SerializeObject(challengeCompleteRoot);
 
-        Debug.Log("Body request for creating a playlist is:" + jsonRaw);
+        DebugLogManager.instance.DebugLog("Body request for creating a playlist is:" + jsonRaw);
 
         using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonRaw, "application/json"))
         {
@@ -1390,7 +1390,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1400,7 +1400,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Post challenge complete " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Post challenge complete " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveCompleteChallengesRoot mwsiveCompleteChallengesRoot = JsonConvert.DeserializeObject<MwsiveCompleteChallengesRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveCompleteChallengesRoot });
@@ -1408,7 +1408,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed on post challenge complete " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on post challenge complete " + jsonResult);
             yield break;
         }
     }
@@ -1441,7 +1441,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1451,7 +1451,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch advertasing result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch advertasing result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveAdvertisingRoot mwsiveAdvertisingRoot = JsonConvert.DeserializeObject<MwsiveAdvertisingRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveAdvertisingRoot });
@@ -1459,7 +1459,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch advertasing result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch advertasing result: " + jsonResult);
             yield break;
         }
     }
@@ -1480,7 +1480,7 @@ public class MwsiveWebCalls : MonoBehaviour
 
         string jsonRaw = JsonConvert.SerializeObject(advertisementClickRoot);
 
-        Debug.Log("Body request for login is: " + jsonRaw);
+        DebugLogManager.instance.DebugLog("Body request for login is: " + jsonRaw);
 
         using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonRaw, "application/json"))
         {
@@ -1494,14 +1494,14 @@ public class MwsiveWebCalls : MonoBehaviour
             if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
             {
                 //Catch response code for multiple requests to the server in a short timespan.
-                Debug.Log(webRequest.responseCode);
+                DebugLogManager.instance.DebugLog(webRequest.responseCode);
 
                 if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
                 {
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1510,13 +1510,13 @@ public class MwsiveWebCalls : MonoBehaviour
 
                 if (webRequest.isDone)
                 {
-                    Debug.Log("Mwsive post save advertasing " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Mwsive post save advertasing " + jsonResult);
                     _callback(new object[] { webRequest.responseCode, null });
                     yield break;
                 }
             }
 
-            Debug.Log("Failed on post click save advertising out " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on post click save advertising out " + jsonResult);
             yield break;
         }
     }
@@ -1543,7 +1543,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1553,7 +1553,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch recommended curators result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch recommended curators result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveRecommendedCuratorsRoot mwsiveRecommendedCuratorsRoot = JsonConvert.DeserializeObject<MwsiveRecommendedCuratorsRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveRecommendedCuratorsRoot });
@@ -1561,7 +1561,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch recommended curators result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch recommended curators result: " + jsonResult);
             yield break;
         }
     }
@@ -1588,7 +1588,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1598,7 +1598,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch recommended curators result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch recommended curators result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveRecommendedArtistsRoot mwsiveRecommendedArtist = JsonConvert.DeserializeObject<MwsiveRecommendedArtistsRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveRecommendedArtist });
@@ -1606,7 +1606,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch recommended curators result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch recommended curators result: " + jsonResult);
             yield break;
         }
     }
@@ -1633,7 +1633,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1643,7 +1643,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch recommended playlists result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch recommended playlists result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveRecommendedPlaylistsRoot mwsiveRecommendedPlaylistRoot = JsonConvert.DeserializeObject<MwsiveRecommendedPlaylistsRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveRecommendedPlaylistRoot });
@@ -1651,7 +1651,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch recommended playlists result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch recommended playlists result: " + jsonResult);
             yield break;
         }
     }
@@ -1678,7 +1678,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1688,7 +1688,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch recommended tracks result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch recommended tracks result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveRecommendedTracksRoot mwsiveRecommendedTrackRoot = JsonConvert.DeserializeObject<MwsiveRecommendedTracksRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveRecommendedTrackRoot });
@@ -1696,7 +1696,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch recommended tracks result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch recommended tracks result: " + jsonResult);
             yield break;
         }
     }
@@ -1723,7 +1723,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1733,7 +1733,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch recommended albums result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch recommended albums result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveRecommendedAlbumsRoot mwsiveRecommendedAlbumRoot = JsonConvert.DeserializeObject<MwsiveRecommendedAlbumsRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveRecommendedAlbumRoot });
@@ -1741,7 +1741,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch recommended albums result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch recommended albums result: " + jsonResult);
             yield break;
         }
     }
@@ -1768,7 +1768,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1778,7 +1778,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch genres result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch genres result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     MwsiveGenresRoot mwsiveGenresRoot = JsonConvert.DeserializeObject<MwsiveGenresRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, mwsiveGenresRoot });
@@ -1786,7 +1786,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch genres result: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch genres result: " + jsonResult);
             yield break;
         }
     }
@@ -1813,7 +1813,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch track info. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch track info. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1823,7 +1823,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch track info result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch track info result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     TrackInfoRoot trackInfoRoot = JsonConvert.DeserializeObject<TrackInfoRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, trackInfoRoot });
@@ -1831,7 +1831,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch track info: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch track info: " + jsonResult);
             yield break;
         }
     }
@@ -1843,7 +1843,7 @@ public class MwsiveWebCalls : MonoBehaviour
         //string url = "https://mwsive.com/tracks/" + _track_id + "/info/" + _playlist_id;
         string url = "http://192.241.129.184/api/tracks/" + _track_id + "/info/" + _playlist_id;
 
-        Debug.Log("Track info url is: " + url);
+        DebugLogManager.instance.DebugLog("Track info url is: " + url);
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -1861,7 +1861,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on fetch track info. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch track info. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }
             else
@@ -1871,7 +1871,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Fetch track info result: " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Fetch track info result: " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     TrackInfoRoot trackInfoRoot = JsonConvert.DeserializeObject<TrackInfoRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, trackInfoRoot });
@@ -1879,7 +1879,7 @@ public class MwsiveWebCalls : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed fetch track info: " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed fetch track info: " + jsonResult);
             yield break;
         }
     }

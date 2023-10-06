@@ -222,8 +222,6 @@ public class SurfAni : MonoBehaviour
         
         SurfTransitionOtherSongs = new Tweener[4];
 
-
-        
         SurfTransitionOtherSongs[0] = gameObject.transform.DOMove(Position.transform.position, SurfTransitionDuration, false).Pause();
         SurfTransitionOtherSongs[1] = gameObject.GetComponent<CanvasGroup>().DOFade(Position.GetComponent<CanvasGroup>().alpha*fade, SurfTransitionDuration).Pause();
         SurfTransitionOtherSongs[2] = gameObject.transform.DOScale(Position.transform.localScale, SurfTransitionDuration);
@@ -247,30 +245,15 @@ public class SurfAni : MonoBehaviour
 
     private void SetUp_SurfAddSong()
     {
-
-        
         SurfAddSong = new Tweener[2];
 
         SurfAddSong[0] = gameObject.transform.DOScale(new Vector3(1, 1, 1) * fade, SurfTransitionDuration).Pause();
         SurfAddSong[1] = gameObject.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration).Pause();
+        SurfAddSong[0].OnComplete(() => { IsAddSongSurfDone = true; });
     }
 
     private void SetUp_SurfAddSongReset()
-    {
-        /*
-        if (IsAddSongSurfDone)
-        {
-            if (GA.transform.localScale != new Vector3(0, 0, 0))
-            {
-                DOTween.Kill(GA);
-                
-
-            }
-
-
-        }*/
-
-        
+    {        
         SurfAddSongReset = new Tweener[1];
 
         SurfAddSongReset[0] = gameObject.transform.DOScale(new Vector3(0, 0, 0), 0.3F).Pause();
@@ -282,17 +265,17 @@ public class SurfAni : MonoBehaviour
 
     private void SetUp_CompleteSurfAddSong()
     {
-
+        
+        CompleteAddSurfAddSong = new Tweener[2];
 
         
-        //DOTween.Complete(GA);
+        CompleteAddSurfAddSong[0] = gameObject.transform.DOScale(new Vector3(1, 1, 1) * fade, SurfTransitionDuration).Pause();
+        CompleteAddSurfAddSong[1] = gameObject.GetComponent<CanvasGroup>().DOFade(0, SurfTransitionDuration * 2).Pause();
+        CompleteAddSurfAddSong[0].OnComplete(() => { IsAddSongSurfDone = true; gameObject.SetActive(false);
+            gameObject.GetComponent<CanvasGroup>().alpha = 1;
+            gameObject.transform.localScale = new Vector3(0, 0, 0);
+        });
         
-        CompleteAddSurfAddSong = new Tweener[3];
-
-        CompleteAddSurfAddSong[0] = gameObject.GetComponent<CanvasGroup>().DOFade(1, 0.1f).Pause();
-        CompleteAddSurfAddSong[1] = gameObject.transform.DOScale(new Vector3(1, 1, 1) * fade, SurfTransitionDuration).Pause();
-        CompleteAddSurfAddSong[2] = gameObject.GetComponent<CanvasGroup>().DOFade(0, SurfTransitionDuration * 2).Pause();
-        CompleteAddSurfAddSong[0].OnComplete(() => { IsAddSongSurfDone = true; gameObject.SetActive(false); });
 
     }
 
@@ -580,26 +563,34 @@ public class SurfAni : MonoBehaviour
     public void Play_SurfAddSong()
     {
         fade = Mathf.Clamp(fade * 1.5f, 0, 1f);
+        gameObject.SetActive(true);
 
-        if (SurfAddSong == null)
-        {
-            SetUp_SurfAddSong();
-        }
-        else
-        {
-            Restart_SurfAddSong();
-        }
 
-        foreach (Tweener item in SurfAddSong)
+        if (IsAddSongSurfDone)
         {
-            item.SetAutoKill(false);
-            item.Play();
+            IsAddSongSurfDone = false;
+            if (SurfAddSong == null)
+            {
+                SetUp_SurfAddSong();
+            }
+            else
+            {
+                Restart_SurfAddSong();
+            }
+            foreach (Tweener item in SurfAddSong)
+            {
+                item.SetAutoKill(false);
+                item.Play();
+            }
+            
         }
+ 
         
     }
 
     public void Play_SurfAddsongReset()
     {
+        gameObject.SetActive(true);
         if (SurfAddSongReset == null)
         {
             SetUp_SurfAddSongReset();
@@ -618,6 +609,9 @@ public class SurfAni : MonoBehaviour
     public void Play_CompleteAddSurfAddSong()
     {
         IsAddSongSurfDone = false;
+        gameObject.SetActive(true);
+
+        fade = 1.5f;
         if (CompleteAddSurfAddSong == null)
         {
             SetUp_CompleteSurfAddSong();
@@ -792,9 +786,8 @@ public class SurfAni : MonoBehaviour
     private void Restart_CompleteAddSurfAddSong()
     {
 
-        CompleteAddSurfAddSong[0].ChangeValues((System.Single)gameObject.GetComponent<CanvasGroup>().alpha, (System.Single)1);
-        CompleteAddSurfAddSong[1].ChangeValues(gameObject.transform.localScale, new Vector3(1, 1, 1) * fade);
-        CompleteAddSurfAddSong[2].ChangeValues((System.Single)gameObject.GetComponent<CanvasGroup>().alpha, (System.Single)0);
+        CompleteAddSurfAddSong[0].ChangeValues(gameObject.transform.localScale, new Vector3(1, 1, 1) * fade);
+        CompleteAddSurfAddSong[1].ChangeValues((System.Single)gameObject.GetComponent<CanvasGroup>().alpha, (System.Single)0);
 
     }
 

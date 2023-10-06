@@ -15,7 +15,7 @@ public class PF_SurfManager : Manager
     public GameObject Prefab, AddSong, OlaButton, MwsiveOla, MwsiveContainer;
     public List<GameObject> MwsiveSongs = new List<GameObject>();
     public GameObject[] RestPositions;
-    
+    public GameObject loadingCard;
 
     public float MaxRotation = 18f;
     public float SurfSuccessSensitivity = 2.2f;
@@ -57,12 +57,14 @@ public class PF_SurfManager : Manager
 
     private void Start()
     {
+        
         ControllerPostion = new Vector2(Controller.transform.position.x, Controller.transform.position.y);
     }
 
 
     private void OnEnable()
     {
+        loadingCard.SetActive(true);
         SurfController.instance.AddToList(gameObject);
         
             swipeListener.OnSwipe.AddListener(OnSwipe);
@@ -167,7 +169,7 @@ public class PF_SurfManager : Manager
         ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(var, -MaxRotation, Fade, false);
         ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfSide();
 
-        AddSong.GetComponent<SurfAni>().SetValues(var);
+        AddSong.GetComponent<SurfAni>().SetValues(1, null, var);
         AddSong.GetComponent<SurfAni>().Play_SurfAddSong();
 
         if (CurrentPosition < MwsiveSongsData.Count - 1)
@@ -277,8 +279,6 @@ public class PF_SurfManager : Manager
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, -MaxRotation, 0, true);
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfSide();
 
-            AddSong.GetComponent<SurfAni>().Play_CompleteAddSurfAddSong();
-
             ActiveMwsiveSongs[2].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[0]);
             ActiveMwsiveSongs[2].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();
 
@@ -289,7 +289,9 @@ public class PF_SurfManager : Manager
             ActiveMwsiveSongs[4].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();
 
             //GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().PauseTopMove();
-            
+
+            AddSong.GetComponent<SurfAni>().SetValues(1, null, 1);
+            AddSong.GetComponent<SurfAni>().Play_CompleteAddSurfAddSong();
 
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().AddToPlaylistSwipe(GetCurrentMwsiveData().id, ResetTimer());
             CurrentPosition++;
@@ -310,8 +312,9 @@ public class PF_SurfManager : Manager
 
             ResetSideScroll();
             AddSong.SetActive(true);
+            AddSong.GetComponent<SurfAni>().SetValues(1, null, 1);
             AddSong.GetComponent<SurfAni>().Play_CompleteAddSurfAddSong();
-            
+
         } else {
             ResetValue();
         }
@@ -966,6 +969,7 @@ public class PF_SurfManager : Manager
 
     private void SurfManagerLogicInitialize()
     {
+        
         if (HasFirstPlaylistPlayed)
         {
             return;
@@ -1014,6 +1018,7 @@ public class PF_SurfManager : Manager
             SpawnPrefab();
         }
         HasFirstPlaylistPlayed = true;
+        loadingCard.SetActive(false);
     }
 
 
@@ -1172,7 +1177,7 @@ public class PF_SurfManager : Manager
             StopCoroutine("singleOrDouble");
 
             GameObject Instance = Instantiate(MwsiveOla, Vector3.zero, Quaternion.identity);
-            Instance.transform.SetParent(GameObject.Find("SpawnableCanvas").transform);
+            Instance.transform.SetParent(GameObject.Find("SpawnableCanvas_Canvas").transform);
             Instance.GetComponent<RectTransform>().offsetMin = new Vector2(100, 250);
             Instance.GetComponent<RectTransform>().offsetMax = new Vector2(-100, -250);
 

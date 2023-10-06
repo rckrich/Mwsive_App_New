@@ -25,6 +25,7 @@ public class ChallengeColorAnimation : MonoBehaviour
     {
 
         InitialValue = colorbackground.GetComponent<RectTransform>().offsetMax;
+        StartAnimation();
     }
 
 
@@ -117,7 +118,7 @@ public class ChallengeColorAnimation : MonoBehaviour
 
     public void FromCenterToLeft()
     {
-        waveMask.GetComponent<RectTransform>().anchoredPosition = centerRestPosition.GetComponent<RectTransform>().anchoredPosition;
+        //waveMask.GetComponent<RectTransform>().anchoredPosition = centerRestPosition.GetComponent<RectTransform>().anchoredPosition;
         topDoMove = new Tweener[1];
         topDoMove[0] = waveMask.transform.DOMoveX(leftRestPosition.transform.position.x, 3).SetLoops(-1).SetEase(Ease.Linear);
          topDoMove[0].SetAutoKill(false);
