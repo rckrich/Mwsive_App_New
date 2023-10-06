@@ -60,9 +60,10 @@ public class SongMiplaylistHolder : ViewModel
         playlistViewModel.playlistName.text = playlistName.text;
         playlistViewModel.SetPlaylistID(spotifyID);
         playlistViewModel.@public = @public;
+        playlistViewModel.Initialize();
         holderManager.playlistExternalUrl = url;
-        Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
     }
+
     public void SelectedPlaylistEventListener(OnSelectedPlaylistClick _enable)
     {
         SetOnSelectedPlaylist(false);

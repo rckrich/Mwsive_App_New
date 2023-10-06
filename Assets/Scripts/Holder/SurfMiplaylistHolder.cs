@@ -107,7 +107,7 @@ public class SurfMiplaylistHolder : ViewModel
         playlistViewModel.playlistName.text = playlistName.text;
         playlistViewModel.SetPlaylistID(spotifyID);
         playlistViewModel.GetPlaylist();
-        Debug.Log(NewScreenManager.instance.GetCurrentView().gameObject.name);
+        playlistViewModel.Initialize();
     }
 
     public void SelectedPlaylistEventListener(OnSelectedPlaylistClick _enable)

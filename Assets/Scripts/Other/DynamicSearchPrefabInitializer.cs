@@ -206,6 +206,7 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
 
         Instance.GetComponent<PlaylistViewModel>().SetPlaylistID(SpotifyID);
         Instance.GetComponent<PlaylistViewModel>().GetPlaylist();
+        Instance.GetComponent<PlaylistViewModel>().Initialize();
     }
 
 }
