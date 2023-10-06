@@ -85,6 +85,6 @@ public class PlaylisHolder : MonoBehaviour
         playlistViewModel.SetPlaylistID(spotifyID);
         playlistViewModel.@public = @public;
         playlistViewModel.GetPlaylist();
-        NewScreenManager.instance.GetCurrentView().GetComponent<PlaylistViewModel>().SetAndroidBackAction();
+        playlistViewModel.Initialize();
     }
 }
