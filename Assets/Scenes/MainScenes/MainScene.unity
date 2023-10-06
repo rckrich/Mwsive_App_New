@@ -2282,7 +2282,7 @@ GameObject:
   - component: {fileID: 108489326}
   - component: {fileID: 108489325}
   m_Layer: 5
-  m_Name: Gradient
+  m_Name: Gradient_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3354,41 +3354,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 48.2}
   m_SizeDelta: {x: 0, y: 38}
   m_Pivot: {x: 0.5, y: 0}
---- !u!1 &139827317
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 139827318}
-  m_Layer: 5
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &139827318
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 139827317}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1522587658}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 116.8413, y: -229.1436}
-  m_SizeDelta: {x: 233.6826, y: 23.4156}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &143306336
 GameObject:
   m_ObjectHideFlags: 0
@@ -14420,7 +14385,7 @@ GameObject:
   - component: {fileID: 564961336}
   - component: {fileID: 564961335}
   m_Layer: 5
-  m_Name: _PopUpViewModel
+  m_Name: _PopUp_ViewModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19612,7 +19577,7 @@ GameObject:
   m_Component:
   - component: {fileID: 801683331}
   m_Layer: 5
-  m_Name: _PopUpOptionsChoice
+  m_Name: _PopUpOptionsChoice_Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22029,7 +21994,7 @@ GameObject:
   - component: {fileID: 894213929}
   - component: {fileID: 894213928}
   m_Layer: 5
-  m_Name: PU_Image
+  m_Name: Logo_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23862,7 +23827,7 @@ GameObject:
   - component: {fileID: 981549098}
   - component: {fileID: 981549097}
   m_Layer: 5
-  m_Name: Background
+  m_Name: Background_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32615,7 +32580,7 @@ GameObject:
   - component: {fileID: 1332165418}
   - component: {fileID: 1332165417}
   m_Layer: 5
-  m_Name: Button_Txt
+  m_Name: ActionButton_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32750,7 +32715,7 @@ GameObject:
   - component: {fileID: 1335590373}
   - component: {fileID: 1335590374}
   m_Layer: 5
-  m_Name: Description_Txt
+  m_Name: Description_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34423,7 +34388,7 @@ GameObject:
   - component: {fileID: 1413427975}
   - component: {fileID: 1413427976}
   m_Layer: 5
-  m_Name: Button_Txt
+  m_Name: ActionButton_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35274,7 +35239,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1442613604}
   m_Layer: 5
-  m_Name: PopUps (1)
+  m_Name: PopUps_Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37589,7 +37554,7 @@ GameObject:
   - component: {fileID: 1522587654}
   - component: {fileID: 1522587653}
   m_Layer: 5
-  m_Name: _PopUpMessageOnly
+  m_Name: _PopUpMessageOnly_Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37701,7 +37666,6 @@ RectTransform:
   - {fileID: 894213927}
   - {fileID: 2115850984}
   - {fileID: 1335590376}
-  - {fileID: 139827318}
   - {fileID: 108489324}
   m_Father: {fileID: 981549096}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -40759,7 +40723,7 @@ GameObject:
   - component: {fileID: 1652360594}
   - component: {fileID: 1652360593}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: CancelButton_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41426,7 +41390,7 @@ GameObject:
   - component: {fileID: 1687142880}
   - component: {fileID: 1687142879}
   m_Layer: 5
-  m_Name: Gradient
+  m_Name: Gradient_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44790,7 +44754,7 @@ GameObject:
   - component: {fileID: 1851056576}
   - component: {fileID: 1851056577}
   m_Layer: 5
-  m_Name: Description_Txt
+  m_Name: Description_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -49364,7 +49328,7 @@ GameObject:
   - component: {fileID: 2029402726}
   - component: {fileID: 2029402725}
   m_Layer: 5
-  m_Name: PopUp
+  m_Name: PopUp_Mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51363,7 +51327,7 @@ GameObject:
   - component: {fileID: 2115850983}
   - component: {fileID: 2115850982}
   m_Layer: 5
-  m_Name: Title_txt
+  m_Name: Title_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
