@@ -171,6 +171,8 @@ public class PlaylistViewModel : ViewModel
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
+
         SpotifyPreviewAudioManager.instance.StopTrack();
         if (NewScreenManager.instance.GetCurrentView().GetComponent<ProfileViewModel>())
         {
