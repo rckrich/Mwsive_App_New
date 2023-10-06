@@ -24,7 +24,7 @@ public static class WebCallsUtils
 
         url = url.TrimEnd('&');
 
-        Debug.Log("Complete url is: " + url);
+        DebugLogManager.instance.DebugLog(("Complete url is: " + url));
 
         return url;
     }
@@ -40,7 +40,7 @@ public static class WebCallsUtils
 
         url = url.Remove(url.Length - 3);
 
-        Debug.Log("Complete url with new multiple param is: " + url);
+        DebugLogManager.instance.DebugLog(("Complete url with new multiple param is: " + url));
 
         return url;
     }
@@ -66,14 +66,14 @@ public static class WebCallsUtils
 
         _modified_uris = _modified_uris.Remove(_modified_uris.Length - 3);
 
-        Debug.Log("Complete url with spotify uris param is: " + _uri + _modified_uris);
+        DebugLogManager.instance.DebugLog(("Complete url with spotify uris param is: " + _uri + _modified_uris));
 
         return _uri + _modified_uris;
     }
 
     public static void ReauthenticateUser(SpotifyWebCallback _callback)
     {
-        Debug.Log("Bad or expired token. This can happen if the user revoked a token or the access token has expired. Will try yo re-authenticate the user.");
+        DebugLogManager.instance.DebugLog(("Bad or expired token. This can happen if the user revoked a token or the access token has expired. Will try yo re-authenticate the user."));
         _callback(new object[] { AUTHORIZATION_FAILED_RESPONSE_CODE });
     }
 

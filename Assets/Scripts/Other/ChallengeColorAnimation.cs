@@ -25,7 +25,7 @@ public class ChallengeColorAnimation : MonoBehaviour
     {
 
         InitialValue = colorbackground.GetComponent<RectTransform>().offsetMax;
-        StartAnimation();
+        //StartAnimation();
     }
 
 
@@ -137,9 +137,9 @@ public class ChallengeColorAnimation : MonoBehaviour
                 if(twenable > -2)
                 {
                     
-                    waveMask.transform.DOMoveY(leftRestPosition.transform.position.y, 2f).OnComplete(() => {
+                    //waveMask.transform.DOMoveY(leftRestPosition.transform.position.y, 2f).OnComplete(() => {
                         
-                    }).SetEase(Ease.Linear);
+                    //}).SetEase(Ease.Linear);
                 }
             });
 

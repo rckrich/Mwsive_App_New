@@ -54,6 +54,7 @@ public class ChallengeAppObject : AppObject
     }
 
     public void OnClick_OpenChallenge(){
+        NewScreenManager.instance.ChangeToSpawnedView("surf");
         List<string> tracks = new List<string>();
         foreach (MwsiveTrack item in challenges.mwsive_tracks)
             {
@@ -65,12 +66,21 @@ public class ChallengeAppObject : AppObject
     public void OpenChallengeCallBack(object[] _value){
         SeveralTrackRoot severalTrackRoot = (SeveralTrackRoot)_value[1];
       
-        NewScreenManager.instance.ChangeToSpawnedView("surf");
+        
         NewScreenManager.instance.GetCurrentView().GetComponent<PF_SurfViewModel>().Initialize();
-        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().Challenge = true;
-        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().SetChallengeCallback(gameObject.GetComponent<ChallengeAppObject>());
-        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(severalTrackRoot.tracks);
-      
+        try
+        {
+            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().Challenge = true;
+            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().SetChallengeCallback(gameObject.GetComponent<ChallengeAppObject>());
+            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(severalTrackRoot.tracks);
+
+        }
+        catch (System.NullReferenceException)
+        {
+
+        }
+
+
     }
 
 

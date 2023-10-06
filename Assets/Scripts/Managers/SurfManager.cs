@@ -71,7 +71,7 @@ public class SurfManager : Manager
     {
 
         SurfController.instance.AddToList(gameObject);
-        swipeListener.OnSwipe.AddListener(OnSwipe);
+        
 
         GameObject currentPrefab = GetCurrentPrefab();
 
@@ -505,6 +505,18 @@ public class SurfManager : Manager
 
     }
 
+    public bool IsManagerEmpty()
+    {
+        if(MwsiveSongsData == null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public MwsiveData GetBeforeCurrentMwsiveData()
     {
         return MwsiveSongsData[CurrentPosition - 1];
@@ -868,7 +880,9 @@ public class SurfManager : Manager
 
     private void SurfManagerLogicInitialize()
     {
+        swipeListener.OnSwipe.AddListener(OnSwipe);
         PrefabPosition = 0;
+        Controller.gameObject.SetActive(true);
         SpawnPrefab();
         if (MwsiveSongsData.Count == 0)
         {

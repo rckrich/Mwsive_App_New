@@ -67,7 +67,6 @@ public class PF_SurfManager : Manager
         loadingCard.SetActive(true);
         SurfController.instance.AddToList(gameObject);
         
-            swipeListener.OnSwipe.AddListener(OnSwipe);
             
         
         
@@ -954,7 +953,8 @@ public class PF_SurfManager : Manager
 
     private void SurfManagerLogicInitialize()
     {
-        
+        swipeListener.OnSwipe.AddListener(OnSwipe);
+        Controller.gameObject.SetActive(true);
         if (HasFirstPlaylistPlayed)
         {
             return;

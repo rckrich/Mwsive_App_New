@@ -67,7 +67,7 @@ public class NoLogInConnectionManager : MonoBehaviour
     {
         if ((long)_value[0] != 200)
         {
-            Debug.Log("Error on Spotify's API Client Credentials Spotify Log In");
+            DebugLogManager.instance.DebugLog("Error on Spotify's API Client Credentials Spotify Log In");
             return;
         }
 
@@ -104,7 +104,7 @@ public class NoLogInConnectionManager : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                Debug.Log("Protocol Error or Connection Error on log in with client credentials with responde code: " + webRequest.responseCode);
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on log in with client credentials with responde code: " + webRequest.responseCode);
                 yield break;
             }
             else
@@ -114,7 +114,7 @@ public class NoLogInConnectionManager : MonoBehaviour
                 if (webRequest.isDone)
                 {
                     jsonResult = webRequest.downloadHandler.text;
-                    Debug.Log("Mwisve login " + jsonResult);
+                    DebugLogManager.instance.DebugLog("Mwisve login " + jsonResult);
                     JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
                     ClientCredentialsRoot clientCredentialsRoot = JsonConvert.DeserializeObject<ClientCredentialsRoot>(jsonResult, settings);
                     _callback(new object[] { webRequest.responseCode, jsonResult, clientCredentialsRoot });
@@ -122,7 +122,7 @@ public class NoLogInConnectionManager : MonoBehaviour
                 }
             }
 
-            Debug.Log("Failed on mwsive log in with client credentials " + jsonResult);
+            DebugLogManager.instance.DebugLog("Failed on mwsive log in with client credentials " + jsonResult);
             yield break;
         }
     }

@@ -53,7 +53,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveCreatedRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveCreatedRoot)_value[1]));
     }
 
     public void PostLogin(string _email, string _user_id, MwsiveWebCallback _callback = null)
@@ -69,13 +69,13 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveLoginRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveLoginRoot)_value[1]));
     }
 
     public void PostLogout(MwsiveWebCallback _callback = null)
     {
         _callback += Callback_PostLogout;
-        Debug.Log(ProgressManager.instance.progress.userDataPersistance.access_token);
+        DebugLogManager.instance.DebugLog(ProgressManager.instance.progress.userDataPersistance.access_token);
         StartCoroutine(MwsiveWebCalls.CR_PostLogout(ProgressManager.instance.progress.userDataPersistance.access_token, _callback));
     }
 
@@ -100,7 +100,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveUserRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveUserRoot)_value[1]));
     }
 
     public void GetMwsiveUser(string _user_id, MwsiveWebCallback _callback = null)
@@ -116,7 +116,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveUserRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveUserRoot)_value[1]));
     }
 
     public void PutLastSavedPlaylist(string _playlist_id, MwsiveWebCallback _callback = null)
@@ -150,7 +150,7 @@ public class MwsiveConnectionManager : MonoBehaviour
     public void PostTrackAction(string _track_id, string _action, float _duration, string _playlist_id = null, MwsiveWebCallback _callback = null)
     {
         _callback += Callback_PostTrackAction;
-        Debug.Log(_action);
+        DebugLogManager.instance.DebugLog(_action);
         StartCoroutine(MwsiveWebCalls.CR_PostTrackAction(ProgressManager.instance.progress.userDataPersistance.access_token, _track_id,_action, _duration, _playlist_id, _callback));
     }
 
@@ -175,7 +175,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveCuratorsRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveCuratorsRoot)_value[1]));
     }
 
     public void GetFollowingThatVoted(string _track_id, MwsiveWebCallback _callback = null)
@@ -191,7 +191,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(_value[1]);
+        DebugLogManager.instance.DebugLog(_value[1]);
     }
 
     public void GetFollowers(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
@@ -207,7 +207,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveFollowersRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveFollowersRoot)_value[1]));
     }
 
     public void GetFollowed(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
@@ -223,7 +223,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveFollowedRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveFollowedRoot)_value[1]));
     }
 
     public void GetUserFollowers(string _user_id, MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
@@ -239,7 +239,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveFollowersRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveFollowersRoot)_value[1]));
     }
 
     public void GetUserFollowed(string _user_id, MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
@@ -255,7 +255,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveFollowedRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveFollowedRoot)_value[1]));
     }
 
     public void PostFollow(string _user_id, MwsiveWebCallback _callback = null)
@@ -285,7 +285,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((IsFollowingRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((IsFollowingRoot)_value[1]));
     }
 
     public void GetCuratorsByName(string _name, MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
@@ -301,7 +301,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveCuratorsRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveCuratorsRoot)_value[1]));
     }
 
     public void GetBadges(string userid, string type, MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
@@ -317,7 +317,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveBadgesRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveBadgesRoot)_value[1]));
     }
 
     public void PostBadgeComplete(string _badge_id, MwsiveWebCallback _callback = null)
@@ -403,7 +403,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveRankingRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveRankingRoot)_value[1]));
     }
 
     public void GetSettings(MwsiveWebCallback _callback = null)
@@ -419,7 +419,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveSettingsRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveSettingsRoot)_value[1]));
     }
 
     public void GetChallenges(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
@@ -435,7 +435,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveChallengesRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveChallengesRoot)_value[1]));
     }
 
     public void GetCompleteChallenges(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
@@ -451,7 +451,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveChallengesRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveChallengesRoot)_value[1]));
     }
 
     public void PostChallengeComplete(int _challenge_id, MwsiveWebCallback _callback = null)
@@ -467,7 +467,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveCompleteChallengesRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveCompleteChallengesRoot)_value[1]));
     }
 
     public void GetAdvertising(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
@@ -483,7 +483,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveAdvertisingRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveAdvertisingRoot)_value[1]));
     }
 
     public void PostSaveAdvertisementClick(string _user_id, string _advertisement_id, MwsiveWebCallback _callback = null)
@@ -520,7 +520,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveRecommendedCuratorsRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveRecommendedCuratorsRoot)_value[1]));
     }
 
     public void GetRecommendedArtists(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
@@ -536,7 +536,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveRecommendedArtistsRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveRecommendedArtistsRoot)_value[1]));
     }
 
     public void GetRecommendedPlaylists(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
@@ -552,7 +552,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveRecommendedPlaylistsRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveRecommendedPlaylistsRoot)_value[1]));
     }
 
     public void GetRecommendedTracks(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
@@ -568,7 +568,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveRecommendedTracksRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveRecommendedTracksRoot)_value[1]));
     }
 
     public void GetRecommendedAlbums(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
@@ -584,7 +584,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveRecommendedAlbumsRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveRecommendedAlbumsRoot)_value[1]));
     }
 
     public void GetGenres(MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
@@ -600,7 +600,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((MwsiveGenresRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((MwsiveGenresRoot)_value[1]));
     }
 
     public void GetTrackInformation_NoAuth(string _track_id, MwsiveWebCallback _callback = null)
@@ -616,7 +616,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((TrackInfoRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((TrackInfoRoot)_value[1]));
     }
 
     public void GetTrackInformation_Auth(string _track_id, string _playlist_id, MwsiveWebCallback _callback = null)
@@ -632,7 +632,7 @@ public class MwsiveConnectionManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(((TrackInfoRoot)_value[1]));
+        DebugLogManager.instance.DebugLog(((TrackInfoRoot)_value[1]));
     }
 
     #endregion

@@ -58,12 +58,12 @@ public class SpotifyConnectionManager : Manager
 
             if (ProgressManager.instance.progress.userDataPersistance.spotify_expires_at.CompareTo(DateTime.Now) < 0)
             {
-                Debug.Log("Saved token has expired, starting refresh flow");
+                DebugLogManager.instance.DebugLog("Saved token has expired, starting refresh flow");
                 oAuthHandler.SpotifyStartRefreshFlow(_callback);
             }
             else
             {
-                Debug.Log("Saved token has not expired, can continue normally");
+                DebugLogManager.instance.DebugLog("Saved token has not expired, can continue normally");
                 _callback(new object[]
                 {
                     oAuthHandler.GetSpotifyToken().RawValue
@@ -103,7 +103,7 @@ public class SpotifyConnectionManager : Manager
 
         if (ProgressManager.instance.progress.userDataPersistance.spotify_expires_at.CompareTo(DateTime.Now) < 0)
         {
-            Debug.Log("Saved token has expired, starting refresh flow");
+            DebugLogManager.instance.DebugLog("Saved token has expired, starting refresh flow");
             oAuthHandler.SpotifyStartRefreshFlow(_callback);
         }
     }
@@ -150,7 +150,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log(((ProfileRoot)_value[1]).display_name);
+        DebugLogManager.instance.DebugLog(((ProfileRoot)_value[1]).display_name);
     }
 
     public void GetCurrentUserProfile(SpotifyWebCallback _callback = null)
@@ -166,7 +166,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log(((ProfileRoot)_value[1]).display_name);
+        DebugLogManager.instance.DebugLog(((ProfileRoot)_value[1]).display_name);
     }
 
     public void GetCurrentUserTopTracks(SpotifyWebCallback _callback = null)
@@ -183,7 +183,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((UserTopItemsRoot)_value[1]);
+        DebugLogManager.instance.DebugLog((UserTopItemsRoot)_value[1]);
     }
 
     public void GetCurrentUserTopArtists(SpotifyWebCallback _callback = null)
@@ -200,7 +200,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((UserTopItemsRoot)_value[1]);
+        DebugLogManager.instance.DebugLog((UserTopItemsRoot)_value[1]);
     }
 
     public void GetCurrentUserPlaylists(SpotifyWebCallback _callback = null, int _limit = 20, int _offset = 0)
@@ -217,7 +217,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((PlaylistRoot)_value[1]);
+        DebugLogManager.instance.DebugLog((PlaylistRoot)_value[1]);
     }
 
     public void GetUserPlaylists(string _userSpotifyID, SpotifyWebCallback _callback = null, int _limit = 20, int _offset = 0)
@@ -234,7 +234,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((PlaylistRoot)_value[1]);
+        DebugLogManager.instance.DebugLog((PlaylistRoot)_value[1]);
     }
 
     public void GetPlaylist(string _playlistID, SpotifyWebCallback _callback = null, string _market = "ES")
@@ -251,7 +251,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((SpotifyPlaylistRoot)_value[1]);
+        DebugLogManager.instance.DebugLog((SpotifyPlaylistRoot)_value[1]);
     }
 
     public void GetArtist(string _playlistID, SpotifyWebCallback _callback = null, string _market = "ES")
@@ -268,7 +268,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((ArtistRoot)_value[1]);
+        DebugLogManager.instance.DebugLog((ArtistRoot)_value[1]);
     }
 
     public void GetSeveralArtists(string[] _artists_ids, SpotifyWebCallback _callback = null)
@@ -285,7 +285,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((SeveralArtistRoot)_value[1]);
+        DebugLogManager.instance.DebugLog((SeveralArtistRoot)_value[1]);
     }
 
     public void GetAlbum(string _playlistID, SpotifyWebCallback _callback = null, string _market = "ES")
@@ -302,7 +302,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((AlbumRoot)_value[1]);
+        DebugLogManager.instance.DebugLog((AlbumRoot)_value[1]);
     }
 
     public void GetSeveralAlbums(string[] _albums_ids, SpotifyWebCallback _callback = null, string _market = "ES")
@@ -319,7 +319,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((SeveralAlbumRoot)_value[1]);
+        DebugLogManager.instance.DebugLog((SeveralAlbumRoot)_value[1]);
     }
 
     public void GetPlaylistItems(string _playlistID, SpotifyWebCallback _callback = null, string _market = "ES", int _limit = 20, int _offset = 0)
@@ -336,7 +336,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((PlaylistRoot)_value[1]);
+        DebugLogManager.instance.DebugLog((PlaylistRoot)_value[1]);
     }
 
     public void GetPlaylistByURL(string _url, SpotifyWebCallback _callback = null)
@@ -353,7 +353,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((PlaylistRoot)_value[1]);
+        DebugLogManager.instance.DebugLog((PlaylistRoot)_value[1]);
     }
 
     public void GetTrack(string _trackSpotifyID, SpotifyWebCallback _callback = null, string _market = "ES")
@@ -370,7 +370,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((TrackRoot)_value[1]);
+        DebugLogManager.instance.DebugLog((TrackRoot)_value[1]);
     }
 
     public void GetSeveralTracks(string[] _track_ids, SpotifyWebCallback _callback = null, string _market = "ES")
@@ -387,7 +387,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((SeveralTrackRoot)_value[1]);
+        DebugLogManager.instance.DebugLog((SeveralTrackRoot)_value[1]);
     }
 
     public void CreatePlaylist(string _user_id, SpotifyWebCallback _callback = null, string _playlist_name = "Mwsive Playlist", string _playlist_description = "New Mwsive playlist", bool _public = false)
@@ -404,7 +404,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((SpotifyPlaylistRoot)_value[1]);
+        DebugLogManager.instance.DebugLog((SpotifyPlaylistRoot)_value[1]);
     }
 
     public void ChangePlaylistDetails(string _playlist_id, SpotifyWebCallback _callback = null, string _playlist_name = "Mwsive Playlist", string _playlist_description = "New Mwsive playlist", bool _public = false)
@@ -436,7 +436,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((AddItemsToPlaylistRoot)_value[1]);
+        DebugLogManager.instance.DebugLog((AddItemsToPlaylistRoot)_value[1]);
     }
 
     public void RemoveItemsFromPlaylist(string _playlist_id, List<string> _uris, SpotifyWebCallback _callback = null)
@@ -453,7 +453,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((RemoveItemsToPlaylistRoot)_value[1]);
+        DebugLogManager.instance.DebugLog((RemoveItemsToPlaylistRoot)_value[1]);
     }
 
     public void GetRecommendations(string[] _seed_artists, /*string[] _seed_genres,*/ string[] _seed_tracks, SpotifyWebCallback _callback = null, int _limit = 20, string _market = "ES")
@@ -470,7 +470,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((RecommendationsRoot)_value[1]);
+        DebugLogManager.instance.DebugLog((RecommendationsRoot)_value[1]);
     }
 
     public void SearchForItem(string _query, string[] _types, SpotifyWebCallback _callback = null, string _market = "ES", int _limit = 20, int _offset = 0, string _include_external = "audio")
@@ -487,7 +487,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((SearchRoot)_value[1]);
+        DebugLogManager.instance.DebugLog((SearchRoot)_value[1]);
     }
 
     public void GetGenres(string _query, string[] _types, SpotifyWebCallback _callback = null)
@@ -504,7 +504,7 @@ public class SpotifyConnectionManager : Manager
             return;
         }
 
-        Debug.Log((GenresRoot)_value[1]);
+        DebugLogManager.instance.DebugLog((GenresRoot)_value[1]);
     }
 
     public void PutChangePlaylistCoverImage(string _playlist_id, string _jpgBase64Code, SpotifyWebCallback _callback = null)

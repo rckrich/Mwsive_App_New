@@ -74,7 +74,7 @@ public class SpotifyPreviewAudioManager : Manager
 
     private IEnumerator CR_GetAudioClip(string _audioURL, SpotifyAudioDownloaderCallback _callback = null)
     {
-        Debug.Log("Starting to download the audio... " + _audioURL);
+        DebugLogManager.instance.DebugLog("Starting to download the audio... " + _audioURL);
 
         using (UnityWebRequest webRequest = UnityWebRequestMultimedia.GetAudioClip(
             _audioURL,
@@ -85,7 +85,7 @@ public class SpotifyPreviewAudioManager : Manager
 
             if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
             {
-                Debug.Log(webRequest.error);
+                DebugLogManager.instance.DebugLog(webRequest.error);
             }
             else
             {
@@ -98,7 +98,7 @@ public class SpotifyPreviewAudioManager : Manager
                 if (_callback != null)
                     _callback(new object[] { audioClip.length });
 
-                Debug.Log("Audio is playing");
+                DebugLogManager.instance.DebugLog("Audio is playing");
                 InvokeEvent<TimerAppEvent>(new TimerAppEvent() { type = "KILL" });
                 InvokeEvent<TimerAppEvent>(new TimerAppEvent() { type = "START" });
 
