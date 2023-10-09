@@ -255,7 +255,7 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_EditProfile()
     {
-        NewScreenManager.instance.ChangeToMainView(ViewID.EditProfileViewModel, false);
+        NewScreenManager.instance.ChangeToMainView(ViewID.EditProfileViewModel, true);
         NewScreenManager.instance.GetCurrentView().GetComponent<EditProfileViewModel>().Initialize(!isCurrentUserProfileView);
     }
 
