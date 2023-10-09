@@ -101,6 +101,9 @@ public class ProfileViewModel : ViewModel
 
         FollowButtonInitilization();
         SocialButtonsInitilization();
+        if(BadgesContent != null)
+            ClearScrollsBadges(BadgesContent);
+        GetBadgesCall();
     }
 
     private void Callback_ProfileViewModelInitialize(object[] list)
@@ -176,6 +179,7 @@ public class ProfileViewModel : ViewModel
     private void Callback_OnClick_GetUserPlaylists(object[] _value)
     {
         Clear();
+
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
         PlaylistRoot playlistRoot = (PlaylistRoot)_value[1];
@@ -199,7 +203,8 @@ public class ProfileViewModel : ViewModel
                 if (playlistRoot.items[i].images != null && playlistRoot.items[i].images.Count > 0)
                     instance.SetImage(playlistRoot.items[i].images[0].url);
             }
-        }    
+        }
+       
         EndSearch();
     }
 
@@ -397,7 +402,7 @@ public class ProfileViewModel : ViewModel
                 }
             }
         }
-        GetBadgesCall();
+
         GetCurrentUserPlaylists();
         
     }
@@ -415,7 +420,6 @@ public class ProfileViewModel : ViewModel
         profileId = mwsiveUserRoot.user.platform_id;
 
         GetCurrentUserPlaylists();
-        GetBadgesCall();
         if (mwsiveUserRoot.user.user_links.Count != 0)
         {
             foreach (UserLink url in mwsiveUserRoot.user.user_links)
@@ -761,6 +765,14 @@ public class ProfileViewModel : ViewModel
         }
 
 
+    }
+
+    private void ClearScrollsBadges(Transform _scrolls)
+    {
+        for(int i = 1; i < _scrolls.childCount; i++)
+        {
+            Destroy(_scrolls.GetChild(i).transform.gameObject);    
+        }
     }
 }
 

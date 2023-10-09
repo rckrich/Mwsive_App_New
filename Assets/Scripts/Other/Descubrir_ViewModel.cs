@@ -195,6 +195,7 @@ public class Descubrir_ViewModel : ViewModel
         {
             SpotifyConnectionManager.instance.GetSeveralArtists(artists_ids, Callback_GetSeveralArtists);
         }
+        ShimmerSetActive(3, false);
     }
 
     private void Callback_GetSeveralArtists(object[] _list)
@@ -208,7 +209,7 @@ public class Descubrir_ViewModel : ViewModel
             artists.Initialize(artist);
         }
 
-        ShimmerSetActive(3, false);
+       
     }
 
     private void Callback_GetRecommendedPlaylists(object[] _list)
@@ -251,6 +252,7 @@ public class Descubrir_ViewModel : ViewModel
         {
             SpotifyConnectionManager.instance.GetSeveralTracks(tracks_ids, Callback_GetSeveralTracksForRecommendedTracks);
         }
+        ShimmerSetActive(5, false);
     }
 
     private void Callback_GetSeveralTracksForRecommendedTracks(object[] _list)
@@ -264,7 +266,7 @@ public class Descubrir_ViewModel : ViewModel
             trackInstance.GetComponent<TrackAppObject>().Initialize(track);
         }
 
-        ShimmerSetActive(5, false);
+        
     }
 
     private void Callback_GetRecommendedAlbums(object[] _list)
@@ -289,6 +291,7 @@ public class Descubrir_ViewModel : ViewModel
         {
             SpotifyConnectionManager.instance.GetSeveralAlbums(albums_ids, Callback_GetSeveralAlbums);
         }
+        ShimmerSetActive(6, false);
     }
 
     private void Callback_GetSeveralAlbums(object[] _list)
@@ -302,7 +305,7 @@ public class Descubrir_ViewModel : ViewModel
             trackInstance.GetComponent<AlbumAppObject>().Initialize(album);
         }
 
-        ShimmerSetActive(6, false);
+        
     }
 
     private void Callback_GetGenres(object[] _list)
