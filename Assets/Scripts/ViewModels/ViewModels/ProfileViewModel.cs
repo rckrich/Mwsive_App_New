@@ -221,6 +221,8 @@ public class ProfileViewModel : ViewModel
     public void OnClick_Followers()
     {
         NewScreenManager.instance.ChangeToSpawnedView("followers");
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
+
         if (profileId.Equals(""))
         {
             NewScreenManager.instance.GetCurrentView().GetComponent<FollowersViewModel>().ProfileIDReset_GetFollowers();
@@ -235,6 +237,8 @@ public class ProfileViewModel : ViewModel
     public void OnClick_Followed()
     {
         NewScreenManager.instance.ChangeToSpawnedView("followers");
+        NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
+
         if (profileId.Equals(""))
         {
             NewScreenManager.instance.GetCurrentView().GetComponent<FollowersViewModel>().ProfileIDReset_GetFollowed();
