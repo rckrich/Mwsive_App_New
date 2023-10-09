@@ -7,9 +7,9 @@ public class FollowersViewModel : ViewModel
 {
     
     public ScrollRect scrollRect;
-    public int offset = 50;
     int onlyone = 0;
     public FollowSelector followSelector;
+    public GameObject noFollowersText, noFollowText, noFollowContent;
 
     [Header("Instance Referecnes")]
     public GameObject FollowersHolderPrefab;
@@ -21,6 +21,7 @@ public class FollowersViewModel : ViewModel
     private const int FOLLOWED_OPTION = 1;
     private string profileID = "";
     private bool sceneActive;
+    private int offset = 0;
 
     public override void Initialize(params object[] list)
     {
@@ -41,6 +42,12 @@ public class FollowersViewModel : ViewModel
                 instance.Initialize(user.display_name, user.platform_id, user.image_url);
                 offset++;
             }
+
+            if(offset == 0)
+            {
+                noFollowContent.SetActive(true);
+                noFollowersText.SetActive(true);
+            }
         }
         else
         {
@@ -52,6 +59,12 @@ public class FollowersViewModel : ViewModel
                 instance.Initialize( user.display_name, user.platform_id, user.image_url);
                 //instance.SetImage(user.image);
                 offset++;
+            }
+
+            if (offset == 0)
+            {
+                noFollowContent.SetActive(true);
+                noFollowersText.SetActive(true);
             }
         }
         
@@ -65,6 +78,9 @@ public class FollowersViewModel : ViewModel
         followSelector.SelectorFollow(FOLLOWERS_OPTION);
         sceneActive = true;
         onlyone = 0;
+        noFollowContent.SetActive(false);
+        noFollowersText.SetActive(false);
+        noFollowText.SetActive(false);
         if (profileID.Equals(""))
         {
             MwsiveConnectionManager.instance.GetFollowers(Callback_GetFollowers, 0, 50);
@@ -83,8 +99,12 @@ public class FollowersViewModel : ViewModel
         onlyone = 0;
         profileID = _profileID;
         MwsiveConnectionManager.instance.GetUserFollowers(_profileID, Callback_GetFollowers, 0, 50);
-        
 
+        if (offset == 0)
+        {
+            noFollowContent.SetActive(true);
+            noFollowText.SetActive(true);
+        }
     }
 
     public void OnClick_BackButton()
@@ -96,6 +116,9 @@ public class FollowersViewModel : ViewModel
 
     public void GetCurrentFollowed()
     {
+        noFollowContent.SetActive(false);
+        noFollowersText.SetActive(false);
+        noFollowText.SetActive(false);
         RemoveChild();
         followSelector.SelectorFollow(FOLLOWED_OPTION);
         sceneActive = false;
@@ -118,6 +141,8 @@ public class FollowersViewModel : ViewModel
         onlyone = 0;
         profileID = _profileID;
         MwsiveConnectionManager.instance.GetUserFollowed(_profileID, Callback_GetFollowed, 0, 50);
+
+        
     }
 
     public void Callback_GetFollowed(object[] _value)
@@ -133,6 +158,12 @@ public class FollowersViewModel : ViewModel
                 //instance.SetImage(user.image);
                 offset++;
             }
+
+            if (offset == 0)
+            {
+                noFollowContent.SetActive(true);
+                noFollowText.SetActive(true);
+            }
         }
         else
         {
@@ -144,6 +175,12 @@ public class FollowersViewModel : ViewModel
                 instance.Initialize(user.display_name, user.platform_id, user.image_url);
                 //instance.SetImage(user.image);
                 offset++;
+            }
+
+            if (offset == 0)
+            {
+                noFollowContent.SetActive(true);
+                noFollowText.SetActive(true);
             }
         }
         
@@ -208,11 +245,11 @@ public class FollowersViewModel : ViewModel
 
     public void RemoveChild()
     {
-        if (content.transform.childCount != 0)
+        if (content.transform.childCount != 1)
         {
-            foreach (Transform child in content.transform)
+            for(int i = 1; i < content.transform.childCount; i++)
             {
-                Destroy(child.gameObject);
+                Destroy(content.transform.GetChild(i).gameObject);
             }
         }
     }
