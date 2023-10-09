@@ -70,7 +70,7 @@ public class SurfManager : Manager
     private void OnEnable()
     {
 
-        SurfController.instance.AddToList(gameObject);
+        SurfController.instance.AddToList(gameObject, true);
         
 
         GameObject currentPrefab = GetCurrentPrefab();
@@ -97,13 +97,23 @@ public class SurfManager : Manager
 
     private void OnDisable()
     {
-        StopTimer();
-        swipeListener.OnSwipe.RemoveListener(OnSwipe);
-        PoolManager.instance.RecoverPooledObject(MwsiveContainer);
+        if (this.enabled)
+        {
+            StopTimer();
+            swipeListener.OnSwipe.RemoveListener(OnSwipe);
+            try
+            {
+                PoolManager.instance.RecoverPooledObject(MwsiveContainer);
+            }
+            catch (System.NullReferenceException)
+            {
+                Debug.Log("Not able to return objects to poolmanager");
+            }
 
-        RemoveEventListener<TimerAppEvent>(TimerAppEventListener);
-        ActiveMwsiveSongs.Clear();
 
+            RemoveEventListener<TimerAppEvent>(TimerAppEventListener);
+            ActiveMwsiveSongs.Clear();
+        }
     }
 
     
@@ -507,14 +517,7 @@ public class SurfManager : Manager
 
     public bool IsManagerEmpty()
     {
-        if(MwsiveSongsData == null)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return MwsiveSongsData.Count == 0;
     }
 
     public MwsiveData GetBeforeCurrentMwsiveData()
@@ -958,7 +961,13 @@ public class SurfManager : Manager
         }
         else
         {
-            SurfManagerLogicInitialize();
+            if(ActiveMwsiveSongs.Count == 0)
+            {
+                SurfManagerLogicInitialize();
+            }
+            
+            
+            
         }
 
 
@@ -1122,7 +1131,7 @@ public class SurfManager : Manager
             touchDuration += Time.deltaTime;
             touch = Input.GetTouch(0);
  
-            if(touch.phase == TouchPhase.Ended && touchDuration < 0.2f) //making sure it only check the touch once && it was a short touch/tap and not a dragging.
+            if(touch.phase == TouchPhase.Ended && touchDuration < 0.2f && Controller.isActiveAndEnabled) //making sure it only check the touch once && it was a short touch/tap and not a dragging.
                 StartCoroutine("singleOrDouble");
         }
         else

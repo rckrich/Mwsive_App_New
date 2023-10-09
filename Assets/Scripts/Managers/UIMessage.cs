@@ -23,6 +23,7 @@ public class UIMessage : MonoBehaviour
     public GameObject UIMessageCanvas;
     
     private List<GameObject> messageList = new List<GameObject>();
+    public List<GameObject> messageLastPosition = new List<GameObject>();
 
     private void Start()
     {
@@ -55,6 +56,11 @@ public class UIMessage : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public Vector3 ReturnLastPosition(int i)
+    {
+        return messageLastPosition[i].transform.position;
     }
 
     public void UIMessageInstanciate(string _text){

@@ -52,6 +52,17 @@ public class MenuOptions : ViewModel
                 OpenView(ViewID.SurfViewModel);
                 exploreChange = false;
                 SurfManager.instance.SetActive(true);
+
+            if (NewScreenManager.instance.GetCurrentView().GetComponent<SurfViewModel>())
+            {
+                if (SurfController.instance.ReturnMain().GetComponent<SurfManager>().IsManagerEmpty())
+                {
+                   
+                    AppManager.instance.StartAppProcess();
+
+                }
+
+            }
         }
 
             if(numero == 2)

@@ -249,8 +249,11 @@ public class AppManager : Manager
         {
             trackSeeds[i] = userTopItemsRoot.items[Random.Range(0, userTopItemsRoot.items.Count)].id;
         }
-
-        SpotifyConnectionManager.instance.GetRecommendations(new string[] { }, trackSeeds, Callback_GetPersonalRecommendations_LogInFlow);
+        if (SurfController.instance.ReturnMain().GetComponent<SurfManager>().IsManagerEmpty())
+        {
+            SpotifyConnectionManager.instance.GetRecommendations(new string[] { }, trackSeeds, Callback_GetPersonalRecommendations_LogInFlow);
+        }
+        
     }
 
     private void Callback_GetGlobalTopTracks_LogInFlow(object[] _value)

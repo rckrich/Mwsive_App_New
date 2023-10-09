@@ -45,7 +45,7 @@ public class ButtonSurfPlaylist : ViewModel
     private GameObject Surf;
     private ChallengeAppObject Challenge;
     public Sprite MwsiveCover;
-    
+    private bool isTrackinfoEnd = false, isPreviewSongFinishToLoad = false, isImageManagerLoad = false;
     private float time;
 
     public bool SuccesfulEnded = false;
@@ -174,7 +174,7 @@ public class ButtonSurfPlaylist : ViewModel
         if (_data.album_image_url != null)
         {
             trackCover.sprite = MwsiveCover;
-            ImageManager.instance.GetImage(_data.album_image_url, trackCover, (RectTransform)this.transform);
+            ImageManager.instance.GetImage(_data.album_image_url, trackCover, (RectTransform)this.transform, null, Callback_ImageManager);
         }
 
         if (_data.id != null)
@@ -215,7 +215,8 @@ public class ButtonSurfPlaylist : ViewModel
 
         SuccesfulEnded = _data.challenge_songeded;
 
-
+        isTrackinfoEnd = true;
+        DisableAnimation();
 
 
     }
@@ -288,13 +289,10 @@ public class ButtonSurfPlaylist : ViewModel
     private void Callback_GetTrack(object[] _list)
     {
         CheckIfDurationBarCanPlay();
-        if(loadingAnimGameObject != null)
-        {
-            loadingAnimGameObject.SetActive(false);
-        }
-        
+        isPreviewSongFinishToLoad = true;
 
-        
+        DisableAnimation();
+
         if (SurfManager.instance.isActiveAndEnabled == false)
         {
             if (NewScreenManager.instance.GetCurrentView().GetViewID() != ViewID.SurfViewModel)
@@ -677,5 +675,20 @@ public class ButtonSurfPlaylist : ViewModel
             }
             
         }
+    }
+
+    public void Callback_ImageManager(object[] value)
+    {
+        isImageManagerLoad = true;
+        DisableAnimation();
+
+    }
+
+    private void DisableAnimation()
+    {
+       if(loadingAnimGameObject != null) {
+            if(isTrackinfoEnd && isImageManagerLoad && isPreviewSongFinishToLoad)
+                loadingAnimGameObject.SetActive(false);
+       }
     }
 }

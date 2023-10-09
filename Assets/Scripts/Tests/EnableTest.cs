@@ -19,4 +19,8 @@ public class EnableTest : MonoBehaviour
     {
         Debug.Log("AAAAAAAAAAAAAAAAAAA..................");
     }
+    public void OnDisable()
+    {
+        Debug.Log("AAAAAAAAAAAAAAAAAAA..................");
+    }
 }
