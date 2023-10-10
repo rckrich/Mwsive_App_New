@@ -113,7 +113,6 @@ public class ButtonSurfPlaylist : ViewModel
                 ImageManager.instance.GetImage(_data.top_curators[i].image_url, topCuratorImages[i], (RectTransform)this.transform);
             }
         }
-
         CalculateKorM(_data.total_piks, trackTotalPicks);
         CalculateKorM(_data.total_recommendations, trackTotalRecommendation);
         CalculateKorM(_data.total_piks_followed, trackTopCuratorsThatVoted, " amigos también votaron por \r\nesta canción");
@@ -207,13 +206,6 @@ public class ButtonSurfPlaylist : ViewModel
         }
         TrackPoints = _data.challenge_trackpoints;
 
-        if(_data.top_curators != null)
-        {
-            for (int i = 0; i < _data.top_curators.Count; i++)
-            {
-                ImageManager.instance.GetImage(_data.top_curators[i].image_url, topCuratorImages[i], (RectTransform)this.transform);
-            }
-        }
  
 
         if (_data.challenge_AmILastPosition)
@@ -252,7 +244,9 @@ public class ButtonSurfPlaylist : ViewModel
         previewURL = null;
         externalURL = null;
         TrackPoints = false;
-
+        trackTotalPicks.text = "-";
+        trackTotalRecommendation.text = "-";
+        trackTopCuratorsThatVoted.text = "-";
     }
 
 

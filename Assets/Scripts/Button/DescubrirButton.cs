@@ -42,12 +42,16 @@ public class DescubrirButton : MonoBehaviour
         var sequence = DG.Tweening.DOTween.Sequence();
         sequence.Append(DOTween.To(()=> twenable, x => twenable = x, -70f, 0.5f ));
         sequence.OnUpdate(() => {BuscadorBackground.GetComponent<RectTransform>().offsetMax = new Vector2(twenable, BuscadorBackground.GetComponent<RectTransform>().offsetMax.y);});
-        sequence.OnComplete(() => {CancelarButton.SetActive(true);UIAniManager.instance.FadeIn(ScrollView, .3f);});
+        sequence.OnComplete(() => {
+            DescubrirVW.KillAllPrefabLists();
+            CancelarButton.SetActive(true);
+            UIAniManager.instance.FadeIn(ScrollView, .3f);});
         UIAniManager.instance.FadeIn(ResultadosBusqueda, 0.5f);
     }
 
     public void OnClick_CancelarButton(){
         Descubrir.HideAllText();
+        TextArea.enabled = false;
         float twenable = -70f;
         CancelarButton.SetActive(false);
             UIAniManager.instance.FadeOut(ScrollView, 0.5f);
@@ -56,9 +60,9 @@ public class DescubrirButton : MonoBehaviour
             sequence.Append(DOTween.To(()=> twenable, x => twenable = x, 0f, 0.5f ));
             sequence.OnUpdate(() => {BuscadorBackground.GetComponent<RectTransform>().offsetMax = new Vector2(twenable, BuscadorBackground.GetComponent<RectTransform>().offsetMax.y);});
             sequence.OnComplete(() => {ScrollView.SetActive(false);
-            DescubrirVW.KillAllPrefabLists();
-            
-            
+
+                DescubrirVW.KillAllPrefabLists();
+                TextArea.enabled = true;
             });
             UIAniManager.instance.FadeOut(ResultadosBusqueda, 0.5f);
         

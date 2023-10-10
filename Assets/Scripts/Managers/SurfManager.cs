@@ -548,6 +548,12 @@ public class SurfManager : Manager
     {
         return MwsiveSongsData[CurrentPosition];
     }
+
+    public MwsiveData GetMwsiveData(int i)
+    {
+        return MwsiveSongsData[CurrentPosition];
+    }
+
     public MwsiveData GetLastPrefab()
     {
 
@@ -890,6 +896,9 @@ public class SurfManager : Manager
 
         GetCurrentMwsiveData().isPicked = trackInfoRoot.is_piked;
         GetCurrentMwsiveData().isRecommended = trackInfoRoot.is_recommended;
+        GetCurrentMwsiveData().total_piks = trackInfoRoot.total_piks;
+        GetCurrentMwsiveData().total_recommendations = trackInfoRoot.total_recommendations;
+
         try
         {
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().InitializeMwsiveDB(GetCurrentMwsiveData());

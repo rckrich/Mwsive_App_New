@@ -946,11 +946,18 @@ public class PF_SurfManager : Manager
 
         GetCurrentMwsiveData().isPicked = trackInfoRoot.is_piked;
         GetCurrentMwsiveData().isRecommended = trackInfoRoot.is_recommended;
+        GetCurrentMwsiveData().total_piks = trackInfoRoot.total_piks;
+        GetCurrentMwsiveData().total_recommendations = trackInfoRoot.total_recommendations;
+
         GameObject instance = GetCurrentPrefab();
-        if (instance != null)
+        try
         {
-            instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveDB(GetCurrentMwsiveData());
-        }        
+            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().InitializeMwsiveDB(GetCurrentMwsiveData());
+        }
+        catch (System.NullReferenceException)
+        {
+
+        }       
         
     }
 
@@ -981,6 +988,7 @@ public class PF_SurfManager : Manager
         {
              
             SpawnPrefab().GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[CurrentPosition + 1]);
+            GetMwsiveInfo();
             SpawnPosition++;
         }
         else
@@ -990,6 +998,7 @@ public class PF_SurfManager : Manager
         if (MwsiveSongsData.Count-1 >= CurrentPosition + 2)
         {
             SpawnPrefab().GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[CurrentPosition + 2]);
+            GetMwsiveInfo();
             SpawnPosition++;
         }
         else
@@ -999,6 +1008,7 @@ public class PF_SurfManager : Manager
         if (MwsiveSongsData.Count-1 >= CurrentPosition + 3)
         {
             SpawnPrefab().GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[CurrentPosition + 3]);
+            GetMwsiveInfo();
             SpawnPosition++;
         }
         else
