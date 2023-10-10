@@ -55,7 +55,11 @@ public class DescubrirButton : MonoBehaviour
             var sequence = DG.Tweening.DOTween.Sequence();
             sequence.Append(DOTween.To(()=> twenable, x => twenable = x, 0f, 0.5f ));
             sequence.OnUpdate(() => {BuscadorBackground.GetComponent<RectTransform>().offsetMax = new Vector2(twenable, BuscadorBackground.GetComponent<RectTransform>().offsetMax.y);});
-            sequence.OnComplete(() => {ScrollView.SetActive(false);});
+            sequence.OnComplete(() => {ScrollView.SetActive(false);
+            DescubrirVW.KillAllPrefabLists();
+            
+            
+            });
             UIAniManager.instance.FadeOut(ResultadosBusqueda, 0.5f);
         
         CancelarActions();

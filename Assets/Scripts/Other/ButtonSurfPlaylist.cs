@@ -125,7 +125,11 @@ public class ButtonSurfPlaylist : ViewModel
         {
           mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
             isRecommended = true;
-                //Pintar de morado el que está en playlist
+            //Pintar de morado el que está en playlist
+        }
+        else
+        {
+            mwsiveButton.AddToPlaylistButtonClear();
         }
         
         if (_data.isPicked)
@@ -133,6 +137,10 @@ public class ButtonSurfPlaylist : ViewModel
 
             mwsiveButton.PIKButtonColorOn();
 
+        }
+        else
+        {
+            mwsiveButton.PIKButtonColorOff();
         }
     }
 
@@ -221,7 +229,11 @@ public class ButtonSurfPlaylist : ViewModel
 
     }
 
-   
+    public void ClearMwsiveButtons()
+    {
+        mwsiveButton.AddToPlaylistButtonClear();
+        mwsiveButton.PIKButtonColorOff();
+    }
 
     public void ClearData()
     {

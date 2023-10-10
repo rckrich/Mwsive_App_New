@@ -282,7 +282,9 @@ public class PF_SurfManager : Manager
             ActiveMwsiveSongs[4].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[2]);
             ActiveMwsiveSongs[4].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();
 
-            //GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().PauseTopMove();
+            ActiveMwsiveSongs[1].GetComponent<ButtonSurfPlaylist>().ClearData();
+
+            
 
             AddSong.GetComponent<SurfAni>().SetValues(1, null, 1);
             AddSong.GetComponent<SurfAni>().Play_CompleteAddSurfAddSong();
@@ -346,6 +348,7 @@ public class PF_SurfManager : Manager
             ActiveMwsiveSongs[3].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[3]);
             ActiveMwsiveSongs[3].GetComponent<SurfAni>().Play_SurfTransitionBackHideSong();
 
+            ActiveMwsiveSongs[4].GetComponent<ButtonSurfPlaylist>().ClearData();
 
             AddSong.GetComponent<SurfAni>().Play_SurfAddsongReset();
 
@@ -396,11 +399,11 @@ public class PF_SurfManager : Manager
             ActiveMwsiveSongs[4].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[2]);
             ActiveMwsiveSongs[4].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();
 
-            
+            ActiveMwsiveSongs[1].GetComponent<ButtonSurfPlaylist>().ClearData();
 
 
 
-                string _trackid = GetCurrentMwsiveData().id;
+            string _trackid = GetCurrentMwsiveData().id;
             if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
             {
                 MwsiveConnectionManager.instance.PostTrackAction(_trackid, "UP", ResetTimer());

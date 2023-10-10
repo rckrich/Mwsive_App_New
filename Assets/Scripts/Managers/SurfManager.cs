@@ -299,6 +299,8 @@ public class SurfManager : Manager
             ActiveMwsiveSongs[4].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[2]);
             ActiveMwsiveSongs[4].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();
 
+            ActiveMwsiveSongs[1].GetComponent<ButtonSurfPlaylist>().ClearData();
+
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().AddToPlaylistSwipe(GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID, ResetTimer());
 
             CurrentPosition++;
@@ -310,9 +312,16 @@ public class SurfManager : Manager
         }else{
             ResetValue();
         }
-        
 
-        
+        if (CurrentPosition >= MwsiveSongsData.Count - 5)
+        {
+            if (CanGetRecomendations)
+            {
+                SpawnRecommendations();
+            }
+        }
+
+
         HasSwipeEnded = true;
     }
     private void DownScrollSuccess(){
@@ -340,6 +349,8 @@ public class SurfManager : Manager
 
             ActiveMwsiveSongs[3].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[3]);
             ActiveMwsiveSongs[3].GetComponent<SurfAni>().Play_SurfTransitionBackHideSong();
+
+            ActiveMwsiveSongs[4].GetComponent<ButtonSurfPlaylist>().ClearData();
 
 
             string _trackid = GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID;
@@ -389,8 +400,9 @@ public class SurfManager : Manager
 
 
             string _trackid = GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID;
+            ActiveMwsiveSongs[1].GetComponent<ButtonSurfPlaylist>().ClearData();
 
-        if (AppManager.instance.isLogInMode && !_trackid.Equals("") )
+            if (AppManager.instance.isLogInMode && !_trackid.Equals("") )
         {
             MwsiveConnectionManager.instance.PostTrackAction(GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID, "UP", ResetTimer());
         }
@@ -401,6 +413,13 @@ public class SurfManager : Manager
             
         }else{
             ResetValue();
+        }
+        if (CurrentPosition >= MwsiveSongsData.Count - 5)
+        {
+            if (CanGetRecomendations)
+            {
+                SpawnRecommendations();
+            }
         }
         HasSwipeEnded = true;
     }
@@ -436,7 +455,7 @@ public class SurfManager : Manager
     private void Callback_SpawnRecommendations(object[] _value)
     {
         recommendationsRoot = (RecommendationsRoot)_value[1];
-        DynamicPrefabSpawnerRecommendations(new object[] { recommendationsRoot }, false);
+        DynamicPrefabSpawnerRecommendations(new object[] { recommendationsRoot }, false, false);
         
     }
 
@@ -542,7 +561,7 @@ public class SurfManager : Manager
         return MwsiveSongs;
     }
 
-    public void DynamicPrefabSpawnerRecommendations(object[] _value, bool FirsTimeSurf = true)
+    public void DynamicPrefabSpawnerRecommendations(object[] _value, bool FirsTimeSurf = true, bool? FirstTimeSurf = true)
     {
         recommendationsRoot = (RecommendationsRoot)_value[0];
         int SpawnedSongs = 0;
@@ -584,10 +603,11 @@ public class SurfManager : Manager
 
         }
 
-        if (true)
+        if (FirsTimeSurf)
         {
             SurfManagerLogic(true);
         }
+        
         
     }
 
