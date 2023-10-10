@@ -24,8 +24,10 @@ public class MenuOptions : ViewModel
     {                   
             if(numero == 0)
             {
-                
-                SurfManager.instance.SetActive(false);
+#if PLATFORM_ANDROID
+            AppManager.instance.ResetAndroidBackAction();
+#endif
+            SurfManager.instance.SetActive(false);
                 SpotifyPreviewAudioManager.instance.StopTrack();
                 
                 explorar.GetComponent<Image>().GetComponent<Graphic>().color = Color.white;
@@ -57,17 +59,17 @@ public class MenuOptions : ViewModel
             {
                 if (SurfController.instance.ReturnMain().GetComponent<SurfManager>().IsManagerEmpty())
                 {
-                   
                     AppManager.instance.StartAppProcess();
-
                 }
-
             }
         }
 
             if(numero == 2)
             {
-                if (NewScreenManager.instance.GetCurrentView().viewID == ViewID.ExploreViewModel)
+#if PLATFORM_ANDROID
+            AppManager.instance.ResetAndroidBackAction();
+#endif
+            if (NewScreenManager.instance.GetCurrentView().viewID == ViewID.ExploreViewModel)
                 {
                     ResetDynamicSearch.OnClick_CancelarButton();
                 }

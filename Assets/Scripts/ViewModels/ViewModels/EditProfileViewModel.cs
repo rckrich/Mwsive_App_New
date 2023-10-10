@@ -102,7 +102,7 @@ public class EditProfileViewModel : ViewModel
     public void OnClick_BackButton()
     {
         SetFalseXImage();
-        NewScreenManager.instance.ChangeToMainView(ViewID.ProfileViewModel);
+        NewScreenManager.instance.BackToPreviousView();
         NewScreenManager.instance.GetCurrentView().GetComponent<ProfileViewModel>().Initialize();
     }
 
@@ -181,7 +181,7 @@ public class EditProfileViewModel : ViewModel
 
     public void Callback_RefreshUser(object[] _value)
     {
-        Initialize();
+        Initialize(null);
     }
 
     public void SetActiveXImage()
