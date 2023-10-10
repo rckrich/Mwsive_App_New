@@ -13,6 +13,7 @@ public class TopPlaylistViewModel : ViewModel
 
     private int count;
     private const int MAXIMUM_VERTICAL_SCROLL_SPAWNS = 20;
+    private int onlyone = 0;
 
     public override void Initialize(params object[] list)
     {
@@ -27,7 +28,7 @@ public class TopPlaylistViewModel : ViewModel
     private void Callback_GetRecommendedPlaylists(object[] _list)
     {
         MwsiveRecommendedPlaylistsRoot mwsiveRecommendedPlaylistsRoot = (MwsiveRecommendedPlaylistsRoot)_list[1];
-        shimmer.SetActive(false);
+       
         int maxSpawnCounter = 0;
 
         for (int i = 0; i < mwsiveRecommendedPlaylistsRoot.playlists.Count; i++)
@@ -41,11 +42,21 @@ public class TopPlaylistViewModel : ViewModel
                 count++;
             }
         }
+
+        onlyone = 0;
+        shimmer.SetActive(false);
     }
 
     public void OnReachEnd()
     {
-
+        if (onlyone == 0)
+        {
+            if (scrollRect.verticalNormalizedPosition <= end)
+            {
+                MwsiveConnectionManager.instance.GetRecommendedPlaylists(Callback_GetRecommendedPlaylists);
+                onlyone = 1;
+            }
+        }
     }
 
     public void OnClick_BackButton()
@@ -72,9 +83,9 @@ public class TopPlaylistViewModel : ViewModel
 
     private void ClearScrolls(Transform _scrolls)
     {
-        foreach (Transform child in _scrolls.transform)
+        for(int i = 1; i < _scrolls.childCount; i++)
         {
-            Destroy(child.gameObject);
+            Destroy(_scrolls.GetChild(i).gameObject);
         }
 
     }

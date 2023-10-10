@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using VoxelBusters.CoreLibrary;
+using UnityEngine.SceneManagement;
 
 public class AppManager : Manager
 {
@@ -187,11 +188,20 @@ public class AppManager : Manager
 
     private void Callback_GetUserProfile_LogInFlow(object[] _value)
     {
-        bool profileImageSetted = false;
+        try
+        {
+            bool profileImageSetted = false;
 
-        ProfileRoot profileRoot = (ProfileRoot)_value[1];
-        profileID = profileRoot.id;
-        MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser);
+            ProfileRoot profileRoot = (ProfileRoot)_value[1];
+            profileID = profileRoot.id;
+            MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser);
+        }
+        catch (System.NullReferenceException)
+        {
+            SceneManager.LoadScene("MainScene");
+            UIMessage.instance.UIMessageInstanciate("Ocurrió Un error, vuelve a iniciar sesión para continuar");
+        }
+        
     }
 
     private void Callback_GetCurrentMwsiveUser(object[] _value)

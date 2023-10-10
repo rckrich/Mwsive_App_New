@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class ChallengeAppObject : AppObject
 {
-    private Challenges challenges;
+    
     public TextMeshProUGUI disk;
-
+    public Button challengeButton;
     public TextMeshProUGUI challengeName;
     public Image challengeImage;
 
@@ -17,13 +17,14 @@ public class ChallengeAppObject : AppObject
 
 
     private SeveralTrackRoot severalTrackRoot;
-
+    private Challenges challenges;
     private bool PointsPosted = false;
 
    
 
     public override void Initialize(params object[] list)
     {
+        challengeButton.interactable = true;
         challenges = (Challenges)list[0];
         
         if (challenges.name.Length > 27)
@@ -54,6 +55,7 @@ public class ChallengeAppObject : AppObject
     }
 
     public void OnClick_OpenChallenge(){
+        challengeButton.interactable = false;
         NewScreenManager.instance.ChangeToSpawnedView("surf");
         List<string> tracks = new List<string>();
         foreach (MwsiveTrack item in challenges.mwsive_tracks)
@@ -73,11 +75,11 @@ public class ChallengeAppObject : AppObject
             NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().Challenge = true;
             NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().SetChallengeCallback(gameObject.GetComponent<ChallengeAppObject>());
             NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(severalTrackRoot.tracks);
-
+            challengeButton.interactable = true;
         }
         catch (System.NullReferenceException)
         {
-
+            challengeButton.interactable = true;
         }
 
 

@@ -51,7 +51,7 @@ public class DescubrirButton : MonoBehaviour
 
     public void OnClick_CancelarButton(){
         Descubrir.HideAllText();
-        TextArea.enabled = false;
+        button.enabled = false;
         float twenable = -70f;
         CancelarButton.SetActive(false);
             UIAniManager.instance.FadeOut(ScrollView, 0.5f);
@@ -62,7 +62,7 @@ public class DescubrirButton : MonoBehaviour
             sequence.OnComplete(() => {ScrollView.SetActive(false);
 
                 DescubrirVW.KillAllPrefabLists();
-                TextArea.enabled = true;
+                button.enabled = true;
             });
             UIAniManager.instance.FadeOut(ResultadosBusqueda, 0.5f);
         

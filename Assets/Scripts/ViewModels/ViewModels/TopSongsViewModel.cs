@@ -19,10 +19,9 @@ public class TopSongsViewModel : ViewModel
 #if PLATFORM_ANDROID
         SetAndroidBackAction();
 #endif
-    }
-    void Start()
-    {
+
         shimmer.SetActive(true);
+        ClearScrolls(trackScrollContent);
         MwsiveConnectionManager.instance.GetRecommendedTracks(Callback_GetRecommendedTracks);
     }
 
@@ -66,6 +65,16 @@ public class TopSongsViewModel : ViewModel
     {
         NewScreenManager.instance.ChangeToMainView(ViewID.ExploreViewModel);
         NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
+    }
+
+
+    private void ClearScrolls(Transform _scrolls)
+    {
+        for (int i = 1; i < _scrolls.childCount; i++)
+        {
+            Destroy(_scrolls.GetChild(i).gameObject);
+        }
+
     }
 
     public override void SetAndroidBackAction()
