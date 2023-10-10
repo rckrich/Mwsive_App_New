@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1623169566439002763}
   - component: {fileID: 1623169566439002760}
   m_Layer: 5
-  m_Name: Header (2)
+  m_Name: Header_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 1693927499464724276}
   - component: {fileID: 1693927499464724277}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: SurfButton_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 1693927499990248476}
   - component: {fileID: 1693927499990248477}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: YourList_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -357,7 +357,7 @@ GameObject:
   - component: {fileID: 2806249979680726815}
   - component: {fileID: 2806249979680726814}
   m_Layer: 5
-  m_Name: Insignias_Txt
+  m_Name: Title_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -489,7 +489,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2806249979879706610}
   m_Layer: 5
-  m_Name: PlayList
+  m_Name: PlayList_Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -532,7 +532,7 @@ GameObject:
   - component: {fileID: 2806249980092216558}
   - component: {fileID: 2806249980092216561}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Back_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -637,7 +637,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 4895802144233733272}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -684,7 +684,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2806249980121970236}
   m_Layer: 5
-  m_Name: Selecciona una playlist
+  m_Name: SelectPlaylist_Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -722,7 +722,7 @@ GameObject:
   - component: {fileID: 2806249980358450096}
   - component: {fileID: 2806249980358450099}
   m_Layer: 5
-  m_Name: Scroll View
+  m_Name: SongMyPlaylist_Scroll View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -821,7 +821,7 @@ GameObject:
   - component: {fileID: 2806249980485039190}
   - component: {fileID: 7080279966217288309}
   m_Layer: 5
-  m_Name: Pf_SongMiPlayList 1
+  m_Name: PF_SongMyPlayList_ViewModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -865,6 +865,7 @@ MonoBehaviour:
   viewID: 0
   networkLoadingCanvas: {fileID: 0}
   scrollViewContent: {fileID: 0}
+  finishedLoading: 1
   playlistHolderPrefab: {fileID: 4969784576469249356, guid: 7d30dc692d8edc145864310474b4c27e, type: 3}
   instanceParent: {fileID: 2806249981404453540}
   scrollRect: {fileID: 2806249980358450099}
@@ -874,6 +875,7 @@ MonoBehaviour:
   - {fileID: 0}
   uri:
   - 
+  isSelected: 0
 --- !u!1 &2806249980537311655
 GameObject:
   m_ObjectHideFlags: 0
@@ -884,7 +886,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2806249980537311652}
   m_Layer: 5
-  m_Name: TusListas
+  m_Name: YourList_Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -924,7 +926,7 @@ GameObject:
   - component: {fileID: 2806249980559370952}
   - component: {fileID: 2806249980559370955}
   m_Layer: 5
-  m_Name: Surfear
+  m_Name: Surf_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1048,7 +1050,7 @@ GameObject:
   - component: {fileID: 2806249980598773129}
   - component: {fileID: 2806249980598773128}
   m_Layer: 5
-  m_Name: Image
+  m_Name: SurfButton_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1123,7 +1125,7 @@ GameObject:
   - component: {fileID: 2806249980634937513}
   - component: {fileID: 2806249980634937512}
   m_Layer: 5
-  m_Name: Selecciona una playlist_Txt
+  m_Name: SelectPlaylist_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1257,7 +1259,7 @@ GameObject:
   - component: {fileID: 2806249980856505497}
   - component: {fileID: 2806249980856505496}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: BackButton_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1391,7 +1393,7 @@ GameObject:
   - component: {fileID: 2806249981062851508}
   - component: {fileID: 2806249981062851511}
   m_Layer: 5
-  m_Name: Arrow
+  m_Name: Arrow_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1466,7 +1468,7 @@ GameObject:
   - component: {fileID: 2806249981336056951}
   - component: {fileID: 2806249981336056950}
   m_Layer: 5
-  m_Name: Linia
+  m_Name: Line_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1541,7 +1543,7 @@ GameObject:
   - component: {fileID: 2806249981350761095}
   - component: {fileID: 2806249981350761094}
   m_Layer: 5
-  m_Name: Background
+  m_Name: Background_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1794,7 +1796,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2806249981704327412}
   m_Layer: 5
-  m_Name: Linea
+  m_Name: Line_Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1832,7 +1834,7 @@ GameObject:
   - component: {fileID: 2806249981713810822}
   - component: {fileID: 2806249981713810825}
   m_Layer: 5
-  m_Name: Publica
+  m_Name: Public_Text_INACTIVE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

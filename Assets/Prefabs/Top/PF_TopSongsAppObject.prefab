@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9222544954300849195}
   - component: {fileID: 3362843846554588973}
   m_Layer: 5
-  m_Name: Album_Title
+  m_Name: SongTitle_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 3046498292593911868}
   - component: {fileID: 1583160379305911103}
   m_Layer: 5
-  m_Name: Album_Text
+  m_Name: SongArtist_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -279,10 +279,10 @@ GameObject:
   - component: {fileID: 592502655274399175}
   - component: {fileID: 6950824343694107945}
   - component: {fileID: 1225392658109022923}
-  - component: {fileID: -532878563637969362}
+  - component: {fileID: 459784607129296413}
   - component: {fileID: 152823584037593722}
   m_Layer: 5
-  m_Name: PF_Album
+  m_Name: PF_TopSongsAppObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -361,9 +361,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -532878563637969362}
-        m_TargetAssemblyTypeName: AlbumAppObject, Scripts
-        m_MethodName: OnClick_AlbumAppObject
+      - m_Target: {fileID: 459784607129296413}
+        m_TargetAssemblyTypeName: TrackAppObject, Scripts
+        m_MethodName: OnClick_TrackAppObject
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -373,7 +373,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &-532878563637969362
+--- !u!114 &459784607129296413
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -382,11 +382,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7098590929954532896}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac92d21aaeeb743e0ad5c7649440da46, type: 3}
+  m_Script: {fileID: 11500000, guid: d4d5be4a44ad84b9ba9a0478c4644c4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: {fileID: 3362843846554588973}
-  albumPicture: {fileID: 1184589130980722338}
+  trackPicture: {fileID: 1184589130980722338}
   displayAutor: {fileID: 1583160379305911103}
 --- !u!95 &152823584037593722
 Animator:
@@ -421,7 +421,7 @@ GameObject:
   - component: {fileID: 4891883315844001393}
   - component: {fileID: 8060309295236380612}
   m_Layer: 5
-  m_Name: Album_Content
+  m_Name: Song_Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -500,7 +500,7 @@ GameObject:
   - component: {fileID: 3533484198969018632}
   - component: {fileID: 1184589130980722338}
   m_Layer: 5
-  m_Name: Album_Image
+  m_Name: Song_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

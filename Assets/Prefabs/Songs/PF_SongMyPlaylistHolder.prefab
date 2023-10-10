@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7292246895313883494}
   - component: {fileID: 1900489866907212031}
   m_Layer: 5
-  m_Name: VerMas_Button
+  m_Name: SeeMore_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 6717358257993678729}
   - component: {fileID: 3571959047664459305}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: SeeMoreButton_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 1970465970175912534}
   - component: {fileID: 7879018117928244460}
   m_Layer: 5
-  m_Name: Arrow
+  m_Name: Arrow_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -377,7 +377,7 @@ GameObject:
   - component: {fileID: 9220792107104350172}
   - component: {fileID: 6585883793682995579}
   m_Layer: 5
-  m_Name: Artist
+  m_Name: Artist_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -511,7 +511,7 @@ GameObject:
   - component: {fileID: 6722798353947329086}
   - component: {fileID: 161412431966382164}
   m_Layer: 5
-  m_Name: Portada
+  m_Name: Cover_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -586,7 +586,7 @@ GameObject:
   - component: {fileID: 8157834551278817267}
   - component: {fileID: 306895285360583903}
   m_Layer: 5
-  m_Name: Image
+  m_Name: SelectedImage_Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -664,7 +664,7 @@ GameObject:
   - component: {fileID: 6083056419048850266}
   - component: {fileID: 8400689002820854051}
   m_Layer: 5
-  m_Name: PF_SongMiPlaylistHolder
+  m_Name: PF_SongMyPlaylistHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -737,10 +737,10 @@ MonoBehaviour:
   viewID: 0
   networkLoadingCanvas: {fileID: 0}
   scrollViewContent: {fileID: 0}
+  finishedLoading: 1
   playlistName: {fileID: 7407656791515607741}
   playlistPicture: {fileID: 161412431966382164}
   playlistOwner: {fileID: 6585883793682995579}
-  playlistViewModel: {fileID: 3057724479777381238, guid: 81304c47fd2486649b8e8aad023976f5, type: 3}
   miPlaylistViewModel: {fileID: 7080279966217288309, guid: b80971bbb1c8c6b479bed7bab95de964, type: 3}
   public: 0
   holderManager: {fileID: 2692963331336141333, guid: 55d500d6e41ab1a48bbb098ee7f2fa5a, type: 3}
@@ -767,6 +767,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnabled: 0
+  playlistText: {fileID: 0}
+  playlistCoverImage: {fileID: 0}
 --- !u!1 &5885069382696370709
 GameObject:
   m_ObjectHideFlags: 0
@@ -779,7 +781,7 @@ GameObject:
   - component: {fileID: 6480460264853519556}
   - component: {fileID: 7407656791515607741}
   m_Layer: 5
-  m_Name: Title
+  m_Name: Title_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -913,7 +915,7 @@ GameObject:
   - component: {fileID: 571707576680191104}
   - component: {fileID: 6079634531274674745}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Selected_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -989,7 +991,7 @@ GameObject:
   - component: {fileID: 1737875099128480819}
   - component: {fileID: 7695607902421083464}
   m_Layer: 5
-  m_Name: Button
+  m_Name: SongMyPlaylistHolder_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
