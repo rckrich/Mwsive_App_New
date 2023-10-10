@@ -270,10 +270,18 @@ public class PlaylistViewModel : ViewModel
 
     private void ClearScroll(Transform _scroll)
     {
-        for (int i = 1; i < _scroll.childCount; i++)
+        try
         {
-            Destroy(_scroll.GetChild(i).gameObject);
+            for (int i = 1; i < _scroll.childCount; i++)
+            {
+                Destroy(_scroll.GetChild(i).gameObject);
+            }
+
         }
+        catch(System.NullReferenceException) { }   
+
+
+        
     }
 
     public override void SetAndroidBackAction()

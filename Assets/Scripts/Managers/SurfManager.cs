@@ -301,7 +301,7 @@ public class SurfManager : Manager
 
             ActiveMwsiveSongs[1].GetComponent<ButtonSurfPlaylist>().ClearData();
 
-            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().AddToPlaylistSwipe(GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID, ResetTimer());
+            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().AddToPlaylistSwipe(GetCurrentMwsiveData().id, ResetTimer());
 
             CurrentPosition++;
             SpawnPosition++;

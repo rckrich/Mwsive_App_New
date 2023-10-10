@@ -426,7 +426,8 @@ public class ButtonSurfPlaylist : ViewModel
         {
 
             SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
-            if (AppManager.instance.isLogInMode && !trackID.Equals(""))
+            Debug.Log(_trackid);
+            if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
                 MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomendSwipe);
         }
     }

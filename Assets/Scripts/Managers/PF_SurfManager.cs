@@ -105,6 +105,7 @@ public class PF_SurfManager : Manager
         swipeListener.OnSwipe.RemoveListener(OnSwipe);
         RemoveEventListener<TimerAppEvent>(TimerAppEventListener);
         ActiveMwsiveSongs.Clear();
+        
 
     }
 
