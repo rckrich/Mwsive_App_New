@@ -283,8 +283,7 @@ public class PF_SurfManager : Manager
             ActiveMwsiveSongs[4].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[2]);
             ActiveMwsiveSongs[4].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();
 
-            ActiveMwsiveSongs[1].GetComponent<ButtonSurfPlaylist>().ClearData();
-
+            
             
 
             AddSong.GetComponent<SurfAni>().SetValues(1, null, 1);
@@ -295,7 +294,7 @@ public class PF_SurfManager : Manager
             SpawnPosition++;
 
 
-
+            
 
 
             SurfManagerLogic();

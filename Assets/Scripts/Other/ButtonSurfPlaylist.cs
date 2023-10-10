@@ -78,21 +78,10 @@ public class ButtonSurfPlaylist : ViewModel
 
     private void OnEnable()
     {
-        playlistText.text = playlistName;
+        
         AddEventListener<ChangeColorAppEvent>(ChangeEventListener);
         AddEventListener<SelectedPlaylistNameAppEvent>(SelectedPlaylistNameEventListener);
-        string currentPLayListName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
-            playlistText.text = currentPLayListName;
-        if (!AppManager.instance.yours)
-        {
-            buttonColor.GetComponent<Image>().color = redNew;
-            playlistText.color = redNew;
-        }
-        else
-        {
-            buttonColor.GetComponent<Image>().color = gray;
-            playlistText.color = Color.black;
-        }
+        
     }
 
     private void OnDisable()
@@ -146,11 +135,24 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void InitializeMwsiveSong(MwsiveData _data)
     {
-        durationBar.ResetFillAmount();
-        if (_data.playlist_name != null)
+
+
+        string currentPLayListName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
+
+        playlistText.text = currentPLayListName;
+        if (!AppManager.instance.yours)
         {
-            playlistText.text = _data.playlist_name;
+            buttonColor.GetComponent<Image>().color = redNew;
+            playlistText.color = redNew;
         }
+        else
+        {
+            buttonColor.GetComponent<Image>().color = gray;
+            playlistText.color = Color.black;
+        }
+
+
+        durationBar.ResetFillAmount();
         if (_data.song_name != null)
         {
             if (_data.song_name.Length > 27)
@@ -189,10 +191,13 @@ public class ButtonSurfPlaylist : ViewModel
             trackID = _data.id;
         }
 
-            if (_data.uri != null)
+        
+
+        if (_data.uri != null)
         {
             uris.Clear();
             uris.Add(_data.uri);
+            Debug.Log(uris[0]);
         }
 
         if (_data.preview_url != null)
@@ -424,12 +429,40 @@ public class ButtonSurfPlaylist : ViewModel
     {
         if (!isRecommended)
         {
+            SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylistSwipe);
+            
 
-            SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
-            Debug.Log(_trackid);
             if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
+            {
+                
                 MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomendSwipe);
+            }
         }
+    }
+
+    private void Callback_AddToPlaylistSwipe(object[] _value)
+    {
+        string webcode = ((long)_value[0]).ToString();
+        if (webcode == "404" || webcode == "403")
+        {
+            UIMessage.instance.UIMessageInstanciate("Playlist no propia o inexistente");
+            AppManager.instance.yours = false;
+            InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(redNew, redNew));
+        }
+        else
+        {
+            isRecommended = true;
+            InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(gray, Color.black));
+            if (AppManager.instance.isLogInMode && !trackID.Equals(""))
+                MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomend); ;
+            AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
+                mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
+                UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");
+            });
+            AppManager.instance.yours = true;
+
+        }
+        ClearData();
     }
 
     private void Callback_AddToPlaylist(object[] _value)
