@@ -63,22 +63,6 @@ public class MwsiveButton : AppObject
 
     }
 
-    public void UnPIKNoAni()
-    {
-        IsItOlaColorButtonActive = false;
-        OlaColorButton.SetActive(false);
-        OlaColorButton.GetComponent<CanvasGroup>().alpha = 0;
-        OlaColorButton.transform.localScale = new Vector3(0, 0, 0);
-    }
-
-    public void PIKOnNoAni()
-    {
-        IsItOlaColorButtonActive = true;
-        OlaColorButton.SetActive(true);
-        OlaColorButton.GetComponent<CanvasGroup>().alpha = 1;
-        OlaColorButton.transform.localScale = new Vector3(1f, 1f, 1f);
-
-    }
 
     public void UnPIKNoAni()
     {
