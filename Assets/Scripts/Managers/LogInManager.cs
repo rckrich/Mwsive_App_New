@@ -78,7 +78,7 @@ public class LogInManager : Manager
                 else
                 {
                     NewScreenManager.instance.GetCurrentView().EndSearch();
-                    SceneManager.LoadScene("MainScene");
+                    SceneManager.LoadScene("MainScene_Ricardo");
                 }
             }
         }
@@ -270,9 +270,9 @@ public class LogInManager : Manager
     {
         NewScreenManager.instance.GetCurrentView().EndSearch();
 
-        if (SceneManager.GetActiveScene().name.Equals("LogInScene"))
+        if (SceneManager.GetActiveScene().name.Equals("LogInScene_Ricardo"))
         {
-            SceneManager.LoadScene("MainScene");
+            SceneManager.LoadScene("MainScene_Ricardo");
         }
         else
         {

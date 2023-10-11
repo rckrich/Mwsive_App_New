@@ -198,8 +198,8 @@ public class AppManager : Manager
         }
         catch (System.NullReferenceException)
         {
-            SceneManager.LoadScene("MainScene");
-            UIMessage.instance.UIMessageInstanciate("Ocurrió Un error, vuelve a iniciar sesión para continuar");
+            SceneManager.LoadScene("MainScene_Ricardo");
+            UIMessage.instance.UIMessageInstanciate("Ocurri? Un error, vuelve a iniciar sesi?n para continuar");
         }
         
     }
