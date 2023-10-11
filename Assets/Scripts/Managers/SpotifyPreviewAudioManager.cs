@@ -27,10 +27,13 @@ public class SpotifyPreviewAudioManager : Manager
     private AudioClip audioClip;
     private bool isPaused = false;
 
-    public void GetTrack(string _audioURL, SpotifyAudioDownloaderCallback _callback = null)
+    public IEnumerator GetTrack(string _audioURL, SpotifyAudioDownloaderCallback _callback = null)
     {
         StopCoroutine("CR_GetAudioClip");
-        StartCoroutine(CR_GetAudioClip(_audioURL, _callback));
+        IEnumerator coroutine = CR_GetAudioClip(_audioURL, _callback);
+        StartCoroutine(coroutine);
+        return coroutine;
+
     }
 
     public void StopTrack()
@@ -41,13 +44,13 @@ public class SpotifyPreviewAudioManager : Manager
             audioSource.Stop();
             InvokeEvent<TimerAppEvent>(new TimerAppEvent() { type = "STOP" });
             isPaused = true;
-            
+
         }
     }
 
     public void Pause()
     {
-        
+
         if (isPaused)
         {
             audioSource.Play();
@@ -61,7 +64,16 @@ public class SpotifyPreviewAudioManager : Manager
         isPaused = !isPaused;
     }
 
-    public void ForcePause(){
+    public void ForcePlay()
+    {
+        if (!audioSource.isPlaying && !isPaused)
+        {
+            audioSource.Play();
+        }
+    }
+
+    public void ForcePause()
+    {
         audioSource.Pause();
         isPaused = true;
         InvokeEvent<TimerAppEvent>(new TimerAppEvent() { type = "PAUSE" });
@@ -93,7 +105,7 @@ public class SpotifyPreviewAudioManager : Manager
                 audioSource.clip = audioClip;
                 audioSource.time = 0f;
                 audioSource.Play();
-                isPaused = false;   
+                isPaused = false;
 
                 if (_callback != null)
                     _callback(new object[] { audioClip.length });
@@ -104,5 +116,10 @@ public class SpotifyPreviewAudioManager : Manager
 
             }
         }
+    }
+
+    public void StopCustomCoroutine(IEnumerator _coroutine)
+    {
+        StopCoroutine(_coroutine);
     }
 }

@@ -55,10 +55,11 @@ public class ButtonSurfPlaylist : ViewModel
     private bool isPicked = false;
     private bool isRecommended = false;
 
+    private IEnumerator imageCoroutine, playCoroutine;
 
     private void Start()
     {
-        
+
     }
 
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
@@ -74,15 +75,72 @@ public class ButtonSurfPlaylist : ViewModel
     }
     public string GetSelectedPlaylistNameAppEvent() { return playlistName; }
 
-    public string GetChangeColorAppEvent() { return playlistText.text;  }
+    public string GetChangeColorAppEvent() { return playlistText.text; }
 
     private void OnEnable()
     {
-        playlistText.text = playlistName;
+
         AddEventListener<ChangeColorAppEvent>(ChangeEventListener);
         AddEventListener<SelectedPlaylistNameAppEvent>(SelectedPlaylistNameEventListener);
+
+    }
+
+    private void OnDisable()
+    {
+        RemoveEventListener<SelectedPlaylistNameAppEvent>(SelectedPlaylistNameEventListener);
+        RemoveEventListener<ChangeColorAppEvent>(ChangeEventListener);
+        durationBar.CheckforPoints = false;
+
+    }
+
+    public void InitializeMwsiveDB(MwsiveData _data)
+    {
+
+        if (_data.top_curators != null)
+        {
+            for (int i = 0; i < _data.top_curators.Count; i++)
+            {
+                ImageManager.instance.GetImage(_data.top_curators[i].image_url, topCuratorImages[i], (RectTransform)this.transform);
+            }
+        }
+        CalculateKorM(_data.total_piks, trackTotalPicks);
+        CalculateKorM(_data.total_recommendations, trackTotalRecommendation);
+        CalculateKorM(_data.total_piks_followed, trackTopCuratorsThatVoted, " amigos también votaron por \r\nesta canción");
+
+
+
+
+        if (_data.isRecommended)
+        {
+            mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
+            isRecommended = true;
+            //Pintar de morado el que está en playlist
+        }
+        else
+        {
+            mwsiveButton.AddToPlaylistButtonClear();
+        }
+
+        if (_data.isPicked)
+        {
+
+            mwsiveButton.PIKOnNoAni();
+
+        }
+        else
+        {
+            mwsiveButton.UnPIKNoAni();
+        }
+    }
+
+
+    public void InitializeMwsiveSong(MwsiveData _data)
+    {
+
+
         string currentPLayListName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
-            playlistText.text = currentPLayListName;
+
+        playlistText.text = currentPLayListName;
         if (!AppManager.instance.yours)
         {
             buttonColor.GetComponent<Image>().color = redNew;
@@ -93,57 +151,9 @@ public class ButtonSurfPlaylist : ViewModel
             buttonColor.GetComponent<Image>().color = gray;
             playlistText.color = Color.black;
         }
-    }
-
-    private void OnDisable()
-    {
-        RemoveEventListener<SelectedPlaylistNameAppEvent>(SelectedPlaylistNameEventListener);
-        RemoveEventListener<ChangeColorAppEvent>(ChangeEventListener);
-        durationBar.CheckforPoints = false;
-        
-    }
-
-    public void InitializeMwsiveDB(MwsiveData _data)
-    {
-       
-        if (_data.top_curators != null)
-        {
-            for (int i = 0; i < _data.top_curators.Count; i++)
-            {
-                ImageManager.instance.GetImage(_data.top_curators[i].image_url, topCuratorImages[i], (RectTransform)this.transform);
-            }
-        }
-
-        CalculateKorM(_data.total_piks, trackTotalPicks);
-        CalculateKorM(_data.total_recommendations, trackTotalRecommendation);
-        CalculateKorM(_data.total_piks_followed, trackTopCuratorsThatVoted, " amigos también votaron por \r\nesta canción");
 
 
-        
-            
-        if (_data.isRecommended)
-        {
-          mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
-            isRecommended = true;
-                //Pintar de morado el que está en playlist
-        }
-        
-        if (_data.isPicked)
-        {
-
-            mwsiveButton.PIKButtonColorOn();
-
-        }
-    }
-
-
-    public void InitializeMwsiveSong(MwsiveData _data)
-    {
         durationBar.ResetFillAmount();
-        if (_data.playlist_name != null)
-        {
-            playlistText.text = _data.playlist_name;
-        }
         if (_data.song_name != null)
         {
             if (_data.song_name.Length > 27)
@@ -174,7 +184,7 @@ public class ButtonSurfPlaylist : ViewModel
         if (_data.album_image_url != null)
         {
             trackCover.sprite = MwsiveCover;
-            ImageManager.instance.GetImage(_data.album_image_url, trackCover, (RectTransform)this.transform, null, Callback_ImageManager);
+            imageCoroutine = ImageManager.instance.GetImage(_data.album_image_url, trackCover, (RectTransform)this.transform, null, Callback_ImageManager);
         }
 
         if (_data.id != null)
@@ -182,7 +192,9 @@ public class ButtonSurfPlaylist : ViewModel
             trackID = _data.id;
         }
 
-            if (_data.uri != null)
+
+
+        if (_data.uri != null)
         {
             uris.Clear();
             uris.Add(_data.uri);
@@ -199,14 +211,7 @@ public class ButtonSurfPlaylist : ViewModel
         }
         TrackPoints = _data.challenge_trackpoints;
 
-        if(_data.top_curators != null)
-        {
-            for (int i = 0; i < _data.top_curators.Count; i++)
-            {
-                ImageManager.instance.GetImage(_data.top_curators[i].image_url, topCuratorImages[i], (RectTransform)this.transform);
-            }
-        }
- 
+
 
         if (_data.challenge_AmILastPosition)
         {
@@ -221,13 +226,28 @@ public class ButtonSurfPlaylist : ViewModel
 
     }
 
-   
+    public void ClearMwsiveButtons()
+    {
+        mwsiveButton.AddToPlaylistButtonClear();
+        mwsiveButton.PIKButtonColorOff();
+    }
 
     public void ClearData()
     {
-        
-        playlistText.text = null;       
-        trackName.text = null;       
+        if (imageCoroutine != null)
+        {
+            ImageManager.instance.StopCustomCoroutine(imageCoroutine);
+        }
+        if (playCoroutine != null)
+        {
+            SpotifyPreviewAudioManager.instance.StopCustomCoroutine(playCoroutine);
+        }
+        imageCoroutine = null;
+
+        playCoroutine = null;
+        durationBar.ResetFillAmount();
+        playlistText.text = null;
+        trackName.text = null;
         albumName.text = null;
         artistName.text = null;
         trackCover.sprite = MwsiveCover;
@@ -240,7 +260,9 @@ public class ButtonSurfPlaylist : ViewModel
         previewURL = null;
         externalURL = null;
         TrackPoints = false;
-
+        trackTotalPicks.text = "-";
+        trackTotalRecommendation.text = "-";
+        trackTopCuratorsThatVoted.text = "-";
     }
 
 
@@ -249,18 +271,20 @@ public class ButtonSurfPlaylist : ViewModel
 
     }
 
-    public void LastPosition(){
-        if(SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().challenge_AmILastPosition){
+    public void LastPosition()
+    {
+        if (SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().challenge_AmILastPosition)
+        {
             SuccesfulEnded = true;
             SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().CheckChallengeEnd();
         }
     }
-    
+
     public void PlayAudioPreview()
     {
         try
         {
-            if(SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().id == trackID && TrackPoints)
+            if (SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().id == trackID && TrackPoints)
             {
                 durationBar.CheckforPoints = true;
             }
@@ -271,7 +295,7 @@ public class ButtonSurfPlaylist : ViewModel
         }
         catch (System.NullReferenceException)
         {
-            
+
             if (SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetCurrentMwsiveData().id == trackID && TrackPoints)
             {
                 durationBar.CheckforPoints = true;
@@ -280,14 +304,16 @@ public class ButtonSurfPlaylist : ViewModel
             {
                 durationBar.CheckforPoints = false;
             }
-            
+
         }
-        
-        SpotifyPreviewAudioManager.instance.GetTrack(previewURL, Callback_GetTrack);
+
+        playCoroutine = SpotifyPreviewAudioManager.instance.GetTrack(previewURL, Callback_GetTrack);
+
     }
 
     private void Callback_GetTrack(object[] _list)
     {
+
         CheckIfDurationBarCanPlay();
         isPreviewSongFinishToLoad = true;
 
@@ -299,54 +325,55 @@ public class ButtonSurfPlaylist : ViewModel
             {
                 SpotifyPreviewAudioManager.instance.StopTrack();
             }
-            
-        }
 
-        
+        }
+        playCoroutine = null;
+
     }
 
-    public void CheckIfDurationBarCanPlay(){
+    public void CheckIfDurationBarCanPlay()
+    {
         try
         {
             MwsiveData Current = SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData();
-                if (Current.id == trackID)
+            if (Current.id == trackID)
+            {
+                durationBar.canPlay = true;
+                if (Current.challenge_trackpoints)
                 {
-                    durationBar.canPlay = true;
-                    if (Current.challenge_trackpoints)
+
+                    if (Current.challenge_songeded)
                     {
-                    
-                        if (Current.challenge_songeded)
-                        {
-                            challengecoloranimation.CompleteAnimation();
-                        }
-                        else
-                        {
-                            challengecoloranimation.StartAnimation();
-                        }
-                    
+                        challengecoloranimation.CompleteAnimation();
+                    }
+                    else
+                    {
+                        challengecoloranimation.StartAnimation();
+                    }
+
                 }
-                }
-                else
-                {
-                    durationBar.canPlay = false;
-                }
-            
-            
+            }
+            else
+            {
+                durationBar.canPlay = false;
+            }
+
+
         }
         catch (System.NullReferenceException)
         {
-            
-                if (SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetCurrentMwsiveData().id == trackID)
-                {
-                    durationBar.canPlay = true;
-                    
-                }
-                else
-                {
-                    durationBar.canPlay = false;
-                }
-            
-           
+
+            if (SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetCurrentMwsiveData().id == trackID)
+            {
+                durationBar.canPlay = true;
+
+            }
+            else
+            {
+                durationBar.canPlay = false;
+            }
+
+
         }
     }
 
@@ -360,13 +387,14 @@ public class ButtonSurfPlaylist : ViewModel
 
     }
 
-    public void OnClickForcePausePreview(){
+    public void OnClickForcePausePreview()
+    {
 
         SpotifyPreviewAudioManager.instance.ForcePause();
         challengecoloranimation.ForcePauseAnimation();
 
     }
-  
+
     public void OnClick_OpenPlaylist()
     {
         Surf.gameObject.SetActive(false);
@@ -375,7 +403,8 @@ public class ButtonSurfPlaylist : ViewModel
         NewScreenManager.instance.ChangeToSpawnedView("surfMiPlaylist");
     }
 
-    public void SetSurfManager(GameObject _surf){
+    public void SetSurfManager(GameObject _surf)
+    {
         Surf = _surf;
     }
 
@@ -384,11 +413,11 @@ public class ButtonSurfPlaylist : ViewModel
     {
         if (!isRecommended)
         {
-            
+
             SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
             trackID = _trackid;
             time = _time;
-            
+
         }
         else
         {
@@ -418,17 +447,21 @@ public class ButtonSurfPlaylist : ViewModel
     {
         if (!isRecommended)
         {
+            SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylistSwipe);
 
-            SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
-            if (AppManager.instance.isLogInMode && !trackID.Equals(""))
+
+            if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
+            {
+
                 MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomendSwipe);
+            }
         }
     }
 
-    private void Callback_AddToPlaylist(object[] _value)
+    private void Callback_AddToPlaylistSwipe(object[] _value)
     {
         string webcode = ((long)_value[0]).ToString();
-        if(webcode == "404" || webcode == "403")
+        if (webcode == "404" || webcode == "403")
         {
             UIMessage.instance.UIMessageInstanciate("Playlist no propia o inexistente");
             AppManager.instance.yours = false;
@@ -440,12 +473,37 @@ public class ButtonSurfPlaylist : ViewModel
             InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(gray, Color.black));
             if (AppManager.instance.isLogInMode && !trackID.Equals(""))
                 MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomend); ;
-           AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
-              mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
-              UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");
-           });
-           AppManager.instance.yours = true;
-           
+            AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
+                mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
+                UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");
+            });
+            AppManager.instance.yours = true;
+
+        }
+        ClearData();
+    }
+
+    private void Callback_AddToPlaylist(object[] _value)
+    {
+        string webcode = ((long)_value[0]).ToString();
+        if (webcode == "404" || webcode == "403")
+        {
+            UIMessage.instance.UIMessageInstanciate("Playlist no propia o inexistente");
+            AppManager.instance.yours = false;
+            InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(redNew, redNew));
+        }
+        else
+        {
+            isRecommended = true;
+            InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(gray, Color.black));
+            if (AppManager.instance.isLogInMode && !trackID.Equals(""))
+                MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomend); ;
+            AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
+                mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
+                UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");
+            });
+            AppManager.instance.yours = true;
+
         }
 
     }
@@ -470,7 +528,7 @@ public class ButtonSurfPlaylist : ViewModel
         {
             mwsiveButton.AddToPlaylistButtonColorButtonColorAgain(0.5f);
         }
-        
+
     }
 
     public void OnClick_PlayOnSpotify()
@@ -500,11 +558,11 @@ public class ButtonSurfPlaylist : ViewModel
 
     private void CalculateKorM(int? _numberOfVotes, TextMeshProUGUI _textMeshProUGUI, string _text = null)
     {
-        
-        if(_numberOfVotes == null) { _numberOfVotes = 0; }
+
+        if (_numberOfVotes == null) { _numberOfVotes = 0; }
         if (_numberOfVotes >= THOUSEND_CONVERT_TO_K && _numberOfVotes < MILLION_CONVERT_TO_M)
         {
-            if(_text != null)
+            if (_text != null)
             {
                 _textMeshProUGUI.text = ((float)_numberOfVotes / (float)THOUSEND_CONVERT_TO_K).ToString() + "K" + _text;
             }
@@ -512,12 +570,12 @@ public class ButtonSurfPlaylist : ViewModel
             {
                 _textMeshProUGUI.text = ((float)_numberOfVotes / (float)THOUSEND_CONVERT_TO_K).ToString() + "K";
             }
-            
+
 
         }
         else if (_numberOfVotes > THOUSEND_CONVERT_TO_K && _numberOfVotes >= MILLION_CONVERT_TO_M)
         {
-            if(_text != null)
+            if (_text != null)
             {
                 _textMeshProUGUI.text = ((float)_numberOfVotes / (float)MILLION_CONVERT_TO_M).ToString() + "M" + _text;
             }
@@ -528,7 +586,7 @@ public class ButtonSurfPlaylist : ViewModel
         }
         else
         {
-            if(_text != null)
+            if (_text != null)
             {
                 _textMeshProUGUI.text = _numberOfVotes.ToString() + _text;
             }
@@ -542,7 +600,7 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void PlusOrLessOne(bool _value, string _type, bool isSwipe = false)
     {
-        if(_type == "PIK")
+        if (_type == "PIK")
         {
             if (_value)
             {
@@ -561,15 +619,16 @@ public class ButtonSurfPlaylist : ViewModel
             }
             else
             {
-                
+
                 int data;
                 try
                 {
-                        data = SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().total_piks--;
+                    data = SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentMwsiveData().total_piks--;
 
-                } catch (System.NullReferenceException)
+                }
+                catch (System.NullReferenceException)
                 {
-                        data = SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetCurrentMwsiveData().total_piks--;
+                    data = SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().GetCurrentMwsiveData().total_piks--;
                 }
 
                 data--;
@@ -578,22 +637,22 @@ public class ButtonSurfPlaylist : ViewModel
                 {
                     data = 0;
                 }
-                
+
                 CalculateKorM(data, trackTotalPicks);
-                
-                
+
+
             }
-            
+
         }
 
-        if(_type == "RECOMMEND")
+        if (_type == "RECOMMEND")
         {
-            
+
             if (!isSwipe)
             {
                 if (_value)
                 {
-                    
+
                     int data;
                     try
                     {
@@ -609,7 +668,7 @@ public class ButtonSurfPlaylist : ViewModel
                 }
                 else
                 {
-                    
+
                     int data;
                     try
                     {
@@ -635,7 +694,7 @@ public class ButtonSurfPlaylist : ViewModel
             {
                 if (_value)
                 {
-                    
+
                     int data;
                     try
                     {
@@ -651,7 +710,7 @@ public class ButtonSurfPlaylist : ViewModel
                 }
                 else
                 {
-                    
+
                     int data;
                     try
                     {
@@ -673,7 +732,7 @@ public class ButtonSurfPlaylist : ViewModel
 
                 }
             }
-            
+
         }
     }
 
@@ -681,14 +740,15 @@ public class ButtonSurfPlaylist : ViewModel
     {
         isImageManagerLoad = true;
         DisableAnimation();
-
+        imageCoroutine = null;
     }
 
     private void DisableAnimation()
     {
-       if(loadingAnimGameObject != null) {
-            if(isTrackinfoEnd && isImageManagerLoad && isPreviewSongFinishToLoad)
+        if (loadingAnimGameObject != null)
+        {
+            if (isTrackinfoEnd && isImageManagerLoad && isPreviewSongFinishToLoad)
                 loadingAnimGameObject.SetActive(false);
-       }
+        }
     }
 }
