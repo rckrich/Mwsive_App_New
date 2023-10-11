@@ -8,7 +8,7 @@ using UnityEngine;
 public class SurfController : MonoBehaviour
 {
     private static SurfController _instance;
-    
+
     public static SurfController instance
     {
         get
@@ -27,8 +27,10 @@ public class SurfController : MonoBehaviour
     private int position;
 
 
-    public void AddToList(GameObject _SurfManager, bool IsThisMain = false){
-        if(!SurfManagers.Contains(_SurfManager)){
+    public void AddToList(GameObject _SurfManager, bool IsThisMain = false)
+    {
+        if (!SurfManagers.Contains(_SurfManager))
+        {
             SurfManagers.Add(_SurfManager);
             if (!IsThisMain)
             {
@@ -38,28 +40,33 @@ public class SurfController : MonoBehaviour
             {
                 SurfManagerIndex.Add(-1);
             }
-            
-            
-            
+
+
+
         }
-        if(IsThisMain){
+        if (IsThisMain)
+        {
             Main = _SurfManager;
         }
         ControlHierarchy();
 
     }
 
-    public bool AmICurrentView(GameObject _SurfManager){
-        if(_SurfManager == CurrentView){
+    public bool AmICurrentView(GameObject _SurfManager)
+    {
+        if (_SurfManager == CurrentView)
+        {
             return true;
-        }else{
+        }
+        else
+        {
             return false;
         }
     }
 
     public GameObject ReturnMain()
     {
-        if(Main !=null)
+        if (Main != null)
         {
             return Main;
         }
@@ -68,11 +75,12 @@ public class SurfController : MonoBehaviour
             ControlHierarchy();
             return Main;
         }
-        
+
     }
 
-    public GameObject ReturnCurrentView(){
-        if(CurrentView != null)
+    public GameObject ReturnCurrentView()
+    {
+        if (CurrentView != null)
         {
             return CurrentView;
         }
@@ -81,32 +89,39 @@ public class SurfController : MonoBehaviour
             ControlHierarchy();
             return CurrentView;
         }
-       
-        
+
+
     }
     private void ControlHierarchy()
-    {   int HigherNumber = -10;
+    {
+        int HigherNumber = -10;
         position = 0;
         for (int i = 0; i < SurfManagers.Count; i++)
         {
-            if(SurfManagerIndex[i] > HigherNumber && SurfManagers[i] != Main){
+            if (SurfManagerIndex[i] > HigherNumber && SurfManagers[i] != Main)
+            {
                 HigherNumber = SurfManagerIndex[i];
                 position = i;
             }
         }
         for (int i = 0; i < SurfManagers.Count; i++)
         {
-            if(i == position){
+            if (i == position)
+            {
                 SurfManagers[i].SetActive(true);
                 CurrentView = SurfManagers[i];
-            }else{
+            }
+            else
+            {
                 SurfManagers[i].SetActive(false);
             }
-            
+
         }
 
-        if(SurfManagers.Count == 1){
-            if(SurfManagers[0] == Main){
+        if (SurfManagers.Count == 1)
+        {
+            if (SurfManagers[0] == Main)
+            {
                 Main.SetActive(true);
                 CurrentView = Main;
             }
@@ -116,17 +131,18 @@ public class SurfController : MonoBehaviour
 
     }
 
-    public void DeleteFromList(GameObject _SurfManager){
+    public void DeleteFromList(GameObject _SurfManager)
+    {
         for (int i = 0; i < SurfManagers.Count; i++)
         {
-            if(SurfManagers[i] == _SurfManager)
+            if (SurfManagers[i] == _SurfManager)
             {
                 SurfManagers.Remove(_SurfManager);
                 SurfManagerIndex.RemoveAt(i);
             }
         }
-            
-        
+
+
 
     }
 

@@ -32,7 +32,7 @@ public class ProfileViewModel : ViewModel
     public GameObject noBadges;
     [Header("Social Media Button")]
 
-    
+
     private bool isCurrentUserProfileView = true;
     private bool isLogInFromOutside = false;
 
@@ -59,7 +59,8 @@ public class ProfileViewModel : ViewModel
 
     public override void Initialize(params object[] list)
     {
-        if (list.Length > 0) {
+        if (list.Length > 0)
+        {
             profileId = (string)list[0];
             isCurrentUserProfileView = false;
         }
@@ -90,7 +91,8 @@ public class ProfileViewModel : ViewModel
                     NewScreenManager.instance.BackToPreviousView();
                 });
             }
-            else {
+            else
+            {
                 GetUserBasedOnEmptyProfileID(profileId);
             }
         }
@@ -101,7 +103,7 @@ public class ProfileViewModel : ViewModel
 
         FollowButtonInitilization();
         SocialButtonsInitilization();
-        if(BadgesContent != null)
+        if (BadgesContent != null)
             ClearScrollsBadges(BadgesContent);
         GetBadgesCall();
     }
@@ -119,15 +121,15 @@ public class ProfileViewModel : ViewModel
     private void GetUserBasedOnEmptyProfileID(string _profileId)
     {
 
-        if (_profileId.Equals(""))           
+        if (_profileId.Equals(""))
         {
 
-            StartSearch();           
+            StartSearch();
             MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser);
         }
         else
         {
-            MwsiveConnectionManager.instance.GetMwsiveUser(_profileId, Callback_GetMwsiveUser);                     
+            MwsiveConnectionManager.instance.GetMwsiveUser(_profileId, Callback_GetMwsiveUser);
         }
     }
 
@@ -140,7 +142,7 @@ public class ProfileViewModel : ViewModel
     public void OnClick_SpawnADNButton(int identifier)
     {
         NewScreenManager.instance.ChangeToSpawnedView("adn");
-        
+
         NewScreenManager.instance.GetCurrentView().gameObject.GetComponent<ADNDynamicScroll>().Initialize(identifier, currentuser, profileId);
         NewScreenManager.instance.GetCurrentView().GetComponent<AdnViewModel>().Initialize();
     }
@@ -163,7 +165,7 @@ public class ProfileViewModel : ViewModel
             NewScreenManager.instance.GetCurrentView().GetComponent<MiPlaylistViewModel>().GetUserPlaylist(profileId);
             NewScreenManager.instance.GetCurrentView().GetComponent<MiPlaylistViewModel>().Initialize();
         }
-        
+
     }
     public void OnClick_SpawnPopUpButton()
     {
@@ -183,8 +185,8 @@ public class ProfileViewModel : ViewModel
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
         PlaylistRoot playlistRoot = (PlaylistRoot)_value[1];
-        
-       if(playlistRoot.items.Count < 6)
+
+        if (playlistRoot.items.Count < 6)
         {
             for (int i = 0; i < playlistRoot.items.Count; i++)
             {
@@ -204,7 +206,7 @@ public class ProfileViewModel : ViewModel
                     instance.SetImage(playlistRoot.items[i].images[0].url);
             }
         }
-       
+
         EndSearch();
     }
 
@@ -236,7 +238,7 @@ public class ProfileViewModel : ViewModel
         {
             NewScreenManager.instance.GetCurrentView().GetComponent<FollowersViewModel>().GetFollowers(profileId);
         }
-            
+
     }
 
     public void OnClick_Followed()
@@ -248,7 +250,7 @@ public class ProfileViewModel : ViewModel
         {
             NewScreenManager.instance.GetCurrentView().GetComponent<FollowersViewModel>().ProfileIDReset_GetFollowed();
             NewScreenManager.instance.GetCurrentView().GetComponent<FollowersViewModel>().Initialize();
-            
+
         }
         else
         {
@@ -256,7 +258,7 @@ public class ProfileViewModel : ViewModel
             NewScreenManager.instance.GetCurrentView().GetComponent<FollowersViewModel>().Initialize();
         }
     }
-    
+
 
     public void OnClick_EditProfile()
     {
@@ -290,13 +292,15 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_Follow()
     {
-        if (AppManager.instance.isLogInMode) {
+        if (AppManager.instance.isLogInMode)
+        {
             if (AppManager.instance.currentMwsiveUser.platform_id.Equals(profileId))
             {
                 NewScreenManager.instance.ChangeToSpawnedView("editarPerfil");
                 NewScreenManager.instance.GetCurrentView().GetComponent<EditProfileViewModel>().Initialize(true);
             }
-            else {
+            else
+            {
                 MwsiveConnectionManager.instance.PostFollow(profileId, Callback_PostFollow);
             }
         }
@@ -339,7 +343,8 @@ public class ProfileViewModel : ViewModel
         MwsiveConnectionManager.instance.GetMwsiveUser(profileId, Callback_GetMwsiveUser);
     }
 
-    public void OnClick_Share(){
+    public void OnClick_Share()
+    {
         NativeShareManager.instance.OnClickShareMwsiveProfile(profileId);
     }
 
@@ -347,7 +352,7 @@ public class ProfileViewModel : ViewModel
     {
         mwsiveUserRoot = (MwsiveUserRoot)_value[1];
 
-        if(mwsiveUserRoot.user.image_url != null)
+        if (mwsiveUserRoot.user.image_url != null)
             ImageManager.instance.GetImage(mwsiveUserRoot.user.image_url, profilePicture, (RectTransform)this.transform, "PROFILEIMAGE");
 
         followersText.text = mwsiveUserRoot.user.total_followers.ToString();
@@ -404,7 +409,7 @@ public class ProfileViewModel : ViewModel
         }
 
         GetCurrentUserPlaylists();
-        
+
     }
 
     public void Callback_GetMwsiveUser(object[] _value)
@@ -464,7 +469,7 @@ public class ProfileViewModel : ViewModel
                             break;
                     }
                 }
-               
+
             }
         }
 
@@ -472,22 +477,25 @@ public class ProfileViewModel : ViewModel
     }
 
 
-    public void OnClick_SurfButton(){
+    public void OnClick_SurfButton()
+    {
         MwsiveConnectionManager.instance.GetMwsiveUser(profileId, Callback_GetDNASeveralTracks);
         NewScreenManager.instance.ChangeToSpawnedView("surf");
         NewScreenManager.instance.GetCurrentView().GetComponent<PF_SurfViewModel>().Initialize();
     }
 
-    public void Callback_GetDNASeveralTracks(object[] _value){
+    public void Callback_GetDNASeveralTracks(object[] _value)
+    {
         MwsiveUserRoot mwsiveuser = (MwsiveUserRoot)_value[1];
 
         List<string> tracks = new List<string>();
-        
-        if(mwsiveUserRoot.user.user_lists != null){
-            
+
+        if (mwsiveUserRoot.user.user_lists != null)
+        {
+
             foreach (var item in mwsiveuser.user.user_lists)
             {
-                if(item.type == "ON_REPEAT")
+                if (item.type == "ON_REPEAT")
                 {
                     foreach (var _track in item.items_list)
                     {
@@ -539,20 +547,24 @@ public class ProfileViewModel : ViewModel
                     }
                 }
             }
-           
+
         }
 
-        if (tracks != null){
+        if (tracks != null)
+        {
             NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().SurfProfileADN(profileId, tracks);
-        }else{
+        }
+        else
+        {
             NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().SurfProfileADN(profileId);
         }
-        
+
     }
 
     private void FollowButtonInitilization()
     {
-        if (AppManager.instance.isLogInMode) {
+        if (AppManager.instance.isLogInMode)
+        {
             if (AppManager.instance.currentMwsiveUser.platform_id.Equals(profileId))
             {
                 followButtonText.text = "Editar perfil";
@@ -574,7 +586,7 @@ public class ProfileViewModel : ViewModel
 
         if (socialButtons.Length <= 0) return;
 
-        foreach(GameObject button in socialButtons)
+        foreach (GameObject button in socialButtons)
         {
             button.SetActive(false);
         }
@@ -605,7 +617,7 @@ public class ProfileViewModel : ViewModel
             followButtonText.color = followTextColor;
             followButtonImage.color = followColor;
         }
-        
+
     }
 
     private void ClearScrolls(Transform _scrolls)
@@ -623,7 +635,7 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_TiktokButton()
     {
-        if(!tiktokUrl.Equals(""))
+        if (!tiktokUrl.Equals(""))
             Application.OpenURL(tiktokUrl);
     }
 
@@ -689,7 +701,7 @@ public class ProfileViewModel : ViewModel
     {
         string _profileid = profileId;
         if (_profileid.Equals(""))
-           _profileid = AppManager.instance.currentMwsiveUser.platform_id;
+            _profileid = AppManager.instance.currentMwsiveUser.platform_id;
         MwsiveConnectionManager.instance.GetBadges(_profileid, "engagement", Callback_GetBadgesCall, 0, 3);
     }
 
@@ -701,7 +713,7 @@ public class ProfileViewModel : ViewModel
         {
             if (badgesRoot != null)
             {
-               
+
                 foreach (Badge badge in badgesRoot.badges)
                 {
                     BadgeHolder instance = GameObject.Instantiate(BadgesHolderPrefab, BadgesContent).GetComponent<BadgeHolder>();
@@ -716,15 +728,15 @@ public class ProfileViewModel : ViewModel
             areEngagementBadges = false;
         }
 
-        if(count < LIMIT_OF_BADGES)
+        if (count < LIMIT_OF_BADGES)
         {
             count = LIMIT_OF_BADGES - count;
             string _profileid = profileId;
 
             if (_profileid.Equals(""))
                 _profileid = AppManager.instance.currentMwsiveUser.platform_id;
-            MwsiveConnectionManager.instance.GetBadges(_profileid, "track", Callback_GetBadgesTrack, 0 , count);
-            
+            MwsiveConnectionManager.instance.GetBadges(_profileid, "track", Callback_GetBadgesTrack, 0, count);
+
         }
     }
 
@@ -769,9 +781,9 @@ public class ProfileViewModel : ViewModel
 
     private void ClearScrollsBadges(Transform _scrolls)
     {
-        for(int i = 1; i < _scrolls.childCount; i++)
+        for (int i = 1; i < _scrolls.childCount; i++)
         {
-            Destroy(_scrolls.GetChild(i).transform.gameObject);    
+            Destroy(_scrolls.GetChild(i).transform.gameObject);
         }
     }
 }

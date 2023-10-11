@@ -18,32 +18,32 @@ public class AniTest : MonoBehaviour
     float maskThickness;
 
     private void Update()
-    {   
+    {
     }
 
     void Start()
     {
-        
 
-            maskThickness = Mask.GetComponent<RectTransform>().rect.width;
-            initialValue = Color.GetComponent<RectTransform>().offsetMax;
 
-            SecondWaveMask.offsetMin = new Vector2(maskThickness, SecondWaveMask.offsetMin.y);
-            SecondWaveMask.offsetMax = new Vector2(maskThickness, SecondWaveMask.offsetMax.y);
-            restPosition2.offsetMin = new Vector2(-maskThickness, SecondWaveMask.offsetMin.y);
-            restPosition2.offsetMax = new Vector2(-maskThickness, SecondWaveMask.offsetMax.y);
+        maskThickness = Mask.GetComponent<RectTransform>().rect.width;
+        initialValue = Color.GetComponent<RectTransform>().offsetMax;
 
-        
-                
+        SecondWaveMask.offsetMin = new Vector2(maskThickness, SecondWaveMask.offsetMin.y);
+        SecondWaveMask.offsetMax = new Vector2(maskThickness, SecondWaveMask.offsetMax.y);
+        restPosition2.offsetMin = new Vector2(-maskThickness, SecondWaveMask.offsetMin.y);
+        restPosition2.offsetMax = new Vector2(-maskThickness, SecondWaveMask.offsetMax.y);
+
+
+
         StartAnimation();
     }
 
 
     public void StartAnimation()
     {
-        
-        
-        if(MaskAni == null)
+
+
+        if (MaskAni == null)
         {
             FromCenterToLeft();
         }
@@ -51,9 +51,9 @@ public class AniTest : MonoBehaviour
         {
             MaskAni.Restart();
         }
-        
-        
-        
+
+
+
         if (ColorAni == null)
         {
             Color.GetComponent<RectTransform>().offsetMax = initialValue;
@@ -67,7 +67,7 @@ public class AniTest : MonoBehaviour
             MaskFinalAni.Restart();
             MaskFinalAni.Pause();
         }
-        
+
 
     }
 
@@ -84,21 +84,22 @@ public class AniTest : MonoBehaviour
 
         float twenable = starttween;
 
-        MaskAni = DOTween.To(() => twenable, x => twenable = x,  0, 30f);
+        MaskAni = DOTween.To(() => twenable, x => twenable = x, 0, 30f);
         MaskAni.OnUpdate(() => {
             Color.GetComponent<RectTransform>().offsetMax = new Vector2(Color.GetComponent<RectTransform>().offsetMax.x, twenable);
             Debug.Log(twenable);
-            if (twenable > -15f) {
-                
+            if (twenable > -15f)
+            {
+
                 MaskFinalAni.Play();
-            
+
             }
 
 
         });
 
         MaskAni.SetEase(Ease.InSine);
-        
+
         MaskAni.SetAutoKill(false);
 
 

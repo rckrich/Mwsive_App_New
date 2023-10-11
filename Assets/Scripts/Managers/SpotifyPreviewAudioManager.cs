@@ -44,13 +44,13 @@ public class SpotifyPreviewAudioManager : Manager
             audioSource.Stop();
             InvokeEvent<TimerAppEvent>(new TimerAppEvent() { type = "STOP" });
             isPaused = true;
-            
+
         }
     }
 
     public void Pause()
     {
-        
+
         if (isPaused)
         {
             audioSource.Play();
@@ -72,7 +72,8 @@ public class SpotifyPreviewAudioManager : Manager
         }
     }
 
-    public void ForcePause(){
+    public void ForcePause()
+    {
         audioSource.Pause();
         isPaused = true;
         InvokeEvent<TimerAppEvent>(new TimerAppEvent() { type = "PAUSE" });
@@ -104,7 +105,7 @@ public class SpotifyPreviewAudioManager : Manager
                 audioSource.clip = audioClip;
                 audioSource.time = 0f;
                 audioSource.Play();
-                isPaused = false;   
+                isPaused = false;
 
                 if (_callback != null)
                     _callback(new object[] { audioClip.length });

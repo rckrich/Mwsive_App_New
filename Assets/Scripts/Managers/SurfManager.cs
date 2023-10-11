@@ -47,35 +47,36 @@ public class SurfManager : Manager
     public float time = 0;
 
     private Vector2 ControllerPostion = new Vector2();
-    
+
     private int PrefabPosition = 0;
     private bool HasSwipeEnded = true;
     private bool Success = false;
     private bool ResetEndDrag = true;
 
-    
-    
+
+
 
 
     private void Start()
     {
-        if(UIAniManager.instance.MainCanvas == null){
+        if (UIAniManager.instance.MainCanvas == null)
+        {
             UIAniManager.instance.MainCanvas = MainCanvas;
         }
         ControllerPostion = new Vector2(Controller.transform.position.x, Controller.transform.position.y);
 
     }
 
-   
+
     private void OnEnable()
     {
 
         SurfController.instance.AddToList(gameObject, true);
-        
+
 
         GameObject currentPrefab = GetCurrentPrefab();
 
-        if(currentPrefab != null && SurfController.instance.AmICurrentView(gameObject))
+        if (currentPrefab != null && SurfController.instance.AmICurrentView(gameObject))
             currentPrefab.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
 
         if (SurfController.instance.AmICurrentView(gameObject))
@@ -87,11 +88,12 @@ public class SurfManager : Manager
             }
         }
 
-        
+
 
     }
 
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
         SurfController.instance.DeleteFromList(gameObject);
     }
 
@@ -116,14 +118,15 @@ public class SurfManager : Manager
         }
     }
 
-    
+
 
     private void OnSwipe(string swipe)
     {
         if (!canSwipe)
             return;
 
-        switch (swipe){
+        switch (swipe)
+        {
             case "Right":
                 if (Controller.horizontal)
                 {
@@ -133,9 +136,9 @@ public class SurfManager : Manager
 
                     SideScrollSuccess();
                 }
-                
-                
-            break;
+
+
+                break;
             case "Up":
                 if (Controller.vertical)
                 {
@@ -144,8 +147,8 @@ public class SurfManager : Manager
                     HasSwipeEnded = false;
                     UpScrollSuccess();
                 }
-                
-            break;
+
+                break;
             case "Down":
                 if (Controller.vertical)
                 {
@@ -154,30 +157,37 @@ public class SurfManager : Manager
                     HasSwipeEnded = false;
                     DownScrollSuccess();
                 }
-                
-            break;
+
+                break;
         }
     }
-    
-    public void ValChange(){
-        
-        if(Controller.transform.position.x > ControllerPostion.x*1.1){
-            Controller.vertical =false;
-           SideScrollAnimation();
-        }if(Controller.transform.position.y > ControllerPostion.y*1.1){
-            Controller.horizontal =false;
+
+    public void ValChange()
+    {
+
+        if (Controller.transform.position.x > ControllerPostion.x * 1.1)
+        {
+            Controller.vertical = false;
+            SideScrollAnimation();
+        }
+        if (Controller.transform.position.y > ControllerPostion.y * 1.1)
+        {
+            Controller.horizontal = false;
             UpScrollAnimation();
-        }if(Controller.transform.position.y < ControllerPostion.y*.9){
-            Controller.horizontal =false;
+        }
+        if (Controller.transform.position.y < ControllerPostion.y * .9)
+        {
+            Controller.horizontal = false;
             DownScrollAnimation();
         }
-        
+
 
     }
 
 
 
-    private void SideScrollAnimation(){
+    private void SideScrollAnimation()
+    {
 
         float var = Controller.transform.position.x / ControllerPostion.x * .25f;
         float Fade = ControllerPostion.x / Controller.transform.position.x;
@@ -204,7 +214,8 @@ public class SurfManager : Manager
     }
 
 
-    private void DownScrollAnimation(){
+    private void DownScrollAnimation()
+    {
         float var = Controller.transform.position.y / ControllerPostion.y;
         float Fade = ControllerPostion.y / Controller.transform.position.y;
 
@@ -221,7 +232,8 @@ public class SurfManager : Manager
     }
 
 
-    private void UpScrollAnimation(){
+    private void UpScrollAnimation()
+    {
         float var = Controller.transform.position.y / ControllerPostion.y;
         float Fade = Controller.transform.position.y / ControllerPostion.y;
         float VAR2 = ControllerPostion.y / Controller.transform.position.y;
@@ -251,7 +263,8 @@ public class SurfManager : Manager
         ResetEndDrag = true;
     }
 
-    public void OnEndDrag(){
+    public void OnEndDrag()
+    {
         while (HasSwipeEnded && ResetEndDrag)
         {
             if (ActiveMwsiveSongs[1].transform.position.x >= ControllerPostion.x * SurfSuccessSensitivity)
@@ -291,13 +304,14 @@ public class SurfManager : Manager
 
     }
 
-    private void SideScrollSuccess(){
+    private void SideScrollSuccess()
+    {
         ResetEndDrag = false;
-        Controller.enabled =false;
-        Controller.horizontal =true;
-        Controller.vertical =true;
-        Controller.transform.position = new Vector2(ControllerPostion.x,ControllerPostion.y);
-        if(CurrentPosition < MwsiveSongsData.Count - 1)
+        Controller.enabled = false;
+        Controller.horizontal = true;
+        Controller.vertical = true;
+        Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
+        if (CurrentPosition < MwsiveSongsData.Count - 1)
         {
             SpotifyPreviewAudioManager.instance.StopTrack();
 
@@ -316,18 +330,20 @@ public class SurfManager : Manager
             ActiveMwsiveSongs[4].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[2]);
             ActiveMwsiveSongs[4].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();
 
-            
+
 
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().AddToPlaylistSwipe(GetCurrentMwsiveData().id, ResetTimer());
 
             CurrentPosition++;
             SpawnPosition++;
 
-            
+
 
             SurfManagerLogic();
             Success = true;
-        }else{
+        }
+        else
+        {
             ResetValue();
         }
 
@@ -342,13 +358,15 @@ public class SurfManager : Manager
         Debug.Log("SideScrollSucess");
         HasSwipeEnded = true;
     }
-    private void DownScrollSuccess(){
+    private void DownScrollSuccess()
+    {
         ResetEndDrag = false;
-        Controller.enabled =false;
-        Controller.horizontal =true;
-        Controller.vertical =true;
-        Controller.transform.position = new Vector2(ControllerPostion.x,ControllerPostion.y);
-        if (CurrentPosition > 0) {
+        Controller.enabled = false;
+        Controller.horizontal = true;
+        Controller.vertical = true;
+        Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
+        if (CurrentPosition > 0)
+        {
             ActiveMwsiveSongs[0].GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[CurrentPosition - 1]);
             SpotifyPreviewAudioManager.instance.StopTrack();
             Success = true;
@@ -380,28 +398,30 @@ public class SurfManager : Manager
                 MwsiveConnectionManager.instance.PostTrackAction(_trackid, "DOWN", ResetTimer());
             }
             CurrentPosition--;
-            
+
             SpawnPosition--;
-            
+
 
             ActiveMwsiveSongs[2].GetComponent<ButtonSurfPlaylist>().CheckIfDurationBarCanPlay();
             ActiveMwsiveSongs[3].GetComponent<ButtonSurfPlaylist>().CheckIfDurationBarCanPlay();
             SurfManagerLogicPreviousSong();
         }
-        else{
+        else
+        {
             ResetValue();
         }
         Debug.Log("DownScrollSuccess");
         HasSwipeEnded = true;
     }
-    
-    private void UpScrollSuccess(){
+
+    private void UpScrollSuccess()
+    {
         ResetEndDrag = false;
-        Controller.enabled =false;
-        Controller.horizontal =true;
-        Controller.vertical =true;
-        Controller.transform.position = new Vector2(ControllerPostion.x,ControllerPostion.y);
-        if(CurrentPosition < MwsiveSongsData.Count - 1)
+        Controller.enabled = false;
+        Controller.horizontal = true;
+        Controller.vertical = true;
+        Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
+        if (CurrentPosition < MwsiveSongsData.Count - 1)
         {
             SpotifyPreviewAudioManager.instance.StopTrack();
             Success = true;
@@ -422,11 +442,11 @@ public class SurfManager : Manager
 
 
             string _trackid = GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID;
-            
 
-            if (AppManager.instance.isLogInMode && !_trackid.Equals("") )
+
+            if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
             {
-            MwsiveConnectionManager.instance.PostTrackAction(GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID, "UP", ResetTimer());
+                MwsiveConnectionManager.instance.PostTrackAction(GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID, "UP", ResetTimer());
             }
 
             if (AddSong.activeSelf)
@@ -437,8 +457,10 @@ public class SurfManager : Manager
             CurrentPosition++;
             SpawnPosition++;
             SurfManagerLogic();
-            
-        }else{
+
+        }
+        else
+        {
             ResetValue();
         }
         if (CurrentPosition >= MwsiveSongsData.Count - 5)
@@ -451,40 +473,45 @@ public class SurfManager : Manager
         HasSwipeEnded = true;
         Debug.Log("UpScrollSuccess");
     }
-           
 
-    public void SpawnRecommendations(){
-        if(CanGetRecomendations){
+
+    public void SpawnRecommendations()
+    {
+        if (CanGetRecomendations)
+        {
             List<string> _artists = new List<string>();
             List<string> _tracks = new List<string>();
 
-            if(recommendationsRoot == null){
-                for (int i = searchedPlaylist.tracks.items.Count-1; i > searchedPlaylist.tracks.items.Count-3   ; i--)
+            if (recommendationsRoot == null)
+            {
+                for (int i = searchedPlaylist.tracks.items.Count - 1; i > searchedPlaylist.tracks.items.Count - 3; i--)
                 {
-                    _artists.Add(searchedPlaylist.tracks.items[i].track.artists[0].id); 
+                    _artists.Add(searchedPlaylist.tracks.items[i].track.artists[0].id);
                     _tracks.Add(searchedPlaylist.tracks.items[i].track.id);
-                    
-                }
-            }else{
-                for (int i = recommendationsRoot.tracks.Count-1; i > recommendationsRoot.tracks.Count-3   ; i--)
-                {
-                    _artists.Add(recommendationsRoot.tracks[i].artists[0].id); 
-                    _tracks.Add(recommendationsRoot.tracks[i].id);
-                    
+
                 }
             }
-            
-            
+            else
+            {
+                for (int i = recommendationsRoot.tracks.Count - 1; i > recommendationsRoot.tracks.Count - 3; i--)
+                {
+                    _artists.Add(recommendationsRoot.tracks[i].artists[0].id);
+                    _tracks.Add(recommendationsRoot.tracks[i].id);
+
+                }
+            }
+
+
             SpotifyConnectionManager.instance.GetRecommendations(_artists.ToArray(), _tracks.ToArray(), Callback_SpawnRecommendations, 20);
         }
-        
-        
+
+
     }
     private void Callback_SpawnRecommendations(object[] _value)
     {
         recommendationsRoot = (RecommendationsRoot)_value[1];
         DynamicPrefabSpawnerRecommendations(new object[] { recommendationsRoot }, false, false);
-        
+
     }
 
     public void ResetSideScroll()
@@ -637,8 +664,8 @@ public class SurfManager : Manager
         {
             SurfManagerLogic(true);
         }
-        
-        
+
+
     }
 
     public void DynamicPrefabSpawnerAlbum(object[] _value)
@@ -931,7 +958,7 @@ public class SurfManager : Manager
         {
 
         }
-        
+
     }
 
     private void SurfManagerLogicInitialize()
@@ -976,7 +1003,7 @@ public class SurfManager : Manager
 
     private void SurfManagerLogicPreviousSong()
     {
-        
+
         ActiveMwsiveSongs[ActiveMwsiveSongs.Count - 1].GetComponent<SurfAni>().isAvailable = true;
         ActiveMwsiveSongs.RemoveAt(ActiveMwsiveSongs.Count - 1);
         SpawnPrefabBack();
@@ -1014,13 +1041,13 @@ public class SurfManager : Manager
         }
         else
         {
-            if(ActiveMwsiveSongs.Count == 0)
+            if (ActiveMwsiveSongs.Count == 0)
             {
                 SurfManagerLogicInitialize();
             }
-            
-            
-            
+
+
+
         }
 
 
@@ -1031,7 +1058,7 @@ public class SurfManager : Manager
     {
 
         GameObject Instance = PoolManager.instance.GetPooledObject();
-        
+
 
         Instance.GetComponent<CanvasGroup>().alpha = 0;
         Instance.transform.SetParent(MwsiveContainer.transform);
@@ -1047,12 +1074,14 @@ public class SurfManager : Manager
     }
 
 
-    public void SpawnSharePrefab(string SpotifyID){
+    public void SpawnSharePrefab(string SpotifyID)
+    {
         SpotifyConnectionManager.instance.GetTrack(SpotifyID, Callback_SpawnSharePrefab);
-        
+
     }
 
-    private void Callback_SpawnSharePrefab(object[] _value){
+    private void Callback_SpawnSharePrefab(object[] _value)
+    {
         /*
         TrackRoot trackRoot = (TrackRoot)_value[1];
         int SiblingIndex = GetCurrentPrefab().transform.GetSiblingIndex();
@@ -1107,7 +1136,8 @@ public class SurfManager : Manager
     }
 
 
-    private GameObject SpawnPrefab(){
+    private GameObject SpawnPrefab()
+    {
 
         GameObject Instance = PoolManager.instance.GetPooledObject();
         Instance.GetComponent<ButtonSurfPlaylist>().ClearData();
@@ -1177,44 +1207,51 @@ public class SurfManager : Manager
 
     float touchDuration;
     Touch touch;
-    void Update() {
-        
-        if (Input.touchCount > 0 && EventSystem.current.currentSelectedGameObject == null && canSwipe){ //if there is any touch
+    void Update()
+    {
+
+        if (Input.touchCount > 0 && EventSystem.current.currentSelectedGameObject == null && canSwipe)
+        { //if there is any touch
             touchDuration += Time.deltaTime;
             touch = Input.GetTouch(0);
- 
-            if(touch.phase == TouchPhase.Ended && touchDuration < 0.2f && Controller.isActiveAndEnabled) //making sure it only check the touch once && it was a short touch/tap and not a dragging.
+
+            if (touch.phase == TouchPhase.Ended && touchDuration < 0.2f && Controller.isActiveAndEnabled) //making sure it only check the touch once && it was a short touch/tap and not a dragging.
                 StartCoroutine("singleOrDouble");
         }
         else
             touchDuration = 0.0f;
     }
- 
-    IEnumerator singleOrDouble(){
-        
+
+    IEnumerator singleOrDouble()
+    {
+
         yield return new WaitForSeconds(0.2f);
-        if(touch.tapCount == 1){
+        if (touch.tapCount == 1)
+        {
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().OnClic_StopAudioPreview();
-        }    
-        else if(touch.tapCount == 2){
+        }
+        else if (touch.tapCount == 2)
+        {
             //this coroutine has been called twice. We should stop the next one here otherwise we get two double tap
             StopCoroutine("singleOrDouble");
 
-           GameObject Instance = Instantiate(MwsiveOla, Vector3.zero, Quaternion.identity);
+            GameObject Instance = Instantiate(MwsiveOla, Vector3.zero, Quaternion.identity);
             Instance.transform.SetParent(GameObject.Find("SpawnableCanvas_Canvas").transform);
-            Instance.GetComponent<RectTransform>().offsetMin = new Vector2(100,250);
-            Instance.GetComponent<RectTransform>().offsetMax = new Vector2(-100,-250);
+            Instance.GetComponent<RectTransform>().offsetMin = new Vector2(100, 250);
+            Instance.GetComponent<RectTransform>().offsetMax = new Vector2(-100, -250);
 
             UIAniManager.instance.DoubleClickOla(Instance);
-            if(!OlaButton.GetComponent<MwsiveControllerButtons>().IsItOlaColorButtonActive()){
+            if (!OlaButton.GetComponent<MwsiveControllerButtons>().IsItOlaColorButtonActive())
+            {
                 OlaButton.GetComponent<MwsiveControllerButtons>().OnClickOlaButton();
-                
+
             }
         }
     }
-    
 
-    public void MainSceneProfile_OnClick(){
+
+    public void MainSceneProfile_OnClick()
+    {
         GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
     }
 
@@ -1249,7 +1286,7 @@ public class SurfManager : Manager
         {
             yield return new WaitForSeconds(1);
             time++;
-            
+
         }
 
 
@@ -1270,7 +1307,7 @@ public class SurfManager : Manager
         {
             StartTimer();
         }
-        if(_event.type == "KILL")
+        if (_event.type == "KILL")
         {
             KillTimer();
         }
