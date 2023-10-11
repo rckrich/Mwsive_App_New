@@ -88,7 +88,7 @@ public class AniTest : MonoBehaviour
         MaskAni.OnUpdate(() => {
             Color.GetComponent<RectTransform>().offsetMax = new Vector2(Color.GetComponent<RectTransform>().offsetMax.x, twenable);
             Debug.Log(twenable);
-            if (twenable > -30f) {
+            if (twenable > -15f) {
                 
                 MaskFinalAni.Play();
             

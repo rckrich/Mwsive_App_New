@@ -55,6 +55,7 @@ public class ButtonSurfPlaylist : ViewModel
     private bool isPicked = false;
     private bool isRecommended = false;
 
+    private IEnumerator imageCoroutine, playCoroutine;
 
     private void Start()
     {
@@ -123,12 +124,12 @@ public class ButtonSurfPlaylist : ViewModel
         if (_data.isPicked)
         {
 
-            mwsiveButton.PIKButtonColorOn();
+            mwsiveButton.PIKOnNoAni();
 
         }
         else
         {
-            mwsiveButton.PIKButtonColorOff();
+            mwsiveButton.UnPIKNoAni();
         }
     }
 
@@ -183,7 +184,7 @@ public class ButtonSurfPlaylist : ViewModel
         if (_data.album_image_url != null)
         {
             trackCover.sprite = MwsiveCover;
-            ImageManager.instance.GetImage(_data.album_image_url, trackCover, (RectTransform)this.transform, null, Callback_ImageManager);
+            imageCoroutine = ImageManager.instance.GetImage(_data.album_image_url, trackCover, (RectTransform)this.transform, null, Callback_ImageManager);
         }
 
         if (_data.id != null)
@@ -197,7 +198,6 @@ public class ButtonSurfPlaylist : ViewModel
         {
             uris.Clear();
             uris.Add(_data.uri);
-            Debug.Log(uris[0]);
         }
 
         if (_data.preview_url != null)
@@ -234,7 +234,18 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void ClearData()
     {
+        if(imageCoroutine != null)
+        {
+            ImageManager.instance.StopCustomCoroutine(imageCoroutine);
+        }
+        if(playCoroutine != null)
+        {
+            SpotifyPreviewAudioManager.instance.StopCustomCoroutine(playCoroutine);
+        }
+        imageCoroutine = null;
         
+        playCoroutine = null;
+        durationBar.ResetFillAmount();
         playlistText.text = null;       
         trackName.text = null;       
         albumName.text = null;
@@ -294,11 +305,13 @@ public class ButtonSurfPlaylist : ViewModel
             
         }
         
-        SpotifyPreviewAudioManager.instance.GetTrack(previewURL, Callback_GetTrack);
+        playCoroutine = SpotifyPreviewAudioManager.instance.GetTrack(previewURL, Callback_GetTrack);
+
     }
 
     private void Callback_GetTrack(object[] _list)
     {
+
         CheckIfDurationBarCanPlay();
         isPreviewSongFinishToLoad = true;
 
@@ -312,7 +325,7 @@ public class ButtonSurfPlaylist : ViewModel
             }
             
         }
-
+        playCoroutine = null;
         
     }
 
@@ -721,7 +734,7 @@ public class ButtonSurfPlaylist : ViewModel
     {
         isImageManagerLoad = true;
         DisableAnimation();
-
+        imageCoroutine = null;
     }
 
     private void DisableAnimation()

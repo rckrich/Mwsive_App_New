@@ -13,7 +13,6 @@ public class PF_SurfManager : Manager
     public SwipeListener swipeListener;
     public ScrollRect Controller;
     public GameObject Prefab, AddSong, OlaButton, MwsiveOla, MwsiveContainer;
-    public List<GameObject> MwsiveSongs = new List<GameObject>();
     public GameObject[] RestPositions;
     public GameObject loadingCard;
 
@@ -49,6 +48,7 @@ public class PF_SurfManager : Manager
     private int ProfilePlaylistPosition = 0;
     private bool HasSwipeEnded = true;
     private bool Success = false;
+    private bool ResetEndDrag = true;
     
     private bool HasFirstPlaylistPlayed = false;
 
@@ -79,23 +79,32 @@ public class PF_SurfManager : Manager
         if (SurfController.instance.AmICurrentView(gameObject))
         {
             AddEventListener<TimerAppEvent>(TimerAppEventListener);
-            
+            if (MwsiveSongsData != null && MwsiveSongsData.Count > 0)
+            {
+                HasFirstPlaylistPlayed = false;
+
+                SurfManagerLogicInitialize();
+            }
         }
 
 
-        if(MwsiveSongsData != null && MwsiveSongsData.Count > 0)
-        {
-            HasFirstPlaylistPlayed = false;
-            SurfManagerLogicInitialize();
-        }
+        
 
 
 
     }
 
     private void OnDestroy() {
+
+        try
+        {
+            SurfController.instance.DeleteFromList(gameObject);
+        }
+        catch (System.NullReferenceException)
+        {
+            Debug.Log("Can not delete from SurfController");
+        }
         
-        SurfController.instance.DeleteFromList(gameObject);
     }
 
     private void OnDisable()
@@ -118,26 +127,35 @@ public class PF_SurfManager : Manager
 
         switch (swipe) {
             case "Right":
-
-                Controller.vertical = false;
-                Controller.horizontal = false;
-                HasSwipeEnded = false;
-                SideScrollSuccess();
+                if (Controller.horizontal)
+                {
+                    Controller.vertical = false;
+                    Controller.horizontal = false;
+                    HasSwipeEnded = false;
+                    SideScrollSuccess();
+                }
+                
 
                 break;
             case "Up":
-
-                Controller.vertical = false;
-                Controller.horizontal = false;
-                HasSwipeEnded = false;
-                UpScrollSuccess();
+                if (Controller.vertical)
+                {
+                    Controller.vertical = false;
+                    Controller.horizontal = false;
+                    HasSwipeEnded = false;
+                    UpScrollSuccess();
+                    
+                }
                 break;
             case "Down":
-
-                Controller.vertical = false;
-                Controller.horizontal = false;
-                HasSwipeEnded = false;
-                DownScrollSuccess();
+                if (Controller.vertical)
+                {
+                    Controller.vertical = false;
+                    Controller.horizontal = false;
+                    HasSwipeEnded = false;
+                    DownScrollSuccess();
+                }
+                
                 break;
         }
         //Debug.Log(swipe);
@@ -230,20 +248,26 @@ public class PF_SurfManager : Manager
         Success = false;
     }
 
+    public void StartDrag()
+    {
+        ResetEndDrag = true;
+    }
+
     public void OnEndDrag() {
-        while (HasSwipeEnded && HasSideScrollEnded) {
+        while (HasSwipeEnded && HasSideScrollEnded && ResetEndDrag) {
             if (ActiveMwsiveSongs[1].transform.position.x >= ControllerPostion.x * SurfSuccessSensitivity) {
-                if (CurrentPosition > MwsiveSongs.Count - 4) {
-                    SideScrollSuccess();
-                }
+                HasSwipeEnded = false;
+                SideScrollSuccess();
 
                 break;
 
             } else if (ActiveMwsiveSongs[1].transform.position.y >= ControllerPostion.y * SurfSuccessSensitivity * 1.5) {
+                HasSwipeEnded = false;
                 UpScrollSuccess();
                 break;
 
             } else if (ActiveMwsiveSongs[1].transform.position.y <= ControllerPostion.y / SurfSuccessSensitivity) {
+                HasSwipeEnded = false;
                 DownScrollSuccess();
                 break;
 
@@ -259,7 +283,7 @@ public class PF_SurfManager : Manager
     }
 
     private void SideScrollSuccess() {
-        
+        ResetEndDrag = false;
         Controller.enabled = false;
         Controller.horizontal = true;
         Controller.vertical = true;
@@ -314,11 +338,11 @@ public class PF_SurfManager : Manager
         } else {
             ResetValue();
         }
-        
+        Debug.Log("SideScrollSuccess");
         HasSwipeEnded = true;
     }
     private void DownScrollSuccess() {
-        
+        ResetEndDrag = false;
         Controller.enabled = false;
         Controller.horizontal = true;
         Controller.vertical = true;
@@ -348,9 +372,12 @@ public class PF_SurfManager : Manager
             ActiveMwsiveSongs[3].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[3]);
             ActiveMwsiveSongs[3].GetComponent<SurfAni>().Play_SurfTransitionBackHideSong();
 
-            ActiveMwsiveSongs[4].GetComponent<ButtonSurfPlaylist>().ClearData();
 
-            AddSong.GetComponent<SurfAni>().Play_SurfAddsongReset();
+
+            if (AddSong.activeSelf)
+            {
+                AddSong.GetComponent<SurfAni>().Play_SurfAddsongReset();
+            }
 
 
             string _trackid = GetCurrentMwsiveData().id;
@@ -371,8 +398,12 @@ public class PF_SurfManager : Manager
         }
         
         HasSwipeEnded = true;
+
+        Debug.Log("DownScrollSuccess");
+
     }
     private void UpScrollSuccess() {
+        ResetEndDrag = false;
         Controller.enabled = false;
         Controller.horizontal = true;
         Controller.vertical = true;
@@ -399,7 +430,10 @@ public class PF_SurfManager : Manager
             ActiveMwsiveSongs[4].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[2]);
             ActiveMwsiveSongs[4].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();
 
-            ActiveMwsiveSongs[1].GetComponent<ButtonSurfPlaylist>().ClearData();
+            if (AddSong.activeSelf)
+            {
+                AddSong.GetComponent<SurfAni>().Play_SurfAddsongReset();
+            }
 
 
 
@@ -426,7 +460,7 @@ public class PF_SurfManager : Manager
                 SurfProfileADN();
             }
         }
-
+        Debug.Log("UPScrollSuccess");
         HasSwipeEnded = true;
     }
 
@@ -452,7 +486,7 @@ public class PF_SurfManager : Manager
     }
 
     public void ResetValue() {
-
+        Debug.Log("Reset");
         if (!Success) {
             ///DOTween.KillAll(false, new object[] { 0, 1 });
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfReset();
@@ -965,6 +999,7 @@ public class PF_SurfManager : Manager
     {
         swipeListener.OnSwipe.AddListener(OnSwipe);
         Controller.gameObject.SetActive(true);
+        PrefabPosition = 0;
         if (HasFirstPlaylistPlayed)
         {
             return;
@@ -1094,8 +1129,8 @@ public class PF_SurfManager : Manager
         
 
         GameObject Instance = PoolManager.instance.GetPooledObject();
-        
-        if(PrefabPosition == 0)
+        Instance.GetComponent<ButtonSurfPlaylist>().ClearData();
+        if (PrefabPosition == 0)
         {
             Instance.transform.position = RestPositions[4].transform.position;
             Instance.GetComponent<CanvasGroup>().alpha = RestPositions[4].GetComponent<CanvasGroup>().alpha;
@@ -1121,7 +1156,6 @@ public class PF_SurfManager : Manager
         Instance.SetActive(true);
         Instance.GetComponent<SurfAni>().isAvailable = false;
 
-        //MwsiveSongs.Add(Instance);
         Instance.transform.eulerAngles = new Vector3(0, 0, 0);
         Instance.GetComponent<RectTransform>().offsetMin = new Vector2(LeftRightOffset.x, 0);
         Instance.GetComponent<RectTransform>().offsetMax = new Vector2(LeftRightOffset.y, 0);

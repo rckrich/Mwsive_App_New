@@ -26,8 +26,7 @@ public class SurfManager : Manager
     public SwipeListener swipeListener;
     public ScrollRect Controller;
     public GameObject Prefab, MainCanvas, AddSong, OlaButton, MwsiveOla, MwsiveContainer;
-    public List<GameObject> MwsiveSongs = new List<GameObject>();
-    private List<MwsiveData> MwsiveSongsData = new List<MwsiveData>();
+    public List<MwsiveData> MwsiveSongsData = new List<MwsiveData>();
     public List<GameObject> ActiveMwsiveSongs = new List<GameObject>();
     public GameObject[] RestPositions;
 
@@ -52,6 +51,7 @@ public class SurfManager : Manager
     private int PrefabPosition = 0;
     private bool HasSwipeEnded = true;
     private bool Success = false;
+    private bool ResetEndDrag = true;
 
     
     
@@ -81,13 +81,13 @@ public class SurfManager : Manager
         if (SurfController.instance.AmICurrentView(gameObject))
         {
             AddEventListener<TimerAppEvent>(TimerAppEventListener);
-
+            if (MwsiveSongsData != null && MwsiveSongsData.Count > 0)
+            {
+                SurfManagerLogicInitialize();
+            }
         }
 
-        if (MwsiveSongsData != null && MwsiveSongsData.Count > 0)
-        {
-            SurfManagerLogicInitialize();
-        }
+        
 
     }
 
@@ -125,27 +125,36 @@ public class SurfManager : Manager
 
         switch (swipe){
             case "Right":
+                if (Controller.horizontal)
+                {
+                    Controller.vertical = false;
+                    Controller.horizontal = false;
+                    HasSwipeEnded = false;
+
+                    SideScrollSuccess();
+                }
                 
-                Controller.vertical =false;
-                Controller.horizontal =false;
-                HasSwipeEnded = false;
-                
-                SideScrollSuccess();
                 
             break;
             case "Up":
+                if (Controller.vertical)
+                {
+                    Controller.vertical = false;
+                    Controller.horizontal = false;
+                    HasSwipeEnded = false;
+                    UpScrollSuccess();
+                }
                 
-                Controller.vertical =false;
-                Controller.horizontal =false;
-                HasSwipeEnded = false;
-                UpScrollSuccess();
             break;
             case "Down":
+                if (Controller.vertical)
+                {
+                    Controller.vertical = false;
+                    Controller.horizontal = false;
+                    HasSwipeEnded = false;
+                    DownScrollSuccess();
+                }
                 
-                Controller.vertical =false;
-                Controller.horizontal =false;
-                HasSwipeEnded = false;
-                DownScrollSuccess();
             break;
         }
     }
@@ -237,13 +246,19 @@ public class SurfManager : Manager
         Success = false;
     }
 
+    public void StartDrag()
+    {
+        ResetEndDrag = true;
+    }
+
     public void OnEndDrag(){
-        while (HasSwipeEnded)
+        while (HasSwipeEnded && ResetEndDrag)
         {
             if (ActiveMwsiveSongs[1].transform.position.x >= ControllerPostion.x * SurfSuccessSensitivity)
             {
-                if (CurrentPosition > MwsiveSongs.Count - 4)
+                if (CurrentPosition < MwsiveSongsData.Count - 1)
                 {
+                    HasSwipeEnded = false;
                     SideScrollSuccess();
                 }
 
@@ -252,12 +267,14 @@ public class SurfManager : Manager
             }
             else if (ActiveMwsiveSongs[1].transform.position.y >= ControllerPostion.y * SurfSuccessSensitivity * 1.5)
             {
+                HasSwipeEnded = false;
                 UpScrollSuccess();
                 break;
 
             }
             else if (ActiveMwsiveSongs[1].transform.position.y <= ControllerPostion.y / SurfSuccessSensitivity)
             {
+                HasSwipeEnded = false;
                 DownScrollSuccess();
                 break;
 
@@ -275,7 +292,7 @@ public class SurfManager : Manager
     }
 
     private void SideScrollSuccess(){
-       
+        ResetEndDrag = false;
         Controller.enabled =false;
         Controller.horizontal =true;
         Controller.vertical =true;
@@ -322,11 +339,11 @@ public class SurfManager : Manager
             }
         }
 
-
+        Debug.Log("SideScrollSucess");
         HasSwipeEnded = true;
     }
     private void DownScrollSuccess(){
-        
+        ResetEndDrag = false;
         Controller.enabled =false;
         Controller.horizontal =true;
         Controller.vertical =true;
@@ -351,7 +368,10 @@ public class SurfManager : Manager
             ActiveMwsiveSongs[3].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[3]);
             ActiveMwsiveSongs[3].GetComponent<SurfAni>().Play_SurfTransitionBackHideSong();
 
-            ActiveMwsiveSongs[4].GetComponent<ButtonSurfPlaylist>().ClearData();
+            if (AddSong.activeSelf)
+            {
+                AddSong.GetComponent<SurfAni>().Play_SurfAddsongReset();
+            }
 
 
             string _trackid = GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID;
@@ -371,11 +391,12 @@ public class SurfManager : Manager
         else{
             ResetValue();
         }
+        Debug.Log("DownScrollSuccess");
         HasSwipeEnded = true;
     }
     
     private void UpScrollSuccess(){
-        
+        ResetEndDrag = false;
         Controller.enabled =false;
         Controller.horizontal =true;
         Controller.vertical =true;
@@ -401,12 +422,17 @@ public class SurfManager : Manager
 
 
             string _trackid = GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID;
-            ActiveMwsiveSongs[1].GetComponent<ButtonSurfPlaylist>().ClearData();
+            
 
             if (AppManager.instance.isLogInMode && !_trackid.Equals("") )
-        {
+            {
             MwsiveConnectionManager.instance.PostTrackAction(GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID, "UP", ResetTimer());
-        }
+            }
+
+            if (AddSong.activeSelf)
+            {
+                AddSong.GetComponent<SurfAni>().Play_SurfAddsongReset();
+            }
 
             CurrentPosition++;
             SpawnPosition++;
@@ -423,6 +449,7 @@ public class SurfManager : Manager
             }
         }
         HasSwipeEnded = true;
+        Debug.Log("UpScrollSuccess");
     }
            
 
@@ -476,7 +503,7 @@ public class SurfManager : Manager
     }
     public void ResetValue()
     {
-
+        Debug.Log("ResetValue");
         if (!Success)
         {
             ///DOTween.KillAll(false, new object[] { 0, 1 });
@@ -563,10 +590,6 @@ public class SurfManager : Manager
 
     }
 
-    public List<GameObject> GetInstances()
-    {
-        return MwsiveSongs;
-    }
 
     public void DynamicPrefabSpawnerRecommendations(object[] _value, bool FirsTimeSurf = true, bool? FirstTimeSurf = true)
     {
@@ -953,7 +976,7 @@ public class SurfManager : Manager
 
     private void SurfManagerLogicPreviousSong()
     {
-        Debug.LogWarning("AAAA");
+        
         ActiveMwsiveSongs[ActiveMwsiveSongs.Count - 1].GetComponent<SurfAni>().isAvailable = true;
         ActiveMwsiveSongs.RemoveAt(ActiveMwsiveSongs.Count - 1);
         SpawnPrefabBack();
@@ -1008,7 +1031,7 @@ public class SurfManager : Manager
     {
 
         GameObject Instance = PoolManager.instance.GetPooledObject();
-        Debug.LogWarning(Instance.name);
+        
 
         Instance.GetComponent<CanvasGroup>().alpha = 0;
         Instance.transform.SetParent(MwsiveContainer.transform);
@@ -1020,7 +1043,6 @@ public class SurfManager : Manager
         Instance.GetComponent<SurfAni>().ResetRestPosition();
         Instance.SetActive(true);
         Instance.transform.eulerAngles = new Vector3(0, 0, 0);
-        MwsiveSongs.Add(Instance);
         return Instance;
     }
 
@@ -1088,6 +1110,7 @@ public class SurfManager : Manager
     private GameObject SpawnPrefab(){
 
         GameObject Instance = PoolManager.instance.GetPooledObject();
+        Instance.GetComponent<ButtonSurfPlaylist>().ClearData();
         if (PrefabPosition == 0)
         {
             Instance.transform.position = RestPositions[4].transform.position;
@@ -1111,7 +1134,6 @@ public class SurfManager : Manager
             ActiveMwsiveSongs.Add(Instance);
 
         }
-        MwsiveSongs.Add(Instance);
         Instance.transform.SetParent(MwsiveContainer.transform);
         Instance.transform.SetAsFirstSibling();
         Instance.SetActive(true);

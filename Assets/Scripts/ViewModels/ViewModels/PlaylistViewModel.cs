@@ -194,26 +194,33 @@ public class PlaylistViewModel : ViewModel
         }
         else
         {
-            
-            if (searchedPlaylist.tracks.items.Count == 0)
+            try
             {
-                UIMessage.instance.UIMessageInstanciate("Esta Playlist no tiene contenido");
-            }
-            else
-            {
-                
-                NewScreenManager.instance.ChangeToSpawnedView("surf");
-                try
+                if (searchedPlaylist.tracks.items.Count == 0)
                 {
-                    NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerPLItems(new object[] { playlist }, true, true, id);
+                    UIMessage.instance.UIMessageInstanciate("Esta Playlist no tiene contenido");
                 }
-                catch (System.NullReferenceException)
+                else
                 {
-                    SpotifyConnectionManager.instance.GetPlaylistItems(id, Callback_SurfButtonNoPl, "ES", 100);
-                }                
 
-                
+                    NewScreenManager.instance.ChangeToSpawnedView("surf");
+                    try
+                    {
+                        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerPLItems(new object[] { playlist }, true, true, id);
+                    }
+                    catch (System.NullReferenceException)
+                    {
+                        SpotifyConnectionManager.instance.GetPlaylistItems(id, Callback_SurfButtonNoPl, "ES", 100);
+                    }
+
+
+                }
             }
+            catch (System.NullReferenceException)
+            {
+                SpotifyConnectionManager.instance.GetPlaylistItems(id, Callback_SurfButtonNoPl, "ES", 100);
+            }
+
         }
         
         
@@ -227,6 +234,7 @@ public class PlaylistViewModel : ViewModel
     private void Callback_SurfButtonNoPl(object[] _value)
     {
         playlist = (PlaylistRoot)_value[1];
+        Debug.Log(NewScreenManager.instance.GetCurrentView()); 
         NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerPLItems(new object[] { playlist }, true, true, id);
 
     }
