@@ -479,7 +479,7 @@ public class ButtonSurfPlaylist : ViewModel
             if (AppManager.instance.isLogInMode && !trackID.Equals(""))
                 MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomend); ;
             AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
-                mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
+                mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f, true);
                 UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");
             });
             AppManager.instance.yours = true;
@@ -504,7 +504,7 @@ public class ButtonSurfPlaylist : ViewModel
             if (AppManager.instance.isLogInMode && !trackID.Equals(""))
                 MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomend); ;
             AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
-                mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
+                mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f, false);
                 UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");
             });
             AppManager.instance.yours = true;
@@ -527,7 +527,7 @@ public class ButtonSurfPlaylist : ViewModel
         playlistText.text = _event.playlistName;
         if (isRecommended)
         {
-            mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
+            mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f, false);
         }
         else
         {

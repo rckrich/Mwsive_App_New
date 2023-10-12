@@ -57,7 +57,7 @@ public class _ChallengeColorAnimation : MonoBehaviour
 
     public void ForceClear()
     {
-        Debug.Log("ForceClear");
+        
         ColorAni.Restart();
         MaskFinalAni.Restart();
         MaskFinalAni.Pause();
@@ -71,7 +71,7 @@ public class _ChallengeColorAnimation : MonoBehaviour
     public void CompleteAnimation()
     {
         isCompleted = true;
-        Debug.Log("Complete");
+        
         StartAnimation();
         ColorAni.Complete();
         MaskFinalAni.Complete();
@@ -82,7 +82,7 @@ public class _ChallengeColorAnimation : MonoBehaviour
     public void StartAnimation()
     {
 
-        Debug.Log("startani");
+        
         if (!isCompleted)
         {
             Mask.transform.position = restPosition.position;

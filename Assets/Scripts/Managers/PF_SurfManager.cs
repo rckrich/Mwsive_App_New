@@ -204,7 +204,7 @@ public class PF_SurfManager : Manager
         ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(var, -MaxRotation, Fade, false);
         ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfSide();
 
-        AddSong.GetComponent<SurfAni>().SetValues(1, null, var);
+        AddSong.GetComponent<SurfAni>().SetValues(1, null, Fade);
         AddSong.GetComponent<SurfAni>().Play_SurfAddSong();
 
         if (CurrentPosition < MwsiveSongsData.Count - 1)
@@ -342,9 +342,7 @@ public class PF_SurfManager : Manager
 
 
 
-            AddSong.GetComponent<SurfAni>().SetValues(1, null, 1);
-            AddSong.GetComponent<SurfAni>().Play_CompleteAddSurfAddSong();
-
+            AddSongAnimation();
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().AddToPlaylistSwipe(GetCurrentMwsiveData().id, ResetTimer());
             CurrentPosition++;
             SpawnPosition++;
@@ -366,8 +364,8 @@ public class PF_SurfManager : Manager
 
             ResetSideScroll();
             AddSong.SetActive(true);
-            AddSong.GetComponent<SurfAni>().SetValues(1, null, 1);
-            AddSong.GetComponent<SurfAni>().Play_CompleteAddSurfAddSong();
+            AddSongAnimation();
+           
 
         }
         else
@@ -520,6 +518,17 @@ public class PF_SurfManager : Manager
 
 
 
+    }
+
+    public void AddSongAnimation(bool button = false)
+    {
+        DOTween.Kill(AddSong);
+        if (button)
+        {
+            AddSong.GetComponent<CanvasGroup>().alpha = 1;
+        }
+        AddSong.GetComponent<SurfAni>().SetValues(1, null, 1);
+        AddSong.GetComponent<SurfAni>().Play_CompleteAddSurfAddSong();
     }
 
     public void OnCallback_ResetSideAnimation()
@@ -1282,20 +1291,32 @@ public class PF_SurfManager : Manager
             //this coroutine has been called twice. We should stop the next one here otherwise we get two double tap
             StopCoroutine("singleOrDouble");
 
-            GameObject Instance = Instantiate(MwsiveOla, Vector3.zero, Quaternion.identity);
-            Instance.transform.SetParent(GameObject.Find("SpawnableCanvas_Canvas").transform);
-            Instance.GetComponent<RectTransform>().offsetMin = new Vector2(100, 250);
-            Instance.GetComponent<RectTransform>().offsetMax = new Vector2(-100, -250);
+            
 
-            UIAniManager.instance.DoubleClickOla(Instance);
+            
             if (!OlaButton.GetComponent<MwsiveControllerButtons>().IsItOlaColorButtonActive())
             {
                 GetCurrentMwsiveData().isPicked = true;
                 OlaButton.GetComponent<MwsiveControllerButtons>().OnClickOlaButton();
 
             }
+            else
+            {
+                PIKAnimation();
+            }
         }
     }
+
+    public void PIKAnimation()
+    {
+        GameObject Instance = Instantiate(MwsiveOla, Vector3.zero, Quaternion.identity);
+        Instance.transform.SetParent(GameObject.Find("SpawnableCanvas_Canvas").transform);
+        Instance.GetComponent<RectTransform>().offsetMin = new Vector2(100, 250);
+        Instance.GetComponent<RectTransform>().offsetMax = new Vector2(-100, -250);
+
+        UIAniManager.instance.DoubleClickOla(Instance);
+    }
+
 
 
     public void MainSceneProfile_OnClick()

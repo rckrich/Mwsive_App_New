@@ -269,8 +269,8 @@ public class SurfAni : MonoBehaviour
         CompleteAddSurfAddSong = new Tweener[2];
 
         
-        CompleteAddSurfAddSong[0] = gameObject.transform.DOScale(new Vector3(1, 1, 1) * fade, SurfTransitionDuration).Pause();
-        CompleteAddSurfAddSong[1] = gameObject.GetComponent<CanvasGroup>().DOFade(0, SurfTransitionDuration * 2).Pause();
+        CompleteAddSurfAddSong[0] = gameObject.transform.DOScale(new Vector3(1, 1, 1) * fade, SurfTransitionDuration*2).Pause();
+        CompleteAddSurfAddSong[1] = gameObject.GetComponent<CanvasGroup>().DOFade(0, SurfTransitionDuration * 2.5f).Pause();
         CompleteAddSurfAddSong[0].OnComplete(() => { IsAddSongSurfDone = true; gameObject.SetActive(false);
             gameObject.GetComponent<CanvasGroup>().alpha = 1;
             gameObject.transform.localScale = new Vector3(0, 0, 0);
