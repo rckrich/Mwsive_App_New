@@ -30,6 +30,8 @@ public class LogInManager : Manager
     private ProfileRoot profile;
     private MwsiveUser mwsiveUser;
 
+    public Sprite LogInErrorSprite;
+
     private LogInCallback previousAction;
 
     public void StartLogInProcess(LogInCallback _callback = null)
@@ -51,7 +53,7 @@ public class LogInManager : Manager
                 NewScreenManager.instance.GetCurrentView().EndSearch();
                 NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
                 PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
-                popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, "Advertencia", "Ocurrió un error en el proceso de Inicio de Sesión. Volver a intentar.", "Aceptar");
+                popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, "Advertencia", "Ocurrió un error en el proceso de Inicio de Sesión. Volver a intentar.", "Aceptar", LogInErrorSprite);
                 popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); });
                 return;
             }
