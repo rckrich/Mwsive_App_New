@@ -718,8 +718,8 @@ public class UIAniManager : MonoBehaviour
     }
 
     public void DoubleClickOla(GameObject GA){
-        GA.transform.DOScale(new Vector3(1.5F,1.5F,1.5F), .3f);
-        GA.GetComponent<CanvasGroup>().DOFade(0, .3f).OnComplete(() => {Destroy(GA);});
+        GA.transform.DOScale(new Vector3(1.5F,1.5F,1.5F), SurfTransitionDuration*1.5f);
+        GA.GetComponent<CanvasGroup>().DOFade(0, SurfTransitionDuration*1.5f).OnComplete(() => {Destroy(GA);});
     }
 
     public void SurfShareSpawn(GameObject GA)

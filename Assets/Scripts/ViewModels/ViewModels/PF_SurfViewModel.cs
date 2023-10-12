@@ -20,7 +20,15 @@ public class PF_SurfViewModel : ViewModel
     }
 
     private void OnDestroy() {
-        SpotifyPreviewAudioManager.instance.StopTrack();
+        try
+        {
+            SpotifyPreviewAudioManager.instance.StopTrack();
+        }
+        catch (System.NullReferenceException)
+        {
+            Debug.Log("Can not stop strack, object is killed");
+        }
+        
     }
 
     public override void SetAndroidBackAction()

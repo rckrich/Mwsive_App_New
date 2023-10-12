@@ -12,6 +12,9 @@ public class MwsiveButton : AppObject
     public GameObject CompartirColorButton;
     private bool IsItCompartirColorButtonActive = false;
 
+    public GameObject Addsong;
+    public GameObject PIK;
+
     private const int PIK_PRICE = 1;
 
     private float AnimationDuration = .5f;
@@ -56,6 +59,8 @@ public class MwsiveButton : AppObject
 
     public void PIKOnNoAni()
     {
+        
+        DOTween.Kill(OlaColorButton);
         IsItOlaColorButtonActive = true;
         OlaColorButton.SetActive(true);
         OlaColorButton.GetComponent<CanvasGroup>().alpha = 1;
@@ -66,6 +71,7 @@ public class MwsiveButton : AppObject
 
     public void UnPIKNoAni()
     {
+        DOTween.Kill(OlaColorButton);
         IsItOlaColorButtonActive = false;
         OlaColorButton.SetActive(false);
         OlaColorButton.GetComponent<CanvasGroup>().alpha = 0;
@@ -74,6 +80,16 @@ public class MwsiveButton : AppObject
 
     public void PIKButtonColorOn()
     {
+        try
+        {
+            SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().PIKAnimation();
+        }
+        catch (System.NullReferenceException)
+        {
+            SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().PIKAnimation();
+        }
+
+        DOTween.Kill(OlaColorButton);
         UIAniManager.instance.FadeIn(OlaColorButton, AnimationDuration);
         OlaColorButton.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), .3f).OnComplete(() => { OlaColorButton.transform.DOScale(new Vector3(1f, 1f, 1f), .3f); });
         IsItOlaColorButtonActive = true;
@@ -81,6 +97,7 @@ public class MwsiveButton : AppObject
 
     public void PIKButtonColorOff()
     {
+        DOTween.Kill(OlaColorButton);
         UIAniManager.instance.FadeOut(OlaColorButton, AnimationDuration);
         IsItOlaColorButtonActive = false;
         OlaColorButton.transform.DOScale(new Vector3(0f, 0f, 0f), .3f);
@@ -157,19 +174,40 @@ public class MwsiveButton : AppObject
         return IsItCompartirColorButtonActive;
     }
 
-    public void ChangeAddToPlaylistButtonColor(float _AnimationDuration)
+    public void ChangeAddToPlaylistButtonColor(float _AnimationDuration, bool swipe)
     {
         if (!IsiTAddColorButtonActive)
         {
+            try
+            {
+                SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().AddSongAnimation(!swipe);
+            }
+            catch (System.NullReferenceException)
+            {
+                SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().AddSongAnimations(!swipe);
+            }
+            
+
             UIAniManager.instance.FadeIn(AddColorButton, _AnimationDuration);
             AddColorButton.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), .3f).OnComplete(() => { AddColorButton.transform.DOScale(new Vector3(1f, 1f, 1f), .3f); });
             IsiTAddColorButtonActive = true;
         }
     }
 
+    public void AddToPlaylistButtonNoAni()
+    {
+        DOTween.Kill(AddColorButton);
+        IsiTAddColorButtonActive = true;
+        AddColorButton.GetComponent<CanvasGroup>().alpha = 1;
+        AddColorButton.SetActive(true);
+        AddColorButton.transform.localScale = new Vector3(1f, 1f, 1f);
+    }
+
     public void AddToPlaylistButtonClear()
     {
+        DOTween.Kill(AddColorButton);
         IsiTAddColorButtonActive = false;
+        
         AddColorButton.GetComponent<CanvasGroup>().alpha = 0;
         AddColorButton.SetActive(false);
         AddColorButton.transform.localScale = new Vector3(0f, 0f, 0f);

@@ -59,6 +59,10 @@ public class ProfileViewModel : ViewModel
 
     public override void Initialize(params object[] list)
     {
+#if PLATFORM_ANDROID
+        SetAndroidBackAction();
+#endif
+
         if (list.Length > 0)
         {
             profileId = (string)list[0];
@@ -90,6 +94,8 @@ public class ProfileViewModel : ViewModel
                     LogInManager.instance.StartLogInProcess(Callback_ProfileViewModelInitialize);
                     NewScreenManager.instance.BackToPreviousView();
                 });
+
+                return;
             }
             else
             {
@@ -97,15 +103,11 @@ public class ProfileViewModel : ViewModel
             }
         }
 
-#if PLATFORM_ANDROID
-        SetAndroidBackAction();
-#endif
-
-        FollowButtonInitilization();
+        /*FollowButtonInitilization();
         SocialButtonsInitilization();
         if (BadgesContent != null)
             ClearScrollsBadges(BadgesContent);
-        GetBadgesCall();
+        GetBadgesCall();*/
     }
 
     private void Callback_ProfileViewModelInitialize(object[] list)
@@ -409,6 +411,11 @@ public class ProfileViewModel : ViewModel
         }
 
         GetCurrentUserPlaylists();
+        FollowButtonInitilization();
+        SocialButtonsInitilization();
+        if (BadgesContent != null)
+            ClearScrollsBadges(BadgesContent);
+        GetBadgesCall();
 
     }
 
@@ -424,7 +431,6 @@ public class ProfileViewModel : ViewModel
         displayName.text = mwsiveUserRoot.user.display_name;
         profileId = mwsiveUserRoot.user.platform_id;
 
-        GetCurrentUserPlaylists();
         if (mwsiveUserRoot.user.user_links.Count != 0)
         {
             foreach (UserLink url in mwsiveUserRoot.user.user_links)
@@ -473,7 +479,12 @@ public class ProfileViewModel : ViewModel
             }
         }
 
+        GetCurrentUserPlaylists();
         FollowButtonInitilization();
+        SocialButtonsInitilization();
+        if (BadgesContent != null)
+            ClearScrollsBadges(BadgesContent);
+        GetBadgesCall();
     }
 
 
@@ -699,10 +710,16 @@ public class ProfileViewModel : ViewModel
 
     public void GetBadgesCall()
     {
-        string _profileid = profileId;
-        if (_profileid.Equals(""))
-            _profileid = AppManager.instance.currentMwsiveUser.platform_id;
-        MwsiveConnectionManager.instance.GetBadges(_profileid, "engagement", Callback_GetBadgesCall, 0, 3);
+        try {
+            string _profileid = profileId;
+            if (_profileid.Equals(""))
+                _profileid = AppManager.instance.currentMwsiveUser.platform_id;
+            MwsiveConnectionManager.instance.GetBadges(_profileid, "engagement", Callback_GetBadgesCall, 0, 3);
+        }
+        catch(System.NullReferenceException e)
+        {
+            Debug.Log("Profile ID is null");
+        }
     }
 
     private void Callback_GetBadgesCall(object[] _value)
