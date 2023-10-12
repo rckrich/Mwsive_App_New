@@ -110,7 +110,15 @@ public class PF_SurfManager : Manager
 
     private void OnDisable()
     {
-        PoolManager.instance.RecoverPooledObject(MwsiveContainer);
+        try
+        {
+            PoolManager.instance.RecoverPooledObject(MwsiveContainer);
+        }
+        catch (System.NullReferenceException)
+        {
+            Debug.Log("Can not return objects to pool");
+        }
+        
         StopTimer();
         swipeListener.OnSwipe.RemoveListener(OnSwipe);
         RemoveEventListener<TimerAppEvent>(TimerAppEventListener);
@@ -314,7 +322,8 @@ public class PF_SurfManager : Manager
         {
             if (Challenge)
             {
-                GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().ForceClear();
+                GetCurrentPrefab().GetComponentInChildren<_ChallengeColorAnimation>().ForceClear();
+                GetCurrentPrefab().GetComponentInChildren<_ChallengeColorAnimation>().isCompleted = false;
             }
             SpotifyPreviewAudioManager.instance.StopTrack();
 
@@ -382,7 +391,8 @@ public class PF_SurfManager : Manager
             SpotifyPreviewAudioManager.instance.StopTrack();
             if (Challenge)
             {
-                GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().ForceClear();
+                GetCurrentPrefab().GetComponentInChildren<_ChallengeColorAnimation>().ForceClear();
+                GetCurrentPrefab().GetComponentInChildren<_ChallengeColorAnimation>().isCompleted = false;
             }
             Success = true;
 
@@ -444,7 +454,8 @@ public class PF_SurfManager : Manager
             SpotifyPreviewAudioManager.instance.StopTrack();
             if (Challenge)
             {
-                GetCurrentPrefab().GetComponentInChildren<ChallengeColorAnimation>().ForceClear();
+                GetCurrentPrefab().GetComponentInChildren<_ChallengeColorAnimation>().ForceClear();
+                GetCurrentPrefab().GetComponentInChildren<_ChallengeColorAnimation>().isCompleted = false;
             }
             Success = true;
 

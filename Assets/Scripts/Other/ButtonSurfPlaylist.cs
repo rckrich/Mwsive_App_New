@@ -5,6 +5,7 @@ using System.Net.NetworkInformation;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class ButtonSurfPlaylist : ViewModel
 {
@@ -16,6 +17,7 @@ public class ButtonSurfPlaylist : ViewModel
     public TMP_Text artistName;
     public TMP_Text albumName;
     public Image trackCover;
+    public Sprite FriendsCover;
     public Image[] topCuratorImages;
     public string playlistName;
     public AppManager appManager;
@@ -29,7 +31,7 @@ public class ButtonSurfPlaylist : ViewModel
     public bool changeColor = false;
 
     public MwsiveButton mwsiveButton;
-    public ChallengeColorAnimation challengecoloranimation;
+    public _ChallengeColorAnimation colorani;
     public GameObject loadingAnimGameObject;
     public DurationBar durationBar;
     public GameObject buttonColor;
@@ -43,7 +45,7 @@ public class ButtonSurfPlaylist : ViewModel
     private Color redNew = new Color(0.9411765f, 0.2941177f, 0.4156863f);
     private Color gray = new Color(0.8f, 0.8f, 0.8f);
     private GameObject Surf;
-    private ChallengeAppObject Challenge;
+    
     public Sprite MwsiveCover;
     private bool isTrackinfoEnd = false, isPreviewSongFinishToLoad = false, isImageManagerLoad = false;
     private float time;
@@ -112,7 +114,7 @@ public class ButtonSurfPlaylist : ViewModel
 
         if (_data.isRecommended)
         {
-            mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f);
+            mwsiveButton.AddToPlaylistButtonNoAni();
             isRecommended = true;
             //Pintar de morado el que está en playlist
         }
@@ -120,7 +122,7 @@ public class ButtonSurfPlaylist : ViewModel
         {
             mwsiveButton.AddToPlaylistButtonClear();
         }
-
+        
         if (_data.isPicked)
         {
 
@@ -137,7 +139,7 @@ public class ButtonSurfPlaylist : ViewModel
     public void InitializeMwsiveSong(MwsiveData _data)
     {
 
-
+        
         string currentPLayListName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
 
         playlistText.text = currentPLayListName;
@@ -226,12 +228,6 @@ public class ButtonSurfPlaylist : ViewModel
 
     }
 
-    public void ClearMwsiveButtons()
-    {
-        mwsiveButton.AddToPlaylistButtonClear();
-        mwsiveButton.PIKButtonColorOff();
-    }
-
     public void ClearData()
     {
         if (imageCoroutine != null)
@@ -254,8 +250,9 @@ public class ButtonSurfPlaylist : ViewModel
         trackID = null;
         isRecommended = false;
         mwsiveButton.AddToPlaylistButtonClear();
-        mwsiveButton.PIKButtonColorOff();
-        challengecoloranimation.ForceClear();
+        mwsiveButton.UnPIKNoAni();
+        colorani.ForceClear();
+
         uris.Clear();
         previewURL = null;
         externalURL = null;
@@ -263,6 +260,11 @@ public class ButtonSurfPlaylist : ViewModel
         trackTotalPicks.text = "-";
         trackTotalRecommendation.text = "-";
         trackTopCuratorsThatVoted.text = "-";
+
+        foreach(Image item in topCuratorImages)
+        {
+            item.sprite = FriendsCover;
+        }
     }
 
 
@@ -344,11 +346,14 @@ public class ButtonSurfPlaylist : ViewModel
 
                     if (Current.challenge_songeded)
                     {
-                        challengecoloranimation.CompleteAnimation();
+                        
+                        colorani.CompleteAnimation();
+
                     }
                     else
                     {
-                        challengecoloranimation.StartAnimation();
+                        
+                        colorani.StartAnimation();
                     }
 
                 }
@@ -381,7 +386,7 @@ public class ButtonSurfPlaylist : ViewModel
     {
         SpotifyPreviewAudioManager.instance.Pause();
 
-        challengecoloranimation.PauseAnimation();
+        colorani.PauseColor();
 
 
 
@@ -391,7 +396,7 @@ public class ButtonSurfPlaylist : ViewModel
     {
 
         SpotifyPreviewAudioManager.instance.ForcePause();
-        challengecoloranimation.ForcePauseAnimation();
+        colorani.ForcePause();
 
     }
 
