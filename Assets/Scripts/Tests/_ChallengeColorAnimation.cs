@@ -113,6 +113,11 @@ public class _ChallengeColorAnimation : MonoBehaviour
 
     }
 
+    public void ResetMask()
+    {
+
+    }
+
     public void PauseMask()
     {
         MaskAni.Pause();

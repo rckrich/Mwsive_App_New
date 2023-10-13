@@ -536,7 +536,7 @@ public class PF_SurfManager : Manager
         if (Challenge)
         {
 
-            GetCurrentPrefab().GetComponentInChildren<_ChallengeColorAnimation>().ResetMask();
+           GetCurrentPrefab().GetComponentInChildren<_ChallengeColorAnimation>().ResetMask();
         }
         Reset();
         if (Success)
