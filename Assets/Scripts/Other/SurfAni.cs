@@ -103,6 +103,7 @@ public class SurfAni : MonoBehaviour
             try
             {
                 SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().HasSideScrollEnded = true;
+                SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().ResetChallengeAnimation();
             }
             catch (System.NullReferenceException)
             {

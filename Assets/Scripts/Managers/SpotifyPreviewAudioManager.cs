@@ -48,6 +48,11 @@ public class SpotifyPreviewAudioManager : Manager
         }
     }
 
+    public bool IsPlaying   ()
+    {
+        return audioSource.isPlaying;
+    }
+
     public void Pause()
     {
 

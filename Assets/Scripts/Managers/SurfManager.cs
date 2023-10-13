@@ -960,6 +960,7 @@ public class SurfManager : Manager
         GetCurrentMwsiveData().isRecommended = trackInfoRoot.is_recommended;
         GetCurrentMwsiveData().total_piks = trackInfoRoot.total_piks;
         GetCurrentMwsiveData().total_recommendations = trackInfoRoot.total_recommendations;
+        GetCurrentMwsiveData().total_piks_followed = trackInfoRoot.followed_piks;
 
         try
         {
