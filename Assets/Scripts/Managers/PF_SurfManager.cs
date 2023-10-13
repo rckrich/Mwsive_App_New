@@ -301,6 +301,7 @@ public class PF_SurfManager : Manager
             }
             else
             {
+                
                 ResetValue();
 
                 break;
@@ -531,12 +532,22 @@ public class PF_SurfManager : Manager
         AddSong.GetComponent<SurfAni>().Play_CompleteAddSurfAddSong();
     }
 
-    public void OnCallback_ResetSideAnimation()
+    public void ResetChallengeAnimation()
     {
         if (Challenge)
         {
 
-           GetCurrentPrefab().GetComponentInChildren<_ChallengeColorAnimation>().ResetMask();
+            GetCurrentPrefab().GetComponentInChildren<_ChallengeColorAnimation>().ResetMask();
+        }
+    }
+
+    public void OnCallback_ResetSideAnimation()
+    {
+
+        if (Challenge)
+        {
+
+           GetCurrentPrefab().GetComponentInChildren<_ChallengeColorAnimation>().FirstReset();
         }
         Reset();
         if (Success)

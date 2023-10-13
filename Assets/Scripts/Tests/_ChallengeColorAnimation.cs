@@ -10,20 +10,27 @@ public class _ChallengeColorAnimation : MonoBehaviour
    
     public Transform restPosition;
     private Vector2 initialValue;
-    public GameObject Color, Mask, colorsongended;
-    public RectTransform SecondWaveMask, restPosition2, FinalPosition;
+    public GameObject Color, Mask;
+    public RectTransform SecondWaveMask, ThirdWaveMask, restPosition2, FinalPosition;
 
     
 
     public bool isCompleted;
-    float MaskInitialValue;
+    
     Tweener ColorAni, MaskAni, MaskFinalAni;
     float starttween;
     bool isPaused = false;
     float maskThickness;
 
     private void Update()
+
     {
+        if (!isCompleted)
+        {
+            Mask.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
+            Mask.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
+        }
+        
     }
 
     void Start()
@@ -32,7 +39,6 @@ public class _ChallengeColorAnimation : MonoBehaviour
         
         initialValue = Color.GetComponent<RectTransform>().offsetMax;
         CalculateBoundries();
-        MaskInitialValue = Mask.GetComponent<RectTransform>().rect.y;
         
     }
 
@@ -41,6 +47,8 @@ public class _ChallengeColorAnimation : MonoBehaviour
         maskThickness = Mask.GetComponent<RectTransform>().rect.width;
         SecondWaveMask.offsetMin = new Vector2(maskThickness, SecondWaveMask.offsetMin.y);
         SecondWaveMask.offsetMax = new Vector2(maskThickness, SecondWaveMask.offsetMax.y);
+        ThirdWaveMask.offsetMin = new Vector2(maskThickness*2, SecondWaveMask.offsetMin.y);
+        ThirdWaveMask.offsetMax = new Vector2(maskThickness*2, SecondWaveMask.offsetMax.y);
         restPosition2.offsetMin = new Vector2(-maskThickness, SecondWaveMask.offsetMin.y);
         restPosition2.offsetMax = new Vector2(-maskThickness, SecondWaveMask.offsetMax.y);
     }
@@ -92,6 +100,9 @@ public class _ChallengeColorAnimation : MonoBehaviour
         MaskAni.Pause();
         //colorsongended.SetActive(false);
         isCompleted = false;
+        
+        Mask.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
+        Mask.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
     }
 
     public void CompleteAnimation()
@@ -110,11 +121,35 @@ public class _ChallengeColorAnimation : MonoBehaviour
             Mask.transform.position = FinalPosition.position;
             MaskAni.Pause();
         }
+        Mask.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
+        Mask.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
 
+    }
+
+    public void FirstReset()
+    {
+        
+        MaskAni.Kill();
+        Mask.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
+        Mask.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
     }
 
     public void ResetMask()
     {
+        Mask.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
+        Mask.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
+
+        Debug.Log(Mask.GetComponent<RectTransform>().offsetMin);
+        Debug.Log(Mask.GetComponent<RectTransform>().offsetMax);
+        SecondWaveMask.offsetMax = new Vector2(SecondWaveMask.offsetMax.x, 0);
+        SecondWaveMask.offsetMin = new Vector2(SecondWaveMask.offsetMin.x, 0);
+        ThirdWaveMask.offsetMax = new Vector2(ThirdWaveMask.offsetMax.x, 0);
+        ThirdWaveMask.offsetMin = new Vector2(ThirdWaveMask.offsetMin.x, 0);
+
+        CalculateBoundries();
+        FromCenterToLeft();
+        Debug.Log(Mask.GetComponent<RectTransform>().offsetMin);
+        Debug.Log(Mask.GetComponent<RectTransform>().offsetMax);
 
     }
 
@@ -181,7 +216,7 @@ public class _ChallengeColorAnimation : MonoBehaviour
 
     private void MaskFinal()
     {
-        
+        isCompleted = true;
         MaskFinalAni = Mask.transform.DOMove(FinalPosition.position, 2).OnComplete(() => { MaskAni.Pause(); });
        
         
