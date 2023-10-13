@@ -301,6 +301,7 @@ public class PF_SurfManager : Manager
             }
             else
             {
+                
                 ResetValue();
 
                 break;
@@ -360,7 +361,7 @@ public class PF_SurfManager : Manager
 
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, -MaxRotation, 0, null, null, RestPositions[0]);
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfSideLasPosition();
-            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().AddToPlaylistSwipe(GetCurrentMwsiveData().id, ResetTimer());
+            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().AddToPlaylistSwipeLastPosition(GetCurrentMwsiveData().id, ResetTimer());
 
             ResetSideScroll();
             AddSong.SetActive(true);
@@ -531,8 +532,23 @@ public class PF_SurfManager : Manager
         AddSong.GetComponent<SurfAni>().Play_CompleteAddSurfAddSong();
     }
 
+    public void ResetChallengeAnimation()
+    {
+        if (Challenge)
+        {
+
+            GetCurrentPrefab().GetComponentInChildren<_ChallengeColorAnimation>().ResetMask();
+        }
+    }
+
     public void OnCallback_ResetSideAnimation()
     {
+
+        if (Challenge)
+        {
+
+           GetCurrentPrefab().GetComponentInChildren<_ChallengeColorAnimation>().FirstReset();
+        }
         Reset();
         if (Success)
         {
@@ -608,7 +624,16 @@ public class PF_SurfManager : Manager
 
     public MwsiveData GetBeforeCurrentMwsiveData()
     {
-        return MwsiveSongsData[CurrentPosition - 1];
+        try
+        {
+            return MwsiveSongsData[CurrentPosition - 1];
+        }
+        catch (System.ArgumentOutOfRangeException)
+        {
+            return MwsiveSongsData[CurrentPosition];
+        }
+
+        
     }
 
     public MwsiveData GetLastPrefab()
@@ -1049,6 +1074,7 @@ public class PF_SurfManager : Manager
         GetCurrentMwsiveData().isRecommended = trackInfoRoot.is_recommended;
         GetCurrentMwsiveData().total_piks = trackInfoRoot.total_piks;
         GetCurrentMwsiveData().total_recommendations = trackInfoRoot.total_recommendations;
+        GetCurrentMwsiveData().total_piks_followed = trackInfoRoot.followed_piks;
 
         GameObject instance = GetCurrentPrefab();
         try
