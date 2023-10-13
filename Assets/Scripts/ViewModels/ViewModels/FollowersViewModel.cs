@@ -28,6 +28,9 @@ public class FollowersViewModel : ViewModel
 #if PLATFORM_ANDROID
         SetAndroidBackAction();
 #endif
+        noFollowContent.SetActive(false);
+        noFollowersText.SetActive(false);
+        noFollowText.SetActive(false);
     }
 
     private void Callback_GetFollowers(object[] _value)
@@ -81,6 +84,7 @@ public class FollowersViewModel : ViewModel
         noFollowContent.SetActive(false);
         noFollowersText.SetActive(false);
         noFollowText.SetActive(false);
+        offset = 0;
         if (profileID.Equals(""))
         {
             MwsiveConnectionManager.instance.GetFollowers(Callback_GetFollowers, 0, 50);
@@ -95,16 +99,14 @@ public class FollowersViewModel : ViewModel
     public void GetFollowers(string _profileID)
     {
         RemoveChild();
+        noFollowContent.SetActive(false);
+        noFollowersText.SetActive(false);
+        noFollowText.SetActive(false);
+        offset = 0;
         followSelector.SelectorFollow(FOLLOWERS_OPTION);
         onlyone = 0;
         profileID = _profileID;
         MwsiveConnectionManager.instance.GetUserFollowers(_profileID, Callback_GetFollowers, 0, 50);
-
-        if (offset == 0)
-        {
-            noFollowContent.SetActive(true);
-            noFollowText.SetActive(true);
-        }
     }
 
     public void OnClick_BackButton()
@@ -123,6 +125,7 @@ public class FollowersViewModel : ViewModel
         followSelector.SelectorFollow(FOLLOWED_OPTION);
         sceneActive = false;
         onlyone = 0;
+        offset = 0;
         if (profileID.Equals(""))
         {
             MwsiveConnectionManager.instance.GetFollowed(Callback_GetFollowed, 0, 50);
@@ -137,8 +140,12 @@ public class FollowersViewModel : ViewModel
     public void GetFollowed(string _profileID)
     {
         RemoveChild();
+        noFollowContent.SetActive(false);
+        noFollowersText.SetActive(false);
+        noFollowText.SetActive(false);
         followSelector.SelectorFollow(FOLLOWED_OPTION);
         onlyone = 0;
+        offset = 0;
         profileID = _profileID;
         MwsiveConnectionManager.instance.GetUserFollowed(_profileID, Callback_GetFollowed, 0, 50);
 
