@@ -6,13 +6,17 @@ using UnityEngine.UIElements;
 
 public class _ChallengeColorAnimation : MonoBehaviour
 {
+
+   
     public Transform restPosition;
     private Vector2 initialValue;
     public GameObject Color, Mask, colorsongended;
     public RectTransform SecondWaveMask, restPosition2, FinalPosition;
 
-    public bool isCompleted;
     
+
+    public bool isCompleted;
+    float MaskInitialValue;
     Tweener ColorAni, MaskAni, MaskFinalAni;
     float starttween;
     bool isPaused = false;
@@ -25,15 +29,20 @@ public class _ChallengeColorAnimation : MonoBehaviour
     void Start()
     {
 
-        maskThickness = Mask.GetComponent<RectTransform>().rect.width;
-        initialValue = Color.GetComponent<RectTransform>().offsetMax;
         
+        initialValue = Color.GetComponent<RectTransform>().offsetMax;
+        CalculateBoundries();
+        MaskInitialValue = Mask.GetComponent<RectTransform>().rect.y;
+        
+    }
 
+    private void CalculateBoundries()
+    {
+        maskThickness = Mask.GetComponent<RectTransform>().rect.width;
         SecondWaveMask.offsetMin = new Vector2(maskThickness, SecondWaveMask.offsetMin.y);
         SecondWaveMask.offsetMax = new Vector2(maskThickness, SecondWaveMask.offsetMax.y);
         restPosition2.offsetMin = new Vector2(-maskThickness, SecondWaveMask.offsetMin.y);
         restPosition2.offsetMax = new Vector2(-maskThickness, SecondWaveMask.offsetMax.y);
-        
     }
 
     public void PauseColor()
@@ -47,6 +56,23 @@ public class _ChallengeColorAnimation : MonoBehaviour
             ColorAni.Pause();
         }
         isPaused = !isPaused;
+
+        if(SpotifyPreviewAudioManager.instance.IsPlaying() == isPaused)
+        {
+            if (SpotifyPreviewAudioManager.instance.IsPlaying())
+            {
+                ColorAni.Play();
+                isPaused = false;
+            }
+            else
+            {
+                ColorAni.Pause();
+                isPaused = true;
+            }
+            
+        }
+        CalculateBoundries();
+
     }
 
     public void ForcePause()
@@ -74,45 +100,71 @@ public class _ChallengeColorAnimation : MonoBehaviour
         
         StartAnimation();
         ColorAni.Complete();
-        MaskFinalAni.Complete();
-        
 
+        if(MaskFinalAni != null)
+        {
+            MaskFinalAni.Complete();
+        }
+        else
+        {
+            Mask.transform.position = FinalPosition.position;
+            MaskAni.Pause();
+        }
+
+    }
+
+    public void PauseMask()
+    {
+        MaskAni.Pause();
+    }
+
+    public void PlayMask()
+    {
+        MaskAni.Play();
     }
 
     public void StartAnimation()
     {
+        if (SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentPrefab() == gameObject)
+        {
+            if (!isCompleted)
+            {
+                Mask.transform.position = restPosition.position;
+            }
+            if (MaskAni == null)
+            {
+                FromCenterToLeft();
+            }
+            else
+            {
+                MaskAni.Restart();
+            }
 
+
+
+            if (ColorAni == null)
+            {
+                Color.GetComponent<RectTransform>().offsetMax = initialValue;
+                starttween = Color.GetComponent<RectTransform>().offsetMax.y;
+                ColorUp();
+
+            }
+            else
+            {
+
+                ColorAni.Restart();
+                MaskFinalAni.Restart();
+                MaskFinalAni.Pause();
+                MaskAni.Restart();
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Can not start animation is not in challenge");
+            ForceClear();
+        }
         
-        if (!isCompleted)
-        {
-            Mask.transform.position = restPosition.position;
-        }
-        if (MaskAni == null)
-        {
-            FromCenterToLeft();
-        }
-        else
-        {
-            MaskAni.Restart();
-        }
-
-
-
-        if (ColorAni == null)
-        {
-            Color.GetComponent<RectTransform>().offsetMax = initialValue;
-            starttween = Color.GetComponent<RectTransform>().offsetMax.y;
-            ColorUp();
-
-        }
-        else
-        {
-
-            ColorAni.Restart();
-            MaskFinalAni.Restart();
-            MaskFinalAni.Pause();
-            MaskAni.Restart();
-        }
+        
 
 
     }
@@ -159,5 +211,5 @@ public class _ChallengeColorAnimation : MonoBehaviour
 
 
     }
-
+   
 }
