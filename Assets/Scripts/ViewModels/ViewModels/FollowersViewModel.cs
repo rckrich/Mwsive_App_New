@@ -84,6 +84,7 @@ public class FollowersViewModel : ViewModel
         noFollowContent.SetActive(false);
         noFollowersText.SetActive(false);
         noFollowText.SetActive(false);
+        offset = 0;
         if (profileID.Equals(""))
         {
             MwsiveConnectionManager.instance.GetFollowers(Callback_GetFollowers, 0, 50);
@@ -101,6 +102,7 @@ public class FollowersViewModel : ViewModel
         noFollowContent.SetActive(false);
         noFollowersText.SetActive(false);
         noFollowText.SetActive(false);
+        offset = 0;
         followSelector.SelectorFollow(FOLLOWERS_OPTION);
         onlyone = 0;
         profileID = _profileID;
@@ -123,6 +125,7 @@ public class FollowersViewModel : ViewModel
         followSelector.SelectorFollow(FOLLOWED_OPTION);
         sceneActive = false;
         onlyone = 0;
+        offset = 0;
         if (profileID.Equals(""))
         {
             MwsiveConnectionManager.instance.GetFollowed(Callback_GetFollowed, 0, 50);
@@ -142,6 +145,7 @@ public class FollowersViewModel : ViewModel
         noFollowText.SetActive(false);
         followSelector.SelectorFollow(FOLLOWED_OPTION);
         onlyone = 0;
+        offset = 0;
         profileID = _profileID;
         MwsiveConnectionManager.instance.GetUserFollowed(_profileID, Callback_GetFollowed, 0, 50);
 
