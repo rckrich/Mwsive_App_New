@@ -64,6 +64,9 @@ public class _ChallengeColorAnimation : MonoBehaviour
 
     private void CalculateBoundries()
     {
+        Mask.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
+        Mask.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
+
         maskThickness = Mask.GetComponent<RectTransform>().rect.width;
         SecondWaveMask.offsetMin = new Vector2(maskThickness, SecondWaveMask.offsetMin.y);
         SecondWaveMask.offsetMax = new Vector2(maskThickness, SecondWaveMask.offsetMax.y);
@@ -77,8 +80,7 @@ public class _ChallengeColorAnimation : MonoBehaviour
         ColorSide.offsetMin = new Vector2(colorThickness, SecondWaveMask.offsetMin.y);
         ColorSide.offsetMax = new Vector2(colorThickness, SecondWaveMask.offsetMax.y);
 
-        Mask.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
-        Mask.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
+        
 
     }
 
@@ -192,7 +194,7 @@ public class _ChallengeColorAnimation : MonoBehaviour
 
     public void StartAnimation()
     {
-        
+        CalculateBoundries();
         if (SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().GetCurrentPrefab() == gameObject)
         {
             if (!isCompleted)
@@ -205,8 +207,8 @@ public class _ChallengeColorAnimation : MonoBehaviour
             }
             else
             {
+
                 
-                FromCenterToLeft();
                 MaskAni.Restart();
             }
 
