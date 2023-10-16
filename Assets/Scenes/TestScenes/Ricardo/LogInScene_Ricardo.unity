@@ -352,7 +352,7 @@ MonoBehaviour:
   - {fileID: 1806940617}
   currentView: {fileID: 8523506}
   headerView: {fileID: 0}
-  loadingCanvas: {fileID: 0}
+  loadingCanvas: {fileID: 867998441}
   viewModelTypesData: {fileID: 11400000, guid: fd6b0fd6308a14d5690c9156f60079fc, type: 2}
   spawnedViewsParent: {fileID: 1316651494}
 --- !u!1 &121587697
@@ -624,7 +624,7 @@ GameObject:
   - component: {fileID: 184829478}
   - component: {fileID: 184829479}
   m_Layer: 0
-  m_Name: Networkreachability
+  m_Name: NetworkReachability
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1304,6 +1304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   networkLoadingCanvas: {fileID: 0}
+  LogInErrorSprite: {fileID: 21300000, guid: 9d11f779ea7a8114a85f7c618f9961c7, type: 3}
 --- !u!1 &566960107
 GameObject:
   m_ObjectHideFlags: 0
@@ -3594,7 +3595,6 @@ MonoBehaviour:
   networkLoadingCanvas: {fileID: 1310416290}
   scrollViewContent: {fileID: 0}
   finishedLoading: 1
-  image: {fileID: 0}
   imageGameObject: {fileID: 530595787}
   messageOnlyPopUpTitleText: {fileID: 779179769}
   messageOnlyPopUpBodyText: {fileID: 587191995}
