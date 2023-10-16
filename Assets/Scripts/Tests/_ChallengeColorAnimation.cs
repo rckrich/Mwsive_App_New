@@ -40,13 +40,16 @@ public class _ChallengeColorAnimation : MonoBehaviour
             if (Color.transform.eulerAngles.z  <.1 && MaskAniOnce)
             {
                 
-                MaskAni.Restart();
+                MaskAni.Play();
                 MaskAniOnce = false;
             }
         }
 
-
-        Color.transform.eulerAngles = -gameObject.transform.eulerAngles;
+        if(gameObject.transform.eulerAngles.z <= 0)
+        {
+            Color.transform.eulerAngles = -gameObject.transform.eulerAngles;
+        }
+        
 
 
     }
@@ -177,8 +180,19 @@ public class _ChallengeColorAnimation : MonoBehaviour
         ThirdWaveMask.offsetMin = new Vector2(ThirdWaveMask.offsetMin.x, 0);
 
         CalculateBoundries();
-        FromCenterToLeft();
-        
+
+        if (MaskAni == null)
+        {
+            FromCenterToLeft();
+        }
+        else
+        {
+
+
+            MaskAni.Restart();
+        }
+
+
 
     }
 
