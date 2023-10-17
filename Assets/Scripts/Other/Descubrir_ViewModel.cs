@@ -257,7 +257,6 @@ public class Descubrir_ViewModel : ViewModel
 
     private void Callback_GetSeveralTracksForRecommendedTracks(object[] _list)
     {
-
         SeveralTrackRoot severalTrackRoot = (SeveralTrackRoot)_list[1];
 
         foreach (Track track in severalTrackRoot.tracks)
@@ -296,7 +295,6 @@ public class Descubrir_ViewModel : ViewModel
 
     private void Callback_GetSeveralAlbums(object[] _list)
     {
-
         SeveralAlbumRoot severalAlbumRoot = (SeveralAlbumRoot)_list[1];
 
         foreach (Album album in severalAlbumRoot.albums)

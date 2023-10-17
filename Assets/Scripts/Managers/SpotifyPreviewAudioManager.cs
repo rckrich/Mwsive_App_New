@@ -127,4 +127,9 @@ public class SpotifyPreviewAudioManager : Manager
     {
         StopCoroutine(_coroutine);
     }
+
+    public void SetAudioClipNull()
+    {
+        audioClip = null;
+    }
 }
