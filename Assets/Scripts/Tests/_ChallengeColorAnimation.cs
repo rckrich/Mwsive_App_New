@@ -67,8 +67,12 @@ public class _ChallengeColorAnimation : MonoBehaviour
 
     private void CalculateBoundries()
     {
-        Mask.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
-        Mask.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
+        if (!isCompleted)
+        {
+            Mask.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
+            Mask.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
+
+        }
 
         maskThickness = Mask.GetComponent<RectTransform>().rect.width;
         SecondWaveMask.offsetMin = new Vector2(maskThickness, SecondWaveMask.offsetMin.y);
@@ -146,17 +150,10 @@ public class _ChallengeColorAnimation : MonoBehaviour
         StartAnimation();
         ColorAni.Complete();
 
-        if(MaskFinalAni != null)
-        {
-            MaskFinalAni.Complete();
-        }
-        else
-        {
-            Mask.transform.position = FinalPosition.position;
-            MaskAni.Pause();
-        }
-        Mask.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
-        Mask.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
+
+        Mask.transform.position = FinalPosition.position;
+        MaskAni.Pause();
+
 
     }
 
@@ -265,8 +262,18 @@ public class _ChallengeColorAnimation : MonoBehaviour
     private void MaskFinal()
     {
         isCompleted = true;
-        MaskFinalAni = Mask.transform.DOMove(FinalPosition.position, 2).OnComplete(() => { MaskAni.Pause(); });
-       
+        if (MaskFinalAni == null)
+        {
+            MaskFinalAni = Mask.transform.DOMove(FinalPosition.position, 2).OnComplete(() => { MaskAni.Pause(); });
+        }
+        else
+        {
+            MaskFinalAni.Kill();
+            MaskFinalAni = Mask.transform.DOMove(FinalPosition.position, 2).OnComplete(() => { MaskAni.Pause(); });
+        }
+
+            
+
         
         
         

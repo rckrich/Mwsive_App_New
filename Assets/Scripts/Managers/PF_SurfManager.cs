@@ -312,7 +312,7 @@ public class PF_SurfManager : Manager
 
     }
 
-    private void SideScrollSuccess()
+    public void SideScrollSuccess(bool button =false)
     {
         ResetEndDrag = false;
         Controller.enabled = false;
@@ -343,7 +343,7 @@ public class PF_SurfManager : Manager
 
 
 
-            AddSongAnimation();
+            AddSongAnimation(button);
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().AddToPlaylistSwipe(GetCurrentMwsiveData().id, ResetTimer());
             CurrentPosition++;
             SpawnPosition++;

@@ -58,7 +58,8 @@ public class SpotifyPreviewAudioManager : Manager
 
         if (isPaused)
         {
-            audioSource.Play();
+            if(audioClip != null)
+                audioSource.Play();
         }
         else
         {
@@ -73,7 +74,8 @@ public class SpotifyPreviewAudioManager : Manager
     {
         if (!audioSource.isPlaying && !isPaused)
         {
-            audioSource.Play();
+            if(audioClip != null)
+                audioSource.Play();
         }
     }
 

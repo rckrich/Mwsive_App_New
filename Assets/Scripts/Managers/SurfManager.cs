@@ -304,7 +304,7 @@ public class SurfManager : Manager
 
     }
 
-    private void SideScrollSuccess()
+    public void SideScrollSuccess(bool button = false)
     {
         ResetEndDrag = false;
         Controller.enabled = false;
@@ -318,7 +318,7 @@ public class SurfManager : Manager
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, -MaxRotation, 0, true);
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfSide();
 
-            AddSongAnimations();
+            AddSongAnimations(button);
 
             ActiveMwsiveSongs[2].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[0]);
             ActiveMwsiveSongs[2].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();
