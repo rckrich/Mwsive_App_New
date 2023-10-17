@@ -2,19 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class RankingViewModel : ScrollViewModel
 {
+    private const int PODIUM_NUMBER = 3;
+
     public GameObject selectTimePanel;
     public TextMeshProUGUI timeTypeText;
     public SurfManager surfManager;
+    public GameObject shimmer;
+    public List<TextMeshProUGUI> profileName;
+    public List<Image> profileImage;
+    public List<string> idList;
 
     private string timeType = "AllTime";
 
-
     public override void Initialize(params object[] list)
     {
-        StartSearch();
+        shimmer.SetActive(true);
         ChangeTimeType(timeType);
         MwsiveConnectionManager.instance.GetRanking(timeType, Callback_GetRanking);
 
@@ -34,11 +40,22 @@ public class RankingViewModel : ScrollViewModel
 
     private void Callback_GetRanking(object[] _list)
     {
-        MwsiveRankingRoot MmsiveRankingRoot = (MwsiveRankingRoot)_list[1];
+        MwsiveRankingRoot mwsiveRankingRoot = (MwsiveRankingRoot)_list[1];
 
         //InstanceObjects<MwsiveUser>(MmsiveRankingRoot.users);
+        
+        if(mwsiveRankingRoot.users.Count < 3)
+        {
+            for(int i = 0; i < PODIUM_NUMBER; i++)
+            {
+                profileName[i].text = mwsiveRankingRoot.users[i].display_name;
+                idList[i] = mwsiveRankingRoot.users[i].platform_id;
+                if (mwsiveRankingRoot.users[i].image_url != null)
+                    ImageManager.instance.GetImage(mwsiveRankingRoot.users[i].image_url, profileImage[i], (RectTransform)this.transform);
+            }
+        }
 
-        EndSearch();
+        shimmer.SetActive(false);
     }
 
     public void ChangeTimeType(string _value)
@@ -49,12 +66,15 @@ public class RankingViewModel : ScrollViewModel
         {
             case "AllTime":
                 timeTypeText.text = "Todo el tiempo";
+                //ClearScrolls();
                 break;
             case "PastMonth":
                 timeTypeText.text = "Mes pasado";
+                //ClearScrolls();
                 break;
             case "PastWeek":
                 timeTypeText.text = "Semana pasada";
+                //ClearScrolls();
                 break;
         }
     }
@@ -69,5 +89,35 @@ public class RankingViewModel : ScrollViewModel
 #if PLATFORM_ANDROID
         AppManager.instance.ResetAndroidBackAction();
 #endif
+    }
+
+    private void ClearScrolls(Transform _scrolls)
+    {
+        for (int i = 1; i < _scrolls.childCount; i++)
+        {
+            Destroy(_scrolls.GetChild(i).gameObject);
+        }
+
+    }
+
+    public void OnClick_OpenProfile(int value)
+    {
+        switch (value)
+        {
+            case 1:
+                NewScreenManager.instance.ChangeToSpawnedView("profile");
+                NewScreenManager.instance.GetCurrentView().Initialize(idList[0]);
+                break;
+            case 2:
+                NewScreenManager.instance.ChangeToSpawnedView("profile");
+                NewScreenManager.instance.GetCurrentView().Initialize(idList[1]);
+                break;
+            case 3:
+                NewScreenManager.instance.ChangeToSpawnedView("profile");
+                NewScreenManager.instance.GetCurrentView().Initialize(idList[2]);
+                break;
+        }
+            
+
     }
 }
