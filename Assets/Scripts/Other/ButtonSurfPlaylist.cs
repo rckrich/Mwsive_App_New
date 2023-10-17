@@ -106,13 +106,20 @@ public class ButtonSurfPlaylist : ViewModel
             }
         }
 
-
         CalculateKorM(_data.total_piks, trackTotalPicks);
         CalculateKorM(_data.total_recommendations, trackTotalRecommendation);
-        CalculateKorM(_data.total_piks_followed, trackTopCuratorsThatVoted, " amigos también votaron por \r\nesta canción");
-
-
-
+        switch (_data.total_piks_followed)
+        {
+            case 0:
+                CalculateKorM(_data.total_piks_followed, trackTopCuratorsThatVoted, " amigos han votado por \r\nesta canción");
+                break;
+            case 1:
+                CalculateKorM(_data.total_piks_followed, trackTopCuratorsThatVoted, " amigo ha votado por \r\nesta canción");
+                break;
+            default:
+                CalculateKorM(_data.total_piks_followed, trackTopCuratorsThatVoted, " amigos también votaron por \r\nesta canción");
+                break;
+        }
 
         if (_data.isRecommended)
         {

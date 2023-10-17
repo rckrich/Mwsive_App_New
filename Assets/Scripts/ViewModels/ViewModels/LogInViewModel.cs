@@ -7,13 +7,42 @@ using UnityEngine.SceneManagement;
 
 public class LogInViewModel : ViewModel
 {
+    private Sprite logInErrorSprite;
+
+    private void Start()
+    {
+        logInErrorSprite = Resources.Load<Sprite>("Zona_Peligrosa");
+    }
+
     public void OnClick_SpotifyButton()
     {
-        LogInManager.instance.StartLogInProcess();
+        if (Application.internetReachability != NetworkReachability.NotReachable)
+        {
+            LogInManager.instance.StartLogInProcess();
+        }
+        else {
+            NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
+            PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+            popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, "Advertencia", "No hay conexión en estos momentos. Volver a intentar más tarde.", "Aceptar", logInErrorSprite);
+            popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); });
+            return;
+        }
     }
 
     public void OnClick_NoLogInButton()
     {
-      GameObject.FindAnyObjectByType<NoLogInConnectionManager>().StartConnection((object[] _value) => { SceneManager.LoadScene("MainScene"); });
+
+        if (Application.internetReachability != NetworkReachability.NotReachable)
+        {
+            GameObject.FindAnyObjectByType<NoLogInConnectionManager>().StartConnection((object[] _value) => { SceneManager.LoadScene("MainScene"); });
+        }
+        else
+        {
+            NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
+            PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+            popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, "Advertencia", "No hay conexión en estos momentos. Volver a intentar más tarde.", "Aceptar", logInErrorSprite);
+            popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); });
+            return;
+        }
     }
 }
