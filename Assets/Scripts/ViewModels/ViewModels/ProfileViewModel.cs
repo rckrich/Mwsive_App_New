@@ -215,14 +215,14 @@ public class ProfileViewModel : ViewModel
     public void OnClick_BackButtonSurf()
     {
         principalScroll.verticalNormalizedPosition = 1;
-        surfManager.SetActive(true);
         OpenView(ViewID.SurfViewModel);
+        surfManager.SetActive(true);
         NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
     }
 
     public void OnClick_OptionsButton()
     {
-        OpenView(ViewID.OptionsViewModel);
+        NewScreenManager.instance.ChangeToMainView(ViewID.OptionsViewModel, true);
         NewScreenManager.instance.GetCurrentView().GetComponent<OptionsViewModel>().GetSettings();
         NewScreenManager.instance.GetCurrentView().GetComponent<OptionsViewModel>().Initialize();
     }
@@ -279,11 +279,10 @@ public class ProfileViewModel : ViewModel
 
     private void OpenView(ViewID _value)
     {
-        if (_value == ViewID.SurfViewModel)
+        NewScreenManager.instance.ChangeToMainView(_value);
+        if (_value == ViewID.SurfViewModel) {
             SurfManager.instance.canSwipe = true;
-
-        NewScreenManager.instance.ChangeToMainView(_value, false);
-
+        }
     }
 
     public void OnClick_BackButtonPrefab()

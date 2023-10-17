@@ -7,41 +7,70 @@ public class MwsiveControllerButtons : MonoBehaviour
     public SurfManager Surf;
     public PF_SurfManager Pf_Surf;
     public float AnimationDuration;
+
+    bool ShareCallbackEnd = true;
     
     public void OnClickOlaButton() {
 
-        if (!AppManager.instance.isLogInMode)
+        if(Application.internetReachability != NetworkReachability.NotReachable)
         {
-            UIMessage.instance.UIMessageInstanciate("Debes inciar sesión para poder realizar esta acción");
-            return;
+            if (!AppManager.instance.isLogInMode)
+            {
+                UIMessage.instance.UIMessageInstanciate("Debes inciar sesión para poder realizar esta acción");
+                return;
+            }
+
+            GetPrefabFromSurf().GetComponentInChildren<MwsiveButton>().OnClickOlaButton(AnimationDuration, GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().trackID, GetTime());
+        }
+        else
+        {
+            UIMessage.instance.UIMessageInstanciate("El dispotivo no se encuentra conectado");
         }
 
-        GetPrefabFromSurf().GetComponentInChildren<MwsiveButton>().OnClickOlaButton(AnimationDuration, GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().trackID, GetTime());
+        
     }
 
     public void OnClickAddToPlaylistButton() {
 
-        if (!AppManager.instance.isLogInMode)
+        if(Application.internetReachability != NetworkReachability.NotReachable)
         {
-            UIMessage.instance.UIMessageInstanciate("Debes inciar sesión para poder realizar esta acción");
-            return;
+            if (!AppManager.instance.isLogInMode)
+            {
+                UIMessage.instance.UIMessageInstanciate("Debes inciar sesión para poder realizar esta acción");
+                return;
+            }
+            try
+            {
+                SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().SideScrollSuccess(true);
+            }
+            catch (System.NullReferenceException)
+            {
+                SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().SideScrollSuccess(true);
+            }
+
+            //GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().AddToPlaylistButton(GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().trackID, GetTime());
         }
-        try
+        else
         {
-            SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().SideScrollSuccess(true);
+            UIMessage.instance.UIMessageInstanciate("El dispotivo no se encuentra conectado");
         }
-        catch (System.NullReferenceException)
-        {
-            SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().SideScrollSuccess(true);
-        }
-       
-        //GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().AddToPlaylistButton(GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().trackID, GetTime());
     }
 
     public void OnClickCompartirButton() {
-        GameObject Instance = GetPrefabFromSurf();
-        Instance.GetComponentInChildren<MwsiveButton>().OnClickCompartirButton(AnimationDuration);
-        NativeShareManager.instance.OnClickShareMwsiveSong(Instance.GetComponent<ButtonSurfPlaylist>().trackID, Instance.GetComponentInChildren<MwsiveButton>().GetIsItCompartirActive() );
+
+        if (Application.internetReachability != NetworkReachability.NotReachable)
+        {
+            GameObject Instance = GetPrefabFromSurf();
+            Instance.GetComponentInChildren<MwsiveButton>().OnClickCompartirButton(AnimationDuration);
+            NativeShareManager.instance.OnClickShareMwsiveSong(Instance.GetComponent<ButtonSurfPlaylist>().trackID, Instance.GetComponentInChildren<MwsiveButton>().GetIsItCompartirActive());
+
+        }
+        else
+        {
+            UIMessage.instance.UIMessageInstanciate("El dispotivo no se encuentra conectado");
+        }
+
+
     }
 
     public bool IsItOlaColorButtonActive() {
@@ -63,9 +92,15 @@ public class MwsiveControllerButtons : MonoBehaviour
     }
     public void OnClick_Friends()
     {
-
-        GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().OnClick_UserThatVoted();
-        SurfController.instance.ReturnCurrentView().SetActive(false);
+        if (Application.internetReachability != NetworkReachability.NotReachable)
+        {
+            GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().OnClick_UserThatVoted();
+            SurfController.instance.ReturnCurrentView().SetActive(false);
+        }
+        else
+        {
+            UIMessage.instance.UIMessageInstanciate("El dispotivo no se encuentra conectado");
+        }
     }
 
 

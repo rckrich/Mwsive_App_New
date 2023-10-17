@@ -222,8 +222,6 @@ public class ButtonSurfPlaylist : ViewModel
         }
         TrackPoints = _data.challenge_trackpoints;
 
-
-
         if (_data.challenge_AmILastPosition)
         {
             AmILastPosition = true;
@@ -394,7 +392,11 @@ public class ButtonSurfPlaylist : ViewModel
     public void OnClic_StopAudioPreview()
     {
         SpotifyPreviewAudioManager.instance.Pause();
-        colorani.PauseColor();
+        if (TrackPoints)
+        {
+            colorani.PauseColor();
+        }
+        
 
 
 

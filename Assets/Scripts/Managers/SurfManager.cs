@@ -354,8 +354,15 @@ public class SurfManager : Manager
             }
         }
 
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            UIMessage.instance.UIMessageInstanciate("Error, no se ha agregado a playlist");
+        }
+
         Debug.Log("SideScrollSucess");
         HasSwipeEnded = true;
+
+
     }
     private void DownScrollSuccess()
     {

@@ -373,6 +373,12 @@ public class PF_SurfManager : Manager
         {
             ResetValue();
         }
+
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            UIMessage.instance.UIMessageInstanciate("Error, no se ha agregado a playlist");
+        }
+
         Debug.Log("SideScrollSuccess");
         HasSwipeEnded = true;
     }

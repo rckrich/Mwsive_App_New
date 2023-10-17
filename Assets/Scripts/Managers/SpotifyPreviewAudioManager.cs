@@ -26,14 +26,24 @@ public class SpotifyPreviewAudioManager : Manager
 
     private AudioClip audioClip;
     private bool isPaused = false;
+    private bool NoInternet = false;
 
     public IEnumerator GetTrack(string _audioURL, SpotifyAudioDownloaderCallback _callback = null)
     {
-        StopCoroutine("CR_GetAudioClip");
-        IEnumerator coroutine = CR_GetAudioClip(_audioURL, _callback);
-        StartCoroutine(coroutine);
-        return coroutine;
-
+        if (NoInternet)
+        {
+            audioClip = null;
+            IEnumerator coroutine = CR_GetAudioClip(_audioURL, _callback);
+            StartCoroutine(coroutine);
+            return coroutine;
+        }
+        else
+        {
+            StopCoroutine("CR_GetAudioClip");
+            IEnumerator coroutine = CR_GetAudioClip(_audioURL, _callback);
+            StartCoroutine(coroutine);
+            return coroutine;
+        }
     }
 
     public void StopTrack()
@@ -130,8 +140,8 @@ public class SpotifyPreviewAudioManager : Manager
         StopCoroutine(_coroutine);
     }
 
-    public void SetAudioClipNull()
+    public void SetNoInternet(bool isInternet)
     {
-        audioClip = null;
+        NoInternet = isInternet;
     }
 }

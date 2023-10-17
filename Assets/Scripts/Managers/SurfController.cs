@@ -109,6 +109,7 @@ public class SurfController : MonoBehaviour
             if (i == position)
             {
                 SurfManagers[i].SetActive(true);
+
                 CurrentView = SurfManagers[i];
             }
             else
@@ -122,7 +123,15 @@ public class SurfController : MonoBehaviour
         {
             if (SurfManagers[0] == Main)
             {
-                Main.SetActive(true);
+                if (NewScreenManager.instance.GetCurrentView().viewID == ViewID.SurfViewModel)
+                {
+                    Main.SetActive(true);
+                }
+                else
+                {
+                    Main.SetActive(false);
+                }
+               
                 CurrentView = Main;
             }
         }
