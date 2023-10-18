@@ -1537,6 +1537,7 @@ GameObject:
   - component: {fileID: 2490045760259224199}
   - component: {fileID: 1724584714632286968}
   - component: {fileID: 328173869794337803}
+  - component: {fileID: 8744094472162020884}
   m_Layer: 5
   m_Name: _PF_Mwsive_Song
   m_TagString: MwsiveSong
@@ -1613,7 +1614,7 @@ MonoBehaviour:
   isAdd: 0
   externalURL: 
   changeColor: 0
-  mwsiveButton: {fileID: 8948147567869766812}
+  mwsiveButton: {fileID: 8744094472162020884}
   colorani: {fileID: 1724584714632286968}
   loadingAnimGameObject: {fileID: 4412154165452044214}
   durationBar: {fileID: 7737811751323223686}
@@ -1666,6 +1667,22 @@ MonoBehaviour:
   SurfTransitionDuration: 0.5
   isAvailable: 0
   debug: 0
+--- !u!114 &8744094472162020884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987369042212565383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93d8ed40dacc9434f9522dcd9c1a76a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PIKColorButton: {fileID: 2142107881078899163}
+  RecommendColorButton: {fileID: 6330830303899634181}
+  ShareColorButton: {fileID: 3281972464926652253}
+  PIKCallbackEnd: 1
 --- !u!1 &3281972464926652253
 GameObject:
   m_ObjectHideFlags: 0
@@ -2835,7 +2852,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2479787274777889808}
-  - component: {fileID: 8948147567869766812}
   m_Layer: 5
   m_Name: MwsiveButtons_Container
   m_TagString: Untagged
@@ -2865,21 +2881,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0.5}
---- !u!114 &8948147567869766812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5210523134406233738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93d8ed40dacc9434f9522dcd9c1a76a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PIKColorButton: {fileID: 2142107881078899163}
-  RecommendColorButton: {fileID: 6330830303899634181}
-  ShareColorButton: {fileID: 3281972464926652253}
 --- !u!1 &5289500850258962216
 GameObject:
   m_ObjectHideFlags: 0

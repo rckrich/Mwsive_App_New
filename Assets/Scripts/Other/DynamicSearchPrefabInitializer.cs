@@ -13,12 +13,15 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
     public TextMeshProUGUI Title;
     public TextMeshProUGUI Subtitle;
 
+    private int textCharacterLimit = 15;
+
     // Start is called before the first frame update
 
     public void InitializeMwsiveUser(string _text, string id){
-        if(_text.Length > 27){
+        if(_text.Length > textCharacterLimit)
+        {
             string _text2 = "";
-            for (int i = 0; i < 27; i++)
+            for (int i = 0; i < textCharacterLimit; i++)
             {
                 
                 _text2 =_text2 + _text[i];
@@ -34,9 +37,10 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
     }
 
     public void InitializeMwsiveUserwithImage(string _text, string id, string _image){
-        if(_text.Length > 27){
+        if(_text.Length > textCharacterLimit)
+        {
             string _text2 = "";
-            for (int i = 0; i < 27; i++)
+            for (int i = 0; i < textCharacterLimit; i++)
             {
                 
                 _text2 =_text2 + _text[i];
@@ -53,9 +57,10 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
     }
 
     public void InitializeSingle(string _text, string id, string Url){
-        if(_text.Length > 27){
+        if(_text.Length > textCharacterLimit)
+        {
             string _text2 = "";
-            for (int i = 0; i < 27; i++)
+            for (int i = 0; i < textCharacterLimit; i++)
             {
                 
                 _text2 =_text2 + _text[i];
@@ -73,9 +78,10 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
 
     }
     public void InitializeSingleWithImage(string _name,  string _image, string id, string Url){
-        if(_name.Length > 27){
+        if(_name.Length > textCharacterLimit)
+        {
             string _text2 = "";
-            for (int i = 0; i < 27; i++)
+            for (int i = 0; i < textCharacterLimit; i++)
             {
                 
                 _text2 =_text2 + _name[i];
@@ -93,9 +99,10 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
     }
 
     public void InitializeDoubleWithImage(string _Title, string _Subtitle, string _Image, string id,  string Url){
-        if(_Title.Length > 27){
+        if(_Title.Length > textCharacterLimit)
+        {
             string _text2 = "";
-            for (int i = 0; i < 27; i++)
+            for (int i = 0; i < textCharacterLimit; i++)
             {
                 
                 _text2 =_text2 + _Title[i];
@@ -107,9 +114,10 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
             Title.text = _Title;
         }
         
-       if(_Subtitle.Length > 27){
+       if(_Subtitle.Length > textCharacterLimit)
+        {
             string _text2 = "";
-            for (int k = 0; k < 27; k++)
+            for (int k = 0; k < textCharacterLimit; k++)
             {
                 
                 _text2 =_text2 + _Subtitle[k];
@@ -128,9 +136,10 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
 
     public void InitializeDouble(string _Title, string _Subtitle, string id, string Url){
         
-        if(_Title.Length > 27){
+        if(_Title.Length > textCharacterLimit)
+        {
             string _text2 = "";
-            for (int i = 0; i < 27; i++)
+            for (int i = 0; i < textCharacterLimit; i++)
             {
                 
                 _text2 =_text2 + _Title[i];
@@ -141,9 +150,10 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
         }else{
             Title.text = _Title;
         };
-        if(_Subtitle.Length > 27){
+        if(_Subtitle.Length > textCharacterLimit)
+        {
             string _text2 = "";
-            for (int k = 0; k < 27; k++)
+            for (int k = 0; k < textCharacterLimit; k++)
             {
                 
                 _text2 =_text2 + _Subtitle[k];

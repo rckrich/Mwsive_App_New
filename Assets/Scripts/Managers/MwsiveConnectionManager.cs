@@ -38,6 +38,12 @@ public class MwsiveConnectionManager : MonoBehaviour
         }
     }
 
+    public void StopCustomCoroutine(IEnumerator _coroutine)
+    {
+        StopCoroutine(_coroutine);
+    }
+
+
     #region Mwsive API Call Methods
 
     public void PostCreateUser(string _email, string _gender, int _age, ProfileRoot _profile, string[] _playlist_ids, MwsiveWebCallback _callback = null)
@@ -288,10 +294,12 @@ public class MwsiveConnectionManager : MonoBehaviour
         DebugLogManager.instance.DebugLog(((IsFollowingRoot)_value[1]));
     }
 
-    public void GetCuratorsByName(string _name, MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
+    public IEnumerator GetCuratorsByName(string _name, MwsiveWebCallback _callback = null, int _offset = 0, int _limit = 20)
     {
         _callback += Callback_GetCuratorsByName;
-        StartCoroutine(MwsiveWebCalls.CR_GetCuratorsByName(ProgressManager.instance.progress.userDataPersistance.access_token, _name, _callback, _offset, _limit));
+        IEnumerator GetCuratorsCoroutine = MwsiveWebCalls.CR_GetCuratorsByName(ProgressManager.instance.progress.userDataPersistance.access_token, _name, _callback, _offset, _limit);
+        StartCoroutine(GetCuratorsCoroutine);
+        return GetCuratorsCoroutine;
     }
 
     private void Callback_GetCuratorsByName(object[] _value)

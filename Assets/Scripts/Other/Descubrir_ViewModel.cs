@@ -55,6 +55,8 @@ public class Descubrir_ViewModel : ViewModel
     private bool CheckForSpawnHasEnded = true;
     private string[] types = new string[] { "album", "artist", "playlist", "track" };
     private MwsiveCuratorsRoot _mwsivecurator;
+    private IEnumerator mwsiveCoroutine, spotifyCoroutine;
+    
 
     void Start()
     {
@@ -334,6 +336,12 @@ public class Descubrir_ViewModel : ViewModel
         numEnpantalla = Descubrir.GetCurrentEscena();
         SearchText = Searchbar.text;
         Descubrir.ChangeShowText(true);
+
+        if(SearchText.Length == 0)
+        {
+            KillPrefablist(numEnpantalla);
+        }
+
         if (SearchText.Length >= 1 || EnableSerach)
         {
             Descubrir.ChangeShowText(false);
@@ -366,44 +374,53 @@ public class Descubrir_ViewModel : ViewModel
 
     private void SpotifySearch()
     {
+        if(mwsiveCoroutine != null)
+        {
+            MwsiveConnectionManager.instance.StopCustomCoroutine(mwsiveCoroutine);
+        }
+        if(spotifyCoroutine != null)
+        {
+            SpotifyConnectionManager.instance.StopCustomCoroutine(spotifyCoroutine);
+        }
 
         loading.SetActive(true);
         switch (numEnpantalla)
         {
             case 0:
                 types = new string[] { "album", "artist", "playlist", "track" };
-                MwsiveConnectionManager.instance.GetCuratorsByName(SearchText, Callback_Mwsive_OnCLick_SearchForItem, 0, Mathf.RoundToInt(MaxPrefabsinScreen / 3));
-                SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_SearchForItem, "ES", Mathf.RoundToInt(MaxPrefabsinScreen / 3));
+                mwsiveCoroutine = MwsiveConnectionManager.instance.GetCuratorsByName(SearchText, Callback_Mwsive_OnCLick_SearchForItem, 0, Mathf.RoundToInt(MaxPrefabsinScreen / 3));
+
+                spotifyCoroutine = SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_SearchForItem, "ES", Mathf.RoundToInt(MaxPrefabsinScreen / 3));
                 break;
             case 1:
 
-                MwsiveConnectionManager.instance.GetCuratorsByName(SearchText, Callback_Mwsive_OnCLick_SearchForItem, 0, MaxPrefabsinScreen);
+                mwsiveCoroutine = MwsiveConnectionManager.instance.GetCuratorsByName(SearchText, Callback_Mwsive_OnCLick_SearchForItem, 0, MaxPrefabsinScreen);
 
                 break;
             case 2:
                 types = new string[] { "track" };
-                SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_SearchForItem, "ES", MaxPrefabsinScreen);
+                spotifyCoroutine = SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_SearchForItem, "ES", MaxPrefabsinScreen);
                 DynamicPrefabSpawner(MaxPrefabsinScreen);
                 break;
             case 3:
                 types = new string[] { "artist" };
-                SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_SearchForItem, "ES", MaxPrefabsinScreen);
+                spotifyCoroutine = SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_SearchForItem, "ES", MaxPrefabsinScreen);
                 DynamicPrefabSpawner(MaxPrefabsinScreen);
                 break;
             case 4:
                 types = new string[] { "album" };
-                SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_SearchForItem, "ES", MaxPrefabsinScreen);
+                spotifyCoroutine = SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_SearchForItem, "ES", MaxPrefabsinScreen);
                 DynamicPrefabSpawner(MaxPrefabsinScreen);
                 break;
             case 5:
                 types = new string[] { "playlist" };
-                SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_SearchForItem, "ES", MaxPrefabsinScreen);
+                spotifyCoroutine = SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_SearchForItem, "ES", MaxPrefabsinScreen);
                 DynamicPrefabSpawner(MaxPrefabsinScreen);
                 break;
             case 6:
                 types = new string[] { "album", "artist", "playlist", "track" };
                 string GenreText = SearchText + "%20genre:" + SearchText;
-                SpotifyConnectionManager.instance.SearchForItem(GenreText, types, Callback_OnCLick_SearchForItem, "ES", Mathf.RoundToInt(MaxPrefabsinScreen / 3));
+                spotifyCoroutine = SpotifyConnectionManager.instance.SearchForItem(GenreText, types, Callback_OnCLick_SearchForItem, "ES", Mathf.RoundToInt(MaxPrefabsinScreen / 3));
                 break;
         }
 
@@ -414,6 +431,7 @@ public class Descubrir_ViewModel : ViewModel
 
     private void Callback_Mwsive_OnCLick_SearchForItem(object[] _value)
     {
+        mwsiveCoroutine = null;
         MwsiveCuratorsRoot mwsiveCuratorsRoot = (MwsiveCuratorsRoot)_value[1];
         switch (numEnpantalla)
         {
@@ -459,7 +477,7 @@ public class Descubrir_ViewModel : ViewModel
 
     private void Callback_OnCLick_SearchForItem(object[] _value)
     {
-
+        spotifyCoroutine = null;
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
         SearchRoot searchRoot = (SearchRoot)_value[1];

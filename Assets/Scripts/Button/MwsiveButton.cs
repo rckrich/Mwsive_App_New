@@ -12,7 +12,7 @@ public class MwsiveButton : AppObject
     public GameObject ShareColorButton;
     private bool IsItShareColorButtonActive = false;
 
-    bool PIKCallbackEnd = true;
+    public bool PIKCallbackEnd = true;
 
     
     
