@@ -8500,7 +8500,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 367185118}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &367185118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39531,7 +39543,6 @@ MonoBehaviour:
   instancesGroupReference: {fileID: 0}
   selectTimePanel: {fileID: 1052664336}
   timeTypeText: {fileID: 779512247}
-  surfManager: {fileID: 0}
   shimmer: {fileID: 1587402067433764628}
   profileName:
   - {fileID: 1886834010}
@@ -39545,6 +39556,8 @@ MonoBehaviour:
   - 
   - 
   - 
+  rankingContent: {fileID: 640084402}
+  rankingHolder: {fileID: 2517970141433499337, guid: 4a0e660ecc18580488e805b8673de62e, type: 3}
 --- !u!1 &1597375745
 GameObject:
   m_ObjectHideFlags: 0

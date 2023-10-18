@@ -10,11 +10,13 @@ public class RankingViewModel : ScrollViewModel
 
     public GameObject selectTimePanel;
     public TextMeshProUGUI timeTypeText;
-    public SurfManager surfManager;
     public GameObject shimmer;
     public List<TextMeshProUGUI> profileName;
     public List<Image> profileImage;
     public List<string> idList;
+    [Header ("References")]
+    public Transform rankingContent;
+    public GameObject rankingHolder;
 
     private string timeType = "AllTime";
 
@@ -22,8 +24,7 @@ public class RankingViewModel : ScrollViewModel
     {
         shimmer.SetActive(true);
         ChangeTimeType(timeType);
-        MwsiveConnectionManager.instance.GetRanking(timeType, Callback_GetRanking);
-
+        //TODO Get user rank
 #if PLATFORM_ANDROID
         if (Application.platform == RuntimePlatform.Android)
         {
@@ -43,18 +44,36 @@ public class RankingViewModel : ScrollViewModel
         MwsiveRankingRoot mwsiveRankingRoot = (MwsiveRankingRoot)_list[1];
 
         //InstanceObjects<MwsiveUser>(MmsiveRankingRoot.users);
-        
-        if(mwsiveRankingRoot.users.Count < 3)
+       if(mwsiveRankingRoot.users.Count != 0)
         {
-            for(int i = 0; i < PODIUM_NUMBER; i++)
+            if (mwsiveRankingRoot.users.Count < 3)
             {
-                profileName[i].text = mwsiveRankingRoot.users[i].display_name;
-                idList[i] = mwsiveRankingRoot.users[i].platform_id;
-                if (mwsiveRankingRoot.users[i].image_url != null)
-                    ImageManager.instance.GetImage(mwsiveRankingRoot.users[i].image_url, profileImage[i], (RectTransform)this.transform);
-            }
-        }
+                for (int i = 0; i < PODIUM_NUMBER; i++)
+                {
+                    profileName[i].text = mwsiveRankingRoot.users[i].display_name;
+                    idList[i] = mwsiveRankingRoot.users[i].platform_id;
+                    if (mwsiveRankingRoot.users[i].image_url != null)
+                        ImageManager.instance.GetImage(mwsiveRankingRoot.users[i].image_url, profileImage[i], (RectTransform)this.transform);
+                }
 
+                for(int i = PODIUM_NUMBER; i < mwsiveRankingRoot.users.Count; i++)
+                {
+                    CuratorAppObject instance = GameObject.Instantiate(rankingHolder, rankingContent).GetComponent<CuratorAppObject>();
+                    instance.Initialize();
+                }
+            }
+            else
+            {
+                for (int i = 0; i < mwsiveRankingRoot.users.Count; i++)
+                {
+                    profileName[i].text = mwsiveRankingRoot.users[i].display_name;
+                    idList[i] = mwsiveRankingRoot.users[i].platform_id;
+                    if (mwsiveRankingRoot.users[i].image_url != null)
+                        ImageManager.instance.GetImage(mwsiveRankingRoot.users[i].image_url, profileImage[i], (RectTransform)this.transform);
+                }
+
+            }
+        } 
         shimmer.SetActive(false);
     }
 
@@ -66,15 +85,18 @@ public class RankingViewModel : ScrollViewModel
         {
             case "AllTime":
                 timeTypeText.text = "Todo el tiempo";
-                //ClearScrolls();
+                ClearScrolls(rankingContent);
+                MwsiveConnectionManager.instance.GetRanking("AllTime", Callback_GetRanking);
                 break;
             case "PastMonth":
                 timeTypeText.text = "Mes pasado";
-                //ClearScrolls();
+                ClearScrolls(rankingContent);
+                MwsiveConnectionManager.instance.GetRanking("PastMonth", Callback_GetRanking);
                 break;
             case "PastWeek":
                 timeTypeText.text = "Semana pasada";
-                //ClearScrolls();
+                ClearScrolls(rankingContent);
+                MwsiveConnectionManager.instance.GetRanking("PastWeek", Callback_GetRanking);
                 break;
         }
     }
@@ -119,5 +141,10 @@ public class RankingViewModel : ScrollViewModel
         }
             
 
+    }
+
+    public void OnClick_ShareRank()
+    {
+        //ToDo Share Ranking
     }
 }
