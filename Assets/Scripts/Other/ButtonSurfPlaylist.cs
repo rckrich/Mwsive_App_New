@@ -424,14 +424,22 @@ public class ButtonSurfPlaylist : ViewModel
     }
 
 
-    public void AddToPlaylistButton(string _trackid, float _time)
+    public void AddToPlaylistButton(string _trackid, float _time, bool isPFSurf = false)
     {
         if (!isRecommended)
         {
 
-            SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
+            /*SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
             trackID = _trackid;
-            time = _time;
+            time = _time;*/
+            try
+            {
+                SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().SideScrollSuccess(true);
+            }
+            catch (System.NullReferenceException)
+            {
+                SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().SideScrollSuccess(true);
+            }
 
         }
         else
