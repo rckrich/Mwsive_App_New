@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 public class UIMessage_Ani : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class UIMessage_Ani : MonoBehaviour
     private GameObject MainCanvas;
     [Range(0f, 2f)]
     public float AnimationDuration;
+    public TextMeshProUGUI textMeshPro;
 
     // Start is called before the first frame update
     void Awake()

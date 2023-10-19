@@ -122,7 +122,9 @@ public class MwsiveButton : AppObject
             {
                 if (badge.type.Equals("engagement"))
                 {
+                    Debug.Log(FixedBadgeGroupString(badge.group));
                     UIMessage.instance.UIMessageInstanciate("Conseguiste la insignia " + FixedBadgeGroupString(badge.group));
+                    
                 }
                 else if (badge.type.Equals("track"))
                 {
