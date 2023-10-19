@@ -398,7 +398,8 @@ public class SurfManager : Manager
             }
 
 
-            string _trackid = GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID;
+            string _trackid = GetCurrentMwsiveData().id;
+
             if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
             {
                 MwsiveConnectionManager.instance.PostTrackAction(_trackid, "DOWN", ResetTimer());
@@ -447,7 +448,7 @@ public class SurfManager : Manager
             ActiveMwsiveSongs[4].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();
 
 
-            string _trackid = GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID;
+            string _trackid = GetCurrentMwsiveData().id;
 
 
             if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
@@ -624,7 +625,7 @@ public class SurfManager : Manager
 
     public MwsiveData GetMwsiveData(int i)
     {
-        return MwsiveSongsData[CurrentPosition];
+        return MwsiveSongsData[i];
     }
 
     public MwsiveData GetLastPrefab()

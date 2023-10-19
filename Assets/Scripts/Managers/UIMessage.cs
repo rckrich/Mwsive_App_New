@@ -67,8 +67,19 @@ public class UIMessage : MonoBehaviour
 
         GameObject Instance = GetPooledObject();
 
-        Instance.GetComponentInChildren<TextMeshProUGUI>().text = _text;
-        Instance.GetComponent<UIMessage_Ani>().Play_MessageAnimation();
+        try
+        {
+            
+            Instance.GetComponentInChildren<TextMeshProUGUI>().text = _text;
+            Instance.GetComponent<UIMessage_Ani>().Play_MessageAnimation();
+        }
+        catch (System.NullReferenceException e)
+        {
+            Debug.Log(e);
+            Instance.GetComponentInChildren<TextMeshProUGUI>().text = " ";
+            Instance.GetComponent<UIMessage_Ani>().Play_MessageAnimation();
+        }
+        
 
     }
 }
