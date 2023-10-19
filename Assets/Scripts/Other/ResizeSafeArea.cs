@@ -9,20 +9,9 @@ public class ResizeSafeArea : MonoBehaviour
     Vector2 minAnchor;
     Vector2 maxAnchor;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void Awake()
     {
+#if UNITY_ANDROID && !UNITY_EDITOR
         rectTransform = GetComponent<RectTransform>();
         safeArea = Screen.safeArea;
         minAnchor = safeArea.position;
@@ -35,6 +24,6 @@ public class ResizeSafeArea : MonoBehaviour
 
         rectTransform.anchorMin = minAnchor;
         rectTransform.anchorMax = maxAnchor;
+#endif
     }
-
 }
