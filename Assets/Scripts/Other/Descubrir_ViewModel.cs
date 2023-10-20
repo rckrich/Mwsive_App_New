@@ -1467,4 +1467,14 @@ public class Descubrir_ViewModel : ViewModel
         });
 #endif   
     }
+
+
+    public void InteractableButton()
+    {
+        for (int i = 1; i < challengeScrollContent.childCount; i++)
+        {
+            challengeScrollContent.GetChild(i).GetComponent<ChallengeAppObject>().ButtonInteractable(true);
+        }
+
+    }
 }
