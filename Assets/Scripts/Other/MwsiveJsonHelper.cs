@@ -28,8 +28,8 @@ public class MwsiveUser : Instanceable
     public int total_disks { get; set; }
     public List<UserList> user_lists { get; set; }
     public List<UserLink> user_links { get; set; }
-    public object latest_ranking { get; set; }
-    public List<object> rankings { get; set; }
+    public Ranking latest_ranking { get; set; }
+    public List<Ranking> rankings { get; set; }
 }
 
 public class UserList
