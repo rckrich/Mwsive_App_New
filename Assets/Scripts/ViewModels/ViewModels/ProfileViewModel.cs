@@ -47,6 +47,8 @@ public class ProfileViewModel : ViewModel
     private bool areTrackBadges = true;
     private bool areEngagementBadges = true;
 
+    private Sprite logInErrorSprite;
+
     private void OnEnable()
     {
         AddEventListener<ChangeProfileSpriteAppEvent>(Listener_ChangeProfileSpriteAppEvent);
@@ -55,6 +57,11 @@ public class ProfileViewModel : ViewModel
     private void OnDisable()
     {
         RemoveEventListener<ChangeProfileSpriteAppEvent>(Listener_ChangeProfileSpriteAppEvent);
+    }
+
+    private void Start()
+    {
+        logInErrorSprite = Resources.Load<Sprite>("Zona_Peligrosa");
     }
 
     public override void Initialize(params object[] list)
@@ -125,7 +132,6 @@ public class ProfileViewModel : ViewModel
 
         if (_profileId.Equals(""))
         {
-
             StartSearch();
             MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser);
         }
@@ -351,6 +357,10 @@ public class ProfileViewModel : ViewModel
 
     public void Callback_GetCurrentMwsiveUser(object[] _value)
     {
+
+        if (DoesMswiveUserExists((long)_value[0]))
+            return;
+
         mwsiveUserRoot = (MwsiveUserRoot)_value[1];
 
         if (mwsiveUserRoot.user.image_url != null)
@@ -420,6 +430,10 @@ public class ProfileViewModel : ViewModel
 
     public void Callback_GetMwsiveUser(object[] _value)
     {
+
+        if (DoesMswiveUserExists((long)_value[0]))
+            return;
+
         mwsiveUserRoot = (MwsiveUserRoot)_value[1];
         if (mwsiveUserRoot.user.image_url != null)
             ImageManager.instance.GetImage(mwsiveUserRoot.user.image_url, profilePicture, (RectTransform)this.transform, "PROFILEIMAGE");
@@ -496,6 +510,9 @@ public class ProfileViewModel : ViewModel
 
     public void Callback_GetDNASeveralTracks(object[] _value)
     {
+        if(DoesMswiveUserExists((long)_value[0]))
+            return;
+
         MwsiveUserRoot mwsiveuser = (MwsiveUserRoot)_value[1];
 
         List<string> tracks = new List<string>();
@@ -800,6 +817,38 @@ public class ProfileViewModel : ViewModel
         for (int i = 1; i < _scrolls.childCount; i++)
         {
             Destroy(_scrolls.GetChild(i).transform.gameObject);
+        }
+    }
+
+    private bool DoesMswiveUserExists(long _webCode)
+    {
+        if (_webCode.Equals(WebCallsUtils.NOT_FOUND_RESPONSE_CODE))
+        {
+            EndSearch();
+            DebugLogManager.instance.DebugLog(_webCode);
+            NewScreenManager.instance.GetCurrentView().EndSearch();
+            NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
+            PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+            popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, "Advertencia", "Este usuario ya no se encuentra registrado en Mwsive. Regresa a la pantalla anterior", "Aceptar", logInErrorSprite);
+            popUpViewModel.SetPopUpAction(() =>
+            {
+                NewScreenManager.instance.BackToPreviousView();
+                if (isCurrentUserProfileView)
+                {
+                    OnClick_BackButtonSurf();
+                }
+                else
+                {
+                    OnClick_BackButtonPrefab();
+
+                }
+            });
+
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }

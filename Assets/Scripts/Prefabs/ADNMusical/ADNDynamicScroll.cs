@@ -210,7 +210,13 @@ public class ADNDynamicScroll : MonoBehaviour
 
     public void Callback_GetMwsiveUser(object[] _value)
     {
-        mwsiveUserRoot = (MwsiveUserRoot)_value[1];
+        if (((long)_value[0]).Equals(WebCallsUtils.NOT_FOUND_RESPONSE_CODE))
+        {
+            UIMessage.instance.UIMessageInstanciate("La lista esta vacia");
+            return;
+        }
+
+            mwsiveUserRoot = (MwsiveUserRoot)_value[1];
         if (mwsiveUserRoot.user.user_lists != null)
         {
             bool flag = false;
@@ -237,19 +243,15 @@ public class ADNDynamicScroll : MonoBehaviour
 
             if (!flag)
             {
-
                 if (!Editable)
                 {
                     UIMessage.instance.UIMessageInstanciate("La lista esta vacia");
-
                 }
                 else
                 {
                     DynamicPrefabSpawner(Min - 1);
 
                 }
-
-
             }
         }
 
