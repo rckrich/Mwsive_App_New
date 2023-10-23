@@ -67,9 +67,11 @@ public class LogInManager : Manager
         if (ProgressManager.instance.progress.userDataPersistance.userTokenSetted)
         {
             DebugLogManager.instance.DebugLog(ProgressManager.instance.progress.userDataPersistance.access_token);
+
             if (HasMwsiveTokenExpired())
             {
-                SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
+                //TODO Si el token de Mwsive guardado ha expirado, intentaría hacer login, es decir, crearía un usuario de no existir. Posible parche si es más de un día
+                SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetSpotifyUserProfile);
             }
             else
             {
@@ -86,7 +88,7 @@ public class LogInManager : Manager
         }
         else
         {
-            SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetUserProfile);
+            SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetSpotifyUserProfile);
         }
     }
 
@@ -147,7 +149,7 @@ public class LogInManager : Manager
         EndProcess();
     }
 
-    private void Callback_GetUserProfile(object[] _value)
+    private void Callback_GetSpotifyUserProfile(object[] _value)
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 

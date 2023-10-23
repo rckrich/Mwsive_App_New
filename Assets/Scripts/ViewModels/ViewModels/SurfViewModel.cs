@@ -58,7 +58,7 @@ public class SurfViewModel : ViewModel
 
     public void OnClick_Discos()
     {       
-        CallPopUP(PopUpViewModelTypes.MessageOnly, "¿Qué son los discos?", "Cada vez que escuches una canción que te haga vibrar, puedes lanzar un disco para votar por tus favoritas y destacar en el ranking. <color=#7C7DF5>(1 Disco = 1 Pik)</color> ", "Aceptar", image);
+        CallPopUP(PopUpViewModelTypes.MessageOnly, "¿Qué son los discos?", "Cada vez que escuches una canción que te haga vibrar, <br> puedes lanzar un disco para votar por tus favoritas y destacar en el ranking. <color=#7C7DF5>(1 Disco = 1 Pik)</color> <br>", "Aceptar", image);
 #if PLATFORM_ANDROID
         PopUpViewModel currentPopUp = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
         AppManager.instance.SetAndroidBackAction(() => {

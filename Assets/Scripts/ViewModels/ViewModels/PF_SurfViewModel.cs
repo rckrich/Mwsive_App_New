@@ -16,6 +16,10 @@ public class PF_SurfViewModel : ViewModel
         StopAllCoroutines();
         SpotifyPreviewAudioManager.instance.StopTrack();
         NewScreenManager.instance.BackToPreviousView();
+        if (NewScreenManager.instance.GetCurrentView().GetComponent<Descubrir_ViewModel>())
+        {
+            NewScreenManager.instance.GetCurrentView().GetComponent<Descubrir_ViewModel>().InteractableButton();
+        }
         NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
     }
 

@@ -98,9 +98,7 @@ public class MwsiveWebCalls : MonoBehaviour
 
             yield return webRequest.SendWebRequest();
 
-            //TODO si el error es 404 filtrarlo por que lo necesitamos
-
-            if (webRequest.result == UnityWebRequest.Result.ProtocolError && webRequest.responseCode == 404)
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError && webRequest.responseCode == WebCallsUtils.NOT_FOUND_RESPONSE_CODE)
             {
                 while (!webRequest.isDone) { yield return null; }
 
@@ -202,6 +200,18 @@ public class MwsiveWebCalls : MonoBehaviour
 
             yield return webRequest.SendWebRequest();
 
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError && webRequest.responseCode == WebCallsUtils.NOT_FOUND_RESPONSE_CODE)
+            {
+                while (!webRequest.isDone) { yield return null; }
+
+                if (webRequest.isDone)
+                {
+                    DebugLogManager.instance.DebugLog("Response code 404. No Mwsive user found. Not found in DataBase.");
+                    _callback(new object[] { webRequest.responseCode, null });
+                    yield break;
+                }
+            }
+
             if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
             {
                 //Catch response code for multiple requests to the server in a short timespan.
@@ -247,6 +257,18 @@ public class MwsiveWebCalls : MonoBehaviour
             webRequest.SetRequestHeader("Accept", "application/json");
 
             yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError && webRequest.responseCode == WebCallsUtils.NOT_FOUND_RESPONSE_CODE)
+            {
+                while (!webRequest.isDone) { yield return null; }
+
+                if (webRequest.isDone)
+                {
+                    DebugLogManager.instance.DebugLog("Response code 404. No Mwsive user found. Not found in DataBase.");
+                    _callback(new object[] { webRequest.responseCode, null });
+                    yield break;
+                }
+            }
 
             if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
             {

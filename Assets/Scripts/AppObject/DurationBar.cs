@@ -40,32 +40,45 @@ public class DurationBar : AppObject
     }
 
 
-    private void OnDisable()
+    public void ForceReset()
     {
         surf = null;
         CheckforPoints = false;
         canPlay = false;
+        if (durationImage != null)
+        {
+            durationImage.fillAmount = 0;
+        }
     }
 
     void Update()
     {
-        if (durationImage != null && SpotifyPreviewAudioManager.instance.audioSource.isPlaying && canPlay)
+        try
         {
-            durationImage.fillAmount = SpotifyPreviewAudioManager.instance.GetAudioSourceTime() / SpotifyPreviewAudioManager.instance.GetAudioClipLenght();
-            if(surf != null)
+            if (durationImage != null && SpotifyPreviewAudioManager.instance.audioSource.isPlaying && canPlay)
             {
-                if (CheckforPoints && durationImage.fillAmount > .9f && !surf.GetCurrentMwsiveData().challenge_songeded)
+
+                durationImage.fillAmount = SpotifyPreviewAudioManager.instance.GetAudioSourceTime() / SpotifyPreviewAudioManager.instance.GetAudioClipLenght();
+                if (surf != null)
                 {
+                    if (CheckforPoints && durationImage.fillAmount > .9f && !surf.GetCurrentMwsiveData().challenge_songeded)
+                    {
 
-                    surf.GetCurrentMwsiveData().challenge_songeded = true;
-                    
-                    surf.GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().LastPosition();
-                    Debug.Log("SongEnded");
+                        surf.GetCurrentMwsiveData().challenge_songeded = true;
 
+                        surf.GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().LastPosition();
+                        Debug.Log("SongEnded");
+
+                    }
                 }
+
             }
-            
         }
+        catch (System.NullReferenceException)
+        {
+
+        }
+        
     }
     
 

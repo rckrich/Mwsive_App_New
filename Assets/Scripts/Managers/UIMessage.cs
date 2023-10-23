@@ -8,7 +8,7 @@ using DG.Tweening;
 public class UIMessage : MonoBehaviour
 {
     private static UIMessage _instance;
-        public static UIMessage instance
+    public static UIMessage instance
     {
         get
         {
@@ -21,16 +21,17 @@ public class UIMessage : MonoBehaviour
     }
     public GameObject MessagePF;
     public GameObject UIMessageCanvas;
-    
+
     private List<GameObject> messageList = new List<GameObject>();
     public List<GameObject> messageLastPosition = new List<GameObject>();
+    public List<string> messageBufferList = new List<string>();
 
     private void Start()
     {
         SpawnMessageList();
         SpawnMessageList();
         SpawnMessageList();
-        
+
     }
 
     private void SpawnMessageList()
@@ -41,7 +42,7 @@ public class UIMessage : MonoBehaviour
         Instance.transform.localScale = new Vector3(1, 1, 1);
         Instance.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
         Instance.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
-        
+
         messageList.Add(Instance);
         Instance.name = "Message" + messageList.Count;
     }
@@ -63,12 +64,37 @@ public class UIMessage : MonoBehaviour
         return messageLastPosition[i].transform.position;
     }
 
-    public void UIMessageInstanciate(string _text){
+    public void CheckList()
+    {
+        if(messageBufferList.Count > 0)
+        {
+            UIMessageInstanciate(messageBufferList[0]);
+            messageBufferList.RemoveAt(0);
+        }    
+    }
+
+    public void UIMessageInstanciate(string _text) {
 
         GameObject Instance = GetPooledObject();
 
-        Instance.GetComponentInChildren<TextMeshProUGUI>().text = _text;
-        Instance.GetComponent<UIMessage_Ani>().Play_MessageAnimation();
+        if (Instance != null)
+        {
+            try
+            {
+                Instance.GetComponent<UIMessage_Ani>().textMeshPro.text = _text;
+                Instance.GetComponent<UIMessage_Ani>().Play_MessageAnimation();
+            }
+            catch (System.NullReferenceException e)
+            {
+                Debug.Log(e);
+                Instance.GetComponent<UIMessage_Ani>().textMeshPro.text = " ";
+                Instance.GetComponent<UIMessage_Ani>().Play_MessageAnimation();
+            }
+        }   
+        else
+        {
+            messageBufferList.Add(_text);
+        }
 
     }
 }

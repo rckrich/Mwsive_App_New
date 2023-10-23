@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 public class UIMessage_Ani : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class UIMessage_Ani : MonoBehaviour
     private GameObject MainCanvas;
     [Range(0f, 2f)]
     public float AnimationDuration;
+    public TextMeshProUGUI textMeshPro;
 
     // Start is called before the first frame update
     void Awake()
@@ -57,8 +59,7 @@ public class UIMessage_Ani : MonoBehaviour
         int.TryParse( gameObject.name.Substring(gameObject.name.Length - 1), out position);
 
         Vector3 PositionToMove = new Vector2(FinalPosition.x, UIMessage.instance.ReturnLastPosition(position-1).y);
-
-
+        
         MessageAnimation[0] = gameObject.GetComponent<CanvasGroup>().DOFade(1f, AnimationDuration).Pause();
         
         MessageAnimation[1] = gameObject.transform.DOMove(PositionToMove, AnimationDuration, false).Pause();
@@ -69,7 +70,7 @@ public class UIMessage_Ani : MonoBehaviour
     {
         int position;
         int.TryParse(gameObject.name.Substring(gameObject.name.Length - 1), out position);
-        Vector3 PositionToMove = new Vector2(FinalPosition.x, FinalPosition.y + (130 * (position-1)));
+        Vector3 PositionToMove = new Vector2(FinalPosition.x, UIMessage.instance.ReturnLastPosition(position - 1).y);
 
         MessageAnimation[0].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, (System.Single)1);
         MessageAnimation[1].ChangeValues(gameObject.transform.position, PositionToMove);

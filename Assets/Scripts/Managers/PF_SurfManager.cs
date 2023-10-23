@@ -312,7 +312,7 @@ public class PF_SurfManager : Manager
 
     }
 
-    private void SideScrollSuccess()
+    public void SideScrollSuccess(bool button =false)
     {
         ResetEndDrag = false;
         Controller.enabled = false;
@@ -343,7 +343,8 @@ public class PF_SurfManager : Manager
 
 
 
-            AddSongAnimation();
+            AddSongAnimation(button);
+            GetCurrentPrefab().GetComponent<MwsiveButton>().PIKCallbackEnd = true;
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().AddToPlaylistSwipe(GetCurrentMwsiveData().id, ResetTimer());
             CurrentPosition++;
             SpawnPosition++;
@@ -373,6 +374,12 @@ public class PF_SurfManager : Manager
         {
             ResetValue();
         }
+
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            UIMessage.instance.UIMessageInstanciate("Error, no se ha agregado a playlist");
+        }
+
         Debug.Log("SideScrollSuccess");
         HasSwipeEnded = true;
     }
@@ -410,7 +417,7 @@ public class PF_SurfManager : Manager
             ActiveMwsiveSongs[3].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[3]);
             ActiveMwsiveSongs[3].GetComponent<SurfAni>().Play_SurfTransitionBackHideSong();
 
-
+            GetCurrentPrefab().GetComponent<MwsiveButton>().PIKCallbackEnd = true;
 
             if (AddSong.activeSelf)
             {
@@ -461,7 +468,7 @@ public class PF_SurfManager : Manager
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, MaxRotation, 0, true);
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_VerticalUp();
 
-
+            GetCurrentPrefab().GetComponent<MwsiveButton>().PIKCallbackEnd = true;
 
             ActiveMwsiveSongs[2].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[0]);
             ActiveMwsiveSongs[2].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();

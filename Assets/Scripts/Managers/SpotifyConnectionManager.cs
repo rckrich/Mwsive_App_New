@@ -124,6 +124,11 @@ public class SpotifyConnectionManager : Manager
         ProgressManager.instance.save();
     }
 
+    public void StopCustomCoroutine(IEnumerator _coroutine)
+    {
+        StopCoroutine(_coroutine);
+    }
+
     public bool CheckReauthenticateUser(long _responseCode)
     {
         return _responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE);
@@ -473,10 +478,13 @@ public class SpotifyConnectionManager : Manager
         DebugLogManager.instance.DebugLog((RecommendationsRoot)_value[1]);
     }
 
-    public void SearchForItem(string _query, string[] _types, SpotifyWebCallback _callback = null, string _market = "ES", int _limit = 20, int _offset = 0, string _include_external = "audio")
+    public IEnumerator SearchForItem(string _query, string[] _types, SpotifyWebCallback _callback = null, string _market = "ES", int _limit = 20, int _offset = 0, string _include_external = "audio")
     {
         _callback += Callback_SearchForItem;
-        StartCoroutine(SpotifyWebCalls.CR_SearchForItem(oAuthHandler.GetSpotifyToken().AccessToken, _callback, _query, _types, _market, _limit, _offset, _include_external));
+        IEnumerator SearchForItemCoroutine = SpotifyWebCalls.CR_SearchForItem(oAuthHandler.GetSpotifyToken().AccessToken, _callback, _query, _types, _market, _limit, _offset, _include_external);
+
+        StartCoroutine(SearchForItemCoroutine);
+        return SearchForItemCoroutine;
     }
 
     private void Callback_SearchForItem(object[] _value)

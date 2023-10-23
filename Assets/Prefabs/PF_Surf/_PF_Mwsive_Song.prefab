@@ -509,7 +509,7 @@ GameObject:
   - component: {fileID: 621956352227500583}
   - component: {fileID: 6705712668046517805}
   m_Layer: 5
-  m_Name: MwsiveCompartir_Button
+  m_Name: MwsiveShare_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1254,7 +1254,7 @@ GameObject:
   - component: {fileID: 8444560858468476980}
   - component: {fileID: 4092667632403131864}
   m_Layer: 5
-  m_Name: _MwsiveOla_Color
+  m_Name: _MwsivePIK_Color
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1537,6 +1537,7 @@ GameObject:
   - component: {fileID: 2490045760259224199}
   - component: {fileID: 1724584714632286968}
   - component: {fileID: 328173869794337803}
+  - component: {fileID: 8744094472162020884}
   m_Layer: 5
   m_Name: _PF_Mwsive_Song
   m_TagString: MwsiveSong
@@ -1613,7 +1614,7 @@ MonoBehaviour:
   isAdd: 0
   externalURL: 
   changeColor: 0
-  mwsiveButton: {fileID: 8948147567869766812}
+  mwsiveButton: {fileID: 8744094472162020884}
   colorani: {fileID: 1724584714632286968}
   loadingAnimGameObject: {fileID: 4412154165452044214}
   durationBar: {fileID: 7737811751323223686}
@@ -1666,6 +1667,22 @@ MonoBehaviour:
   SurfTransitionDuration: 0.5
   isAvailable: 0
   debug: 0
+--- !u!114 &8744094472162020884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2987369042212565383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93d8ed40dacc9434f9522dcd9c1a76a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PIKColorButton: {fileID: 2142107881078899163}
+  RecommendColorButton: {fileID: 6330830303899634181}
+  ShareColorButton: {fileID: 3281972464926652253}
+  PIKCallbackEnd: 1
 --- !u!1 &3281972464926652253
 GameObject:
   m_ObjectHideFlags: 0
@@ -1680,7 +1697,7 @@ GameObject:
   - component: {fileID: 583711091761623718}
   - component: {fileID: 4047002511036269488}
   m_Layer: 5
-  m_Name: _MwsiveCompartir_Color
+  m_Name: _MwsiveShare_Color
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2835,7 +2852,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2479787274777889808}
-  - component: {fileID: 8948147567869766812}
   m_Layer: 5
   m_Name: MwsiveButtons_Container
   m_TagString: Untagged
@@ -2865,23 +2881,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0.5}
---- !u!114 &8948147567869766812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5210523134406233738}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93d8ed40dacc9434f9522dcd9c1a76a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OlaColorButton: {fileID: 2142107881078899163}
-  AddColorButton: {fileID: 6330830303899634181}
-  CompartirColorButton: {fileID: 3281972464926652253}
-  Addsong: {fileID: 0}
-  PIK: {fileID: 0}
 --- !u!1 &5289500850258962216
 GameObject:
   m_ObjectHideFlags: 0
@@ -3376,7 +3375,7 @@ GameObject:
   - component: {fileID: 6363008096244533737}
   - component: {fileID: 8903033645557698682}
   m_Layer: 5
-  m_Name: MwsiveOla_Button
+  m_Name: MwsivePIK_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3736,7 +3735,7 @@ GameObject:
   - component: {fileID: 6629152309300269897}
   - component: {fileID: 8353107480994566428}
   m_Layer: 5
-  m_Name: _MwsiveAddToPlaylist_Color
+  m_Name: _MwsiveRecommend_Color
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4065,7 +4064,7 @@ GameObject:
   - component: {fileID: 823150804675651978}
   - component: {fileID: 1205869921643317374}
   m_Layer: 5
-  m_Name: MwsiveOla_Text
+  m_Name: MwsivePIK_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4630,7 +4629,7 @@ GameObject:
   - component: {fileID: 1043580908127071934}
   - component: {fileID: 1126978027472317070}
   m_Layer: 5
-  m_Name: MwsiveAddToPLaylist_Button
+  m_Name: MwsiveRecommend_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4707,7 +4706,7 @@ GameObject:
   - component: {fileID: 9218892225722587285}
   - component: {fileID: 2360310948935949373}
   m_Layer: 5
-  m_Name: MwsiveAddToPlaylist_Text
+  m_Name: MwsiveRecommend_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

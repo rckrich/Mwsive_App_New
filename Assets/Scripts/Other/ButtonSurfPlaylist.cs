@@ -45,7 +45,7 @@ public class ButtonSurfPlaylist : ViewModel
     private Color redNew = new Color(0.9411765f, 0.2941177f, 0.4156863f);
     private Color gray = new Color(0.8f, 0.8f, 0.8f);
     private GameObject Surf;
-    
+
     public Sprite MwsiveCover;
     private bool isTrackinfoEnd = false, isPreviewSongFinishToLoad = false, isImageManagerLoad = false;
     private float time;
@@ -106,13 +106,20 @@ public class ButtonSurfPlaylist : ViewModel
             }
         }
 
-
         CalculateKorM(_data.total_piks, trackTotalPicks);
         CalculateKorM(_data.total_recommendations, trackTotalRecommendation);
-        CalculateKorM(_data.total_piks_followed, trackTopCuratorsThatVoted, " amigos también votaron por \r\nesta canción");
-
-
-
+        switch (_data.total_piks_followed)
+        {
+            case 0:
+                CalculateKorM(_data.total_piks_followed, trackTopCuratorsThatVoted, " amigos han votado por \r\nesta canción");
+                break;
+            case 1:
+                CalculateKorM(_data.total_piks_followed, trackTopCuratorsThatVoted, " amigo ha votado por \r\nesta canción");
+                break;
+            default:
+                CalculateKorM(_data.total_piks_followed, trackTopCuratorsThatVoted, " amigos también votaron por \r\nesta canción");
+                break;
+        }
 
         if (_data.isRecommended)
         {
@@ -124,7 +131,7 @@ public class ButtonSurfPlaylist : ViewModel
         {
             mwsiveButton.AddToPlaylistButtonClear();
         }
-        
+        mwsiveButton.PIKCallbackEnd = true;
         if (_data.isPicked)
         {
 
@@ -141,7 +148,7 @@ public class ButtonSurfPlaylist : ViewModel
     public void InitializeMwsiveSong(MwsiveData _data)
     {
 
-        
+
         string currentPLayListName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
 
         playlistText.text = currentPLayListName;
@@ -215,8 +222,6 @@ public class ButtonSurfPlaylist : ViewModel
         }
         TrackPoints = _data.challenge_trackpoints;
 
-
-
         if (_data.challenge_AmILastPosition)
         {
             AmILastPosition = true;
@@ -230,8 +235,11 @@ public class ButtonSurfPlaylist : ViewModel
 
     }
 
+    
+
     public void ClearData()
     {
+        
         if (imageCoroutine != null)
         {
             ImageManager.instance.StopCustomCoroutine(imageCoroutine);
@@ -243,7 +251,7 @@ public class ButtonSurfPlaylist : ViewModel
         imageCoroutine = null;
 
         playCoroutine = null;
-        durationBar.ResetFillAmount();
+        durationBar.ForceReset();
         playlistText.text = null;
         trackName.text = null;
         albumName.text = null;
@@ -254,7 +262,7 @@ public class ButtonSurfPlaylist : ViewModel
         mwsiveButton.AddToPlaylistButtonClear();
         mwsiveButton.UnPIKNoAni();
         colorani.ForceClear();
-
+        mwsiveButton.PIKCallbackEnd = true;
         uris.Clear();
         previewURL = null;
         externalURL = null;
@@ -387,7 +395,11 @@ public class ButtonSurfPlaylist : ViewModel
     public void OnClic_StopAudioPreview()
     {
         SpotifyPreviewAudioManager.instance.Pause();
-        colorani.PauseColor();
+        if (TrackPoints)
+        {
+            colorani.PauseColor();
+        }
+        
 
 
 
@@ -415,14 +427,22 @@ public class ButtonSurfPlaylist : ViewModel
     }
 
 
-    public void AddToPlaylistButton(string _trackid, float _time)
+    public void AddToPlaylistButton(string _trackid, float _time, bool isPFSurf = false)
     {
         if (!isRecommended)
         {
 
-            SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
+            /*SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
             trackID = _trackid;
-            time = _time;
+            time = _time;*/
+            try
+            {
+                SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().SideScrollSuccess(true);
+            }
+            catch (System.NullReferenceException)
+            {
+                SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().SideScrollSuccess(true);
+            }
 
         }
         else
