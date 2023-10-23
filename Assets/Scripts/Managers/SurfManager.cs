@@ -436,7 +436,7 @@ public class SurfManager : Manager
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, MaxRotation, 0, true);
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_VerticalUp();
 
-
+            
 
             ActiveMwsiveSongs[2].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[0]);
             ActiveMwsiveSongs[2].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();

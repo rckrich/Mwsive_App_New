@@ -40,11 +40,15 @@ public class DurationBar : AppObject
     }
 
 
-    private void OnDisable()
+    public void ForceReset()
     {
         surf = null;
         CheckforPoints = false;
         canPlay = false;
+        if (durationImage != null)
+        {
+            durationImage.fillAmount = 0;
+        }
     }
 
     void Update()

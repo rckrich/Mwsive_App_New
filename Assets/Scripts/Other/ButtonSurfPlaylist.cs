@@ -45,7 +45,7 @@ public class ButtonSurfPlaylist : ViewModel
     private Color redNew = new Color(0.9411765f, 0.2941177f, 0.4156863f);
     private Color gray = new Color(0.8f, 0.8f, 0.8f);
     private GameObject Surf;
-    
+
     public Sprite MwsiveCover;
     private bool isTrackinfoEnd = false, isPreviewSongFinishToLoad = false, isImageManagerLoad = false;
     private float time;
@@ -131,7 +131,7 @@ public class ButtonSurfPlaylist : ViewModel
         {
             mwsiveButton.AddToPlaylistButtonClear();
         }
-        
+        mwsiveButton.PIKCallbackEnd = true;
         if (_data.isPicked)
         {
 
@@ -148,7 +148,7 @@ public class ButtonSurfPlaylist : ViewModel
     public void InitializeMwsiveSong(MwsiveData _data)
     {
 
-        
+
         string currentPLayListName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
 
         playlistText.text = currentPLayListName;
@@ -235,8 +235,11 @@ public class ButtonSurfPlaylist : ViewModel
 
     }
 
+    
+
     public void ClearData()
     {
+        
         if (imageCoroutine != null)
         {
             ImageManager.instance.StopCustomCoroutine(imageCoroutine);
@@ -248,7 +251,7 @@ public class ButtonSurfPlaylist : ViewModel
         imageCoroutine = null;
 
         playCoroutine = null;
-        durationBar.ResetFillAmount();
+        durationBar.ForceReset();
         playlistText.text = null;
         trackName.text = null;
         albumName.text = null;
@@ -259,7 +262,7 @@ public class ButtonSurfPlaylist : ViewModel
         mwsiveButton.AddToPlaylistButtonClear();
         mwsiveButton.UnPIKNoAni();
         colorani.ForceClear();
-
+        mwsiveButton.PIKCallbackEnd = true;
         uris.Clear();
         previewURL = null;
         externalURL = null;

@@ -42,6 +42,7 @@ public class MwsiveButton : AppObject
                         else
                         {
                             UIMessage.instance.UIMessageInstanciate("Completa retos para conseguir mas disks");
+                            PIKCallbackEnd = true;
                         }
                     }
                     else
