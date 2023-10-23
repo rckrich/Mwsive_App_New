@@ -44,7 +44,10 @@ public class RankingViewModel : ScrollViewModel
         MwsiveRankingRoot mwsiveRankingRoot = (MwsiveRankingRoot)_list[1];
 
         //InstanceObjects<MwsiveUser>(MmsiveRankingRoot.users);
-       if(mwsiveRankingRoot.users.Count != 0)
+
+        //TODO: adjust ranking to use mwsive ranking id in GetRanking return call
+
+       /*if(mwsiveRankingRoot.users.Count != 0)
         {
             if (mwsiveRankingRoot.users.Count < 3)
             {
@@ -73,7 +76,7 @@ public class RankingViewModel : ScrollViewModel
                 }
 
             }
-        } 
+        } */
         shimmer.SetActive(false);
     }
 
