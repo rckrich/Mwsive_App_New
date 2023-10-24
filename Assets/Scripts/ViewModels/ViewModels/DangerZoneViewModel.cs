@@ -29,21 +29,22 @@ public class DangerZoneViewModel : ViewModel
 
     public void OnClick_Deleteuser()
     {
-        MwsiveConnectionManager.instance.PostDeleteUser(Callback_PostDeleteUser);
+        NewScreenManager.instance.GetCurrentView().EndSearch();
+        NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
+        PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+        popUpViewModel.Initialize(PopUpViewModelTypes.OptionChoice, "Advertencia", "De aceptar, el usuario será eliminado de la base de datos.", "Aceptar");
+        popUpViewModel.SetPopUpAction(() => {
+            NewScreenManager.instance.BackToPreviousView();
+            MwsiveConnectionManager.instance.PostDeleteUser(Callback_PostDeleteUser);
+        });
+        popUpViewModel.SetPopUpCancelAction(() => {
+            NewScreenManager.instance.BackToPreviousView();
+        });
     }
 
     private void Callback_PostDeleteUser(object[] _value)
     {
-        ProgressManager.instance.progress.userDataPersistance.userTokenSetted = false;
-        ProgressManager.instance.progress.userDataPersistance.access_token = "";
-        ProgressManager.instance.progress.userDataPersistance.spotify_userTokenSetted = false;
-        ProgressManager.instance.progress.userDataPersistance.spotify_expires_at = DateTime.Now;
-        ProgressManager.instance.progress.userDataPersistance.expires_at = DateTime.Now;
-        ProgressManager.instance.progress.userDataPersistance.current_playlist = "";
-        ProgressManager.instance.progress.userDataPersistance.token_type = "";
-        ProgressManager.instance.progress.userDataPersistance.raw_value = "";
-        ProgressManager.instance.save();
-
+        ProgressManager.instance.DeleteCache();
         SceneManager.LoadScene("LogInScene");
     }
 }
