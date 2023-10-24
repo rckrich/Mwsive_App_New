@@ -54,7 +54,13 @@ public class LogInManager : Manager
                 NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
                 PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
                 popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, "Advertencia", "Ocurrió un error en el proceso de Inicio de Sesión. Volver a intentar.", "Aceptar", LogInErrorSprite);
-                popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); });
+                popUpViewModel.SetPopUpCancelAction(() => {
+                    ProgressManager.instance.DeleteCache();
+                    NewScreenManager.instance.BackToPreviousView();
+                    if (NewScreenManager.instance.GetCurrentView().TryGetComponent<SplashViewModel>(out SplashViewModel splashViewModel)){
+                        splashViewModel.OpenLogInViewFromSplashView();
+                    }
+                });
                 return;
             }
         }
@@ -68,13 +74,6 @@ public class LogInManager : Manager
         {
             DebugLogManager.instance.DebugLog(ProgressManager.instance.progress.userDataPersistance.access_token);
 
-            if (HasMwsiveTokenExpired())
-            {
-                //TODO Si el token de Mwsive guardado ha expirado, intentaría hacer login, es decir, crearía un usuario de no existir. Posible parche si es más de un día
-                SpotifyConnectionManager.instance.GetCurrentUserProfile(Callback_GetSpotifyUserProfile);
-            }
-            else
-            {
                 if (IsCurrentPlaylistEmpty())
                 {
                     SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_GetCurrentUserPlaylists);
@@ -84,7 +83,6 @@ public class LogInManager : Manager
                     NewScreenManager.instance.GetCurrentView().EndSearch();
                     SceneManager.LoadScene("MainScene_Ricardo");
                 }
-            }
         }
         else
         {
