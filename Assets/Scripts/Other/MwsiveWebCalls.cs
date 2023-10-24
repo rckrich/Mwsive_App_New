@@ -307,8 +307,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/delete_user";
-        string url = "http://192.241.129.184/api/delete_user";
+        //string url = "https://mwsive.com/api/me/delete";
+        string url = "http://192.241.129.184/api/me/delete";
 
         using (UnityWebRequest webRequest = new UnityWebRequest(url, "POST"))
         {
