@@ -32,5 +32,5 @@ public class UserDataPersistance
 [System.Serializable]
 public class AppProgress
 {
-    [SerializeField] public UserDataPersistance userDataPersistance;
+    [SerializeField] public UserDataPersistance userDataPersistance = new UserDataPersistance(false, false, "", "", new DateTime(1990, 01, 01), new DateTime(1990, 01, 01), "", "");
 }

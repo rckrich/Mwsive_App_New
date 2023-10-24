@@ -200,7 +200,7 @@ public class MwsiveWebCalls : MonoBehaviour
 
             yield return webRequest.SendWebRequest();
 
-            if (webRequest.result == UnityWebRequest.Result.ProtocolError && webRequest.responseCode == WebCallsUtils.NOT_FOUND_RESPONSE_CODE)
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError && (webRequest.responseCode == WebCallsUtils.NOT_FOUND_RESPONSE_CODE || webRequest.responseCode == WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
             {
                 while (!webRequest.isDone) { yield return null; }
 

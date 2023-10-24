@@ -210,7 +210,7 @@ public class ADNDynamicScroll : MonoBehaviour
 
     public void Callback_GetMwsiveUser(object[] _value)
     {
-        if (((long)_value[0]).Equals(WebCallsUtils.NOT_FOUND_RESPONSE_CODE))
+        if (((long)_value[0]).Equals(WebCallsUtils.NOT_FOUND_RESPONSE_CODE) || ((long)_value[0]).Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
         {
             UIMessage.instance.UIMessageInstanciate("La lista esta vacia");
             return;
