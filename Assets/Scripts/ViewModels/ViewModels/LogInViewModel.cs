@@ -33,7 +33,7 @@ public class LogInViewModel : ViewModel
 
         if (Application.internetReachability != NetworkReachability.NotReachable)
         {
-            GameObject.FindAnyObjectByType<NoLogInConnectionManager>().StartConnection((object[] _value) => { SceneManager.LoadScene("MainScene"); });
+            GameObject.FindAnyObjectByType<NoLogInConnectionManager>().StartConnection((object[] _value) => { SceneManager.LoadScene("MainScene_Ricardo"); });
         }
         else
         {
