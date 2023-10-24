@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class RankingViewModel : ScrollViewModel
 {
     private const int PODIUM_NUMBER = 3;
+    private const int LIMIT = 20;
+    private const float end = -0.01f;
 
     public GameObject selectTimePanel;
     public TextMeshProUGUI timeTypeText;
@@ -15,18 +17,25 @@ public class RankingViewModel : ScrollViewModel
     public List<Image> profileImage;
     public List<string> idList;
     public TextMeshProUGUI userlastestRank;
-    [Header ("References")]
+    public RectTransform Scroll;
+    public ScrollRect scrollRect;
+    [Header("References")]
     public Transform rankingContent;
     public GameObject rankingHolder;
 
     private string timeType = "AllTime";
+    private int onlyone = 0;
+    private int offset = 0;
 
     public override void Initialize(params object[] list)
     {
+        offset = 0;
+        onlyone = 0;
         shimmer.SetActive(true);
-        ChangeTimeType(timeType);
-        if(AppManager.instance.currentMwsiveUser.latest_ranking != null)
-            userlastestRank.text = AppManager.instance.currentMwsiveUser.latest_ranking.id.ToString();
+        //ChangeTimeType(timeType);
+        /*if(AppManager.instance.currentMwsiveUser.latest_ranking != null)
+            userlastestRank.text = AppManager.instance.currentMwsiveUser.latest_ranking.id.ToString();*/
+        MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser);
 #if PLATFORM_ANDROID
         if (Application.platform == RuntimePlatform.Android)
         {
@@ -39,6 +48,15 @@ public class RankingViewModel : ScrollViewModel
             });
         }
 #endif
+    }
+
+    private void Callback_GetCurrentMwsiveUser(object[] _value)
+    {
+        
+        MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
+        if(mwsiveUserRoot.user.latest_ranking != null)
+            userlastestRank.text = mwsiveUserRoot.user.latest_ranking.id.ToString();
+        ChangeTimeType(timeType);
     }
 
     private void Callback_GetRanking(object[] _list)
@@ -57,7 +75,7 @@ public class RankingViewModel : ScrollViewModel
                 for (int i = 0; i < PODIUM_NUMBER; i++)
                 {
                     profileName[i].text = mwsiveRankingRoot.ranking[i].mwsive_user.display_name;
-                    idList[i] = mwsiveRankingRoot.ranking[i].mwsive_user.platform_id;
+                    idList[i] = mwsiveRankingRoot.ranking[i].mwsive_user.platform_id;                    
                     if (mwsiveRankingRoot.ranking[i].mwsive_user.image_url != null)
                         ImageManager.instance.GetImage(mwsiveRankingRoot.ranking[i].mwsive_user.image_url, profileImage[i], (RectTransform)this.transform);
                 }
@@ -67,16 +85,17 @@ public class RankingViewModel : ScrollViewModel
                     RankingHolder instance = GameObject.Instantiate(rankingHolder, rankingContent).GetComponent<RankingHolder>();
                     instance.Initialize(mwsiveRankingRoot.ranking[i].mwsive_user, mwsiveRankingRoot.ranking[i].id);
                 }
+                offset += 21;
             }
             else
             {
                 for (int i = 0; i < mwsiveRankingRoot.ranking.Count; i++)
                 {
-                    Debug.Log(mwsiveRankingRoot.ranking[i].mwsive_user.display_name);
                     profileName[i].text = mwsiveRankingRoot.ranking[i].mwsive_user.display_name;
-                    idList[i] = mwsiveRankingRoot.ranking[i].mwsive_user_id.ToString();
+                    idList[i] = mwsiveRankingRoot.ranking[i].mwsive_user.platform_id;
                     if (mwsiveRankingRoot.ranking[i].mwsive_user.image_url != null)
                         ImageManager.instance.GetImage(mwsiveRankingRoot.ranking[i].mwsive_user.image_url, profileImage[i], (RectTransform)this.transform);
+                    offset++;
                 }
 
             }
@@ -93,17 +112,17 @@ public class RankingViewModel : ScrollViewModel
             case "AllTime":
                 timeTypeText.text = "Todo el tiempo";
                 ClearScrolls(rankingContent);
-                MwsiveConnectionManager.instance.GetRanking("AllTime", Callback_GetRanking);
+                MwsiveConnectionManager.instance.GetRanking("AllTime", Callback_GetRanking, offset, LIMIT);
                 break;
             case "PastMonth":
                 timeTypeText.text = "Mes pasado";
                 ClearScrolls(rankingContent);
-                MwsiveConnectionManager.instance.GetRanking("PastMonth", Callback_GetRanking);
+                MwsiveConnectionManager.instance.GetRanking("PastMonth", Callback_GetRanking, offset, LIMIT);
                 break;
             case "PastWeek":
                 timeTypeText.text = "Semana pasada";
                 ClearScrolls(rankingContent);
-                MwsiveConnectionManager.instance.GetRanking("PastWeek", Callback_GetRanking);
+                MwsiveConnectionManager.instance.GetRanking("PastWeek", Callback_GetRanking, offset, LIMIT);
                 break;
         }
     }
@@ -153,5 +172,18 @@ public class RankingViewModel : ScrollViewModel
     public void OnClick_ShareRank()
     {
         //ToDo Share Ranking
+    }
+
+
+    public void OnReachEnd()
+    {
+        
+        if (onlyone == 0)
+        {
+            if (scrollRect.verticalNormalizedPosition <= end)
+            {
+                MwsiveConnectionManager.instance.GetRanking("AllTime", Callback_GetRanking, offset, LIMIT);
+            }
+        }
     }
 }
