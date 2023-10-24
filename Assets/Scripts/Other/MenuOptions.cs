@@ -80,6 +80,7 @@ public class MenuOptions : ViewModel
                 ranking.GetComponent<Image>().GetComponent<Graphic>().color = Color.white;
                 StopAllCoroutines();
                 OpenView(ViewID.RankingViewModel);
+                NewScreenManager.instance.GetCurrentView().GetComponent<RankingViewModel>().Initialize();
                 exploreChange = false;
             }               
     }

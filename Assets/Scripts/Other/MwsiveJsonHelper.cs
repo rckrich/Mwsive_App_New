@@ -170,13 +170,14 @@ public class Ranking
     public int id { get; set; }
     public string date { get; set; }
     public int position { get; set; }
-    public int value { get; set; }
+    public double value { get; set; }
     public string ranking_type { get; set; }
     public string ranking_group_1 { get; set; }
     public object ranking_group_2 { get; set; }
     public int mwsive_user_id { get; set; }
     public DateTime created_at { get; set; }
     public DateTime updated_at { get; set; }
+    public MwsiveUser mwsive_user { get; set; }
 }
 
 public class Pik
