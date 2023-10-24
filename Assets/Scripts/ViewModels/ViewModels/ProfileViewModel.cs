@@ -822,7 +822,7 @@ public class ProfileViewModel : ViewModel
 
     private bool DoesMswiveUserExists(long _webCode)
     {
-        if (_webCode.Equals(WebCallsUtils.NOT_FOUND_RESPONSE_CODE))
+        if (_webCode.Equals(WebCallsUtils.NOT_FOUND_RESPONSE_CODE) || _webCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
         {
             EndSearch();
             DebugLogManager.instance.DebugLog(_webCode);
@@ -830,7 +830,7 @@ public class ProfileViewModel : ViewModel
             NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
             PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
             popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, "Advertencia", "Este usuario ya no se encuentra registrado en Mwsive. Regresa a la pantalla anterior", "Aceptar", logInErrorSprite);
-            popUpViewModel.SetPopUpAction(() =>
+            popUpViewModel.SetPopUpCancelAction(() =>
             {
                 NewScreenManager.instance.BackToPreviousView();
                 if (isCurrentUserProfileView)

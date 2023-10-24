@@ -31,4 +31,9 @@ public class SplashViewModel : ViewModel
     {
         NewScreenManager.instance.ChangeToMainView(_value, false);
     }
+
+    public void OpenLogInViewFromSplashView()
+    {
+        OpenView(ViewID.LogInViewModel);
+    }
 }

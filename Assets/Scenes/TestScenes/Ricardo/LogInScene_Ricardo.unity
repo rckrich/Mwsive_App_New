@@ -721,7 +721,7 @@ GameObject:
   - component: {fileID: 288466007}
   - component: {fileID: 288466006}
   m_Layer: 5
-  m_Name: Action_Button
+  m_Name: Exit_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -814,7 +814,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1806940617}
         m_TargetAssemblyTypeName: PopUpViewModel, RCKGamesAppTemplateScripts
-        m_MethodName: ActionButtonOnClick
+        m_MethodName: ExitButtonOnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2591,6 +2591,7 @@ MonoBehaviour:
   - {fileID: 4221148467975473657}
   - {fileID: 5693246818438214121}
   - {fileID: 5301565679247932099}
+  messageBufferList: []
 --- !u!114 &1218907459
 MonoBehaviour:
   m_ObjectHideFlags: 0
