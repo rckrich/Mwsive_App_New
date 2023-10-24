@@ -1186,16 +1186,10 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/ranking";
-        string url = "http://192.241.129.184/api/ranking";
+        //string url = "https://mwsive.com/api/ranking/ + _offset.ToString() + "/" + _limit.ToString();";
+        string url = "http://192.241.129.184/api/ranking/" + _offset.ToString() + "/" + _limit.ToString();
 
-        Dictionary<string, string> parameters = new Dictionary<string, string>();
-        parameters.Add("type", _type);
-        parameters.Add("offset", _offset.ToString());
-        parameters.Add("limit", _limit.ToString());
-
-        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);
-
+        DebugLogManager.instance.DebugLog(url);
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
             webRequest.SetRequestHeader("Accept", "application/json");
@@ -1212,7 +1206,7 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
-                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile");
                 yield break;
             }
             else

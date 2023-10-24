@@ -14,6 +14,7 @@ public class RankingViewModel : ScrollViewModel
     public List<TextMeshProUGUI> profileName;
     public List<Image> profileImage;
     public List<string> idList;
+    public TextMeshProUGUI userlastestRank;
     [Header ("References")]
     public Transform rankingContent;
     public GameObject rankingHolder;
@@ -24,7 +25,8 @@ public class RankingViewModel : ScrollViewModel
     {
         shimmer.SetActive(true);
         ChangeTimeType(timeType);
-        //TODO Get user rank
+        if(AppManager.instance.currentMwsiveUser.latest_ranking != null)
+            userlastestRank.text = AppManager.instance.currentMwsiveUser.latest_ranking.id.ToString();
 #if PLATFORM_ANDROID
         if (Application.platform == RuntimePlatform.Android)
         {
@@ -47,36 +49,38 @@ public class RankingViewModel : ScrollViewModel
 
         //TODO: adjust ranking to use mwsive ranking id in GetRanking return call
 
-       /*if(mwsiveRankingRoot.users.Count != 0)
+       if(mwsiveRankingRoot.ranking.Count != 0)
         {
-            if (mwsiveRankingRoot.users.Count < 3)
+            Debug.Log(mwsiveRankingRoot.ranking.Count);
+            if (mwsiveRankingRoot.ranking.Count > 3)
             {
                 for (int i = 0; i < PODIUM_NUMBER; i++)
                 {
-                    profileName[i].text = mwsiveRankingRoot.users[i].display_name;
-                    idList[i] = mwsiveRankingRoot.users[i].platform_id;
-                    if (mwsiveRankingRoot.users[i].image_url != null)
-                        ImageManager.instance.GetImage(mwsiveRankingRoot.users[i].image_url, profileImage[i], (RectTransform)this.transform);
+                    profileName[i].text = mwsiveRankingRoot.ranking[i].mwsive_user.display_name;
+                    idList[i] = mwsiveRankingRoot.ranking[i].mwsive_user.platform_id;
+                    if (mwsiveRankingRoot.ranking[i].mwsive_user.image_url != null)
+                        ImageManager.instance.GetImage(mwsiveRankingRoot.ranking[i].mwsive_user.image_url, profileImage[i], (RectTransform)this.transform);
                 }
 
-                for(int i = PODIUM_NUMBER; i < mwsiveRankingRoot.users.Count; i++)
+                for(int i = PODIUM_NUMBER; i < mwsiveRankingRoot.ranking.Count; i++)
                 {
-                    CuratorAppObject instance = GameObject.Instantiate(rankingHolder, rankingContent).GetComponent<CuratorAppObject>();
-                    instance.Initialize();
+                    RankingHolder instance = GameObject.Instantiate(rankingHolder, rankingContent).GetComponent<RankingHolder>();
+                    instance.Initialize(mwsiveRankingRoot.ranking[i].mwsive_user, mwsiveRankingRoot.ranking[i].id);
                 }
             }
             else
             {
-                for (int i = 0; i < mwsiveRankingRoot.users.Count; i++)
+                for (int i = 0; i < mwsiveRankingRoot.ranking.Count; i++)
                 {
-                    profileName[i].text = mwsiveRankingRoot.users[i].display_name;
-                    idList[i] = mwsiveRankingRoot.users[i].platform_id;
-                    if (mwsiveRankingRoot.users[i].image_url != null)
-                        ImageManager.instance.GetImage(mwsiveRankingRoot.users[i].image_url, profileImage[i], (RectTransform)this.transform);
+                    Debug.Log(mwsiveRankingRoot.ranking[i].mwsive_user.display_name);
+                    profileName[i].text = mwsiveRankingRoot.ranking[i].mwsive_user.display_name;
+                    idList[i] = mwsiveRankingRoot.ranking[i].mwsive_user_id.ToString();
+                    if (mwsiveRankingRoot.ranking[i].mwsive_user.image_url != null)
+                        ImageManager.instance.GetImage(mwsiveRankingRoot.ranking[i].mwsive_user.image_url, profileImage[i], (RectTransform)this.transform);
                 }
 
             }
-        } */
+        } 
         shimmer.SetActive(false);
     }
 
