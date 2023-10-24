@@ -170,7 +170,7 @@ public class Ranking
     public int id { get; set; }
     public string date { get; set; }
     public int position { get; set; }
-    public int value { get; set; }
+    public double value { get; set; }
     public string ranking_type { get; set; }
     public string ranking_group_1 { get; set; }
     public object ranking_group_2 { get; set; }
