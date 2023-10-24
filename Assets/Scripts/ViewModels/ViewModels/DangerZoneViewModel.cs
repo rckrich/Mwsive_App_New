@@ -34,15 +34,11 @@ public class DangerZoneViewModel : ViewModel
         PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
         popUpViewModel.Initialize(PopUpViewModelTypes.OptionChoice, "Advertencia", "De aceptar, el usuario será eliminado de la base de datos.", "Aceptar");
         popUpViewModel.SetPopUpAction(() => {
+            NewScreenManager.instance.BackToPreviousView();
             MwsiveConnectionManager.instance.PostDeleteUser(Callback_PostDeleteUser);
         });
         popUpViewModel.SetPopUpCancelAction(() => {
-            ProgressManager.instance.DeleteCache();
             NewScreenManager.instance.BackToPreviousView();
-            if (NewScreenManager.instance.GetCurrentView().TryGetComponent<SplashViewModel>(out SplashViewModel splashViewModel))
-            {
-                splashViewModel.OpenLogInViewFromSplashView();
-            }
         });
     }
 
