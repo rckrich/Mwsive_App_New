@@ -33,7 +33,6 @@ public class ProfileViewModel : ViewModel
     public GameObject noBadges;
     [Header("Social Media Button")]
 
-
     private bool isCurrentUserProfileView = true;
     private bool isLogInFromOutside = false;
 
@@ -49,6 +48,9 @@ public class ProfileViewModel : ViewModel
     private bool areEngagementBadges = true;
 
     private Sprite logInErrorSprite;
+
+    [Header("Native Share")]
+    public bool IsNativeShare;
 
     private void OnEnable()
     {
@@ -294,8 +296,13 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_BackButtonPrefab()
     {
+        
         NewScreenManager.instance.BackToPreviousView();
         NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
+        if (IsNativeShare)
+        {
+            SurfController.instance.ReturnCurrentView().SetActive(true);
+        }
     }
 
     public void OnClick_Follow()

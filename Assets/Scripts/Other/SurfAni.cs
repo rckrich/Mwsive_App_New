@@ -343,12 +343,7 @@ public class SurfAni : MonoBehaviour
         {
             item.SetAutoKill(false);
             item.Play();
-        }
-
-        
-        
-        
-        
+        } 
     }
 
     public void Play_SurfSideLasPosition()

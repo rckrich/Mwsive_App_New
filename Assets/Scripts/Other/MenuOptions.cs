@@ -44,16 +44,17 @@ public class MenuOptions : ViewModel
 #if PLATFORM_ANDROID
             AppManager.instance.ResetAndroidBackAction();
 #endif
-                if (NewScreenManager.instance.GetCurrentView().viewID == ViewID.ExploreViewModel)
-                {
-                    ResetDynamicSearch.OnClick_CancelarButton();
-                }
-                explorar.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
-                descubrir.GetComponent<Image>().GetComponent<Graphic>().color = Color.white;
-                ranking.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
-                OpenView(ViewID.SurfViewModel);
-                exploreChange = false;
-                SurfManager.instance.SetActive(true);
+            if (NewScreenManager.instance.GetCurrentView().viewID == ViewID.ExploreViewModel)
+            {
+                ResetDynamicSearch.OnClick_CancelarButton();
+            }
+            explorar.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
+            descubrir.GetComponent<Image>().GetComponent<Graphic>().color = Color.white;
+            ranking.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
+            OpenView(ViewID.SurfViewModel);
+            Debug.Log(NewScreenManager.instance.GetCurrentView().name);
+            exploreChange = false;
+            SurfManager.instance.SetActive(true);
 
             if (NewScreenManager.instance.GetCurrentView().GetComponent<SurfViewModel>())
             {
