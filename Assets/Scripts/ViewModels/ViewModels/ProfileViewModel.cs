@@ -373,7 +373,7 @@ public class ProfileViewModel : ViewModel
         displayName.text = mwsiveUserRoot.user.display_name;
         profileId = mwsiveUserRoot.user.platform_id;
         if(mwsiveUserRoot.user.latest_ranking != null)
-            rankingNumber.text = "# " + mwsiveUserRoot.user.latest_ranking.id.ToString();
+            rankingNumber.text = "# " + mwsiveUserRoot.user.latest_ranking.position.ToString();
 
         if (mwsiveUserRoot.user.user_links.Count != 0)
         {
@@ -448,7 +448,7 @@ public class ProfileViewModel : ViewModel
         profileId = mwsiveUserRoot.user.platform_id;
 
         if (mwsiveUserRoot.user.latest_ranking != null)
-            rankingNumber.text = "# " + mwsiveUserRoot.user.latest_ranking.id.ToString();
+            rankingNumber.text = "# " + mwsiveUserRoot.user.latest_ranking.position.ToString();
 
         if (mwsiveUserRoot.user.user_links.Count != 0)
         {

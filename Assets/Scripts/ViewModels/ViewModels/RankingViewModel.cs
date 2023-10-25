@@ -10,6 +10,8 @@ public class RankingViewModel : ScrollViewModel
     private const int LIMIT = 20;
     private const float end = -0.01f;
 
+    public GameObject RankingTextContainer;
+    public TextMeshProUGUI rankingText;
     public GameObject selectTimePanel;
     public TextMeshProUGUI timeTypeText;
     public GameObject shimmer;
@@ -32,10 +34,23 @@ public class RankingViewModel : ScrollViewModel
         offset = 0;
         onlyone = 0;
         shimmer.SetActive(true);
+
+        if (!AppManager.instance.isLogInMode)
+        {
+            RankingTextContainer.SetActive(true);
+            rankingText.text = "Has LogIn para poder ver tu ranking";
+            ChangeTimeType(timeType);
+        }
+        else
+        {
+            RankingTextContainer.SetActive(false);
+            MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser);
+        }
+
         //ChangeTimeType(timeType);
         /*if(AppManager.instance.currentMwsiveUser.latest_ranking != null)
             userlastestRank.text = AppManager.instance.currentMwsiveUser.latest_ranking.id.ToString();*/
-        MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser);
+        
 #if PLATFORM_ANDROID
         if (Application.platform == RuntimePlatform.Android)
         {
@@ -55,7 +70,17 @@ public class RankingViewModel : ScrollViewModel
         
         MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
         if(mwsiveUserRoot.user.latest_ranking != null)
+        {
             userlastestRank.text = mwsiveUserRoot.user.latest_ranking.id.ToString();
+            RankingTextContainer.SetActive(false);
+            
+        }
+        else
+        {
+            RankingTextContainer.SetActive(true);
+            rankingText.text = "Has Pik para ser rankeado la proxima semana";
+        }
+            
         ChangeTimeType(timeType);
     }
 
@@ -93,7 +118,7 @@ public class RankingViewModel : ScrollViewModel
                     if (mwsiveRankingRoot.ranking[i].mwsive_user != null)
                     {
                         RankingHolder instance = GameObject.Instantiate(rankingHolder, rankingContent).GetComponent<RankingHolder>();
-                        instance.Initialize(mwsiveRankingRoot.ranking[i].mwsive_user, mwsiveRankingRoot.ranking[i].id);
+                        instance.Initialize(mwsiveRankingRoot.ranking[i].mwsive_user, mwsiveRankingRoot.ranking[i].position);
                     }
                     else
                     {
@@ -164,7 +189,7 @@ public class RankingViewModel : ScrollViewModel
 
     private void ClearScrolls(Transform _scrolls)
     {
-        for (int i = 1; i < _scrolls.childCount; i++)
+        for (int i = 2; i < _scrolls.childCount; i++)
         {
             Destroy(_scrolls.GetChild(i).gameObject);
         }

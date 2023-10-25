@@ -17,6 +17,7 @@ public class RankingHolder : AppObject
 
     public override void Initialize(params object[] list)
     {
+
         if(list[0] != null)
         {
             mwsiveUser = (MwsiveUser)list[0];
