@@ -45,7 +45,6 @@ public class DangerZoneViewModel : ViewModel
     private void Callback_PostDeleteUser(object[] _value)
     {
         ProgressManager.instance.DeleteCache();
-
-        SceneManager.LoadScene("LogInScene_Ricardo");
+        SceneManager.LoadScene("LogInScene");
     }
 }

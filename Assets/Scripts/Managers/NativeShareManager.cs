@@ -75,9 +75,87 @@ public class NativeShareManager : MonoBehaviour
 
 
 
-    public void TestShare(){
-        Surf.SpawnSharePrefab("6kFDvPj3FVpQ90HZ5PacxE");
-        NewScreenManager.instance.ChangeToMainView(ViewID.SurfViewModel);
+    public void TestShareSong(){
+
+        SpotifyConnectionManager.instance.GetTrack("6kFDvPj3FVpQ90HZ5PacxE", Callback_SpawnSharePrefab);  
+        
+    }
+
+    private void Callback_SpawnSharePrefab(object[] _value)
+    {
+
+        TrackRoot trackRoot = (TrackRoot)_value[1];
+        if (trackRoot != null)
+        {
+            if (trackRoot.preview_url != null)
+            {
+                MwsiveData instance = new MwsiveData();
+                string artists = "";
+
+                foreach (Artist artist in trackRoot.artists)
+                {
+                    artists = artists + artist.name + ", ";
+                }
+
+                artists = artists.Remove(artists.Length - 2);
+                string currentPlayListName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
+
+                instance.playlist_name = currentPlayListName;
+                instance.song_name = trackRoot.name;
+                instance.album_name = trackRoot.album.name;
+                instance.artists = artists;
+                instance.album_image_url = trackRoot.album.images[0].url;
+                instance.id = trackRoot.id;
+                instance.uri = trackRoot.uri;
+                instance.preview_url = trackRoot.preview_url;
+                instance.external_url = trackRoot.external_urls.spotify;
+
+
+                Surf.MwsiveSongsData.Insert(Surf.CurrentPosition, instance);
+
+                if(NewScreenManager.instance.GetCurrentView().viewID == ViewID.SurfViewModel && SurfController.instance.ReturnCurrentView() == Surf.gameObject)
+                {
+                    PoolManager.instance.RecoverPooledObject(Surf.gameObject);
+                    Surf.SurfManagerLogicInitialize();
+                }
+                else
+                {
+                    NewScreenManager.instance.ChangeToMainView(ViewID.SurfViewModel);
+                    
+                    Surf.gameObject.SetActive(true);
+                    Debug.Log(SurfController.instance.ReturnCurrentView().name);
+                }
+
+                
+                
+            }
+            else
+            {
+                UIMessage.instance.UIMessageInstanciate("Esta canción no esta disponible");
+            }
+        }
+        else
+        {
+            UIMessage.instance.UIMessageInstanciate("Esta canción no esta disponible");
+        }
+
+
+    }
+
+
+
+    public void TestShareProfile()
+    {
+        
+        
+        NewScreenManager.instance.ChangeToSpawnedView("profile");
+        if (SurfController.instance.ReturnCurrentView().activeSelf)
+        {
+            SurfController.instance.ReturnCurrentView().SetActive(false);
+            NewScreenManager.instance.GetCurrentView().GetComponent<ProfileViewModel>().IsNativeShare = true;
+        }
+        NewScreenManager.instance.GetCurrentView().Initialize("12133115564");
+        SpotifyPreviewAudioManager.instance.ForcePause();
     }
 
     private void OnUniversalLinkOpen (DeepLinkServicesDynamicLinkOpenResult result)
@@ -92,6 +170,13 @@ public class NativeShareManager : MonoBehaviour
                 
                 Surf.SpawnSharePrefab(Link[i+1]);
                 NewScreenManager.instance.ChangeToMainView(ViewID.SurfViewModel);
+            }
+            if (Link[i] == "profile")
+            {
+                Surf.GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().OnClickForcePausePreview();
+                Surf.canSwipe = false;
+                NewScreenManager.instance.ChangeToSpawnedView("profile");
+                NewScreenManager.instance.GetCurrentView().Initialize(Link[i + 1]);
             }
         }
     }

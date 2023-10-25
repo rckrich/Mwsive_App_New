@@ -33,7 +33,6 @@ public class ProfileViewModel : ViewModel
     public GameObject noBadges;
     [Header("Social Media Button")]
 
-
     private bool isCurrentUserProfileView = true;
     private bool isLogInFromOutside = false;
 
@@ -49,6 +48,9 @@ public class ProfileViewModel : ViewModel
     private bool areEngagementBadges = true;
 
     private Sprite logInErrorSprite;
+
+    [Header("Native Share")]
+    public bool IsNativeShare;
 
     private void OnEnable()
     {
@@ -294,8 +296,13 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_BackButtonPrefab()
     {
+        
         NewScreenManager.instance.BackToPreviousView();
         NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
+        if (IsNativeShare)
+        {
+            SurfController.instance.ReturnCurrentView().SetActive(true);
+        }
     }
 
     public void OnClick_Follow()
@@ -373,7 +380,7 @@ public class ProfileViewModel : ViewModel
         displayName.text = mwsiveUserRoot.user.display_name;
         profileId = mwsiveUserRoot.user.platform_id;
         if(mwsiveUserRoot.user.latest_ranking != null)
-            rankingNumber.text = "# " + mwsiveUserRoot.user.latest_ranking.id.ToString();
+            rankingNumber.text = "# " + mwsiveUserRoot.user.latest_ranking.position.ToString();
 
         if (mwsiveUserRoot.user.user_links.Count != 0)
         {
@@ -448,7 +455,7 @@ public class ProfileViewModel : ViewModel
         profileId = mwsiveUserRoot.user.platform_id;
 
         if (mwsiveUserRoot.user.latest_ranking != null)
-            rankingNumber.text = "# " + mwsiveUserRoot.user.latest_ranking.id.ToString();
+            rankingNumber.text = "# " + mwsiveUserRoot.user.latest_ranking.position.ToString();
 
         if (mwsiveUserRoot.user.user_links.Count != 0)
         {

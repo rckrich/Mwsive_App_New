@@ -80,6 +80,7 @@ public class SurfController : MonoBehaviour
 
     public GameObject ReturnCurrentView()
     {
+        
         if (CurrentView != null)
         {
             return CurrentView;
@@ -89,10 +90,10 @@ public class SurfController : MonoBehaviour
             ControlHierarchy();
             return CurrentView;
         }
-
+        
 
     }
-    private void ControlHierarchy()
+    public void ControlHierarchy()
     {
         int HigherNumber = -10;
         position = 0;
@@ -148,6 +149,8 @@ public class SurfController : MonoBehaviour
             {
                 SurfManagers.Remove(_SurfManager);
                 SurfManagerIndex.RemoveAt(i);
+
+                ControlHierarchy();
             }
         }
 

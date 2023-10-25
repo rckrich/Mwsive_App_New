@@ -79,7 +79,7 @@ public class SurfManager : Manager
         if (currentPrefab != null && SurfController.instance.AmICurrentView(gameObject))
             currentPrefab.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
 
-        if (SurfController.instance.AmICurrentView(gameObject))
+        if (SurfController.instance.AmICurrentView(gameObject) && this.enabled)
         {
             AddEventListener<TimerAppEvent>(TimerAppEventListener);
             if (MwsiveSongsData != null && MwsiveSongsData.Count > 0)
@@ -105,7 +105,15 @@ public class SurfManager : Manager
             swipeListener.OnSwipe.RemoveListener(OnSwipe);
             try
             {
-                PoolManager.instance.RecoverPooledObject(MwsiveContainer);
+                if(MwsiveContainer != null)
+                {
+                    PoolManager.instance.RecoverPooledObject(MwsiveContainer);
+                }
+                else
+                {
+                    Debug.Log("Not able to return objects to poolmanager");
+                }
+               
             }
             catch (System.NullReferenceException)
             {
@@ -981,7 +989,7 @@ public class SurfManager : Manager
 
     }
 
-    private void SurfManagerLogicInitialize()
+    public void SurfManagerLogicInitialize()
     {
         swipeListener.OnSwipe.AddListener(OnSwipe);
         PrefabPosition = 0;
@@ -1130,7 +1138,10 @@ public class SurfManager : Manager
                 instance.external_url = trackRoot.external_urls.spotify;
 
                 MwsiveSongsData.Insert(CurrentPosition, instance);
-                DownScrollSuccess();
+                SpotifyPreviewAudioManager.instance.ForcePause();
+                PoolManager.instance.RecoverPooledObject(MwsiveContainer);
+                SurfManagerLogicInitialize();
+                
             }
             else
             {
