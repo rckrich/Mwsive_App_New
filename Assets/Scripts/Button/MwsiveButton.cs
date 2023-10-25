@@ -155,6 +155,8 @@ public class MwsiveButton : AppObject
                 return "Wave Master";
             case "music_master":
                 return "Music Master";
+            case "track_master":
+                return "Track Master";
         }
 
         return char.ToUpper(fixedBadgeGroup.ToCharArray()[0]) + fixedBadgeGroup.Substring(1);
