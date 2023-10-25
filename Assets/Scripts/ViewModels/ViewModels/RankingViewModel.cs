@@ -10,6 +10,8 @@ public class RankingViewModel : ScrollViewModel
     private const int LIMIT = 20;
     private const float end = -0.01f;
 
+    public GameObject RankingTextContainer;
+    public TextMeshProUGUI rankingText;
     public GameObject selectTimePanel;
     public TextMeshProUGUI timeTypeText;
     public GameObject shimmer;
@@ -32,10 +34,23 @@ public class RankingViewModel : ScrollViewModel
         offset = 0;
         onlyone = 0;
         shimmer.SetActive(true);
+
+        if (!AppManager.instance.isLogInMode)
+        {
+            RankingTextContainer.SetActive(true);
+            rankingText.text = "Has LogIn para poder ver tu ranking";
+            ChangeTimeType(timeType);
+        }
+        else
+        {
+            RankingTextContainer.SetActive(false);
+            MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser);
+        }
+
         //ChangeTimeType(timeType);
         /*if(AppManager.instance.currentMwsiveUser.latest_ranking != null)
             userlastestRank.text = AppManager.instance.currentMwsiveUser.latest_ranking.id.ToString();*/
-        MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser);
+        
 #if PLATFORM_ANDROID
         if (Application.platform == RuntimePlatform.Android)
         {
@@ -55,7 +70,17 @@ public class RankingViewModel : ScrollViewModel
         
         MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
         if(mwsiveUserRoot.user.latest_ranking != null)
+        {
             userlastestRank.text = mwsiveUserRoot.user.latest_ranking.id.ToString();
+            RankingTextContainer.SetActive(false);
+            
+        }
+        else
+        {
+            RankingTextContainer.SetActive(true);
+            rankingText.text = "Has Pik para ser rankeado la proxima semana";
+        }
+            
         ChangeTimeType(timeType);
     }
 
@@ -74,16 +99,32 @@ public class RankingViewModel : ScrollViewModel
             {
                 for (int i = 0; i < PODIUM_NUMBER; i++)
                 {
-                    profileName[i].text = mwsiveRankingRoot.ranking[i].mwsive_user.display_name;
-                    idList[i] = mwsiveRankingRoot.ranking[i].mwsive_user.platform_id;                    
-                    if (mwsiveRankingRoot.ranking[i].mwsive_user.image_url != null)
-                        ImageManager.instance.GetImage(mwsiveRankingRoot.ranking[i].mwsive_user.image_url, profileImage[i], (RectTransform)this.transform);
+                    if (mwsiveRankingRoot.ranking[i].mwsive_user != null)
+                    {
+                        profileName[i].text = mwsiveRankingRoot.ranking[i].mwsive_user.display_name;
+                        idList[i] = mwsiveRankingRoot.ranking[i].mwsive_user.platform_id;
+                        if (mwsiveRankingRoot.ranking[i].mwsive_user.image_url != null)
+                            ImageManager.instance.GetImage(mwsiveRankingRoot.ranking[i].mwsive_user.image_url, profileImage[i], (RectTransform)this.transform);
+                    }
+                    else
+                    {
+                        profileName[i].text = "Usuario no disponible";
+                    }
+
                 }
 
                 for(int i = PODIUM_NUMBER; i < mwsiveRankingRoot.ranking.Count; i++)
                 {
-                    RankingHolder instance = GameObject.Instantiate(rankingHolder, rankingContent).GetComponent<RankingHolder>();
-                    instance.Initialize(mwsiveRankingRoot.ranking[i].mwsive_user, mwsiveRankingRoot.ranking[i].id);
+                    if (mwsiveRankingRoot.ranking[i].mwsive_user != null)
+                    {
+                        RankingHolder instance = GameObject.Instantiate(rankingHolder, rankingContent).GetComponent<RankingHolder>();
+                        instance.Initialize(mwsiveRankingRoot.ranking[i].mwsive_user, mwsiveRankingRoot.ranking[i].position);
+                    }
+                    else
+                    {
+                        RankingHolder instance = GameObject.Instantiate(rankingHolder, rankingContent).GetComponent<RankingHolder>();
+                        instance.Initialize(null, mwsiveRankingRoot.ranking[i].id);
+                    }
                 }
                 offset += 21;
             }
@@ -91,11 +132,18 @@ public class RankingViewModel : ScrollViewModel
             {
                 for (int i = 0; i < mwsiveRankingRoot.ranking.Count; i++)
                 {
-                    profileName[i].text = mwsiveRankingRoot.ranking[i].mwsive_user.display_name;
-                    idList[i] = mwsiveRankingRoot.ranking[i].mwsive_user.platform_id;
-                    if (mwsiveRankingRoot.ranking[i].mwsive_user.image_url != null)
-                        ImageManager.instance.GetImage(mwsiveRankingRoot.ranking[i].mwsive_user.image_url, profileImage[i], (RectTransform)this.transform);
-                    offset++;
+                    if (mwsiveRankingRoot.ranking[i].mwsive_user != null)
+                    {
+                        profileName[i].text = mwsiveRankingRoot.ranking[i].mwsive_user.display_name;
+                        idList[i] = mwsiveRankingRoot.ranking[i].mwsive_user.platform_id;
+                        if (mwsiveRankingRoot.ranking[i].mwsive_user.image_url != null)
+                            ImageManager.instance.GetImage(mwsiveRankingRoot.ranking[i].mwsive_user.image_url, profileImage[i], (RectTransform)this.transform);
+                        offset++;
+                    }
+                    else
+                    {
+                        profileName[i].text = "Usuario no disponible";
+                    }
                 }
 
             }
@@ -141,7 +189,7 @@ public class RankingViewModel : ScrollViewModel
 
     private void ClearScrolls(Transform _scrolls)
     {
-        for (int i = 1; i < _scrolls.childCount; i++)
+        for (int i = 2; i < _scrolls.childCount; i++)
         {
             Destroy(_scrolls.GetChild(i).gameObject);
         }
@@ -153,16 +201,37 @@ public class RankingViewModel : ScrollViewModel
         switch (value)
         {
             case 1:
-                NewScreenManager.instance.ChangeToSpawnedView("profile");
-                NewScreenManager.instance.GetCurrentView().Initialize(idList[0]);
+                if (!idList[0].Equals(""))
+                {
+                    NewScreenManager.instance.ChangeToSpawnedView("profile");
+                    NewScreenManager.instance.GetCurrentView().Initialize(idList[0]);
+                }
+                else
+                {
+                    UIMessage.instance.UIMessageInstanciate("Este perfil no está disponible");
+                }          
                 break;
             case 2:
-                NewScreenManager.instance.ChangeToSpawnedView("profile");
-                NewScreenManager.instance.GetCurrentView().Initialize(idList[1]);
+                if (!idList[1].Equals(""))
+                {
+                    NewScreenManager.instance.ChangeToSpawnedView("profile");
+                    NewScreenManager.instance.GetCurrentView().Initialize(idList[1]);
+                }
+                else
+                {
+                    UIMessage.instance.UIMessageInstanciate("Este perfil no está disponible");
+                }
                 break;
             case 3:
-                NewScreenManager.instance.ChangeToSpawnedView("profile");
-                NewScreenManager.instance.GetCurrentView().Initialize(idList[2]);
+                if (!idList[2].Equals(""))
+                {
+                    NewScreenManager.instance.ChangeToSpawnedView("profile");
+                    NewScreenManager.instance.GetCurrentView().Initialize(idList[2]);
+                }
+                else
+                {
+                    UIMessage.instance.UIMessageInstanciate("Este perfil no está disponible");
+                }
                 break;
         }
             
