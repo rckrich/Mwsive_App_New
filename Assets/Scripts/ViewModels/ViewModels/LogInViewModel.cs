@@ -24,6 +24,7 @@ public class LogInViewModel : ViewModel
             NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
             PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
             popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, "Advertencia", "No hay conexión en estos momentos. Volver a intentar más tarde.", "Aceptar", logInErrorSprite);
+            popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); });
             return;
         }
     }
@@ -40,6 +41,7 @@ public class LogInViewModel : ViewModel
             NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
             PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
             popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, "Advertencia", "No hay conexión en estos momentos. Volver a intentar más tarde.", "Aceptar", logInErrorSprite);
+            popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); });
             return;
         }
     }
