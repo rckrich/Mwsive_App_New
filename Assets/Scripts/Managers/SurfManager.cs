@@ -53,10 +53,6 @@ public class SurfManager : Manager
     private bool Success = false;
     private bool ResetEndDrag = true;
 
-
-
-
-
     private void Start()
     {
         if (UIAniManager.instance.MainCanvas == null)

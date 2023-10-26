@@ -47,6 +47,8 @@ public class ProfileViewModel : ViewModel
     private bool areTrackBadges = true;
     private bool areEngagementBadges = true;
 
+    private bool profilePictureException = false;
+
     private Sprite logInErrorSprite;
 
     [Header("Native Share")]
@@ -72,6 +74,8 @@ public class ProfileViewModel : ViewModel
 #if PLATFORM_ANDROID
         SetAndroidBackAction();
 #endif
+
+        profilePictureException = false;
 
         if (list.Length > 0)
         {
@@ -127,6 +131,7 @@ public class ProfileViewModel : ViewModel
 
     private void Callback_StartAppProcess_ProfileViewModelInitialize(object[] _value)
     {
+        profilePictureException = true;
         GetUserBasedOnEmptyProfileID(profileId);
     }
 
@@ -350,6 +355,7 @@ public class ProfileViewModel : ViewModel
     private void Callback_PostStartAppProcess_PostFollow(object[] _value)
     {
         isLogInFromOutside = true;
+        profilePictureException = true;
         MwsiveConnectionManager.instance.GetMwsiveUser(profileId, Callback_GetMwsiveUser);
     }
 
@@ -371,8 +377,11 @@ public class ProfileViewModel : ViewModel
 
         mwsiveUserRoot = (MwsiveUserRoot)_value[1];
 
-        if (mwsiveUserRoot.user.image_url != null)
+        if (mwsiveUserRoot.user.image_url != null) {
             ImageManager.instance.GetImage(mwsiveUserRoot.user.image_url, profilePicture, (RectTransform)this.transform, "PROFILEIMAGE");
+            if(profilePictureException)
+                ImageManager.instance.GetImage(mwsiveUserRoot.user.image_url, MainSurfProfileManager.instance.GetProfileImage(), (RectTransform)this.transform, "PROFILEIMAGE");
+        }
 
         followersText.text = mwsiveUserRoot.user.total_followers.ToString();
         followedText.text = mwsiveUserRoot.user.total_followed.ToString();
@@ -864,5 +873,7 @@ public class ProfileViewModel : ViewModel
             return false;
         }
     }
+
+    public string GetProfile() { return profileId; }
 }
 
