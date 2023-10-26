@@ -54,7 +54,7 @@ public class LogInManager : Manager
                 NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
                 PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
                 popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, "Advertencia", "Ocurrió un error en el proceso de Inicio de Sesión. Volver a intentar.", "Aceptar", LogInErrorSprite);
-                popUpViewModel.SetPopUpCancelAction(() => {
+                popUpViewModel.SetPopUpAction(() => {
                     ProgressManager.instance.DeleteCache();
                     NewScreenManager.instance.BackToPreviousView();
                     if (NewScreenManager.instance.GetCurrentView().TryGetComponent<SplashViewModel>(out SplashViewModel splashViewModel)){

@@ -843,7 +843,7 @@ public class ProfileViewModel : ViewModel
             NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
             PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
             popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, "Advertencia", "Este usuario ya no se encuentra registrado en Mwsive. Regresa a la pantalla anterior", "Aceptar", logInErrorSprite);
-            popUpViewModel.SetPopUpCancelAction(() =>
+            popUpViewModel.SetPopUpAction(() =>
             {
                 NewScreenManager.instance.BackToPreviousView();
                 if (isCurrentUserProfileView)
