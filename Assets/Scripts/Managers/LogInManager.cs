@@ -30,9 +30,14 @@ public class LogInManager : Manager
     private ProfileRoot profile;
     private MwsiveUser mwsiveUser;
 
-    public Sprite LogInErrorSprite;
+    private Sprite logInErrorSprite;
 
     private LogInCallback previousAction;
+
+    private void Start()
+    {
+        logInErrorSprite = Resources.Load<Sprite>("Zona_Peligrosa");
+    }
 
     public void StartLogInProcess(LogInCallback _callback = null)
     {
@@ -53,12 +58,33 @@ public class LogInManager : Manager
                 NewScreenManager.instance.GetCurrentView().EndSearch();
                 NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
                 PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
-                popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, "Advertencia", "Ocurrió un error en el proceso de Inicio de Sesión. Volver a intentar.", "Aceptar", LogInErrorSprite);
+                popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, "Advertencia", "Ocurrió un error en el proceso de Inicio de Sesión. Volver a intentar.", "Aceptar", logInErrorSprite);
                 popUpViewModel.SetPopUpAction(() => {
-                    ProgressManager.instance.DeleteCache();
-                    NewScreenManager.instance.BackToPreviousView();
-                    if (NewScreenManager.instance.GetCurrentView().TryGetComponent<SplashViewModel>(out SplashViewModel splashViewModel)){
-                        splashViewModel.OpenLogInViewFromSplashView();
+                    if (AppManager.instance.isLogInMode)
+                    {
+                        ProgressManager.instance.DeleteCache();
+                        NewScreenManager.instance.BackToPreviousView();
+                        if (NewScreenManager.instance.GetCurrentView().TryGetComponent<SplashViewModel>(out SplashViewModel splashViewModel))
+                        {
+                            splashViewModel.OpenLogInViewFromSplashView();
+                        }
+                    }
+                    else {
+
+                        NewScreenManager.instance.BackToPreviousView();
+
+                        if (NewScreenManager.instance.GetCurrentView().TryGetComponent<SurfMiPlaylistViewModel>(out SurfMiPlaylistViewModel surfMiPlaylistViewModel))
+                        {
+                            surfMiPlaylistViewModel.OnClick_BackButton();
+                        }
+
+                        if (NewScreenManager.instance.GetCurrentView().TryGetComponent<ProfileViewModel>(out ProfileViewModel profileViewModel))
+                        {
+                            if (profileViewModel.GetProfile().Equals(""))
+                            {
+                                profileViewModel.OnClick_BackButtonSurf();
+                            }
+                        }
                     }
                 });
                 return;
