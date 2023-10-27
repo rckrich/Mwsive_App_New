@@ -26,7 +26,7 @@ public class UIAniManager : MonoBehaviour
     private Ease _AnimationMove;
     private Ease _AnimationScale;
     private Ease _AnimationFade;
-    private bool ChangeColorIsOn = true;
+    
     public bool IsAddSongSurfDone = true;
     
 
@@ -286,10 +286,6 @@ public class UIAniManager : MonoBehaviour
     }
 
     */
-
-    public void KillChangeColor(){
-        ChangeColorIsOn = false;
-    }
     
     //Animaciones de Pantallas --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -312,7 +308,7 @@ public class UIAniManager : MonoBehaviour
         {
             GA.GetComponent<CanvasGroup>().DOFade(0, TransitionDuration).OnComplete(() => { GA.SetActive(false); }).SetEase(_AnimationFade);
         }
-        catch (MissingReferenceException e)
+        catch (MissingReferenceException)
         {
             return;
         }

@@ -133,7 +133,7 @@ public class SurfAni : MonoBehaviour
         
         VerticalUp = new Tweener[3];
 
-        VerticalUp[0] = gameObject.transform.DOMove(new Vector2(RestPositionUp.x, RestPositionUp.y * var), SurfTransitionDuration, false).Pause();
+        VerticalUp[0] = gameObject.transform.DOMove(new Vector2(RestPositionUp.x, RestPositionUp.y * var), SurfTransitionDuration*2, false).Pause();
         VerticalUp[1] = gameObject.transform.DORotate(new Vector3(0f, 0f, maxRotation * var), SurfTransitionDuration).Pause();
         VerticalUp[2] = gameObject.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration).Pause();
 
@@ -141,8 +141,9 @@ public class SurfAni : MonoBehaviour
             if (isItFinished)
             {
                 isAvailable = true;
+                gameObject.transform.DORotate(new Vector3(0f, 0f, 0f), SurfTransitionDuration / 2);
             }
-            gameObject.transform.DORotate(new Vector3(0f, 0f, 0f), SurfTransitionDuration / 2);
+            
 
         });
     }

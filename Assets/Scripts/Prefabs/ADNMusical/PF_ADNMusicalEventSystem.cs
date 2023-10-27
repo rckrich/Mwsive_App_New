@@ -15,7 +15,7 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
     public  TMP_InputField searchbar;
     public TextMeshProUGUI Number;
     public int MaxNumerofPrefabsInstanciate;
-    private bool EnableSerach = false;
+   
     public int PositionInSearch = 0;
 
 

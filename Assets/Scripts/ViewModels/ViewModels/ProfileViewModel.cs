@@ -754,7 +754,7 @@ public class ProfileViewModel : ViewModel
                 _profileid = AppManager.instance.currentMwsiveUser.platform_id;
             MwsiveConnectionManager.instance.GetBadges(_profileid, "engagement", Callback_GetBadgesCall, 0, 3);
         }
-        catch(System.NullReferenceException e)
+        catch(System.NullReferenceException)
         {
             Debug.Log("Profile ID is null");
         }

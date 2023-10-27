@@ -1077,7 +1077,7 @@ public class MwsiveWebCalls : MonoBehaviour
 
     public static IEnumerator CR_PostUserLink(string _token, string _type, string _url, MwsiveWebCallback _callback )
     {
-        string jsonResult = "";
+        //string jsonResult = "";
 
         //string url = "https://mwsive.com/api/me/shared-url";
         string url = "http://192.241.129.184/api/me/shared-url";

@@ -174,17 +174,17 @@ public class PF_SurfManager : Manager
     public void ValChange()
     {
 
-        if (Controller.transform.position.x > ControllerPostion.x * 1.1)
+        if (Controller.transform.position.x > ControllerPostion.x * 1.02)
         {
             Controller.vertical = false;
             SideScrollAnimation();
         }
-        if (Controller.transform.position.y > ControllerPostion.y * 1.1)
+        if (Controller.transform.position.y > ControllerPostion.y * 1.02)
         {
             Controller.horizontal = false;
             UpScrollAnimation();
         }
-        if (Controller.transform.position.y < ControllerPostion.y * .9)
+        if (Controller.transform.position.y < ControllerPostion.y * .98)
         {
             Controller.horizontal = false;
             DownScrollAnimation();
@@ -248,7 +248,7 @@ public class PF_SurfManager : Manager
         float Fade = Controller.transform.position.y / ControllerPostion.y;
         float VAR2 = ControllerPostion.y / Controller.transform.position.y;
 
-        ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(var * .5f, MaxRotation, Fade, false);
+        ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(Mathf.Clamp(var * .3f, 0, 1), MaxRotation, Fade, false);
         ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_VerticalUp();
 
         if (CurrentPosition < MwsiveSongsData.Count - 1)
@@ -285,7 +285,7 @@ public class PF_SurfManager : Manager
                 break;
 
             }
-            else if (ActiveMwsiveSongs[1].transform.position.y >= ControllerPostion.y * SurfSuccessSensitivity * 1.5)
+            else if (ActiveMwsiveSongs[1].transform.position.y >= ControllerPostion.y * SurfSuccessSensitivity)
             {
                 HasSwipeEnded = false;
                 UpScrollSuccess();
@@ -301,7 +301,7 @@ public class PF_SurfManager : Manager
             }
             else
             {
-                
+                Success = false;
                 ResetValue();
 
                 break;
