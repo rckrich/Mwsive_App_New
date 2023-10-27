@@ -6,7 +6,7 @@ using System;
 public class PoolManager : MonoBehaviour
 {
     
-    private int maxAmmountOfPrefabs = 8;
+    private int maxAmmountOfPrefabs = 10;
     public GameObject prefab;
 
     private List<GameObject> pooledObjects = new List<GameObject>();
@@ -50,6 +50,7 @@ public class PoolManager : MonoBehaviour
                 return pooledObjects[i];
             }
         }
+        Debug.LogWarning("No more Objects In Pool");
         return null;
     }
 

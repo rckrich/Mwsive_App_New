@@ -762,6 +762,88 @@ public class PF_SurfManager : Manager
         SurfManagerLogic(true);
     }
 
+    public void DynamicPrefabSpawnerRecommend(object[] _value, object[] _valuesong)
+    {
+
+        TrackRoot trackroot = (TrackRoot)_valuesong[0];
+
+        if (trackroot != null)
+        {
+            if (trackroot.preview_url != null)
+            {
+
+                string artists = "";
+
+                foreach (Artist artist in trackroot.artists)
+                {
+                    artists = artists + artist.name + ", ";
+                }
+
+                artists = artists.Remove(artists.Length - 2);
+
+                string currentPlayListName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
+
+                MwsiveData instance = new MwsiveData();
+                instance.playlist_name = currentPlayListName;
+                instance.song_name = trackroot.name;
+                instance.album_name = trackroot.album.name;
+                instance.artists = artists;
+                instance.album_image_url = trackroot.album.images[0].url;
+                instance.id = trackroot.id;
+                instance.uri = trackroot.uri;
+                instance.preview_url = trackroot.preview_url;
+                instance.external_url = trackroot.external_urls.spotify;
+
+                MwsiveSongsData.Add(instance); 
+
+            }
+        }
+
+        recommendationsRoot = (RecommendationsRoot)_value[0];
+
+        int SpawnedSongs = 0;
+        foreach (var item in recommendationsRoot.tracks)
+        {
+            if (item != null)
+            {
+                if (item.preview_url != null)
+                {
+
+                    string artists = "";
+
+                    foreach (Artist artist in item.artists)
+                    {
+                        artists = artists + artist.name + ", ";
+                    }
+
+                    artists = artists.Remove(artists.Length - 2);
+
+                    string currentPlayListName = AppManager.instance.isLogInMode ? AppManager.instance.GetCurrentPlaylist().name : "";
+
+                    MwsiveData instance = new MwsiveData();
+                    instance.playlist_name = currentPlayListName;
+                    instance.song_name = item.name;
+                    instance.album_name = item.album.name;
+                    instance.artists = artists;
+                    instance.album_image_url = item.album.images[0].url;
+                    instance.id = item.id;
+                    instance.uri = item.uri;
+                    instance.preview_url = item.preview_url;
+                    instance.external_url = item.external_urls.spotify;
+
+                    MwsiveSongsData.Add(instance);
+
+                    SpawnedSongs++;
+
+                }
+            }
+
+        }
+
+
+
+        SurfManagerLogic(true);
+    }
 
     public void DynamicPrefabSpawnerSong(object[] _value)
     {

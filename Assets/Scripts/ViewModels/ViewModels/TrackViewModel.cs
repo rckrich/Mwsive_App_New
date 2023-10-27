@@ -173,12 +173,20 @@ public class TrackViewModel : ViewModel
         if(recommendations.tracks.Count == 0){
             UIMessage.instance.UIMessageInstanciate("No hay recomendaciones");
         }else{
-
-            NewScreenManager.instance.ChangeToSpawnedView("surf");
-            NewScreenManager.instance.GetCurrentView().GetComponent<PF_SurfViewModel>().Initialize();
-            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSong(new object[] { recommendations });
+            SpotifyConnectionManager.instance.GetTrack(trackID, Callback_SpawnerRecommend);
+            
         }
         
+    }
+
+    private void Callback_SpawnerRecommend(object[] _value)
+    {
+        TrackRoot trackRoot = (TrackRoot)_value[1];
+
+        NewScreenManager.instance.ChangeToSpawnedView("surf");
+        NewScreenManager.instance.GetCurrentView().GetComponent<PF_SurfViewModel>().Initialize();
+        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerRecommend(new object[] { recommendations }, new object[] { trackRoot });
+
     }
 
     public override void SetAndroidBackAction()
