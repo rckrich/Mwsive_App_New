@@ -6,7 +6,7 @@ using System;
 public class PoolManager : MonoBehaviour
 {
     
-    private int maxAmmountOfPrefabs = 8;
+    private int maxAmmountOfPrefabs = 10;
     public GameObject prefab;
 
     private List<GameObject> pooledObjects = new List<GameObject>();
@@ -43,6 +43,8 @@ public class PoolManager : MonoBehaviour
     // Update is called once per frame
     public GameObject GetPooledObject()
     {
+        
+
         for (int i = 0; i < pooledObjects.Count; i++)
         {
             if (!pooledObjects[i].activeInHierarchy  || pooledObjects[i].GetComponent<SurfAni>().isAvailable)
@@ -50,6 +52,7 @@ public class PoolManager : MonoBehaviour
                 return pooledObjects[i];
             }
         }
+        Debug.LogWarning("No more Objects In Pool");
         return null;
     }
 

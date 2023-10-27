@@ -97,29 +97,6 @@ public class SurfController : MonoBehaviour
     {
         int HigherNumber = -10;
         position = 0;
-        for (int i = 0; i < SurfManagers.Count; i++)
-        {
-            if (SurfManagerIndex[i] > HigherNumber && SurfManagers[i] != Main)
-            {
-                HigherNumber = SurfManagerIndex[i];
-                position = i;
-            }
-        }
-        for (int i = 0; i < SurfManagers.Count; i++)
-        {
-            if (i == position)
-            {
-                SurfManagers[i].SetActive(true);
-
-                CurrentView = SurfManagers[i];
-            }
-            else
-            {
-                SurfManagers[i].SetActive(false);
-            }
-
-        }
-
         if (SurfManagers.Count == 1)
         {
             if (SurfManagers[0] == Main)
@@ -132,10 +109,36 @@ public class SurfController : MonoBehaviour
                 {
                     Main.SetActive(false);
                 }
-               
+
                 CurrentView = Main;
             }
+            return;
         }
+        for (int i = 0; i < SurfManagers.Count; i++)
+        {
+            if (SurfManagerIndex[i] > HigherNumber && SurfManagers[i] != Main)
+            {
+                HigherNumber = SurfManagerIndex[i];
+                position = i;
+            }
+        }
+        for (int i = 0; i < SurfManagers.Count; i++)
+        {
+            if (i == position)
+            {
+
+                SurfManagers[i].SetActive(true);
+
+                CurrentView = SurfManagers[i];
+            }
+            else
+            {
+                SurfManagers[i].SetActive(false);
+            }
+
+        }
+
+        
 
 
 

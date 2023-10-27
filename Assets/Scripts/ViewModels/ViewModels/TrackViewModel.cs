@@ -23,6 +23,7 @@ public class TrackViewModel : ViewModel
     public string stringUrl;
     public GameObject shimmer;
     public GameObject recommendShimmer;
+    TrackRoot trackRoot;
 
     private RecommendationsRoot recommendations;
 
@@ -54,7 +55,7 @@ public class TrackViewModel : ViewModel
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
-        TrackRoot trackRoot = (TrackRoot)_value[1];
+        trackRoot = (TrackRoot)_value[1];
         displayName.text = trackRoot.name;
         trackID = trackRoot.external_urls.spotify;
 
@@ -173,12 +174,13 @@ public class TrackViewModel : ViewModel
         if(recommendations.tracks.Count == 0){
             UIMessage.instance.UIMessageInstanciate("No hay recomendaciones");
         }else{
-
             NewScreenManager.instance.ChangeToSpawnedView("surf");
             NewScreenManager.instance.GetCurrentView().GetComponent<PF_SurfViewModel>().Initialize();
-            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSong(new object[] { recommendations });
+            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerRecommend(new object[] { recommendations }, new object[] { trackRoot });
+
+
         }
-        
+
     }
 
     public override void SetAndroidBackAction()
