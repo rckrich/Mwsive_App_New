@@ -52,9 +52,7 @@ public class ButtonSurfPlaylist : ViewModel
 
     public bool SuccesfulEnded = false;
     public bool AmILastPosition = false;
-    private TrackInfoRoot trackInfoRoot;
-
-    private bool isPicked = false;
+    
     private bool isRecommended = false;
 
     private IEnumerator imageCoroutine, playCoroutine;

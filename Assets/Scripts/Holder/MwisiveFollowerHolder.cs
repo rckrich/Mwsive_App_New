@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class MwisiveFollowerHolder : ViewModel
 {
-    public TextMeshProUGUI name;
+    public TextMeshProUGUI nameTxT;
     public Image curatorPicture;
     public string profileID;
     public void Initialize(string _name, string _profileID)
@@ -21,11 +21,11 @@ public class MwisiveFollowerHolder : ViewModel
                     _text2 = _text2 + _name[i];
                 }
                 _text2 = _text2 + "...";
-                name.text = _text2;
+                nameTxT.text = _text2;
             }
             else
             {
-                name.text = _name;
+                nameTxT.text = _name;
             }
         }
 
@@ -44,11 +44,11 @@ public class MwisiveFollowerHolder : ViewModel
                     _text2 = _text2 + _name[i];
                 }
                 _text2 = _text2 + "...";
-                name.text = _text2;
+                nameTxT.text = _text2;
             }
             else
             {
-                name.text = _name;
+                nameTxT.text = _name;
             }
         }
 

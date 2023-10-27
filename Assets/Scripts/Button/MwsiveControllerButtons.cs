@@ -8,7 +8,7 @@ public class MwsiveControllerButtons : MonoBehaviour
     public PF_SurfManager Pf_Surf;
     public float AnimationDuration;
 
-    bool ShareCallbackEnd = true;
+    
     
     public void OnClickOlaButton() {
 

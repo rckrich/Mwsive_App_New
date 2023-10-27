@@ -26,7 +26,7 @@ public class MwsiveButton : AppObject
         
         if (PIKCallbackEnd)
         {
-            Debug.Log("PIKSTART");
+            
             AnimationDuration = _AnimationDuration;
             PIKCallbackEnd = false;
             if (!IsItPIKColorButtonActive)
@@ -123,7 +123,7 @@ public class MwsiveButton : AppObject
             {
                 if (badge.type.Equals("engagement"))
                 {
-                    Debug.Log(FixedBadgeGroupString(badge.group));
+                   
                     UIMessage.instance.UIMessageInstanciate("Conseguiste la insignia " + FixedBadgeGroupString(badge.group));
                     
                 }
@@ -138,7 +138,7 @@ public class MwsiveButton : AppObject
 
         PIKButtonColorOn();
         PIKCallbackEnd = true;
-        Debug.Log("PIKEND");
+        
         gameObject.GetComponentInParent<ButtonSurfPlaylist>().PlusOrLessOne(true, "PIK");
 
     }

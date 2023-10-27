@@ -25,7 +25,7 @@ public class ADNDynamicScroll : MonoBehaviour
     private string PlaceHolderText;
     private GameObject PrefabToSet;
     private int Type, Max, Min;
-    private float ScrollPosition = -0.3f;
+    
     
     private string TypeString;
     
