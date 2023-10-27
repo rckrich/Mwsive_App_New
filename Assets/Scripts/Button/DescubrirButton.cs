@@ -40,7 +40,7 @@ public class DescubrirButton : MonoBehaviour
         float twenable = 0f;
         UIAniManager.instance.VerticalTransitionToCustomPosition(HeaderBackground, HeaderPosPosition,ScrollView, true );
         var sequence = DG.Tweening.DOTween.Sequence();
-        sequence.Append(DOTween.To(()=> twenable, x => twenable = x, -70f, 0.5f ));
+        sequence.Append(DOTween.To(()=> twenable, x => twenable = x, -30f, 0.5f ));
         sequence.OnUpdate(() => {BuscadorBackground.GetComponent<RectTransform>().offsetMax = new Vector2(twenable, BuscadorBackground.GetComponent<RectTransform>().offsetMax.y);});
         sequence.OnComplete(() => {
             DescubrirVW.KillAllPrefabLists();
