@@ -43,6 +43,8 @@ public class PoolManager : MonoBehaviour
     // Update is called once per frame
     public GameObject GetPooledObject()
     {
+        
+
         for (int i = 0; i < pooledObjects.Count; i++)
         {
             if (!pooledObjects[i].activeInHierarchy  || pooledObjects[i].GetComponent<SurfAni>().isAvailable)
