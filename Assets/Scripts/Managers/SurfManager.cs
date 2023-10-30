@@ -354,7 +354,7 @@ public class SurfManager : Manager
             ResetValue();
         }
 
-        if (CurrentPosition >= MwsiveSongsData.Count - 5)
+        if (CurrentPosition >= MwsiveSongsData.Count - 8)
         {
             if (CanGetRecomendations)
             {
@@ -478,7 +478,7 @@ public class SurfManager : Manager
         {
             ResetValue();
         }
-        if (CurrentPosition >= MwsiveSongsData.Count - 5)
+        if (CurrentPosition >= MwsiveSongsData.Count - 8)
         {
             if (CanGetRecomendations)
             {
@@ -1054,19 +1054,12 @@ public class SurfManager : Manager
 
             GameObject instance = SpawnPrefab();
             GetMwsiveInfo();
-            if (SpawnPosition < MwsiveSongsData.Count)
-            {
+            
 
                 instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[SpawnPosition]);
 
-            }
-            else if (SpawnPosition == MwsiveSongsData.Count)
-            {
-
-                //MwsiveSongsData[CurrentPosition + 3].challenge_AmILastPosition = true;
-                instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[SpawnPosition]);
-
-            }
+            
+           
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
         }
         else
