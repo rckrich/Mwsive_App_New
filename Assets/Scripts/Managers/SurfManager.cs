@@ -561,8 +561,9 @@ public class SurfManager : Manager
         if (!Success)
         {
             ///DOTween.KillAll(false, new object[] { 0, 1 });
+            ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(null,null,null,null,null,RestPositions[0]);
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfReset();
-            UIAniManager.instance.SurfReset(ActiveMwsiveSongs[1]);
+            
             Reset();
         }
         else
