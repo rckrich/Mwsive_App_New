@@ -75,12 +75,20 @@ public class SurfManager : Manager
         if (currentPrefab != null && SurfController.instance.AmICurrentView(gameObject))
             currentPrefab.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
 
-        if (SurfController.instance.AmICurrentView(gameObject) && this.enabled)
+        if (SurfController.instance.AmICurrentView(gameObject) && this.enabled && NewScreenManager.instance.GetCurrentView().viewID == ViewID.SurfViewModel)
         {
             AddEventListener<TimerAppEvent>(TimerAppEventListener);
             if (MwsiveSongsData != null && MwsiveSongsData.Count > 0)
             {
-                SurfManagerLogicInitialize();
+                try
+                {
+                    SurfManagerLogicInitialize();
+                }
+                catch (MissingReferenceException)
+                {
+
+                }
+                
             }
         }
 
@@ -326,7 +334,7 @@ public class SurfManager : Manager
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, -MaxRotation, 0, true);
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfSide();
 
-            AddSongAnimations(button);
+            //AddSongAnimations(button);
 
             ActiveMwsiveSongs[2].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[0]);
             ActiveMwsiveSongs[2].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();
@@ -354,7 +362,7 @@ public class SurfManager : Manager
             ResetValue();
         }
 
-        if (CurrentPosition >= MwsiveSongsData.Count - 5)
+        if (CurrentPosition >= MwsiveSongsData.Count - 8)
         {
             if (CanGetRecomendations)
             {
@@ -478,7 +486,7 @@ public class SurfManager : Manager
         {
             ResetValue();
         }
-        if (CurrentPosition >= MwsiveSongsData.Count - 5)
+        if (CurrentPosition >= MwsiveSongsData.Count - 8)
         {
             if (CanGetRecomendations)
             {
@@ -492,6 +500,7 @@ public class SurfManager : Manager
     public void AddSongAnimations(bool button = false)
     {
         DOTween.Kill(AddSong);
+        Debug.Log("asdf");
         if (button)
         {
             AddSong.GetComponent<CanvasGroup>().alpha = 1;
@@ -561,8 +570,9 @@ public class SurfManager : Manager
         if (!Success)
         {
             ///DOTween.KillAll(false, new object[] { 0, 1 });
+            ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(null,null,null,null,null,RestPositions[0]);
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfReset();
-            UIAniManager.instance.SurfReset(ActiveMwsiveSongs[1]);
+            
             Reset();
         }
         else
@@ -1052,19 +1062,12 @@ public class SurfManager : Manager
 
             GameObject instance = SpawnPrefab();
             GetMwsiveInfo();
-            if (SpawnPosition < MwsiveSongsData.Count)
-            {
+            
 
                 instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[SpawnPosition]);
 
-            }
-            else if (SpawnPosition == MwsiveSongsData.Count)
-            {
-
-                //MwsiveSongsData[CurrentPosition + 3].challenge_AmILastPosition = true;
-                instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[SpawnPosition]);
-
-            }
+            
+           
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
         }
         else

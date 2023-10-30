@@ -8,6 +8,7 @@ public class ProfileViewModel : ViewModel
 {
     private const int LIMIT_OF_BADGES = 3;
 
+    public GameObject socialmediaProfile;
     public List<GameObject> DNAButtons = new List<GameObject>();
     public TextMeshProUGUI displayName;
     public Image profilePicture;
@@ -390,9 +391,11 @@ public class ProfileViewModel : ViewModel
         profileId = mwsiveUserRoot.user.platform_id;
         if(mwsiveUserRoot.user.latest_ranking != null)
             rankingNumber.text = "# " + mwsiveUserRoot.user.latest_ranking.position.ToString();
-
+        SocialButtonsInitilization();
         if (mwsiveUserRoot.user.user_links.Count != 0)
         {
+            socialmediaProfile.SetActive(true);
+
             foreach (UserLink url in mwsiveUserRoot.user.user_links)
             {
                 if (url.link == null)
@@ -437,10 +440,13 @@ public class ProfileViewModel : ViewModel
                 }
             }
         }
+        else
+        {
+            socialmediaProfile.SetActive(false);
+        }
 
         GetCurrentUserPlaylists();
         FollowButtonInitilization();
-        SocialButtonsInitilization();
         if (BadgesContent != null)
             ClearScrollsBadges(BadgesContent);
         GetBadgesCall();
@@ -466,8 +472,10 @@ public class ProfileViewModel : ViewModel
         if (mwsiveUserRoot.user.latest_ranking != null)
             rankingNumber.text = "# " + mwsiveUserRoot.user.latest_ranking.position.ToString();
 
+        SocialButtonsInitilization();
         if (mwsiveUserRoot.user.user_links.Count != 0)
         {
+            socialmediaProfile.SetActive(true);
             foreach (UserLink url in mwsiveUserRoot.user.user_links)
             {
                 if (url.link == null)
@@ -513,10 +521,14 @@ public class ProfileViewModel : ViewModel
 
             }
         }
+        else
+        {
+            socialmediaProfile.SetActive(false);
+        }
 
         GetCurrentUserPlaylists();
         FollowButtonInitilization();
-        SocialButtonsInitilization();
+        
         if (BadgesContent != null)
             ClearScrollsBadges(BadgesContent);
         GetBadgesCall();

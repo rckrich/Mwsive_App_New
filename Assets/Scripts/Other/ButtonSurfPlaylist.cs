@@ -469,6 +469,7 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void AddToPlaylistSwipe(string _trackid, float _time)
     {
+        mwsiveButton.ChangeAddToPlaylistButtonColor(0.3f, false);
         if (!isRecommended)
         {
             SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylistSwipe);
@@ -484,6 +485,7 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void AddToPlaylistSwipeLastPosition(string _trackid, float _time)
     {
+        mwsiveButton.ChangeAddToPlaylistButtonColor(0.3f, false);
         if (!isRecommended)
         {
             SpotifyConnectionManager.instance.AddItemsToPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_AddToPlaylist);
@@ -513,7 +515,7 @@ public class ButtonSurfPlaylist : ViewModel
             if (AppManager.instance.isLogInMode && !trackID.Equals(""))
                 MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomend); ;
             AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
-                mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f, true);
+                
                 UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");
             });
             AppManager.instance.yours = true;
@@ -539,7 +541,7 @@ public class ButtonSurfPlaylist : ViewModel
             if (AppManager.instance.isLogInMode && !trackID.Equals(""))
                 MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomend); ;
             AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
-                mwsiveButton.ChangeAddToPlaylistButtonColor(0.5f, false);
+                
                 UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");
             });
             AppManager.instance.yours = true;

@@ -233,9 +233,9 @@ public class PlaylistViewModel : ViewModel
     }
     private void Callback_SurfButtonNoPl(object[] _value)
     {
-        playlist = (PlaylistRoot)_value[1];
+        PlaylistRoot playlist2 = (PlaylistRoot)_value[1];
         Debug.Log(NewScreenManager.instance.GetCurrentView()); 
-        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerPLItems(new object[] { playlist }, true, true, id);
+        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerPLItems(new object[] { playlist2 }, true, true, id);
 
     }
 
