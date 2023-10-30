@@ -391,7 +391,7 @@ public class ProfileViewModel : ViewModel
         profileId = mwsiveUserRoot.user.platform_id;
         if(mwsiveUserRoot.user.latest_ranking != null)
             rankingNumber.text = "# " + mwsiveUserRoot.user.latest_ranking.position.ToString();
-
+        SocialButtonsInitilization();
         if (mwsiveUserRoot.user.user_links.Count != 0)
         {
             socialmediaProfile.SetActive(true);
@@ -447,7 +447,6 @@ public class ProfileViewModel : ViewModel
 
         GetCurrentUserPlaylists();
         FollowButtonInitilization();
-        SocialButtonsInitilization();
         if (BadgesContent != null)
             ClearScrollsBadges(BadgesContent);
         GetBadgesCall();
@@ -473,6 +472,7 @@ public class ProfileViewModel : ViewModel
         if (mwsiveUserRoot.user.latest_ranking != null)
             rankingNumber.text = "# " + mwsiveUserRoot.user.latest_ranking.position.ToString();
 
+        SocialButtonsInitilization();
         if (mwsiveUserRoot.user.user_links.Count != 0)
         {
             socialmediaProfile.SetActive(true);
@@ -528,7 +528,7 @@ public class ProfileViewModel : ViewModel
 
         GetCurrentUserPlaylists();
         FollowButtonInitilization();
-        SocialButtonsInitilization();
+        
         if (BadgesContent != null)
             ClearScrollsBadges(BadgesContent);
         GetBadgesCall();
