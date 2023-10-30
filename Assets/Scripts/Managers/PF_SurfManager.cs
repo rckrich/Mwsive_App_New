@@ -250,11 +250,12 @@ public class PF_SurfManager : Manager
         float VAR2 = ControllerPostion.y / Controller.transform.position.y;
 
 
-        ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(Mathf.Clamp(var * .3f, 0, 1), MaxRotation, Fade, false);
-        ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_VerticalUp();
+        
 
         if (CurrentPosition < MwsiveSongsData.Count - 1)
         {
+            ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(Mathf.Clamp(var * .3f, 0, 1), MaxRotation, Fade, false);
+            ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_VerticalUp();
 
             ActiveMwsiveSongs[2].GetComponent<SurfAni>().SetValues(VAR2 * .25f, null, 1, null, null, RestPositions[0]);
             ActiveMwsiveSongs[2].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();
