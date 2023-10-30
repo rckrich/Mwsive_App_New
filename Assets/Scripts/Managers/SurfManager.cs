@@ -75,12 +75,20 @@ public class SurfManager : Manager
         if (currentPrefab != null && SurfController.instance.AmICurrentView(gameObject))
             currentPrefab.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
 
-        if (SurfController.instance.AmICurrentView(gameObject) && this.enabled)
+        if (SurfController.instance.AmICurrentView(gameObject) && this.enabled && NewScreenManager.instance.GetCurrentView().viewID == ViewID.SurfViewModel)
         {
             AddEventListener<TimerAppEvent>(TimerAppEventListener);
             if (MwsiveSongsData != null && MwsiveSongsData.Count > 0)
             {
-                SurfManagerLogicInitialize();
+                try
+                {
+                    SurfManagerLogicInitialize();
+                }
+                catch (MissingReferenceException)
+                {
+
+                }
+                
             }
         }
 
