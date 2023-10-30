@@ -60,7 +60,7 @@ public class LogInManager : Manager
                 PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
                 popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, "Advertencia", "Ocurrió un error en el proceso de Inicio de Sesión. Volver a intentar.", "Aceptar", logInErrorSprite);
                 popUpViewModel.SetPopUpAction(() => {
-                    if (SceneManager.GetActiveScene().name.Equals("LogInScene_Ricardo"))
+                    if (SceneManager.GetActiveScene().name.Equals("LogInScene"))
                     {
                         ProgressManager.instance.DeleteCache();
                         NewScreenManager.instance.BackToPreviousView();
@@ -107,7 +107,7 @@ public class LogInManager : Manager
                 else
                 {
                     NewScreenManager.instance.GetCurrentView().EndSearch();
-                    SceneManager.LoadScene("MainScene_Ricardo");
+                    SceneManager.LoadScene("MainScene");
                 }
         }
         else
@@ -298,9 +298,9 @@ public class LogInManager : Manager
     {
         NewScreenManager.instance.GetCurrentView().EndSearch();
 
-        if (SceneManager.GetActiveScene().name.Equals("LogInScene_Ricardo"))
+        if (SceneManager.GetActiveScene().name.Equals("LogInScene"))
         {
-            SceneManager.LoadScene("MainScene_Ricardo");
+            SceneManager.LoadScene("MainScene");
         }
         else
         {
