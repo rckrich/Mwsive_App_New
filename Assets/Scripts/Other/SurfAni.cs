@@ -23,6 +23,7 @@ public class SurfAni : MonoBehaviour
     private Vector3 FinalPosition, RestPositionSide, RestPositionDown, RestPositionUp;
 
     public bool isAvailable, debug;
+    public bool hasSurfResetEnd = true;
 
     private Tweener[] SurfSide, SurfSideLastPosition, SurfSideTransitionBack, SurfReset, VerticalUp, VerticalDown1, VerticalDown2, SurfTransitionBackSongDown, SurfResetOtherSongs, SurfTransitionBackSong;
     private Tweener[] SurfTransitionOtherSongs, SurfTransitionBackHideSong, SurfAddSong, SurfAddSongReset, CompleteAddSurfAddSong, SurfAddSongLastPosition;
@@ -113,18 +114,22 @@ public class SurfAni : MonoBehaviour
 
     }
 
+    
+
     private void SetUp_SurfReset()
     {
 
-        SetPosition();
+        
         
         SurfReset = new Tweener[3];
 
-        SurfReset[0] = gameObject.transform.DOMove(FinalPosition, SurfTransitionDuration, false).Pause();
+        SurfReset[0] = gameObject.transform.DOMove(Position.transform.position, SurfTransitionDuration, false).Pause();
         SurfReset[1] =gameObject.transform.DORotate(new Vector3(0f, 0f, 0f), SurfTransitionDuration).Pause();
         SurfReset[2] =gameObject.GetComponent<CanvasGroup>().DOFade(1, SurfTransitionDuration).Pause();
+        SurfReset[0].OnComplete(() => {
+            hasSurfResetEnd = true;
 
-
+        });
     }
 
     private void SetUp_SurfVerticalUp()
@@ -388,6 +393,7 @@ public class SurfAni : MonoBehaviour
 
     public void Play_SurfReset()
     {
+        hasSurfResetEnd = false;
         if (SurfReset == null)
         {
             SetUp_SurfReset();
@@ -396,6 +402,8 @@ public class SurfAni : MonoBehaviour
         {
             Restart_SurfReset();
         }
+        
+        DOTween.Complete(gameObject);
         foreach (Tweener item in SurfReset)
         {
             item.SetAutoKill(false);
@@ -414,16 +422,18 @@ public class SurfAni : MonoBehaviour
         }
         else
         {
-
-
             Restart_VerticalUp();
         }
-        
-        foreach (Tweener item in VerticalUp)
+        Debug.Log("UP");
+        if (hasSurfResetEnd)
         {
-            item.SetAutoKill(false);
-            item.Play();
+            foreach (Tweener item in VerticalUp)
+            {
+                item.SetAutoKill(false);
+                item.Play();
+            }
         }
+        
     }
 
     public void Play_VerticalDown1()
@@ -687,7 +697,7 @@ public class SurfAni : MonoBehaviour
     {
 
         
-        SurfReset[0].ChangeValues(gameObject.transform.position, FinalPosition);
+        SurfReset[0].ChangeValues(gameObject.transform.position, Position.transform.position);
         SurfReset[1].ChangeValues(gameObject.transform.eulerAngles, new Vector3(0f, 0f, 0f));
         SurfReset[2].ChangeValues(gameObject.GetComponent<CanvasGroup>().alpha, (System.Single)1);
 
