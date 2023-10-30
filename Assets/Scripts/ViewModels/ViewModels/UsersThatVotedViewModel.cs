@@ -41,6 +41,7 @@ public class UsersThatVotedViewModel : ViewModel
     private void Callback_GetCuratorsThatVoted(object[] _value)
     {
         MwsiveCuratorsRoot mwsiveCuratorsRoot = (MwsiveCuratorsRoot)_value[1];
+
         if(mwsiveCuratorsRoot.curators.Count == 0)
         {
             text_NoPicks.SetActive(true);
