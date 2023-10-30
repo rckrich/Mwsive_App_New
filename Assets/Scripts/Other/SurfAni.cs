@@ -393,6 +393,7 @@ public class SurfAni : MonoBehaviour
 
     public void Play_SurfReset()
     {
+        
         hasSurfResetEnd = false;
         if (SurfReset == null)
         {
@@ -402,8 +403,16 @@ public class SurfAni : MonoBehaviour
         {
             Restart_SurfReset();
         }
+
+        if (VerticalUp != null)
+        {
+            foreach (Tweener item in VerticalUp)
+            {
+                item.SetAutoKill(false);
+                item.Pause();
+            }
+        }
         
-        DOTween.Complete(gameObject);
         foreach (Tweener item in SurfReset)
         {
             item.SetAutoKill(false);
@@ -424,7 +433,7 @@ public class SurfAni : MonoBehaviour
         {
             Restart_VerticalUp();
         }
-        Debug.Log("UP");
+        
         if (hasSurfResetEnd)
         {
             foreach (Tweener item in VerticalUp)
@@ -432,6 +441,10 @@ public class SurfAni : MonoBehaviour
                 item.SetAutoKill(false);
                 item.Play();
             }
+        }
+        else
+        {
+            Play_SurfReset();
         }
         
     }

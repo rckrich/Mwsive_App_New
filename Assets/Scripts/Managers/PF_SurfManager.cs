@@ -249,13 +249,13 @@ public class PF_SurfManager : Manager
         float Fade = Controller.transform.position.y / ControllerPostion.y;
         float VAR2 = ControllerPostion.y / Controller.transform.position.y;
 
+        ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(Mathf.Clamp(var * .3f, 0, 1), MaxRotation, Fade, false);
+        ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_VerticalUp();
 
-        
 
         if (CurrentPosition < MwsiveSongsData.Count - 1)
         {
-            ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(Mathf.Clamp(var * .3f, 0, 1), MaxRotation, Fade, false);
-            ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_VerticalUp();
+            
 
             ActiveMwsiveSongs[2].GetComponent<SurfAni>().SetValues(VAR2 * .25f, null, 1, null, null, RestPositions[0]);
             ActiveMwsiveSongs[2].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();
@@ -384,7 +384,7 @@ public class PF_SurfManager : Manager
             UIMessage.instance.UIMessageInstanciate("Error, no se ha agregado a playlist");
         }
 
-        Debug.Log("SideScrollSuccess");
+        
         HasSwipeEnded = true;
     }
     private void DownScrollSuccess()
@@ -449,7 +449,7 @@ public class PF_SurfManager : Manager
 
         HasSwipeEnded = true;
 
-        Debug.Log("DownScrollSuccess");
+        
 
     }
     private void UpScrollSuccess()
@@ -516,7 +516,7 @@ public class PF_SurfManager : Manager
                 SurfProfileADN();
             }
         }
-        Debug.Log("UPScrollSuccess");
+        
         HasSwipeEnded = true;
     }
 
@@ -570,7 +570,7 @@ public class PF_SurfManager : Manager
 
     public void ResetValue()
     {
-        Debug.Log("Reset");
+        
         if (!Success)
         {
 
@@ -1037,7 +1037,7 @@ public class PF_SurfManager : Manager
             }
 
         }
-        Debug.LogWarning(MwsiveSongsData.Count);
+        
         PageItemPlaylistPaginate(0, null, 0);
     }
 
@@ -1306,7 +1306,7 @@ public class PF_SurfManager : Manager
     {
 
         GameObject Instance = PoolManager.instance.GetPooledObject();
-        Debug.LogWarning(Instance.name);
+        
 
         Instance.GetComponent<CanvasGroup>().alpha = 0;
         Instance.transform.SetParent(MwsiveContainer.transform);

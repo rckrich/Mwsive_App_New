@@ -326,7 +326,7 @@ public class SurfManager : Manager
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, -MaxRotation, 0, true);
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfSide();
 
-            AddSongAnimations(button);
+            //AddSongAnimations(button);
 
             ActiveMwsiveSongs[2].GetComponent<SurfAni>().SetValues(1, null, 1, null, null, RestPositions[0]);
             ActiveMwsiveSongs[2].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();
@@ -492,6 +492,7 @@ public class SurfManager : Manager
     public void AddSongAnimations(bool button = false)
     {
         DOTween.Kill(AddSong);
+        Debug.Log("asdf");
         if (button)
         {
             AddSong.GetComponent<CanvasGroup>().alpha = 1;
