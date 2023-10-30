@@ -8,6 +8,7 @@ public class CuratorAppObject : AppObject
 {
     public TextMeshProUGUI displayName;
     public Image profilePicture;
+    public TextMeshProUGUI rank = null;
 
     private string mwsiveID;
     private string spotifyID;
@@ -15,10 +16,14 @@ public class CuratorAppObject : AppObject
 
     public override void Initialize(params object[] list) {
         mwsiveUser = (MwsiveUser)list[0];
+
         if (mwsiveUser != null)
         {
             mwsiveID = mwsiveUser.id.ToString();
             spotifyID = mwsiveUser.platform_id.ToString();
+
+            if (rank != null)
+                rank.text = mwsiveUser.latest_ranking.id.ToString();
 
             if (mwsiveUser.display_name.Length > 27)
             {
