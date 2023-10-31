@@ -69,9 +69,9 @@ public class UsersThatVotedViewModel : ViewModel
 
     public void OnClick_Backbutton()
     {
-        SurfManager.instance.SetActive(true);
         NewScreenManager.instance.BackToPreviousView();
         NewScreenManager.instance.GetCurrentView().SetAndroidBackAction();
+        SurfManager.instance.SetActive(true);
     }
 
     public override void SetAndroidBackAction()
