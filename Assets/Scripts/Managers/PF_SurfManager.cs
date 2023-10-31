@@ -433,7 +433,15 @@ public class PF_SurfManager : Manager
             string _trackid = GetCurrentMwsiveData().id;
             if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
             {
-                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "DOWN", ResetTimer());
+                if (NewScreenManager.instance.TryGetComponent<PF_SurfManager>(out PF_SurfManager pF_SurfManager))
+                {
+                    int challenge_id = pF_SurfManager.Challenge ? pF_SurfManager.challenge_id : -1;
+                    MwsiveConnectionManager.instance.PostTrackAction(_trackid, "DOWN", ResetTimer(), null, challenge_id);
+                }
+                else
+                {
+                    MwsiveConnectionManager.instance.PostTrackAction(_trackid, "DOWN", ResetTimer(), null, -1);
+                }
             }
             CurrentPosition--;
             SpawnPosition--;
@@ -494,7 +502,15 @@ public class PF_SurfManager : Manager
             string _trackid = GetCurrentMwsiveData().id;
             if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
             {
-                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "UP", ResetTimer());
+                if (NewScreenManager.instance.TryGetComponent<PF_SurfManager>(out PF_SurfManager pF_SurfManager))
+                {
+                    int challenge_id = pF_SurfManager.Challenge ? pF_SurfManager.challenge_id : -1;
+                    MwsiveConnectionManager.instance.PostTrackAction(_trackid, "UP", ResetTimer(), null, challenge_id);
+                }
+                else
+                {
+                    MwsiveConnectionManager.instance.PostTrackAction(_trackid, "UP", ResetTimer(), null, -1);
+                }
             }
 
             CurrentPosition++;

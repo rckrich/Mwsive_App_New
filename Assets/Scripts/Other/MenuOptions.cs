@@ -52,7 +52,6 @@ public class MenuOptions : ViewModel
             descubrir.GetComponent<Image>().GetComponent<Graphic>().color = Color.white;
             ranking.GetComponent<Image>().GetComponent<Graphic>().color = Color.gray;
             OpenView(ViewID.SurfViewModel);
-            Debug.Log(NewScreenManager.instance.GetCurrentView().name);
             exploreChange = false;
             SurfManager.instance.SetActive(true);
 
