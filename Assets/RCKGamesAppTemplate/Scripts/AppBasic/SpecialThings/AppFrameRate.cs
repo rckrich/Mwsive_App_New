@@ -5,7 +5,7 @@ using UnityEngine;
 public class AppFrameRate : MonoBehaviour
 {
 
-    void Start()
+    void OnEnable()
     {
         Application.targetFrameRate = 60;
     }

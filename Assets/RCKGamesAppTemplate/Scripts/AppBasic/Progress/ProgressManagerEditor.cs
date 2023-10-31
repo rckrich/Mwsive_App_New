@@ -3,14 +3,14 @@ using UnityEditor;
 using System.Collections;
 
 #if UNITY_EDITOR
-[CustomEditor(typeof(Progress_Manager))]
+[CustomEditor(typeof(ProgressManager))]
 public class ProgressManagerEditor : Editor 
 {
 	public override void OnInspectorGUI ()
 	{
 		DrawDefaultInspector ();
 
-		Progress_Manager manager = (Progress_Manager)target;
+		ProgressManager manager = (ProgressManager)target;
 
 		if (GUILayout.Button ("Save Preset")) 
 		{
