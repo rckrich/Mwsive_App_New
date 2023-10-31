@@ -38,6 +38,7 @@ public class PF_SurfManager : Manager
     public float time = 0;
     public bool HasSideScrollEnded = true;
     public bool Challenge = false;
+    public int challenge_id = -1;
 
     private Vector2 ControllerPostion = new Vector2();
 

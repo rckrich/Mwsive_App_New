@@ -37,7 +37,15 @@ public class MwsiveButton : AppObject
                     {
                         if (AppManager.instance.currentMwsiveUser.total_disks >= PIK_PRICE)
                         {
-                            MwsiveConnectionManager.instance.PostTrackAction(_trackid, "PIK", _time, null, Callback_TrackActionPIK);
+                            if (NewScreenManager.instance.TryGetComponent<PF_SurfManager>(out PF_SurfManager pF_SurfManager))
+                            {
+                                int challenge_id = pF_SurfManager.Challenge ? pF_SurfManager.challenge_id : -1;
+                                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "PIK", _time, null, challenge_id, Callback_TrackActionPIK);
+                            }
+                            else
+                            {
+                                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "PIK", _time, null, -1, Callback_TrackActionPIK);
+                            }
                         }
                         else
                         {
@@ -57,7 +65,15 @@ public class MwsiveButton : AppObject
                 {
                     if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
                     {
-                        MwsiveConnectionManager.instance.PostTrackAction(_trackid, "UNPIK", _time, null, Callback_TrackActionUNPIK);
+                        if (NewScreenManager.instance.TryGetComponent<PF_SurfManager>(out PF_SurfManager pF_SurfManager))
+                        {
+                            int challenge_id = pF_SurfManager.Challenge ? pF_SurfManager.challenge_id : -1;
+                            MwsiveConnectionManager.instance.PostTrackAction(_trackid, "UNPIK", _time, null, challenge_id, Callback_TrackActionPIK);
+                        }
+                        else
+                        {
+                            MwsiveConnectionManager.instance.PostTrackAction(_trackid, "UNPIK", _time, null, -1, Callback_TrackActionUNPIK);
+                        }
 
                     }
 

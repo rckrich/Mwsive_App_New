@@ -324,6 +324,11 @@ public class MwsiveChallengesRoot
     public List<Challenges> challenges { get; set; }
 }
 
+public class MwsiveStartedChallengeRoot
+{
+    public int registered_challenge_id { get; set; }
+}
+
 public class MwsiveCompleteChallengesRoot
 {
     public int challenge_id { get; set; }
@@ -371,6 +376,7 @@ public class TrackActionRoot
     public string action { get; set; }
     public float duration { get; set; }
     public string playlist_id { get; set; }
+    public int? challenge_id { get; set; }
 }
 
 public class CreateMwsiveUserRoot
@@ -408,6 +414,7 @@ public class IsFollowingRoot
 public class ChallengeCompleteRoot
 {
     public int challenge_id { get; set; }
+    public int registered_challenge_id { get; set; }
 }
 
 public class PostDisplayNameRoot
