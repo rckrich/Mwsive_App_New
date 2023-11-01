@@ -448,7 +448,17 @@ public class ButtonSurfPlaylist : ViewModel
             isRecommended = false;
             SpotifyConnectionManager.instance.RemoveItemsFromPlaylist(ProgressManager.instance.progress.userDataPersistance.current_playlist, uris, Callback_RemoveToPlaylist);
             if (AppManager.instance.isLogInMode && !trackID.Equals(""))
-                MwsiveConnectionManager.instance.PostTrackAction(trackID, "NOT_RECOMMEND", _time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionNORecomend);
+            {
+                if (NewScreenManager.instance.TryGetComponent<PF_SurfManager>(out PF_SurfManager pF_SurfManager))
+                {
+                    int challenge_id = pF_SurfManager.Challenge ? pF_SurfManager.challenge_id : -1;
+                    MwsiveConnectionManager.instance.PostTrackAction(trackID, "NOT_RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, challenge_id, Callback_PostTrackActionRecomend);
+                }
+                else
+                {
+                    MwsiveConnectionManager.instance.PostTrackAction(trackID, "NOT_RECOMMEND", _time, AppManager.instance.GetCurrentPlaylist().id, -1, Callback_PostTrackActionNORecomend);
+                }
+            }
         }
     }
 
@@ -477,8 +487,15 @@ public class ButtonSurfPlaylist : ViewModel
 
             if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
             {
-
-                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomendSwipe);
+                if (NewScreenManager.instance.TryGetComponent<PF_SurfManager>(out PF_SurfManager pF_SurfManager))
+                {
+                    int challenge_id = pF_SurfManager.Challenge ? pF_SurfManager.challenge_id : -1;
+                    MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, challenge_id, Callback_PostTrackActionRecomend);
+                }
+                else
+                {
+                    MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time, AppManager.instance.GetCurrentPlaylist().id, -1, Callback_PostTrackActionRecomendSwipe);
+                }
             }
         }
     }
@@ -493,8 +510,15 @@ public class ButtonSurfPlaylist : ViewModel
 
             if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
             {
-
-                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomendSwipe);
+                if (NewScreenManager.instance.TryGetComponent<PF_SurfManager>(out PF_SurfManager pF_SurfManager))
+                {
+                    int challenge_id = pF_SurfManager.Challenge ? pF_SurfManager.challenge_id : -1;
+                    MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, challenge_id, Callback_PostTrackActionRecomend);
+                }
+                else
+                {
+                    MwsiveConnectionManager.instance.PostTrackAction(_trackid, "RECOMMEND", _time, AppManager.instance.GetCurrentPlaylist().id, -1, Callback_PostTrackActionRecomendSwipe);
+                }
             }
         }
     }
@@ -512,8 +536,19 @@ public class ButtonSurfPlaylist : ViewModel
         {
             isRecommended = true;
             InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(gray, Color.black));
+
             if (AppManager.instance.isLogInMode && !trackID.Equals(""))
-                MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomend); ;
+            {
+                if(NewScreenManager.instance.TryGetComponent<PF_SurfManager>(out PF_SurfManager pF_SurfManager)){
+                    int challenge_id = pF_SurfManager.Challenge ? pF_SurfManager.challenge_id : -1;
+                    MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, challenge_id, Callback_PostTrackActionRecomend);
+                }
+                else
+                {
+                    MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, -1, Callback_PostTrackActionRecomend);
+                }
+            }
+
             AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
                 
                 UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");
@@ -539,7 +574,17 @@ public class ButtonSurfPlaylist : ViewModel
             isRecommended = true;
             InvokeEvent<ChangeColorAppEvent>(new ChangeColorAppEvent(gray, Color.black));
             if (AppManager.instance.isLogInMode && !trackID.Equals(""))
-                MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, Callback_PostTrackActionRecomend); ;
+            {
+                if (NewScreenManager.instance.TryGetComponent<PF_SurfManager>(out PF_SurfManager pF_SurfManager))
+                {
+                    int challenge_id = pF_SurfManager.Challenge ? pF_SurfManager.challenge_id : -1;
+                    MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, challenge_id, Callback_PostTrackActionRecomend);
+                }
+                else
+                {
+                    MwsiveConnectionManager.instance.PostTrackAction(trackID, "RECOMMEND", time, AppManager.instance.GetCurrentPlaylist().id, -1, Callback_PostTrackActionRecomend);
+                }
+            }
             AppManager.instance.RefreshCurrentPlaylistInformation((_list) => {
                 
                 UIMessage.instance.UIMessageInstanciate("Canción agregada a la playlist");

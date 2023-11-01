@@ -67,7 +67,6 @@ public class RankingViewModel : ScrollViewModel
 
     private void Callback_GetCurrentMwsiveUser(object[] _value)
     {
-        
         MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
         if(mwsiveUserRoot.user.latest_ranking != null)
         {

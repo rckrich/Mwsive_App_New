@@ -153,11 +153,11 @@ public class MwsiveConnectionManager : MonoBehaviour
         }
     }
 
-    public void PostTrackAction(string _track_id, string _action, float _duration, string _playlist_id = null, MwsiveWebCallback _callback = null)
+    public void PostTrackAction(string _track_id, string _action, float _duration, string _playlist_id = null, int _challenge_id = -1, MwsiveWebCallback _callback = null)
     {
         _callback += Callback_PostTrackAction;
         DebugLogManager.instance.DebugLog(_action);
-        StartCoroutine(MwsiveWebCalls.CR_PostTrackAction(ProgressManager.instance.progress.userDataPersistance.access_token, _track_id,_action, _duration, _playlist_id, _callback));
+        StartCoroutine(MwsiveWebCalls.CR_PostTrackAction(ProgressManager.instance.progress.userDataPersistance.access_token, _track_id,_action, _duration, _playlist_id, _challenge_id, _callback));
     }
 
     private void Callback_PostTrackAction(object[] _value)
@@ -462,10 +462,26 @@ public class MwsiveConnectionManager : MonoBehaviour
         DebugLogManager.instance.DebugLog(((MwsiveChallengesRoot)_value[1]));
     }
 
-    public void PostChallengeComplete(int _challenge_id, MwsiveWebCallback _callback = null)
+    public void PostChallengeStarted(int _challenge_id, MwsiveWebCallback _callback = null)
+    {
+        _callback += Callback_PostChallengeStarted;
+        StartCoroutine(MwsiveWebCalls.CR_PostChallengeStarted(ProgressManager.instance.progress.userDataPersistance.access_token, _challenge_id, _callback));
+    }
+
+    private void Callback_PostChallengeStarted(object[] _value)
+    {
+        if (CheckResponse((long)_value[0]))
+        {
+            return;
+        }
+
+        DebugLogManager.instance.DebugLog(((MwsiveStartedChallengeRoot)_value[1]));
+    }
+
+    public void PostChallengeComplete(int _challenge_id, int _registered_challenge_id, MwsiveWebCallback _callback = null)
     {
         _callback += Callback_PostChallengeComplete;
-        StartCoroutine(MwsiveWebCalls.CR_PostChallengeComplete(ProgressManager.instance.progress.userDataPersistance.access_token, _challenge_id, _callback));
+        StartCoroutine(MwsiveWebCalls.CR_PostChallengeComplete(ProgressManager.instance.progress.userDataPersistance.access_token, _challenge_id, _registered_challenge_id, _callback));
     }
 
     private void Callback_PostChallengeComplete(object[] _value)

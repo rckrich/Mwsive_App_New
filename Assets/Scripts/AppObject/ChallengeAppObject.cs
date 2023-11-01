@@ -19,6 +19,7 @@ public class ChallengeAppObject : AppObject
     private SeveralTrackRoot severalTrackRoot;
     private Challenges challenges;
     private bool PointsPosted = false;
+    private int registered_challenge_id;
 
 
     public override void Initialize(params object[] list)
@@ -56,22 +57,32 @@ public class ChallengeAppObject : AppObject
     public void OnClick_OpenChallenge(){
         ButtonInteractable(false);
         NewScreenManager.instance.ChangeToSpawnedView("surf");
+
+        MwsiveConnectionManager.instance.PostChallengeStarted(challenges.id, Callback_PostStartedChallenge);      
+    }
+
+    private void Callback_PostStartedChallenge(object[] _value)
+    {
+        MwsiveStartedChallengeRoot mwsiveStartedChallengeRoot = (MwsiveStartedChallengeRoot)_value[1];
+
+        registered_challenge_id = mwsiveStartedChallengeRoot.registered_challenge_id;
+
         List<string> tracks = new List<string>();
         foreach (MwsiveTrack item in challenges.mwsive_tracks)
-            {
-                tracks.Add(item.spotify_track_id);
-            }
+        {
+            tracks.Add(item.spotify_track_id);
+        }
         SpotifyConnectionManager.instance.GetSeveralTracks(tracks.ToArray(), OpenChallengeCallBack);
     }
 
     public void OpenChallengeCallBack(object[] _value){
         SeveralTrackRoot severalTrackRoot = (SeveralTrackRoot)_value[1];
-      
         
         NewScreenManager.instance.GetCurrentView().GetComponent<PF_SurfViewModel>().Initialize();
         try
         {
             NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().Challenge = true;
+            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().challenge_id = challenges.id;
             NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().SetChallengeCallback(gameObject.GetComponent<ChallengeAppObject>());
             NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(severalTrackRoot.tracks);
             ButtonInteractable(true);
@@ -80,8 +91,6 @@ public class ChallengeAppObject : AppObject
         {
             ButtonInteractable(true);
         }
-
-
     }
 
 
@@ -99,7 +108,7 @@ public class ChallengeAppObject : AppObject
             PointsPosted = true;
 
             if(AppManager.instance.isLogInMode){
-                MwsiveConnectionManager.instance.PostChallengeComplete(challenges.id, Callback_PostChallengeComplete);
+                MwsiveConnectionManager.instance.PostChallengeComplete(challenges.id, registered_challenge_id, Callback_PostChallengeComplete);
 
             }else{
                 CallPopUP(PopUpViewModelTypes.OptionChoice, "Neceseitas permiso", "Necesitas crear una cuenta de Mwsive para poder ganar los disks que obtuviste, presiona Crear Cuenta para hacer una.", "Crear Cuenta");
@@ -121,7 +130,7 @@ public class ChallengeAppObject : AppObject
     private void Callback_NoLogIn_PostChallengeComplete(object[] value)
     {
         AppManager.instance.StartAppProcessFromOutside();
-        MwsiveConnectionManager.instance.PostChallengeComplete(challenges.id, Callback_PostChallengeComplete);
+        MwsiveConnectionManager.instance.PostChallengeComplete(challenges.id, registered_challenge_id, Callback_PostChallengeComplete);
     }
 
     private void Callback_PostChallengeComplete(object[] value){

@@ -375,7 +375,6 @@ public class SurfManager : Manager
             UIMessage.instance.UIMessageInstanciate("Error, no se ha agregado a playlist");
         }
 
-        Debug.Log("SideScrollSucess");
         HasSwipeEnded = true;
 
 
@@ -418,7 +417,15 @@ public class SurfManager : Manager
 
             if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
             {
-                MwsiveConnectionManager.instance.PostTrackAction(_trackid, "DOWN", ResetTimer());
+                if (NewScreenManager.instance.TryGetComponent<PF_SurfManager>(out PF_SurfManager pF_SurfManager))
+                {
+                    int challenge_id = pF_SurfManager.Challenge ? pF_SurfManager.challenge_id : -1;
+                    MwsiveConnectionManager.instance.PostTrackAction(_trackid, "DOWN", ResetTimer(), null, challenge_id);
+                }
+                else
+                {
+                    MwsiveConnectionManager.instance.PostTrackAction(_trackid, "DOWN", ResetTimer(), null, -1);
+                }
             }
             CurrentPosition--;
 
@@ -433,7 +440,6 @@ public class SurfManager : Manager
         {
             ResetValue();
         }
-        Debug.Log("DownScrollSuccess");
         HasSwipeEnded = true;
     }
 
@@ -469,7 +475,15 @@ public class SurfManager : Manager
 
             if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
             {
-                MwsiveConnectionManager.instance.PostTrackAction(GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID, "UP", ResetTimer());
+                if (NewScreenManager.instance.TryGetComponent<PF_SurfManager>(out PF_SurfManager pF_SurfManager))
+                {
+                    int challenge_id = pF_SurfManager.Challenge ? pF_SurfManager.challenge_id : -1;
+                    MwsiveConnectionManager.instance.PostTrackAction(GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID, "UP", ResetTimer(), null, challenge_id);
+                }
+                else
+                {
+                    MwsiveConnectionManager.instance.PostTrackAction(GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID, "UP", ResetTimer(), null, -1);
+                }
             }
 
             if (AddSong.activeSelf)
@@ -494,13 +508,11 @@ public class SurfManager : Manager
             }
         }
         HasSwipeEnded = true;
-        Debug.Log("UpScrollSuccess");
     }
 
     public void AddSongAnimations(bool button = false)
     {
         DOTween.Kill(AddSong);
-        Debug.Log("asdf");
         if (button)
         {
             AddSong.GetComponent<CanvasGroup>().alpha = 1;
@@ -566,7 +578,6 @@ public class SurfManager : Manager
     }
     public void ResetValue()
     {
-        Debug.Log("ResetValue");
         if (!Success)
         {
             ///DOTween.KillAll(false, new object[] { 0, 1 });

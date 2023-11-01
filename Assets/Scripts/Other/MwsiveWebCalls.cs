@@ -390,7 +390,7 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_PostTrackAction(string _token, string _track_id, string _action, float _duration, string _playlist_id, MwsiveWebCallback _callback)
+    public static IEnumerator CR_PostTrackAction(string _token, string _track_id, string _action, float _duration, string _playlist_id, int _challenge_id, MwsiveWebCallback _callback)
     {
         string jsonResult = "";
 
@@ -402,8 +402,11 @@ public class MwsiveWebCalls : MonoBehaviour
             track_id = _track_id,
             action = _action,
             duration = _duration,
-            playlist_id = _playlist_id
+            playlist_id = _playlist_id,
         };
+
+        newAction.challenge_id = _challenge_id >= 0 ? _challenge_id : null;
+
         string jsonRaw = JsonConvert.SerializeObject(newAction);
 
         DebugLogManager.instance.DebugLog("Body request for creating a playlist is:" + jsonRaw);
@@ -1374,7 +1377,63 @@ public class MwsiveWebCalls : MonoBehaviour
         }
     }
 
-    public static IEnumerator CR_PostChallengeComplete(string _token, int _challenge_id, MwsiveWebCallback _callback)
+    public static IEnumerator CR_PostChallengeStarted(string _token, int _challenge_id, MwsiveWebCallback _callback)
+    {
+        string jsonResult = "";
+
+        //string url = "https://mwsive.com/api/me/challenges/started";
+        string url = "http://192.241.129.184/api/me/challenges/started";
+
+        ChallengeCompleteRoot challengeCompleteRoot = new ChallengeCompleteRoot
+        {
+            challenge_id = _challenge_id
+        };
+
+        string jsonRaw = JsonConvert.SerializeObject(challengeCompleteRoot);
+
+        DebugLogManager.instance.DebugLog("Body request for creating a playlist is:" + jsonRaw);
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonRaw, "application/json"))
+        {
+            webRequest.SetRequestHeader("Accept", "application/json");
+            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
+            {
+                //Catch response code for multiple requests to the server in a short timespan.
+
+                if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
+                {
+                    //TODO Response when unauthorized
+                }
+
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
+                yield break;
+            }
+            else
+            {
+                while (!webRequest.isDone) { yield return null; }
+
+                if (webRequest.isDone)
+                {
+                    jsonResult = webRequest.downloadHandler.text;
+                    DebugLogManager.instance.DebugLog("Post challenge started " + jsonResult);
+                    JsonSerializerSettings settings = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
+                    MwsiveStartedChallengeRoot mwsiveStartedChallengeRoot = JsonConvert.DeserializeObject<MwsiveStartedChallengeRoot>(jsonResult, settings);
+                    _callback(new object[] { webRequest.responseCode, mwsiveStartedChallengeRoot });
+                    yield break;
+                }
+            }
+
+            DebugLogManager.instance.DebugLog("Failed on post challenge started " + jsonResult);
+            yield break;
+        }
+    }
+
+
+    public static IEnumerator CR_PostChallengeComplete(string _token, int _challenge_id, int _registered_challenge_id, MwsiveWebCallback _callback)
     {
         string jsonResult = "";
 
@@ -1383,7 +1442,8 @@ public class MwsiveWebCalls : MonoBehaviour
 
         ChallengeCompleteRoot challengeCompleteRoot = new ChallengeCompleteRoot
         {
-            challenge_id = _challenge_id
+            challenge_id = _challenge_id,
+            registered_challenge_id = _registered_challenge_id
         };
 
         string jsonRaw = JsonConvert.SerializeObject(challengeCompleteRoot);
