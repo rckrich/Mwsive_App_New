@@ -39,16 +39,9 @@ public class MwsiveControllerButtons : MonoBehaviour
                 UIMessage.instance.UIMessageInstanciate("Debes inciar sesión para poder realizar esta acción");
                 return;
             }
-            /*try
-            {
-                SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().SideScrollSuccess(true);
-            }
-            catch (System.NullReferenceException)
-            {
-                SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().SideScrollSuccess(true);
-            }*/
 
-            GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().AddToPlaylistButton(GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().trackID, GetTime());
+            
+            GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().AddToPlaylistButton(GetPrefabFromSurf().GetComponent<ButtonSurfPlaylist>().trackID, GetTime(), false, gameObject);
         }
         else
         {

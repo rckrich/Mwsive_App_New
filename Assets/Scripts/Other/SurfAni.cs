@@ -61,7 +61,24 @@ public class SurfAni : MonoBehaviour
         SurfSide[1] = gameObject.transform.DORotate(new Vector3(0f, 0f, maxRotation * var), SurfTransitionDuration).Pause();
         SurfSide[2] = gameObject.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration).Pause();
         SurfSide[0].OnComplete(() => {
-        if (isItFinished)
+
+
+
+            try
+            {
+                SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().MwsiveControllerButtons.SetActive(true);
+                SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().Controller.enabled = true;
+            
+            }
+            catch (System.NullReferenceException)
+            {
+                SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().MwsiveControllerButtons.SetActive(true);
+                SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().Controller.enabled = true;
+            }
+
+
+
+            if (isItFinished)
         {
           isAvailable = true; gameObject.transform.position = RestPositionUp;
         }
@@ -143,6 +160,20 @@ public class SurfAni : MonoBehaviour
         VerticalUp[2] = gameObject.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration).Pause();
 
         VerticalUp[0].OnComplete(() => {
+
+            try
+            {
+                SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().MwsiveControllerButtons.SetActive(true);
+                SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().Controller.enabled = true;
+            }
+            catch (System.NullReferenceException)
+            {
+                SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().MwsiveControllerButtons.SetActive(true);
+                SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().Controller.enabled = true;
+            }
+            
+
+
             if (isItFinished)
             {
                 isAvailable = true;
@@ -159,7 +190,21 @@ public class SurfAni : MonoBehaviour
         VerticalDown1 = new Tweener[2];
         VerticalDown1[0] = gameObject.transform.DORotate(new Vector3(0f, 0f, maxRotation * var), SurfTransitionDuration).Pause();
         VerticalDown1[1] = gameObject.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration).Pause();
+        VerticalDown1[0].OnComplete(() => {
 
+            try
+            {
+                SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().MwsiveControllerButtons.SetActive(true);
+                SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().Controller.enabled = true;
+            }
+            catch (System.NullReferenceException)
+            {
+                SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().MwsiveControllerButtons.SetActive(true);
+                SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().Controller.enabled = true;
+            }
+
+        });
+    
     }
 
     private void SetUp_SurfVerticalDown2()

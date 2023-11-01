@@ -237,7 +237,7 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void ClearData()
     {
-        
+        Debug.Log("asdf");
         if (imageCoroutine != null)
         {
             ImageManager.instance.StopCustomCoroutine(imageCoroutine);
@@ -425,7 +425,7 @@ public class ButtonSurfPlaylist : ViewModel
     }
 
 
-    public void AddToPlaylistButton(string _trackid, float _time, bool isPFSurf = false)
+    public void AddToPlaylistButton(string _trackid, float _time, bool isPFSurf = false, GameObject origin = null)
     {
         if (!isRecommended)
         {
@@ -435,10 +435,19 @@ public class ButtonSurfPlaylist : ViewModel
             time = _time;*/
             try
             {
+                if (origin != null)
+                {
+                    origin.SetActive(false);
+                }
+
                 SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().SideScrollSuccess(true);
             }
             catch (System.NullReferenceException)
             {
+                if (origin != null)
+                {
+                    origin.SetActive(false);
+                }
                 SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().SideScrollSuccess(true);
             }
 
