@@ -25,7 +25,7 @@ public class SurfManager : Manager
 
     public SwipeListener swipeListener;
     public ScrollRect Controller;
-    public GameObject Prefab, MainCanvas, AddSong, OlaButton, MwsiveOla, MwsiveContainer;
+    public GameObject Prefab, MainCanvas, AddSong, OlaButton, MwsiveOla, MwsiveContainer, MwsiveControllerButtons;
     public List<MwsiveData> MwsiveSongsData = new List<MwsiveData>();
     public List<GameObject> ActiveMwsiveSongs = new List<GameObject>();
     public GameObject[] RestPositions;
@@ -135,17 +135,21 @@ public class SurfManager : Manager
     private void OnSwipe(string swipe)
     {
         if (!canSwipe)
+        {
             return;
+        }
 
+        
         switch (swipe)
         {
+            
             case "Right":
                 if (Controller.horizontal)
                 {
                     Controller.vertical = false;
                     Controller.horizontal = false;
                     HasSwipeEnded = false;
-
+                    MwsiveControllerButtons.SetActive(false);
                     SideScrollSuccess();
                 }
 
@@ -157,6 +161,7 @@ public class SurfManager : Manager
                     Controller.vertical = false;
                     Controller.horizontal = false;
                     HasSwipeEnded = false;
+                    MwsiveControllerButtons.SetActive(false);
                     UpScrollSuccess();
                 }
 
@@ -167,6 +172,7 @@ public class SurfManager : Manager
                     Controller.vertical = false;
                     Controller.horizontal = false;
                     HasSwipeEnded = false;
+                    MwsiveControllerButtons.SetActive(false);
                     DownScrollSuccess();
                 }
 
@@ -176,20 +182,23 @@ public class SurfManager : Manager
 
     public void ValChange()
     {
-
+        
         if (Controller.transform.position.x > ControllerPostion.x * 1.02f)
         {
             Controller.vertical = false;
+            MwsiveControllerButtons.SetActive(false);
             SideScrollAnimation();
         }
         if (Controller.transform.position.y > ControllerPostion.y * 1.02f)
         {
             Controller.horizontal = false;
+            MwsiveControllerButtons.SetActive(false);
             UpScrollAnimation();
         }
         if (Controller.transform.position.y < ControllerPostion.y * .98)
         {
             Controller.horizontal = false;
+            MwsiveControllerButtons.SetActive(false);
             DownScrollAnimation();
         }
 
@@ -286,6 +295,7 @@ public class SurfManager : Manager
                 if (CurrentPosition < MwsiveSongsData.Count - 1)
                 {
                     HasSwipeEnded = false;
+                    MwsiveControllerButtons.SetActive(false);
                     SideScrollSuccess();
                 }
 
@@ -295,6 +305,7 @@ public class SurfManager : Manager
             else if (ActiveMwsiveSongs[1].transform.position.y >= ControllerPostion.y * SurfSuccessSensitivity)
             {
                 HasSwipeEnded = false;
+                MwsiveControllerButtons.SetActive(false);
                 UpScrollSuccess();
                 break;
 
@@ -302,6 +313,7 @@ public class SurfManager : Manager
             else if (ActiveMwsiveSongs[1].transform.position.y <= ControllerPostion.y / SurfSuccessSensitivity)
             {
                 HasSwipeEnded = false;
+                MwsiveControllerButtons.SetActive(false);
                 DownScrollSuccess();
                 break;
 
@@ -597,7 +609,7 @@ public class SurfManager : Manager
         Controller.horizontal = true;
         Controller.vertical = true;
         HasSwipeEnded = true;
-
+        MwsiveControllerButtons.SetActive(true);
         Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
 
         AddSong.GetComponent<SurfAni>().Play_SurfAddsongReset();

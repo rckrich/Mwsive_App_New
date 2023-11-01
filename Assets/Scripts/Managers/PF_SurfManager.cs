@@ -12,7 +12,7 @@ public class PF_SurfManager : Manager
 
     public SwipeListener swipeListener;
     public ScrollRect Controller;
-    public GameObject Prefab, AddSong, OlaButton, MwsiveOla, MwsiveContainer;
+    public GameObject Prefab, AddSong, OlaButton, MwsiveOla, MwsiveContainer, MwsiveControllerButtons;
     public GameObject[] RestPositions;
     public GameObject loadingCard;
 
@@ -134,8 +134,11 @@ public class PF_SurfManager : Manager
     private void OnSwipe(string swipe)
     {
         if (!canSwipe || !HasSwipeEnded)
+        {
             return;
-
+        }
+            
+        MwsiveControllerButtons.SetActive(false);
         switch (swipe)
         {
             case "Right":
@@ -180,16 +183,19 @@ public class PF_SurfManager : Manager
         {
             Controller.vertical = false;
             SideScrollAnimation();
+            MwsiveControllerButtons.SetActive(false);
         }
         if (Controller.transform.position.y > ControllerPostion.y * 1.02)
         {
             Controller.horizontal = false;
             UpScrollAnimation();
+            MwsiveControllerButtons.SetActive(false);
         }
         if (Controller.transform.position.y < ControllerPostion.y * .98)
         {
             Controller.horizontal = false;
             DownScrollAnimation();
+            MwsiveControllerButtons.SetActive(false);
         }
 
 
@@ -280,13 +286,14 @@ public class PF_SurfManager : Manager
 
     public void OnEndDrag()
     {
+
         while (HasSwipeEnded && HasSideScrollEnded && ResetEndDrag)
         {
             if (ActiveMwsiveSongs[1].transform.position.x >= ControllerPostion.x * SurfSuccessSensitivity)
             {
                 HasSwipeEnded = false;
                 SideScrollSuccess();
-
+                MwsiveControllerButtons.SetActive(false);
                 break;
 
             }
@@ -294,6 +301,7 @@ public class PF_SurfManager : Manager
             {
                 HasSwipeEnded = false;
                 UpScrollSuccess();
+                MwsiveControllerButtons.SetActive(false);
                 break;
 
             }
@@ -301,6 +309,7 @@ public class PF_SurfManager : Manager
             {
                 HasSwipeEnded = false;
                 DownScrollSuccess();
+                MwsiveControllerButtons.SetActive(false);
                 break;
 
             }
@@ -610,7 +619,7 @@ public class PF_SurfManager : Manager
         Controller.horizontal = true;
         Controller.vertical = true;
         HasSwipeEnded = true;
-
+        MwsiveControllerButtons.SetActive(true);
         Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
 
         AddSong.GetComponent<SurfAni>().Play_SurfAddsongReset();
