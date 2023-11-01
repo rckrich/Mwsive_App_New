@@ -134,7 +134,7 @@ public class SurfManager : Manager
 
     private void OnSwipe(string swipe)
     {
-        if (!canSwipe)
+        if (!canSwipe || !Controller.enabled)
         {
             return;
         }
@@ -327,13 +327,14 @@ public class SurfManager : Manager
                 break;
             }
         }
-        Controller.enabled = true;
+        
 
 
     }
 
     public void SideScrollSuccess(bool button = false)
     {
+        
         ResetEndDrag = false;
         Controller.enabled = false;
         Controller.horizontal = true;

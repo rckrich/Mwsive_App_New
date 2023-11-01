@@ -133,7 +133,7 @@ public class PF_SurfManager : Manager
 
     private void OnSwipe(string swipe)
     {
-        if (!canSwipe || !HasSwipeEnded)
+        if (!canSwipe || !HasSwipeEnded || !Controller.enabled)
         {
             return;
         }
@@ -321,7 +321,7 @@ public class PF_SurfManager : Manager
                 break;
             }
         }
-        Controller.enabled = true;
+        
 
 
     }

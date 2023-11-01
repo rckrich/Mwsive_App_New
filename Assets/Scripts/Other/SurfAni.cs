@@ -62,13 +62,18 @@ public class SurfAni : MonoBehaviour
         SurfSide[2] = gameObject.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration).Pause();
         SurfSide[0].OnComplete(() => {
 
+
+
             try
             {
                 SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().MwsiveControllerButtons.SetActive(true);
+                SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().Controller.enabled = true;
+            
             }
             catch (System.NullReferenceException)
             {
                 SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().MwsiveControllerButtons.SetActive(true);
+                SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().Controller.enabled = true;
             }
 
 
@@ -159,10 +164,12 @@ public class SurfAni : MonoBehaviour
             try
             {
                 SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().MwsiveControllerButtons.SetActive(true);
+                SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().Controller.enabled = true;
             }
             catch (System.NullReferenceException)
             {
                 SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().MwsiveControllerButtons.SetActive(true);
+                SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().Controller.enabled = true;
             }
             
 
@@ -188,10 +195,12 @@ public class SurfAni : MonoBehaviour
             try
             {
                 SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().MwsiveControllerButtons.SetActive(true);
+                SurfController.instance.ReturnCurrentView().GetComponent<SurfManager>().Controller.enabled = true;
             }
             catch (System.NullReferenceException)
             {
                 SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().MwsiveControllerButtons.SetActive(true);
+                SurfController.instance.ReturnCurrentView().GetComponent<PF_SurfManager>().Controller.enabled = true;
             }
 
         });
