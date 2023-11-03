@@ -25,7 +25,7 @@ public class SurfManager : Manager
 
     public SwipeListener swipeListener;
     public ScrollRect Controller;
-    public GameObject Prefab, MainCanvas, AddSong, OlaButton, MwsiveOla, MwsiveContainer, MwsiveControllerButtons;
+    public GameObject Prefab, MainCanvas, AddSong, OlaButton, MwsiveOla, MwsiveContainer, MwsiveControllerButtons, SurfShimmer;
     public List<MwsiveData> MwsiveSongsData = new List<MwsiveData>();
     public List<GameObject> ActiveMwsiveSongs = new List<GameObject>();
     public GameObject[] RestPositions;
@@ -52,6 +52,8 @@ public class SurfManager : Manager
     private bool HasSwipeEnded = true;
     private bool Success = false;
     private bool ResetEndDrag = true;
+
+    private bool WaitingForSongs = false;
 
     private void Start()
     {
@@ -98,7 +100,11 @@ public class SurfManager : Manager
 
     private void OnDestroy()
     {
-        SurfController.instance.DeleteFromList(gameObject);
+        if(gameObject != null)
+        {
+            SurfController.instance.DeleteFromList(gameObject);
+        }
+        
     }
 
     private void OnDisable()
@@ -183,19 +189,19 @@ public class SurfManager : Manager
     public void ValChange()
     {
         
-        if (Controller.transform.position.x > ControllerPostion.x * 1.02f)
+        if (Controller.transform.position.x > ControllerPostion.x * 1.10f)
         {
             Controller.vertical = false;
             MwsiveControllerButtons.SetActive(false);
             SideScrollAnimation();
         }
-        if (Controller.transform.position.y > ControllerPostion.y * 1.02f)
+        if (Controller.transform.position.y > ControllerPostion.y * 1.10f)
         {
             Controller.horizontal = false;
             MwsiveControllerButtons.SetActive(false);
             UpScrollAnimation();
         }
-        if (Controller.transform.position.y < ControllerPostion.y * .98)
+        if (Controller.transform.position.y < ControllerPostion.y * .9f)
         {
             Controller.horizontal = false;
             MwsiveControllerButtons.SetActive(false);
@@ -340,7 +346,7 @@ public class SurfManager : Manager
         Controller.horizontal = true;
         Controller.vertical = true;
         Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
-        if (CurrentPosition < MwsiveSongsData.Count - 1)
+        if (CurrentPosition < MwsiveSongsData.Count - 1 && !WaitingForSongs)
         {
             SpotifyPreviewAudioManager.instance.StopTrack();
 
@@ -375,11 +381,11 @@ public class SurfManager : Manager
             ResetValue();
         }
 
-        if (CurrentPosition >= MwsiveSongsData.Count - 8)
+        if (SpawnPosition >= MwsiveSongsData.Count - 8)
         {
             if (CanGetRecomendations)
             {
-                SpawnRecommendations();
+               SpawnRecommendations();
             }
         }
 
@@ -389,7 +395,7 @@ public class SurfManager : Manager
         }
 
         HasSwipeEnded = true;
-
+        Controller.enabled = true;
 
     }
     private void DownScrollSuccess()
@@ -448,12 +454,19 @@ public class SurfManager : Manager
             ActiveMwsiveSongs[2].GetComponent<ButtonSurfPlaylist>().CheckIfDurationBarCanPlay();
             ActiveMwsiveSongs[3].GetComponent<ButtonSurfPlaylist>().CheckIfDurationBarCanPlay();
             SurfManagerLogicPreviousSong();
+
+            if (WaitingForSongs)
+            {
+                SurfShimmer.SetActive(false);
+                WaitingForSongs = false;
+            }
         }
         else
         {
             ResetValue();
         }
         HasSwipeEnded = true;
+        Controller.enabled = true;
     }
 
     private void UpScrollSuccess()
@@ -463,7 +476,7 @@ public class SurfManager : Manager
         Controller.horizontal = true;
         Controller.vertical = true;
         Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
-        if (CurrentPosition < MwsiveSongsData.Count - 1)
+        if (CurrentPosition < MwsiveSongsData.Count - 1 && !WaitingForSongs)
         {
             SpotifyPreviewAudioManager.instance.StopTrack();
             Success = true;
@@ -507,13 +520,13 @@ public class SurfManager : Manager
             CurrentPosition++;
             SpawnPosition++;
             SurfManagerLogic();
-
+            
         }
         else
         {
             ResetValue();
         }
-        if (CurrentPosition >= MwsiveSongsData.Count - 8)
+        if (SpawnPosition >= MwsiveSongsData.Count - 8)
         {
             if (CanGetRecomendations)
             {
@@ -521,6 +534,7 @@ public class SurfManager : Manager
             }
         }
         HasSwipeEnded = true;
+        Controller.enabled = true;
     }
 
     public void AddSongAnimations(bool button = false)
@@ -609,6 +623,7 @@ public class SurfManager : Manager
     {
         Controller.horizontal = true;
         Controller.vertical = true;
+        Controller.enabled = true;
         HasSwipeEnded = true;
         MwsiveControllerButtons.SetActive(true);
         Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
@@ -720,6 +735,13 @@ public class SurfManager : Manager
             }
 
         }
+
+        if (WaitingForSongs)
+        {
+            SurfShimmer.SetActive(false);
+            WaitingForSongs = false;
+        }
+
 
         if (FirsTimeSurf)
         {
@@ -1081,18 +1103,32 @@ public class SurfManager : Manager
     private void SurfManagerLogic(bool _firstTime = false)
     {
 
+
+
         if (!_firstTime)
         {
 
             GameObject instance = SpawnPrefab();
             GetMwsiveInfo();
-            
+            SpotifyPreviewAudioManager.instance.StopTrack();
+            if (SpawnPosition < MwsiveSongsData.Count - 1)
+            {
 
                 instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[SpawnPosition]);
+                GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+
+            }
+            else
+            {
+                SurfShimmer.SetActive(true);
+                WaitingForSongs = true;
+                SpawnRecommendations();
+            }
+            
 
             
            
-            GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+            
         }
         else
         {

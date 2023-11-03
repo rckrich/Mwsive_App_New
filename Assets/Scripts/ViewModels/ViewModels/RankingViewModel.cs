@@ -70,7 +70,7 @@ public class RankingViewModel : ScrollViewModel
         MwsiveUserRoot mwsiveUserRoot = (MwsiveUserRoot)_value[1];
         if(mwsiveUserRoot.user.latest_ranking != null)
         {
-            userlastestRank.text = mwsiveUserRoot.user.latest_ranking.id.ToString();
+            userlastestRank.text = mwsiveUserRoot.user.latest_ranking.position.ToString();
             RankingTextContainer.SetActive(false);
             
         }
@@ -207,7 +207,7 @@ public class RankingViewModel : ScrollViewModel
                 }
                 else
                 {
-                    UIMessage.instance.UIMessageInstanciate("Este perfil no está disponible");
+                    UIMessage.instance.UIMessageInstanciate("Este perfil no est? disponible");
                 }          
                 break;
             case 2:
@@ -218,7 +218,7 @@ public class RankingViewModel : ScrollViewModel
                 }
                 else
                 {
-                    UIMessage.instance.UIMessageInstanciate("Este perfil no está disponible");
+                    UIMessage.instance.UIMessageInstanciate("Este perfil no est? disponible");
                 }
                 break;
             case 3:
@@ -229,7 +229,7 @@ public class RankingViewModel : ScrollViewModel
                 }
                 else
                 {
-                    UIMessage.instance.UIMessageInstanciate("Este perfil no está disponible");
+                    UIMessage.instance.UIMessageInstanciate("Este perfil no est? disponible");
                 }
                 break;
         }

@@ -237,7 +237,7 @@ public class ButtonSurfPlaylist : ViewModel
 
     public void ClearData()
     {
-        Debug.Log("asdf");
+        
         if (imageCoroutine != null)
         {
             ImageManager.instance.StopCustomCoroutine(imageCoroutine);
@@ -315,6 +315,12 @@ public class ButtonSurfPlaylist : ViewModel
                 durationBar.CheckforPoints = false;
             }
 
+        }
+
+        if(playCoroutine != null)
+        {
+            SpotifyPreviewAudioManager.instance.StopCustomCoroutine(playCoroutine);
+            playCoroutine = null;
         }
 
         playCoroutine = SpotifyPreviewAudioManager.instance.GetTrack(previewURL, Callback_GetTrack);

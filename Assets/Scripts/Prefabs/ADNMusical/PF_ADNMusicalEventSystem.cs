@@ -31,6 +31,7 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
     private bool EraseButtonNever = false;
     public int PositionNum = 0;
 
+    private IEnumerator SpotifySearch;
 
     
 
@@ -67,20 +68,34 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
     public void Search(){
         
         SearchText = searchbar.text;
-        
-            if(SearchText.Length >= 1){
-                ClearSearch.SetActive(true);
-                PlaceHolder.SetActive(false);
-                CheckForSpawnHasEnded = true;
-                
-                DynamicScroll.transform.DOScaleY(1, 0.5F);
-                if (Instances.Count !=0){
-                    KillPrefablist();       
-                }
-
-                SearchItem();
-                
+        if(SearchText.Length == 0)
+        {
+            
+            ClearSearch.SetActive(false);
+            if (Instances.Count != 0)
+            {
+                KillPrefablist();
             }
+        }
+
+        if(SearchText.Length >= 1){
+            ClearSearch.SetActive(true);
+            PlaceHolder.SetActive(false);
+            CheckForSpawnHasEnded = true;
+                
+            DynamicScroll.transform.DOScaleY(1, 0.5F);
+            if (Instances.Count !=0){
+                KillPrefablist();       
+            }
+
+            if(SpotifySearch != null)
+            {
+            SpotifyConnectionManager.instance.StopCustomCoroutine(SpotifySearch);
+            }
+
+            SearchItem();
+                
+        }
         
     }
     private void SearchItem(){
@@ -89,11 +104,11 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
         {
             case 0:
                 types = new string[] {"artist"};
-                SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_SearchForItem, "ES", MaxNumerofPrefabsInstanciate);
+                SpotifySearch = SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_SearchForItem, "ES", MaxNumerofPrefabsInstanciate);
                 break;
             case 1:
                 types = new string[] {"track"};
-                SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_SearchForItem, "ES", MaxNumerofPrefabsInstanciate);
+                SpotifySearch = SpotifyConnectionManager.instance.SearchForItem(SearchText, types, Callback_OnCLick_SearchForItem, "ES", MaxNumerofPrefabsInstanciate);
                 break;
         }
         PositionInSearch = MaxNumerofPrefabsInstanciate;
@@ -249,7 +264,7 @@ public class PF_ADNMusicalEventSystem : MonoBehaviour
         }
 
 
-        
+        SpotifySearch = null;
     }
 
     private void Callback_OnCLick_CheckForSpawn(object[] _value)

@@ -537,9 +537,10 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_SurfButton()
     {
-        MwsiveConnectionManager.instance.GetMwsiveUser(profileId, Callback_GetDNASeveralTracks);
         NewScreenManager.instance.ChangeToSpawnedView("surf");
         NewScreenManager.instance.GetCurrentView().GetComponent<PF_SurfViewModel>().Initialize();
+        MwsiveConnectionManager.instance.GetMwsiveUser(profileId, Callback_GetDNASeveralTracks);
+        
     }
 
     public void Callback_GetDNASeveralTracks(object[] _value)

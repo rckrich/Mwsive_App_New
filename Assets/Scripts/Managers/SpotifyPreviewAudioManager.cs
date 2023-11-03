@@ -40,6 +40,7 @@ public class SpotifyPreviewAudioManager : Manager
         else
         {
             StopCoroutine("CR_GetAudioClip");
+            audioSource.clip = null;
             IEnumerator coroutine = CR_GetAudioClip(_audioURL, _callback);
             StartCoroutine(coroutine);
             return coroutine;
@@ -104,7 +105,7 @@ public class SpotifyPreviewAudioManager : Manager
     private IEnumerator CR_GetAudioClip(string _audioURL, SpotifyAudioDownloaderCallback _callback = null)
     {
         DebugLogManager.instance.DebugLog("Starting to download the audio... " + _audioURL);
-
+        
         using (UnityWebRequest webRequest = UnityWebRequestMultimedia.GetAudioClip(
             _audioURL,
             AudioType.MPEG

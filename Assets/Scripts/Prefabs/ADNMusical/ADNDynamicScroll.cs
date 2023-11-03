@@ -148,7 +148,7 @@ public class ADNDynamicScroll : MonoBehaviour
                 TypeString = "GOATS";
                 
                 if(Editable){
-                    Subtitle.text = "Escribe tus artista favorito";
+                    Subtitle.text = "Escribe tu artista favorito";
                     PlaceHolderText = "Buscar Artista";
                 }else{
                     Subtitle.text = "";

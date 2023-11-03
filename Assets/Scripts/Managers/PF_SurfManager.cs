@@ -394,7 +394,7 @@ public class PF_SurfManager : Manager
             UIMessage.instance.UIMessageInstanciate("Error, no se ha agregado a playlist");
         }
 
-        
+        Controller.enabled = true;
         HasSwipeEnded = true;
     }
     private void DownScrollSuccess()
@@ -466,8 +466,8 @@ public class PF_SurfManager : Manager
         }
 
         HasSwipeEnded = true;
+        Controller.enabled = true;
 
-        
 
     }
     private void UpScrollSuccess()
@@ -542,7 +542,7 @@ public class PF_SurfManager : Manager
                 SurfProfileADN();
             }
         }
-        
+        Controller.enabled = true;
         HasSwipeEnded = true;
     }
 
@@ -618,6 +618,7 @@ public class PF_SurfManager : Manager
 
         Controller.horizontal = true;
         Controller.vertical = true;
+        Controller.enabled = true;
         HasSwipeEnded = true;
         MwsiveControllerButtons.SetActive(true);
         Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
@@ -1215,7 +1216,11 @@ public class PF_SurfManager : Manager
     private void SurfManagerLogicInitialize()
     {
         swipeListener.OnSwipe.AddListener(OnSwipe);
-        Controller.gameObject.SetActive(true);
+        if(Controller.gameObject != null)
+        {
+            Controller.gameObject.SetActive(true);
+        }
+        
         PrefabPosition = 0;
         if (HasFirstPlaylistPlayed)
         {
@@ -1292,12 +1297,13 @@ public class PF_SurfManager : Manager
 
         if (!_firstTime)
         {
+
             if (CurrentPosition == MwsiveSongsData.Count - 1 && !lastSongMessage)
             {
                 UIMessage.instance.UIMessageInstanciate("Llegaste a la última canción");
                 lastSongMessage = true;
             }
-
+            SpotifyPreviewAudioManager.instance.StopTrack();
             GameObject instance = SpawnPrefab();
             GetMwsiveInfo();
             if (SpawnPosition < MwsiveSongsData.Count - 1 && SpawnPosition > 3)
@@ -1313,6 +1319,7 @@ public class PF_SurfManager : Manager
                 instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[SpawnPosition]);
 
             }
+            
             GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
         }
         else
