@@ -38,8 +38,8 @@ public class NoLogInConnectionManager : MonoBehaviour
         }
     }
 
-    private const string CLIENT_ID = "436c4d7d7bba46669876b992f986df8b";
-    private const string CLIENT_SECRET = "b066c7da689c4a759c468ccb9d1ecb43";
+    private const string CLIENT_ID = "bce336bfe91449e9b495f64be9817db7";
+    private const string CLIENT_SECRET = "6480b17d47044cb88fb6d0140bc046b1";
     private const string CLIENT_CREDENTIALS_URL = "https://accounts.spotify.com/api/token";
 
     private string noLogInAccesToken = "";

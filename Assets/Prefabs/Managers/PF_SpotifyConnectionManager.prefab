@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6861881443087573193}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6861881444575408278}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6861881443087573188
 MonoBehaviour:
@@ -50,7 +50,7 @@ MonoBehaviour:
   responseType: code
   grantType: authorization_code
   refreshTokenGrantType: refresh_token
-  clientId: f341903aedd041dcb51e9a9a0a4464aa
+  clientId: bce336bfe91449e9b495f64be9817db7
   redirectUri: mwsive://callback/
   scope: app-remote-control playlist-modify-private playlist-modify-public playlist-read-collaborative
     playlist-read-private streaming ugc-image-upload user-follow-modify user-follow-read
@@ -158,6 +158,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6861881444575408281}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -165,7 +166,6 @@ Transform:
   m_Children:
   - {fileID: 6861881443087573190}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6861881444575408279
 MonoBehaviour:
@@ -179,4 +179,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08805463e337f48c6bf1ae2f7fb53707, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  networkLoadingCanvas: {fileID: 0}
   oAuthHandler: {fileID: 6861881443087573191}
