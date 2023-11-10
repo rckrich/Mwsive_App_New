@@ -6,7 +6,7 @@ using UnityEngine;
 public class GenreViewModel : ViewModel
 {
     [Header("Instance Referecnes")]
-    public GameObject trackHolderPrefab, surfButton;
+    public GameObject trackHolderPrefab;
     public Transform instanceParent;
     public string artists;
     public TextMeshProUGUI nameTXT;
