@@ -749,7 +749,7 @@ public class ProfileViewModel : ViewModel
 
     public void OnClick_NoBadges()
     {
-        CallPopUP(PopUpViewModelTypes.MessageOnly, "<br>Has mas PIKS", "Has más PIK para conseguir Badges", "Cerrar");
+        CallPopUP(PopUpViewModelTypes.MessageOnly, "<br>Has más PIKS", "Has más PIK para conseguir Badges", "Cerrar");
 #if PLATFORM_ANDROID
         PopUpViewModel currentPopUp = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
         AppManager.instance.SetAndroidBackAction(() => {
