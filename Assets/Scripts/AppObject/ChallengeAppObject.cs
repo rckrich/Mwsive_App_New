@@ -95,16 +95,8 @@ public class ChallengeAppObject : AppObject
 
 
     public void CheckForPoints(){
-        List<MwsiveData> _list = NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().GetInstances();
-        float counter = 0;
-        for (int i = 0; i < _list.Count-3; i++)
-        {
-            if(_list[i].challenge_songeded){
-                counter++;
-            }
-        }
-
-        if(counter >= (_list.Count-3)*.9f && !PointsPosted){
+        
+        if(PointsPosted){
             PointsPosted = true;
 
             if(AppManager.instance.isLogInMode){
@@ -125,6 +117,21 @@ public class ChallengeAppObject : AppObject
 
             }
         }
+        else
+        {
+            CallPopUP(PopUpViewModelTypes.OptionChoice, "Desafio Completo", "Ya haz completado este Desafío", "Salir");
+            PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+
+            popUpViewModel.SetPopUpCancelAction(() => {
+
+            });
+
+            popUpViewModel.SetPopUpAction(() => {
+
+                NewScreenManager.instance.BackToPreviousView();
+                NewScreenManager.instance.BackToPreviousView();
+            });
+        }
     }
 
     private void Callback_NoLogIn_PostChallengeComplete(object[] value)
@@ -138,12 +145,35 @@ public class ChallengeAppObject : AppObject
 
         if(mwsiveCompleteChallengesRoot.disks == null)
         {
+            CallPopUP(PopUpViewModelTypes.OptionChoice, "Desafio Completo", "Ya haz completado este Desafío", "Salir");
+            PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
 
-            UIMessage.instance.UIMessageInstanciate("Ya haz completado este Challenge");
+            popUpViewModel.SetPopUpCancelAction(() => {
+                
+            });
+
+            popUpViewModel.SetPopUpAction(() => {
+
+                NewScreenManager.instance.BackToPreviousView();
+                NewScreenManager.instance.BackToPreviousView();
+            });
+            
         }
         else
         {
-            UIMessage.instance.UIMessageInstanciate("Desafio Completado." + "Haz obtenido " + mwsiveCompleteChallengesRoot.disks + " disks.");
+            CallPopUP(PopUpViewModelTypes.OptionChoice, "Desafio Completado", "Haz obtenido " + mwsiveCompleteChallengesRoot.disks + " disks.", "Salir");
+            PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+
+            popUpViewModel.SetPopUpCancelAction(() => {
+
+            });
+
+            popUpViewModel.SetPopUpAction(() => {
+
+                NewScreenManager.instance.BackToPreviousView();
+                NewScreenManager.instance.BackToPreviousView();
+            });
+
         }
         
 

@@ -61,7 +61,7 @@ public class DurationBar : AppObject
                 durationImage.fillAmount = SpotifyPreviewAudioManager.instance.GetAudioSourceTime() / SpotifyPreviewAudioManager.instance.GetAudioClipLenght();
                 if (surf != null)
                 {
-                    if (CheckforPoints && durationImage.fillAmount > .9f && !surf.GetCurrentMwsiveData().challenge_songeded)
+                    if (CheckforPoints && durationImage.fillAmount > .05f && !surf.GetCurrentMwsiveData().challenge_songeded)
                     {
 
                         surf.GetCurrentMwsiveData().challenge_songeded = true;
@@ -70,6 +70,10 @@ public class DurationBar : AppObject
                         Debug.Log("SongEnded");
 
                     }
+
+                    
+                    
+
                 }
 
             }
