@@ -15,7 +15,7 @@ public class PF_SurfManager : Manager
     public GameObject Prefab, AddSong, OlaButton, MwsiveOla, MwsiveContainer, MwsiveControllerButtons;
     public GameObject[] RestPositions;
     public GameObject loadingCard;
-
+    public GameObject surfviewmodel;
     public float MaxRotation = 18f;
     public float SurfSuccessSensitivity = 2.2f;
     public Vector2 LeftRightOffset;
@@ -67,7 +67,7 @@ public class PF_SurfManager : Manager
     private void OnEnable()
     {
         loadingCard.SetActive(true);
-        SurfController.instance.AddToList(gameObject);
+        SurfController.instance.AddToList(surfviewmodel, gameObject);
 
 
 
@@ -101,7 +101,7 @@ public class PF_SurfManager : Manager
 
         try
         {
-            SurfController.instance.DeleteFromList(gameObject);
+            SurfController.instance.DeleteFromList(gameObject, surfviewmodel);
         }
         catch (System.NullReferenceException)
         {

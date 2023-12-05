@@ -29,7 +29,7 @@ public class SurfManager : Manager
     public List<MwsiveData> MwsiveSongsData = new List<MwsiveData>();
     public List<GameObject> ActiveMwsiveSongs = new List<GameObject>();
     public GameObject[] RestPositions;
-
+    public GameObject surfviewmodel;
     public int SpawnPosition;
     public int CurrentPosition = 0;
 
@@ -69,7 +69,7 @@ public class SurfManager : Manager
     private void OnEnable()
     {
 
-        SurfController.instance.AddToList(gameObject, true);
+        SurfController.instance.AddToList(surfviewmodel, gameObject, true);
 
 
         GameObject currentPrefab = GetCurrentPrefab();
@@ -102,7 +102,7 @@ public class SurfManager : Manager
     {
         if(gameObject != null)
         {
-            SurfController.instance.DeleteFromList(gameObject);
+            SurfController.instance.DeleteFromList(gameObject, surfviewmodel);
         }
         
     }

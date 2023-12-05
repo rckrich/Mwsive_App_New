@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PF_SurfViewModel : ViewModel
 {
+    [HideInInspector]
+    public bool canGoBack = true;
+
     public override void Initialize(params object[] list)
     {
 #if PLATFORM_ANDROID
@@ -43,7 +46,8 @@ public class PF_SurfViewModel : ViewModel
             AppManager.instance.SetAndroidBackAction(() => {
                 if (finishedLoading)
                 {
-                    OnClick_BackButton();
+                    if(canGoBack)
+                        OnClick_BackButton();
                 }
             });
         }

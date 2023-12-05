@@ -22,16 +22,19 @@ public class SurfController : MonoBehaviour
     }
 
     public List<GameObject> SurfManagers = new List<GameObject>();
+    public List<GameObject> SurfViewmodels = new List<GameObject>();
     public List<int> SurfManagerIndex = new List<int>();
-    public GameObject Main, CurrentView;
+    public GameObject Main, CurrentView, CurrentSurfViewModel;
+    
     private int position;
 
 
-    public void AddToList(GameObject _SurfManager, bool IsThisMain = false)
+    public void AddToList(GameObject _SurfViewmodel, GameObject _SurfManager, bool IsThisMain = false)
     {
         if (!SurfManagers.Contains(_SurfManager))
         {
             SurfManagers.Add(_SurfManager);
+            SurfViewmodels.Add(_SurfViewmodel);
             if (!IsThisMain)
             {
                 SurfManagerIndex.Add(_SurfManager.GetComponentInParent<PF_SurfViewModel>().gameObject.transform.GetSiblingIndex());
@@ -78,6 +81,20 @@ public class SurfController : MonoBehaviour
 
     }
 
+    public GameObject ReturnCurrentSurfViewModel()
+    {
+        if (CurrentSurfViewModel != null)
+        {
+            return CurrentSurfViewModel;
+        }
+        else
+        {
+            ControlHierarchy();
+            return CurrentSurfViewModel;
+        }
+
+    }
+
     public GameObject ReturnCurrentView()
     {
         
@@ -109,7 +126,7 @@ public class SurfController : MonoBehaviour
                 {
                     Main.SetActive(false);
                 }
-
+                CurrentSurfViewModel = SurfViewmodels[0];
                 CurrentView = Main;
             }
             return;
@@ -130,6 +147,7 @@ public class SurfController : MonoBehaviour
                 SurfManagers[i].SetActive(true);
 
                 CurrentView = SurfManagers[i];
+                CurrentSurfViewModel = SurfViewmodels[i];
             }
             else
             {
@@ -144,13 +162,14 @@ public class SurfController : MonoBehaviour
 
     }
 
-    public void DeleteFromList(GameObject _SurfManager)
+    public void DeleteFromList(GameObject _SurfManager, GameObject _Surfviewmodel)
     {
         for (int i = 0; i < SurfManagers.Count; i++)
         {
             if (SurfManagers[i] == _SurfManager)
             {
                 SurfManagers.Remove(_SurfManager);
+                SurfViewmodels.Remove(_Surfviewmodel);
                 SurfManagerIndex.RemoveAt(i);
 
                 ControlHierarchy();
