@@ -42,7 +42,45 @@ public class ArtistAppObject : AppObject
 
     public void OnClick_ArtistAppObject()
     {
-        if(artist != null && artist.external_urls != null && !artist.external_urls.spotify.Equals(""))
-            Application.OpenURL(artist.external_urls.spotify);
+        /*if(artist != null && artist.external_urls != null && !artist.external_urls.spotify.Equals(""))
+            Application.OpenURL(artist.external_urls.spotify);*/
+
+        if (artist != null)
+            SpotifyConnectionManager.instance.GetArtistTopTracks(artist.id, Callback_GetArtistTopTracks);
+    }
+
+    private void Callback_GetArtistTopTracks(object[] _value)
+    {
+        SeveralTrackRoot severalTrackRoot = (SeveralTrackRoot)_value[1];
+
+        if (!ArtistsHasTopSongs(severalTrackRoot))
+        {
+            UIMessage.instance.UIMessageInstanciate("Este artista aún no tiene un top de canciones disponibles");
+            return;
+        }
+
+        NewScreenManager.instance.ChangeToSpawnedView("surf");
+        NewScreenManager.instance.GetCurrentView().GetComponent<PF_SurfViewModel>().Initialize();
+        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(severalTrackRoot.tracks);
+    }
+
+    private bool ArtistsHasTopSongs(SeveralTrackRoot tracks)
+    {
+        if (tracks == null)
+        {
+            return false;
+        }
+
+        if (tracks.tracks == null)
+        {
+            return false;
+        }
+
+        if (tracks.tracks.Count <= 0)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

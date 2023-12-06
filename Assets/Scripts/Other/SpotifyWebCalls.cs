@@ -424,6 +424,58 @@ public static class SpotifyWebCalls
         }
     }
 
+    public static IEnumerator CR_GetArtistTopTracks(string _token, SpotifyWebCallback _callback, string _artist_id, string _market = "ES")
+    {
+        string jsonResult = "";
+
+        string url = "https://api.spotify.com/v1/artists/" + _artist_id + "/top-tracks";
+
+        Dictionary<string, string> parameters = new Dictionary<string, string>();
+        parameters.Add("market", _market);
+
+        url = WebCallsUtils.AddParametersToURI(url + "?", parameters);
+
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+        {
+            webRequest.SetRequestHeader("Accept", "application/json");
+            webRequest.SetRequestHeader("Authorization", "Bearer " + _token);
+
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError || webRequest.result == UnityWebRequest.Result.ConnectionError)
+            {
+                //Catch response code for multiple requests to the server in a short timespan.
+
+                if (webRequest.responseCode.Equals(WebCallsUtils.AUTHORIZATION_FAILED_RESPONSE_CODE))
+                {
+                    WebCallsUtils.ReauthenticateUser(_callback);
+                }
+
+                if (WebCallsUtils.CheckIfServerServiceIsAvailable(webRequest.responseCode)) { yield break; }
+
+                DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch artists top tracks. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                yield break;
+            }
+            else
+            {
+                while (!webRequest.isDone) { yield return null; }
+
+                if (webRequest.isDone)
+                {
+                    jsonResult = webRequest.downloadHandler.text;
+                    DebugLogManager.instance.DebugLog("Fetch artist's top tracks result: " + jsonResult);
+                    SeveralTrackRoot severalTrackRoot = JsonConvert.DeserializeObject<SeveralTrackRoot>(jsonResult);
+                    _callback(new object[] { webRequest.responseCode, severalTrackRoot });
+                    yield break;
+                }
+            }
+
+            DebugLogManager.instance.DebugLog("Failed on fetch artist's top tracks: " + jsonResult);
+            yield break;
+
+        }
+    }
+
     public static IEnumerator CR_GetAlbum(string _token, SpotifyWebCallback _callback, string _album_id, string _market = "ES")
     {
         string jsonResult = "";

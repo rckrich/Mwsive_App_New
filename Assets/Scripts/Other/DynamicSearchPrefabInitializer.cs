@@ -173,6 +173,28 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
         Application.OpenURL(ExternalURL);
     }
 
+    public void OnClickInitializePrefabArtist()
+    {
+        if (SpotifyID != null) {
+            if (!SpotifyID.Equals(""))
+                SpotifyConnectionManager.instance.GetArtistTopTracks(SpotifyID, Callback_GetArtistTopTracks);
+        }
+    }
+
+    private void Callback_GetArtistTopTracks(object[] _value)
+    {
+        SeveralTrackRoot severalTrackRoot = (SeveralTrackRoot)_value[1];
+
+        if (!ArtistsHasTopSongs(severalTrackRoot)) {
+            UIMessage.instance.UIMessageInstanciate("Este artista aún no tiene un top de canciones disponibles");
+            return;
+        }
+
+        NewScreenManager.instance.ChangeToSpawnedView("surf");
+        NewScreenManager.instance.GetCurrentView().GetComponent<PF_SurfViewModel>().Initialize();
+        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(severalTrackRoot.tracks);
+    }
+
     public void OnClickInitializePrefabSong(){
         NewScreenManager.instance.ChangeToSpawnedView("cancion");
         GameObject Instance = NewScreenManager.instance.GetCurrentView().gameObject;
@@ -218,4 +240,23 @@ public class DynamicSearchPrefabInitializer : MonoBehaviour
         Instance.GetComponent<PlaylistViewModel>().Initialize();
     }
 
+    private bool ArtistsHasTopSongs(SeveralTrackRoot tracks)
+    {
+        if (tracks == null)
+        {
+            return false;
+        }
+
+        if (tracks.tracks == null)
+        {
+            return false;
+        }
+
+        if (tracks.tracks.Count <= 0)
+        {
+            return false;
+        }
+
+        return true;
+    }
 }

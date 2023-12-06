@@ -259,10 +259,10 @@ public class SpotifyConnectionManager : Manager
         DebugLogManager.instance.DebugLog((SpotifyPlaylistRoot)_value[1]);
     }
 
-    public void GetArtist(string _playlistID, SpotifyWebCallback _callback = null, string _market = "ES")
+    public void GetArtist(string _artistID, SpotifyWebCallback _callback = null, string _market = "ES")
     {
         _callback += Callback_GetArtist;
-        StartCoroutine(SpotifyWebCalls.CR_GetArtist(oAuthHandler.GetSpotifyToken().AccessToken, _callback, _playlistID));
+        StartCoroutine(SpotifyWebCalls.CR_GetArtist(oAuthHandler.GetSpotifyToken().AccessToken, _callback, _artistID));
     }
 
     private void Callback_GetArtist(object[] _value)
@@ -291,6 +291,23 @@ public class SpotifyConnectionManager : Manager
         }
 
         DebugLogManager.instance.DebugLog((SeveralArtistRoot)_value[1]);
+    }
+
+    public void GetArtistTopTracks(string _artistID, SpotifyWebCallback _callback = null, string _market = "ES")
+    {
+        _callback += Callback_GetArtistTopTracks;
+        StartCoroutine(SpotifyWebCalls.CR_GetArtistTopTracks(oAuthHandler.GetSpotifyToken().AccessToken, _callback, _artistID, _market));
+    }
+
+    private void Callback_GetArtistTopTracks(object[] _value)
+    {
+        if (CheckReauthenticateUser((long)_value[0]))
+        {
+            StartReauthentication();
+            return;
+        }
+
+        DebugLogManager.instance.DebugLog((SeveralTrackRoot)_value[1]);
     }
 
     public void GetAlbum(string _playlistID, SpotifyWebCallback _callback = null, string _market = "ES")
