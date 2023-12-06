@@ -519,6 +519,9 @@ public class SurfAni : MonoBehaviour
         }
         else
         {
+
+        }
+        {
             Restart_VerticalDown2();
         }
         foreach (Tweener item in VerticalDown2)

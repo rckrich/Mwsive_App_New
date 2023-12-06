@@ -195,6 +195,7 @@ public class SurfManager : Manager
             MwsiveControllerButtons.SetActive(false);
             SideScrollAnimation();
         }
+        /*
         if (Controller.transform.position.y > ControllerPostion.y * 1.10f)
         {
             Controller.horizontal = false;
@@ -207,7 +208,7 @@ public class SurfManager : Manager
             MwsiveControllerButtons.SetActive(false);
             DownScrollAnimation();
         }
-
+        */
 
     }
 
