@@ -144,6 +144,10 @@ public class SurfManager : Manager
         {
             return;
         }
+        if(DOTween.TotalPlayingTweens() > 4)
+        {
+            return;
+        }
 
         
         switch (swipe)
@@ -188,14 +192,14 @@ public class SurfManager : Manager
 
     public void ValChange()
     {
-        
-        if (Controller.transform.position.x > ControllerPostion.x * 1.10f)
+        /*
+        if (Controller.transform.position.x > ControllerPostion.x * 1.20f)
         {
             Controller.vertical = false;
             MwsiveControllerButtons.SetActive(false);
             SideScrollAnimation();
         }
-        /*
+        
         if (Controller.transform.position.y > ControllerPostion.y * 1.10f)
         {
             Controller.horizontal = false;
@@ -1225,6 +1229,36 @@ public class SurfManager : Manager
     {
 
         GameObject Instance = PoolManager.instance.GetPooledObject();
+
+        Debug.LogWarning(Instance.name);
+
+        if (ActiveMwsiveSongs.Contains(Instance))
+        {
+            Instance.GetComponent<SurfAni>().isAvailable = false;
+            while (true)
+            {
+                
+                GameObject Instance2 = PoolManager.instance.GetPooledObject();
+                if (!ActiveMwsiveSongs.Contains(Instance2))
+                {
+                    Instance2.GetComponent<SurfAni>().isAvailable = false;
+                    break;
+                }
+                else
+                {
+                    Instance2.GetComponent<SurfAni>().isAvailable = false;
+                }
+
+                if(Instance2 == null)
+                {
+                    Debug.LogWarning("Surf overflow");
+                    break;
+                }
+            }
+            
+            
+        }
+
         Instance.GetComponent<ButtonSurfPlaylist>().ClearData();
         if (PrefabPosition == 0)
         {
@@ -1243,6 +1277,7 @@ public class SurfManager : Manager
         {
             Instance.transform.position = RestPositions[3].transform.position;
             Instance.GetComponent<CanvasGroup>().alpha = 0;
+            Debug.Log("asdfasdfasdf");
             ActiveMwsiveSongs[0].GetComponent<SurfAni>().isAvailable = true;
             ActiveMwsiveSongs.RemoveAt(0);
 
