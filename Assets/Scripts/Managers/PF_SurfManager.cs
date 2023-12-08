@@ -335,6 +335,11 @@ public class PF_SurfManager : Manager
         Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
         if (CurrentPosition < MwsiveSongsData.Count - 1)
         {
+            DOTween.Pause(ActiveMwsiveSongs[1]);
+            DOTween.Pause(ActiveMwsiveSongs[2]);
+            DOTween.Pause(ActiveMwsiveSongs[3]);
+            DOTween.Pause(ActiveMwsiveSongs[4]);
+
             if (Challenge)
             {
                 GetCurrentPrefab().GetComponentInChildren<_ChallengeColorAnimation>().ForceClear();
@@ -416,6 +421,13 @@ public class PF_SurfManager : Manager
             }
             Success = true;
 
+            DOTween.Pause(ActiveMwsiveSongs[1]);
+            DOTween.Pause(ActiveMwsiveSongs[2]);
+            DOTween.Pause(ActiveMwsiveSongs[3]);
+            DOTween.Pause(ActiveMwsiveSongs[4]);
+            DOTween.Pause(ActiveMwsiveSongs[0]);
+            
+
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, -MaxRotation, 0, true, true, RestPositions[1]);
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_VerticalDown1();
 
@@ -480,6 +492,12 @@ public class PF_SurfManager : Manager
         if (CurrentPosition < MwsiveSongsData.Count - 1)
         {
             SpotifyPreviewAudioManager.instance.StopTrack();
+
+            DOTween.Pause(ActiveMwsiveSongs[1]);
+            DOTween.Pause(ActiveMwsiveSongs[2]);
+            DOTween.Pause(ActiveMwsiveSongs[3]);
+            DOTween.Pause(ActiveMwsiveSongs[4]);
+
             if (Challenge)
             {
                 GetCurrentPrefab().GetComponentInChildren<_ChallengeColorAnimation>().ForceClear();
@@ -1339,12 +1357,41 @@ public class PF_SurfManager : Manager
     {
 
         GameObject Instance = PoolManager.instance.GetPooledObject();
-        
+
+        Instance.GetComponent<SurfAni>().isAvailable = false;
+
+        if (ActiveMwsiveSongs.Contains(Instance))
+        {
+
+            Instance.GetComponent<SurfAni>().isAvailable = false;
+            while (true)
+            {
+
+                GameObject Instance2 = PoolManager.instance.GetPooledObject();
+                if (!ActiveMwsiveSongs.Contains(Instance2))
+                {
+                    Instance2.GetComponent<SurfAni>().isAvailable = false;
+                    Instance = Instance2;
+                    break;
+                }
+                else
+                {
+                    Instance2.GetComponent<SurfAni>().isAvailable = false;
+                }
+
+                if (Instance2 == null)
+                {
+                    Debug.LogWarning("Surf overflow");
+                    break;
+                }
+            }
+
+
+        }
 
         Instance.GetComponent<CanvasGroup>().alpha = 0;
         Instance.transform.SetParent(MwsiveContainer.transform);
         Instance.transform.SetAsLastSibling();
-        Instance.GetComponent<SurfAni>().isAvailable = false;
         ActiveMwsiveSongs.Insert(0, Instance);
         Instance.GetComponent<RectTransform>().offsetMin = new Vector2(LeftRightOffset.x, 0);
         Instance.GetComponent<RectTransform>().offsetMax = new Vector2(LeftRightOffset.y, 0);
@@ -1359,6 +1406,39 @@ public class PF_SurfManager : Manager
 
 
         GameObject Instance = PoolManager.instance.GetPooledObject();
+
+        Instance.GetComponent<SurfAni>().isAvailable = false;
+
+        if (ActiveMwsiveSongs.Contains(Instance))
+        {
+
+            Instance.GetComponent<SurfAni>().isAvailable = false;
+            while (true)
+            {
+
+                GameObject Instance2 = PoolManager.instance.GetPooledObject();
+                if (!ActiveMwsiveSongs.Contains(Instance2))
+                {
+                    Instance2.GetComponent<SurfAni>().isAvailable = false;
+                    Instance = Instance2;
+                    break;
+                }
+                else
+                {
+                    Instance2.GetComponent<SurfAni>().isAvailable = false;
+                }
+
+                if (Instance2 == null)
+                {
+                    Debug.LogWarning("Surf overflow");
+                    break;
+                }
+            }
+
+
+        }
+
+
         Instance.GetComponent<ButtonSurfPlaylist>().ClearData();
         if (PrefabPosition == 0)
         {
@@ -1388,7 +1468,7 @@ public class PF_SurfManager : Manager
         Instance.transform.SetParent(MwsiveContainer.transform);
         Instance.transform.SetAsFirstSibling();
         Instance.SetActive(true);
-        Instance.GetComponent<SurfAni>().isAvailable = false;
+        
 
         Instance.transform.eulerAngles = new Vector3(0, 0, 0);
         Instance.GetComponent<RectTransform>().offsetMin = new Vector2(LeftRightOffset.x, 0);

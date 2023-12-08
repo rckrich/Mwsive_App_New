@@ -31,6 +31,9 @@ public class SurfAni : MonoBehaviour
     private bool IsAddSongSurfDone = true;
     private Vector3 pos, scale;
     private float aplha;
+
+    private bool DEBUGTWEENS = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -160,7 +163,7 @@ public class SurfAni : MonoBehaviour
         VerticalUp[2] = gameObject.GetComponent<CanvasGroup>().DOFade(fade, SurfTransitionDuration).Pause();
 
         VerticalUp[0].OnComplete(() => {
-            Debug.Log("ASDFASDF" + isItFinished);
+            
             if (isItFinished)
             {
                 isAvailable = true;
@@ -398,7 +401,8 @@ public class SurfAni : MonoBehaviour
             item.SetAutoKill(false);
             item.Play();
         }
-        Debug.Log(gameObject.name + isAvailable + "SurfSide");
+        if (DEBUGTWEENS) 
+            Debug.Log(gameObject.name + isAvailable + "SurfSide");
     }
 
     public void Play_SurfSideLasPosition()
@@ -417,7 +421,8 @@ public class SurfAni : MonoBehaviour
             item.SetAutoKill(false);
             item.Play();
         }
-        Debug.Log(gameObject.name + isAvailable + "SurfSideLastPosition");
+        if (DEBUGTWEENS)
+            Debug.Log(gameObject.name + isAvailable + "SurfSideLastPosition");
     }
 
     public void Play_SurfSideTransitionBack()
@@ -437,7 +442,8 @@ public class SurfAni : MonoBehaviour
             item.SetAutoKill(false);
             item.Play();
         }
-        Debug.Log(gameObject.name + isAvailable + "SurfSideTransitionBack");
+        if (DEBUGTWEENS)
+            Debug.Log(gameObject.name + isAvailable + "SurfSideTransitionBack");
     }
 
     public void Play_SurfReset()
@@ -467,7 +473,8 @@ public class SurfAni : MonoBehaviour
             item.SetAutoKill(false);
             item.Play();
         }
-        Debug.Log(gameObject.name + isAvailable + "SurfReset");
+        if (DEBUGTWEENS)
+            Debug.Log(gameObject.name + isAvailable + "SurfReset");
     }
 
     public void Play_VerticalUp()
@@ -490,9 +497,9 @@ public class SurfAni : MonoBehaviour
                 item.SetAutoKill(false);
                 item.Play();
             }
-        
-        
-        Debug.Log(gameObject.name + isAvailable + "VerticalUp" + isItFinished);
+
+        if (DEBUGTWEENS)
+            Debug.Log(gameObject.name + isAvailable + "VerticalUp" + isItFinished);
     }
 
     public void Play_VerticalDown1()
@@ -510,7 +517,8 @@ public class SurfAni : MonoBehaviour
             item.SetAutoKill(false);
             item.Play();
         }
-        Debug.Log(gameObject.name + isAvailable + "VerticalDown1");
+        if (DEBUGTWEENS)
+            Debug.Log(gameObject.name + isAvailable + "VerticalDown1");
     }
 
     public void Play_VerticalDown2()
@@ -531,7 +539,8 @@ public class SurfAni : MonoBehaviour
             item.SetAutoKill(false);
             item.Play();
         }
-        Debug.Log(gameObject.name + isAvailable + "VerticalDown2");
+        if (DEBUGTWEENS)
+            Debug.Log(gameObject.name + isAvailable + "VerticalDown2");
     }
 
     public void Play_SurfTransitionBackSongDown()
@@ -549,7 +558,8 @@ public class SurfAni : MonoBehaviour
             item.SetAutoKill(false);
             item.Play();
         }
-        Debug.Log(gameObject.name + isAvailable + "SurfTransitionBackSongDown");
+        if (DEBUGTWEENS)
+            Debug.Log(gameObject.name + isAvailable + "SurfTransitionBackSongDown");
     }
 
     public void Play_SurfTransitionBackHideSong()
@@ -570,7 +580,8 @@ public class SurfAni : MonoBehaviour
             item.SetAutoKill(false);
             item.Play();
         }
-        Debug.Log(gameObject.name + isAvailable + "SurfTransitionBackHideSong");
+        if (DEBUGTWEENS)
+            Debug.Log(gameObject.name + isAvailable + "SurfTransitionBackHideSong");
     }
 
     
@@ -589,7 +600,8 @@ public class SurfAni : MonoBehaviour
             item.SetAutoKill(false);
             item.Play();
         }
-        Debug.Log(gameObject.name + isAvailable + "SurfResetOtherSongs");
+        if (DEBUGTWEENS)
+            Debug.Log(gameObject.name + isAvailable + "SurfResetOtherSongs");
     }
 
     public void Play_SurfBackSong()
@@ -610,7 +622,8 @@ public class SurfAni : MonoBehaviour
             item.SetAutoKill(false);
             item.Play();
         }
-        Debug.Log(gameObject.name + isAvailable + "SurfTransitionBackSong");
+        if (DEBUGTWEENS)
+            Debug.Log(gameObject.name + isAvailable + "SurfTransitionBackSong");
     }
 
     public void Play_SurfTransitionOtherSongs()
@@ -630,7 +643,8 @@ public class SurfAni : MonoBehaviour
             item.SetAutoKill(false);
             item.Play();
         }
-        Debug.Log(gameObject.name + isAvailable + "SurfTransitionOtherSongs");
+        if (DEBUGTWEENS)
+            Debug.Log(gameObject.name + isAvailable + "SurfTransitionOtherSongs");
     }
 
     public void Play_SurfAddSong()
@@ -657,8 +671,8 @@ public class SurfAni : MonoBehaviour
             }
             
         }
-
-        Debug.Log(gameObject.name + isAvailable + "SurfAddSong");
+        if (DEBUGTWEENS)
+            Debug.Log(gameObject.name + isAvailable + "SurfAddSong");
     }
 
     public void Play_SurfAddsongReset()
@@ -677,7 +691,8 @@ public class SurfAni : MonoBehaviour
             item.SetAutoKill(false);
             item.Play();
         }
-        Debug.Log(gameObject.name + isAvailable + "SurfAddSongReset");
+        if (DEBUGTWEENS)
+            Debug.Log(gameObject.name + isAvailable + "SurfAddSongReset");
     }
 
     public void Play_CompleteAddSurfAddSong()
@@ -700,7 +715,8 @@ public class SurfAni : MonoBehaviour
             item.SetAutoKill(false);
             item.Play();
         }
-        Debug.Log(gameObject.name + isAvailable + "CompleteAddSurfAddSong");
+        if (DEBUGTWEENS)
+            Debug.Log(gameObject.name + isAvailable + "CompleteAddSurfAddSong");
     }
 
     public void Play_SurfAddSongLastPosition()
@@ -718,7 +734,8 @@ public class SurfAni : MonoBehaviour
             item.SetAutoKill(false);
             item.Play();
         }
-        Debug.Log(gameObject.name + isAvailable + "SurfAddSongLastPosition");
+        if (DEBUGTWEENS)
+            Debug.Log(gameObject.name + isAvailable + "SurfAddSongLastPosition");
     }
 
     private void Restart_SurfSide()

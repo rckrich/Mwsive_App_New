@@ -144,10 +144,7 @@ public class SurfManager : Manager
         {
             return;
         }
-        if(DOTween.TotalPlayingTweens() > 4)
-        {
-            return;
-        }
+        
 
         
         switch (swipe)
@@ -192,7 +189,7 @@ public class SurfManager : Manager
 
     public void ValChange()
     {
-        /*
+        
         if (Controller.transform.position.x > ControllerPostion.x * 1.20f)
         {
             Controller.vertical = false;
@@ -212,7 +209,7 @@ public class SurfManager : Manager
             MwsiveControllerButtons.SetActive(false);
             DownScrollAnimation();
         }
-        */
+        
 
     }
 
@@ -355,6 +352,12 @@ public class SurfManager : Manager
         {
             SpotifyPreviewAudioManager.instance.StopTrack();
 
+            DOTween.Pause(ActiveMwsiveSongs[1]);
+            DOTween.Pause(ActiveMwsiveSongs[2]);
+            DOTween.Pause(ActiveMwsiveSongs[3]);
+            DOTween.Pause(ActiveMwsiveSongs[4]);
+            
+
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, -MaxRotation, 0, true);
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfSide();
 
@@ -412,6 +415,12 @@ public class SurfManager : Manager
         Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
         if (CurrentPosition > 0)
         {
+            DOTween.Pause(ActiveMwsiveSongs[1]);
+            DOTween.Pause(ActiveMwsiveSongs[2]);
+            DOTween.Pause(ActiveMwsiveSongs[3]);
+            DOTween.Pause(ActiveMwsiveSongs[4]);
+            DOTween.Pause(ActiveMwsiveSongs[0]);
+
             ActiveMwsiveSongs[0].GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[CurrentPosition - 1]);
             SpotifyPreviewAudioManager.instance.StopTrack();
             Success = true;
@@ -485,6 +494,11 @@ public class SurfManager : Manager
         {
             SpotifyPreviewAudioManager.instance.StopTrack();
             Success = true;
+
+            DOTween.Pause(ActiveMwsiveSongs[1]);
+            DOTween.Pause(ActiveMwsiveSongs[2]);
+            DOTween.Pause(ActiveMwsiveSongs[3]);
+            DOTween.Pause(ActiveMwsiveSongs[4]);
 
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, MaxRotation, 0, true);
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_VerticalUp();
@@ -1154,12 +1168,41 @@ public class SurfManager : Manager
     {
 
         GameObject Instance = PoolManager.instance.GetPooledObject();
+        Instance.GetComponent<SurfAni>().isAvailable = false;
 
+        if (ActiveMwsiveSongs.Contains(Instance))
+        {
+            
+            Instance.GetComponent<SurfAni>().isAvailable = false;
+            while (true)
+            {
+
+                GameObject Instance2 = PoolManager.instance.GetPooledObject();
+                if (!ActiveMwsiveSongs.Contains(Instance2))
+                {
+                    Instance2.GetComponent<SurfAni>().isAvailable = false;
+                    Instance = Instance2;
+                    break;
+                }
+                else
+                {
+                    Instance2.GetComponent<SurfAni>().isAvailable = false;
+                }
+
+                if (Instance2 == null)
+                {
+                    Debug.LogWarning("Surf overflow");
+                    break;
+                }
+            }
+
+
+        }
 
         Instance.GetComponent<CanvasGroup>().alpha = 0;
         Instance.transform.SetParent(MwsiveContainer.transform);
         Instance.transform.SetAsLastSibling();
-        Instance.GetComponent<SurfAni>().isAvailable = false;
+        
         ActiveMwsiveSongs.Insert(0, Instance);
         Instance.GetComponent<RectTransform>().offsetMin = new Vector2(LeftRightOffset.x, 0);
         Instance.GetComponent<RectTransform>().offsetMax = new Vector2(LeftRightOffset.y, 0);
@@ -1229,11 +1272,11 @@ public class SurfManager : Manager
     {
 
         GameObject Instance = PoolManager.instance.GetPooledObject();
-
-        Debug.LogWarning(Instance.name);
-
+        Instance.GetComponent<SurfAni>().isAvailable = false;
+        
         if (ActiveMwsiveSongs.Contains(Instance))
         {
+            
             Instance.GetComponent<SurfAni>().isAvailable = false;
             while (true)
             {
@@ -1242,6 +1285,7 @@ public class SurfManager : Manager
                 if (!ActiveMwsiveSongs.Contains(Instance2))
                 {
                     Instance2.GetComponent<SurfAni>().isAvailable = false;
+                    Instance = Instance2;
                     break;
                 }
                 else
@@ -1277,7 +1321,7 @@ public class SurfManager : Manager
         {
             Instance.transform.position = RestPositions[3].transform.position;
             Instance.GetComponent<CanvasGroup>().alpha = 0;
-            Debug.Log("asdfasdfasdf");
+            
             ActiveMwsiveSongs[0].GetComponent<SurfAni>().isAvailable = true;
             ActiveMwsiveSongs.RemoveAt(0);
 
@@ -1287,7 +1331,7 @@ public class SurfManager : Manager
         Instance.transform.SetParent(MwsiveContainer.transform);
         Instance.transform.SetAsFirstSibling();
         Instance.SetActive(true);
-        Instance.GetComponent<SurfAni>().isAvailable = false;
+        
         Instance.transform.eulerAngles = new Vector3(0, 0, 0);
         //MwsiveSongs.Add(Instance);
 
