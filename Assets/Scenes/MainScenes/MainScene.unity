@@ -3554,7 +3554,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 50
+  m_text: '-'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9061,6 +9061,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 10221300}
     m_Modifications:
+    - target: {fileID: 353232689976801743, guid: 7fd7a0413ddbc8c4e918ab4064ce7915, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0.000049591064
+      objectReference: {fileID: 0}
+    - target: {fileID: 353232689976801743, guid: 7fd7a0413ddbc8c4e918ab4064ce7915, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -22.5874
+      objectReference: {fileID: 0}
+    - target: {fileID: 353232689976801743, guid: 7fd7a0413ddbc8c4e918ab4064ce7915, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.000030517578
+      objectReference: {fileID: 0}
+    - target: {fileID: 353232689976801743, guid: 7fd7a0413ddbc8c4e918ab4064ce7915, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 11.293701
+      objectReference: {fileID: 0}
     - target: {fileID: 475241128846231159, guid: 7fd7a0413ddbc8c4e918ab4064ce7915, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -9087,11 +9103,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 475241128846231159, guid: 7fd7a0413ddbc8c4e918ab4064ce7915, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -19.1881
+      value: -24
       objectReference: {fileID: 0}
     - target: {fileID: 475241128846231159, guid: 7fd7a0413ddbc8c4e918ab4064ce7915, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -33.1014
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 475241128846231159, guid: 7fd7a0413ddbc8c4e918ab4064ce7915, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9123,11 +9139,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 475241128846231159, guid: 7fd7a0413ddbc8c4e918ab4064ce7915, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -1.2030029
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 475241128846231159, guid: 7fd7a0413ddbc8c4e918ab4064ce7915, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -4.196533
+      value: -14
       objectReference: {fileID: 0}
     - target: {fileID: 475241128846231159, guid: 7fd7a0413ddbc8c4e918ab4064ce7915, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -23049,12 +23065,12 @@ GameObject:
   - component: {fileID: 914967892}
   - component: {fileID: 914967891}
   m_Layer: 5
-  m_Name: _Circle_Image
+  m_Name: Circle_Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &914967890
 RectTransform:
   m_ObjectHideFlags: 0
@@ -71550,7 +71566,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 50
+  m_text: '-'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

@@ -1319,6 +1319,11 @@ public class PF_SurfManager : Manager
             if (CurrentPosition == MwsiveSongsData.Count - 1 && !lastSongMessage)
             {
                 UIMessage.instance.UIMessageInstanciate("Llegaste a la última canción");
+                if (Challenge)
+                {
+                    CheckChallengeEnd();
+                }
+
                 lastSongMessage = true;
             }
             SpotifyPreviewAudioManager.instance.StopTrack();
