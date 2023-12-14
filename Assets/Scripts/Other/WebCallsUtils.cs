@@ -11,6 +11,7 @@ public static class WebCallsUtils
     public static long ITEM_NOT_AVAILABLE_RESPONSE_CODE { get { return 403; } }
     public static long NOT_FOUND_RESPONSE_CODE { get { return 404; } }
     public static long REQUEST_TIMEOUT_CODE { get { return 408; } }
+    public static long TOO_MANY_REQUEST_CODE { get { return 429; } }
     public static long SERVICE_NOT_AVAILABLE_RESPONSE_CODE { get { return 503; } }
     public static long GATEWAY_TIMEOUT_CODE { get { return 504; } }
 
