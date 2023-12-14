@@ -1193,16 +1193,43 @@ public class PF_SurfManager : Manager
     {
         if (AppManager.instance.isLogInMode)
         {
+
+
             MwsiveConnectionManager.instance.GetTrackInformation_Auth(GetCurrentMwsiveData().id, AppManager.instance.GetCurrentPlaylist().id, Callback_GetTrackInformation);
         }
         else
         {
+
             MwsiveConnectionManager.instance.GetTrackInformation_NoAuth(GetCurrentMwsiveData().id, Callback_GetTrackInformation);
         }
+    }
+    private void CallPopUP(PopUpViewModelTypes _type, string _titleText, string _descriptionText, string _actionButtonText = "")
+    {
+        NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
+        PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+        popUpViewModel.Initialize(_type, _titleText, _descriptionText, _actionButtonText);
+        popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); });
     }
 
     private void Callback_GetTrackInformation(object[] _value)
     {
+        if (Challenge)
+        {
+            if (((long)_value[0]).Equals(WebCallsUtils.GATEWAY_TIMEOUT_CODE) || ((long)_value[0]).Equals(WebCallsUtils.REQUEST_TIMEOUT_CODE) || ((long)_value[0]).Equals(WebCallsUtils.TOO_MANY_REQUEST_CODE))
+            {
+                CallPopUP(PopUpViewModelTypes.MessageOnly, "Ocurrió un error", "Por favor, intentalo de nuevo más tarde", "Salir");
+                PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+                popUpViewModel.SetPopUpCancelAction(() => {
+
+                    NewScreenManager.instance.BackToPreviousView();
+                    NewScreenManager.instance.BackToPreviousView();
+                });
+                return;
+            }
+        }
+        
+
+
         trackInfoRoot = (TrackInfoRoot)_value[1];
 
         if (AppManager.instance.isLogInMode)
