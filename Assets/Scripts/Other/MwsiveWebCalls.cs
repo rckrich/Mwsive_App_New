@@ -1466,6 +1466,13 @@ public class MwsiveWebCalls : MonoBehaviour
                     //TODO Response when unauthorized
                 }
 
+                if (webRequest.responseCode.Equals(WebCallsUtils.GATEWAY_TIMEOUT_CODE) || webRequest.responseCode.Equals(WebCallsUtils.REQUEST_TIMEOUT_CODE))
+                {
+                    DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch recommendations. Response Code: " + webRequest.responseCode + ". Error: " + webRequest.downloadHandler.text);
+                    _callback(new object[] { webRequest.responseCode, null });
+                    yield break;
+                }
+
                 DebugLogManager.instance.DebugLog("Protocol Error or Connection Error on fetch profile. Response Code: " + webRequest.responseCode + ". Result: " + webRequest.result.ToString());
                 yield break;
             }

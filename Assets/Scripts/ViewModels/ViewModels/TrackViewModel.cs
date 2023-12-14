@@ -107,7 +107,7 @@ public class TrackViewModel : ViewModel
     {
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
-        if (((long)_value[0]).Equals(WebCallsUtils.GATEWAY_TIMEOUT))
+        if (((long)_value[0]).Equals(WebCallsUtils.GATEWAY_TIMEOUT_CODE))
         {
             CallPopUP(PopUpViewModelTypes.MessageOnly, "Error", "Hay problemas de comunicaci?n con el servidor. Intentar m?s tarde");
 #if PLATFORM_ANDROID
