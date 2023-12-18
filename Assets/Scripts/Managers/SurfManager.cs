@@ -42,6 +42,10 @@ public class SurfManager : Manager
     private AlbumRoot albumroot;
     private TrackInfoRoot trackInfoRoot;
 
+    private int InternalTime = 0;
+    public float TimeToWaitMwsiveDB = 1;
+    private IEnumerator WaitMwsiveDbCo;
+
     [HideInInspector]
     public bool canSwipe = true;
     public float time = 0;
@@ -448,18 +452,23 @@ public class SurfManager : Manager
 
             string _trackid = GetCurrentMwsiveData().id;
 
-            if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
+            if (ResetInternalTimer() >= TimeToWaitMwsiveDB)
             {
-                if (NewScreenManager.instance.TryGetComponent<PF_SurfManager>(out PF_SurfManager pF_SurfManager))
+                if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
                 {
-                    int challenge_id = pF_SurfManager.Challenge ? pF_SurfManager.challenge_id : -1;
-                    MwsiveConnectionManager.instance.PostTrackAction(_trackid, "DOWN", ResetTimer(), null, challenge_id);
-                }
-                else
-                {
-                    MwsiveConnectionManager.instance.PostTrackAction(_trackid, "DOWN", ResetTimer(), null, -1);
+                    if (NewScreenManager.instance.TryGetComponent<PF_SurfManager>(out PF_SurfManager pF_SurfManager))
+                    {
+                        int challenge_id = pF_SurfManager.Challenge ? pF_SurfManager.challenge_id : -1;
+                        MwsiveConnectionManager.instance.PostTrackAction(_trackid, "DOWN", ResetTimer(), null, challenge_id);
+                    }
+                    else
+                    {
+                        MwsiveConnectionManager.instance.PostTrackAction(_trackid, "DOWN", ResetTimer(), null, -1);
+                    }
                 }
             }
+            StartInternalTimer();
+
             CurrentPosition--;
 
             SpawnPosition--;
@@ -515,21 +524,26 @@ public class SurfManager : Manager
             ActiveMwsiveSongs[4].GetComponent<SurfAni>().Play_SurfTransitionOtherSongs();
 
 
-            string _trackid = GetCurrentMwsiveData().id;
+            
 
-
-            if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
+            if (ResetInternalTimer() >= TimeToWaitMwsiveDB)
             {
-                if (NewScreenManager.instance.TryGetComponent<PF_SurfManager>(out PF_SurfManager pF_SurfManager))
+                string _trackid = GetCurrentMwsiveData().id;
+                if (AppManager.instance.isLogInMode && !_trackid.Equals(""))
                 {
-                    int challenge_id = pF_SurfManager.Challenge ? pF_SurfManager.challenge_id : -1;
-                    MwsiveConnectionManager.instance.PostTrackAction(GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID, "UP", ResetTimer(), null, challenge_id);
-                }
-                else
-                {
-                    MwsiveConnectionManager.instance.PostTrackAction(GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().trackID, "UP", ResetTimer(), null, -1);
+                    if (NewScreenManager.instance.TryGetComponent<PF_SurfManager>(out PF_SurfManager pF_SurfManager))
+                    {
+                        int challenge_id = pF_SurfManager.Challenge ? pF_SurfManager.challenge_id : -1;
+                        MwsiveConnectionManager.instance.PostTrackAction(_trackid, "UP", ResetTimer(), null, challenge_id);
+                    }
+                    else
+                    {
+                        MwsiveConnectionManager.instance.PostTrackAction(_trackid, "UP", ResetTimer(), null, -1);
+                    }
                 }
             }
+            StartInternalTimer();
+
 
             if (AddSong.activeSelf)
             {
@@ -1078,9 +1092,11 @@ public class SurfManager : Manager
         if (MwsiveSongsData[CurrentPosition] != null)
         {
             GameObject instance = SpawnPrefab();
-            GetMwsiveInfo();
+            WaitMwsiveDbCo = WaitMwsiveDb();
+            StartCoroutine(WaitMwsiveDbCo);
             instance.GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[CurrentPosition]);
             instance.GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
+            StartInternalTimer();
             SpawnPosition = CurrentPosition;
 
         }
@@ -1112,9 +1128,8 @@ public class SurfManager : Manager
         SpawnPrefabBack();
 
 
-
-
-        GetMwsiveInfo();
+        WaitMwsiveDbCo = WaitMwsiveDb();
+        StartCoroutine(WaitMwsiveDbCo);
         GetCurrentPrefab().GetComponent<ButtonSurfPlaylist>().PlayAudioPreview();
 
     }
@@ -1128,7 +1143,8 @@ public class SurfManager : Manager
         {
 
             GameObject instance = SpawnPrefab();
-            GetMwsiveInfo();
+            WaitMwsiveDbCo = WaitMwsiveDb();
+            StartCoroutine(WaitMwsiveDbCo);
             SpotifyPreviewAudioManager.instance.StopTrack();
             if (SpawnPosition < MwsiveSongsData.Count - 1)
             {
@@ -1451,17 +1467,49 @@ public class SurfManager : Manager
         return time2;
     }
 
+
+
     IEnumerator Timer()
     {
-
         while (true)
         {
             yield return new WaitForSeconds(1);
             time++;
-
         }
+    }
 
+    IEnumerator WaitMwsiveDb()
+    {
+        yield return new WaitForSeconds(TimeToWaitMwsiveDB);
+        GetMwsiveInfo();
+        WaitMwsiveDbCo = null;
+    }
 
+    public float ResetInternalTimer()
+    {
+        float time2 = InternalTime;
+        StopCoroutine("InternalTimer");
+        if(WaitMwsiveDbCo != null)
+        {
+            StopCoroutine(WaitMwsiveDbCo); 
+        }
+        InternalTime = 0;
+        Debug.Log(time2);
+        return time2;
+    }
+
+    public void StartInternalTimer()
+    {
+        StartCoroutine("InternalTimer");
+    }
+
+    IEnumerator InternalTimer()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            InternalTime++;
+        }
     }
 
 
