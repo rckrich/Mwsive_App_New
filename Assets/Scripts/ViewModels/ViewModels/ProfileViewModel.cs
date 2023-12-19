@@ -296,7 +296,15 @@ public class ProfileViewModel : ViewModel
     {
         NewScreenManager.instance.ChangeToMainView(_value);
         if (_value == ViewID.SurfViewModel) {
-            SurfManager.instance.canSwipe = true;
+            try
+            {
+                SurfManager.instance.canSwipe = true;
+            }
+            catch (System.NullReferenceException)
+            {
+                Debug.Log("SurfManager.instance is null");
+            }
+            
         }
     }
 

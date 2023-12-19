@@ -15,12 +15,14 @@ public class EnableTest : MonoBehaviour
     {
         
     }
+
     public void OnEnable()
     {
-        Debug.Log("AAAAAAAAAAAAAAAAAAA..................");
+        //Debug.Log("AAAAAAAAAAAAAAAAAAA..................");
     }
+
     public void OnDisable()
     {
-        Debug.Log("AAAAAAAAAAAAAAAAAAA..................");
+        //Debug.Log("AAAAAAAAAAAAAAAAAAA..................");
     }
 }

@@ -93,7 +93,6 @@ public class RankingViewModel : ScrollViewModel
 
        if(mwsiveRankingRoot.ranking.Count != 0)
         {
-            Debug.Log(mwsiveRankingRoot.ranking.Count);
             if (mwsiveRankingRoot.ranking.Count > 3)
             {
                 for (int i = 0; i < PODIUM_NUMBER; i++)
