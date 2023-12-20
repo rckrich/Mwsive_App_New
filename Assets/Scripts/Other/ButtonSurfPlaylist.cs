@@ -339,7 +339,15 @@ public class ButtonSurfPlaylist : ViewModel
         {
             if (NewScreenManager.instance.GetCurrentView().GetViewID() != ViewID.SurfViewModel)
             {
-                SpotifyPreviewAudioManager.instance.StopTrack();
+                if(TrackPoints && NewScreenManager.instance.GetCurrentView().GetViewID() == ViewID.PopUpViewModel)
+                {
+                    return;
+                }
+                else
+                {
+                    SpotifyPreviewAudioManager.instance.StopTrack();
+                }
+                
             }
 
         }
