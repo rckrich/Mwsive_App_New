@@ -356,12 +356,6 @@ public class SurfManager : Manager
         {
             SpotifyPreviewAudioManager.instance.StopTrack();
 
-            DOTween.Pause(ActiveMwsiveSongs[1]);
-            DOTween.Pause(ActiveMwsiveSongs[2]);
-            DOTween.Pause(ActiveMwsiveSongs[3]);
-            DOTween.Pause(ActiveMwsiveSongs[4]);
-            
-
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, -MaxRotation, 0, true);
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_SurfSide();
 
@@ -419,11 +413,6 @@ public class SurfManager : Manager
         Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
         if (CurrentPosition > 0)
         {
-            DOTween.Pause(ActiveMwsiveSongs[1]);
-            DOTween.Pause(ActiveMwsiveSongs[2]);
-            DOTween.Pause(ActiveMwsiveSongs[3]);
-            DOTween.Pause(ActiveMwsiveSongs[4]);
-            DOTween.Pause(ActiveMwsiveSongs[0]);
 
             ActiveMwsiveSongs[0].GetComponent<ButtonSurfPlaylist>().InitializeMwsiveSong(MwsiveSongsData[CurrentPosition - 1]);
             SpotifyPreviewAudioManager.instance.StopTrack();
@@ -503,11 +492,6 @@ public class SurfManager : Manager
         {
             SpotifyPreviewAudioManager.instance.StopTrack();
             Success = true;
-
-            DOTween.Pause(ActiveMwsiveSongs[1]);
-            DOTween.Pause(ActiveMwsiveSongs[2]);
-            DOTween.Pause(ActiveMwsiveSongs[3]);
-            DOTween.Pause(ActiveMwsiveSongs[4]);
 
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, MaxRotation, 0, true);
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_VerticalUp();
