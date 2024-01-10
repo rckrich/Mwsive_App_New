@@ -24,7 +24,7 @@ public class ExternalUrls
 public class Followers
 {
     public object href { get; set; }
-    public int total { get; set; }
+    public double total { get; set; }
 }
 
 public class Copyright
@@ -65,9 +65,9 @@ public class AddedBy
 
 public class SpotifyImage
 {
-    public int? height { get; set; }
+    public double? height { get; set; }
     public string url { get; set; }
-    public int? width { get; set; }
+    public double? width { get; set; }
 }
 
 public class ProfileRoot
@@ -105,7 +105,7 @@ public class Album
     public ExternalIds external_ids { get; set; }
     public List<string> genres { get; set; }
     public string label { get; set; }
-    public int popularity { get; set; }
+    public double popularity { get; set; }
     public string album_group { get; set; }
     public List<Artist> artists { get; set; }
 }
@@ -132,7 +132,7 @@ public class Artist
     public Followers followers { get; set; }
     public List<string> genres { get; set; }
     public List<SpotifyImage> images { get; set; }
-    public int popularity { get; set; }
+    public double popularity { get; set; }
     public int limit { get; set; }
     public string next { get; set; }
     public int offset { get; set; }
@@ -260,7 +260,7 @@ public class Track
     public LinkedFrom linked_from { get; set; }
     public Restrictions restrictions { get; set; }
     public string name { get; set; }
-    public int popularity { get; set; }
+    public double popularity { get; set; }
     public string? preview_url { get; set; }
     public int track_number { get; set; }
     public string type { get; set; }
@@ -291,7 +291,7 @@ public class Item
     public string snapshot_id { get; set; }
     public Tracks tracks { get; set; }
     public object primary_color { get; set; }
-    public int popularity { get; set; }
+    public double popularity { get; set; }
     public string? preview_url { get; set; }
     public int track_number { get; set; }
     public string type { get; set; }
@@ -405,7 +405,7 @@ public class TrackRoot
     public LinkedFrom linked_from { get; set; }
     public Restrictions restrictions { get; set; }
     public string name { get; set; }
-    public int popularity { get; set; }
+    public double popularity { get; set; }
     public string? preview_url { get; set; }
     public int track_number { get; set; }
     public string type { get; set; }
@@ -509,7 +509,7 @@ public class AlbumRoot{
     public ExternalIds external_ids { get; set; }
     public List<string> genres { get; set; }
     public string label { get; set; }
-    public int popularity { get; set; }
+    public double popularity { get; set; }
     public List<Artist> artists { get; set; }
     public Tracks tracks { get; set; }
 }
@@ -524,7 +524,7 @@ public class ArtistRoot
     public string id { get; set; }
     public List<SpotifyImage> images { get; set; }
     public string name { get; set; }
-    public int popularity { get; set; }
+    public double popularity { get; set; }
     public string type { get; set; }
     public string uri { get; set; }
 }
