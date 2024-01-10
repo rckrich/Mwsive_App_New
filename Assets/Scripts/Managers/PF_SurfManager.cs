@@ -183,23 +183,26 @@ public class PF_SurfManager : Manager
     public void ValChange()
     {
         
-        if (Controller.transform.position.x > ControllerPostion.x * 1.02)
+        if (Controller.transform.position.x > ControllerPostion.x * 1.20f)
         {
             Controller.vertical = false;
+            
+            MwsiveControllerButtons.SetActive(false);
             SideScrollAnimation();
-            MwsiveControllerButtons.SetActive(false);
         }
-        if (Controller.transform.position.y > ControllerPostion.y * 1.02)
+        if (Controller.transform.position.y > ControllerPostion.y * 1.10f)
         {
             Controller.horizontal = false;
+            
+            MwsiveControllerButtons.SetActive(false);
             UpScrollAnimation();
-            MwsiveControllerButtons.SetActive(false);
         }
-        if (Controller.transform.position.y < ControllerPostion.y * .98)
+        if (Controller.transform.position.y < ControllerPostion.y * .9f)
         {
             Controller.horizontal = false;
-            DownScrollAnimation();
+            
             MwsiveControllerButtons.SetActive(false);
+            DownScrollAnimation();
         }
 
 
@@ -339,10 +342,6 @@ public class PF_SurfManager : Manager
         Controller.transform.position = new Vector2(ControllerPostion.x, ControllerPostion.y);
         if (CurrentPosition < MwsiveSongsData.Count - 1)
         {
-            DOTween.Pause(ActiveMwsiveSongs[1]);
-            DOTween.Pause(ActiveMwsiveSongs[2]);
-            DOTween.Pause(ActiveMwsiveSongs[3]);
-            DOTween.Pause(ActiveMwsiveSongs[4]);
 
             if (Challenge)
             {
@@ -425,13 +424,6 @@ public class PF_SurfManager : Manager
             }
             Success = true;
 
-            DOTween.Pause(ActiveMwsiveSongs[1]);
-            DOTween.Pause(ActiveMwsiveSongs[2]);
-            DOTween.Pause(ActiveMwsiveSongs[3]);
-            DOTween.Pause(ActiveMwsiveSongs[4]);
-            DOTween.Pause(ActiveMwsiveSongs[0]);
-            
-
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().SetValues(1, -MaxRotation, 0, true, true, RestPositions[1]);
             ActiveMwsiveSongs[1].GetComponent<SurfAni>().Play_VerticalDown1();
 
@@ -500,11 +492,6 @@ public class PF_SurfManager : Manager
         if (CurrentPosition < MwsiveSongsData.Count - 1)
         {
             SpotifyPreviewAudioManager.instance.StopTrack();
-
-            DOTween.Pause(ActiveMwsiveSongs[1]);
-            DOTween.Pause(ActiveMwsiveSongs[2]);
-            DOTween.Pause(ActiveMwsiveSongs[3]);
-            DOTween.Pause(ActiveMwsiveSongs[4]);
 
             if (Challenge)
             {
