@@ -26,6 +26,15 @@ public class OpenGallery : Manager
     public void GetImageFromGallery()
     {
         readaccessStatus = MediaServices.GetGalleryAccessStatus(GalleryAccessMode.Read);
+        if(readaccessStatus == GalleryAccessStatus.Denied)
+        {
+            CallPopUP(PopUpViewModelTypes.OptionChoice, "Necesitas permisos", "La aplicación requiere permisos de galería para poder cambiar tu foto.", "Dar permisos");
+            PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+            popUpViewModel.SetPopUpAction(() => {
+                Utilities.OpenApplicationSettings();
+            });
+            return;
+        }
         if(readaccessStatus == GalleryAccessStatus.NotDetermined)
         {
             MediaServices.RequestGalleryAccess(GalleryAccessMode.Read, callback: (result, error) =>
@@ -91,5 +100,16 @@ public class OpenGallery : Manager
                 }
             });
         }
+    }
+
+    private void CallPopUP(PopUpViewModelTypes _type, string _titleText, string _descriptionText, string _actionButtonText = "")
+    {
+
+        NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
+        PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+        popUpViewModel.Initialize(_type, _titleText, _descriptionText, _actionButtonText);
+        popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); });
+
+
     }
 }
