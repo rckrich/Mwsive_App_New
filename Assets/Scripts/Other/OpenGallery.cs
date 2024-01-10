@@ -32,6 +32,7 @@ public class OpenGallery : Manager
             PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
             popUpViewModel.SetPopUpAction(() => {
                 Utilities.OpenApplicationSettings();
+                NewScreenManager.instance.BackToPreviousView();
             });
             return;
         }
