@@ -15,8 +15,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/register";
-        string url = "http://192.241.129.184/api/register";
+        string url = "https://wavemanager.mwsive.com/api/register";
+        //string url = "http://192.241.129.184/api/register";
 
         CreateMwsiveUserRoot createMwsiveUserRoot = new CreateMwsiveUserRoot
         {
@@ -79,8 +79,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/login";
-        string url = "http://192.241.129.184/api/login";
+        string url = "https://wavemanager.mwsive.com/api/login";
+        //string url = "http://192.241.129.184/api/login";
 
         LogInMwsiveRoot logInMwsiveRoot = new LogInMwsiveRoot
         {
@@ -146,8 +146,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/logout";
-        string url = "http://192.241.129.184/api/logout";
+        string url = "https://wavemanager.mwsive.com/api/logout";
+        //string url = "http://192.241.129.184/api/logout";
 
         using (UnityWebRequest webRequest = new UnityWebRequest(url, "POST"))
         {
@@ -190,8 +190,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/me";
-        string url = "http://192.241.129.184/api/me";
+        string url = "https://wavemanager.mwsive.com/api/me";
+        //string url = "http://192.241.129.184/api/me";
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -249,8 +249,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/users/" + _user_id;
-        string url = "http://192.241.129.184/api/users/" + _user_id;
+        string url = "https://wavemanager.mwsive.com/api/users/" + _user_id;
+        //string url = "http://192.241.129.184/api/users/" + _user_id;
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -307,8 +307,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/api/me/delete";
-        string url = "http://192.241.129.184/api/me/delete";
+        string url = "https://wavemanager.mwsive.com/api/me/delete";
+        //string url = "http://192.241.129.184/api/me/delete";
 
         using (UnityWebRequest webRequest = new UnityWebRequest(url, "POST"))
         {
@@ -350,8 +350,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/me/last-selected-playlist/" + _playlist_id;
-        string url = "http://192.241.129.184/api/me/last-selected-playlist/" + _playlist_id;
+        string url = "https://wavemanager.mwsive.com/api/me/last-selected-playlist/" + _playlist_id;
+        //string url = "http://192.241.129.184/api/me/last-selected-playlist/" + _playlist_id;
 
         using (UnityWebRequest webRequest = UnityWebRequest.Put(url, ""))
         {
@@ -394,8 +394,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/tracks/action";
-        string url = "http://192.241.129.184/api/tracks/action";
+        string url = "https://wavemanager.mwsive.com/api/tracks/action";
+        //string url = "http://192.241.129.184/api/tracks/action";
 
         TrackActionRoot newAction = new TrackActionRoot
         {
@@ -454,8 +454,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/tracks/" + _track_id + "/curators/" + _offset.ToString() + "/" + _limit.ToString();
-        string url = "http://192.241.129.184/api/tracks/" + _track_id + "/curators/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "https://wavemanager.mwsive.com/api/tracks/" + _track_id + "/curators/" + _offset.ToString() + "/" + _limit.ToString();
+        //string url = "http://192.241.129.184/api/tracks/" + _track_id + "/curators/" + _offset.ToString() + "/" + _limit.ToString();
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -500,8 +500,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/track_following";
-        string url = "http://192.241.129.184/api/track/following";
+        string url = "https://wavemanager.mwsive.com/api/track/following";
+        //string url = "http://192.241.129.184/api/track/following";
 
         Dictionary<string, string> parameters = new Dictionary<string, string>();
         parameters.Add("track_id", _track_id);
@@ -551,8 +551,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/me/followers/" + _offset.ToString() + "/" + _limit.ToString();
-        string url = "http://192.241.129.184/api/me/followers/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "https://wavemanager.mwsive.com/api/me/followers/" + _offset.ToString() + "/" + _limit.ToString();
+        //string url = "http://192.241.129.184/api/me/followers/" + _offset.ToString() + "/" + _limit.ToString();
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -598,8 +598,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/me/followed/" + _offset.ToString() + "/" + _limit.ToString();
-        string url = "http://192.241.129.184/api/me/followed/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "https://wavemanager.mwsive.com/api/me/followed/" + _offset.ToString() + "/" + _limit.ToString();
+        //string url = "http://192.241.129.184/api/me/followed/" + _offset.ToString() + "/" + _limit.ToString();
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -645,8 +645,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/users/" +_user_id + "/followers/" + _offset.ToString() + "/" + _limit.ToString();
-        string url = "http://192.241.129.184/api/users/" + _user_id + "/followers/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "https://wavemanager.mwsive.com/api/users/" +_user_id + "/followers/" + _offset.ToString() + "/" + _limit.ToString();
+        //string url = "http://192.241.129.184/api/users/" + _user_id + "/followers/" + _offset.ToString() + "/" + _limit.ToString();
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -692,8 +692,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/users/" +_user_id + "/followed/" + _offset.ToString() + "/" + _limit.ToString();
-        string url = "http://192.241.129.184/api/users/" + _user_id + "/followed/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "https://wavemanager.mwsive.com/api/users/" +_user_id + "/followed/" + _offset.ToString() + "/" + _limit.ToString();
+        //string url = "http://192.241.129.184/api/users/" + _user_id + "/followed/" + _offset.ToString() + "/" + _limit.ToString();
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -739,8 +739,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/me/follow";
-        string url = "http://192.241.129.184/api/me/follow";
+        string url = "https://wavemanager.mwsive.com/api/me/follow";
+        //string url = "http://192.241.129.184/api/me/follow";
 
         PostFollowRoot postFollowRoot = new PostFollowRoot
         {
@@ -791,8 +791,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/api/me/follow/" + _user_id;
-        string url = "http://192.241.129.184/api/me/follow/" + _user_id;
+        string url = "https://wavemanager.mwsive.com/api/me/follow/" + _user_id;
+        //string url = "http://192.241.129.184/api/me/follow/" + _user_id;
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -838,8 +838,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/me/users/search/"+ _name;
-        string url = "http://192.241.129.184/api/users/search/" + _name;
+        string url = "https://wavemanager.mwsive.com/api/me/users/search/" + _name;
+        //string url = "http://192.241.129.184/api/users/search/" + _name;
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -886,8 +886,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "http://mwsive.com/api/users/{user_id}/badges/{type}/{offset}/{limit}";
-        string url = "http://192.241.129.184/api/users/" + userid + "/badges/" + type + "/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "https://wavemanager.mwsive.com/api/users/" + userid + "/badges/" + type + "/" + _offset.ToString() + "/" + _limit.ToString();
+        //string url = "http://192.241.129.184/api/users/" + userid + "/badges/" + type + "/" + _offset.ToString() + "/" + _limit.ToString();
 
         DebugLogManager.instance.DebugLog(url);
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
@@ -938,8 +938,8 @@ public class MwsiveWebCalls : MonoBehaviour
 
         form.AddField("badge_id", _badge_id);
 
-        //string url = "https://mwsive.com/me/badges/complete";
-        string url = "http://192.241.129.184/api/me/badges/complete";
+        string url = "https://wavemanager.mwsive.com/api/me/badges/complete";
+        //string url = "http://192.241.129.184/api/me/badges/complete";
 
         using (UnityWebRequest webRequest = UnityWebRequest.Post(url, form))
         {
@@ -992,8 +992,8 @@ public class MwsiveWebCalls : MonoBehaviour
 
         string jsonRaw = JsonConvert.SerializeObject(postUserPhoto);
 
-        //string url = "https://mwsive.com/api/me/image";
-        string url = "http://192.241.129.184/api/me/image";
+        string url = "https://wavemanager.mwsive.com/api/me/image";
+        //string url = "http://192.241.129.184/api/me/image";
 
         using (UnityWebRequest webRequest = UnityWebRequest.Post(url, jsonRaw, "application/json"))
         {
@@ -1035,8 +1035,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/api/me/display-name";
-        string url = "http://192.241.129.184/api/me/display-name";
+        string url = "https://wavemanager.mwsive.com/api/me/display-name";
+        //string url = "http://192.241.129.184/api/me/display-name";
 
         PostDisplayNameRoot postDisplayNameRoot = new PostDisplayNameRoot { display_name = _display_name };
 
@@ -1082,8 +1082,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         //string jsonResult = "";
 
-        //string url = "https://mwsive.com/api/me/shared-url";
-        string url = "http://192.241.129.184/api/me/shared-url";
+        string url = "https://wavemanager.mwsive.com/api/me/shared-url";
+        //string url = "http://192.241.129.184/api/me/shared-url";
 
         PostUserLinkRoot postUserLinkRoot = new PostUserLinkRoot { type = _type, url = _url };
 
@@ -1129,8 +1129,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/api/me/adn";
-        string url = "http://192.241.129.184/api/me/adn";
+        string url = "https://wavemanager.mwsive.com/api/me/adn";
+        //string url = "http://192.241.129.184/api/me/adn";
 
         MusicalDNA musicalDNA = new MusicalDNA
         {
@@ -1189,8 +1189,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/api/ranking/ + _offset.ToString() + "/" + _limit.ToString();";
-        string url = "http://192.241.129.184/api/ranking/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "https://wavemanager.mwsive.com/api/ranking/" + _offset.ToString() + "/" + _limit.ToString();
+        //string url = "http://192.241.129.184/api/ranking/" + _offset.ToString() + "/" + _limit.ToString();
 
         DebugLogManager.instance.DebugLog(url);
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
@@ -1236,8 +1236,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/settings";
-        string url = "http://192.241.129.184/api/settings";
+        string url = "https://wavemanager.mwsive.com/api/settings";
+        //string url = "http://192.241.129.184/api/settings";
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -1282,8 +1282,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/api/challenges" + _offset + "/" + _limit;
-        string url = "http://192.241.129.184/api/challenges/" + _offset + "/" + _limit;
+        string url = "https://wavemanager.mwsive.com/api/challenges/" + _offset + "/" + _limit;
+        //string url = "http://192.241.129.184/api/challenges/" + _offset + "/" + _limit;
 
         Dictionary<string, string> parameters = new Dictionary<string, string>();
         parameters.Add("offset", _offset.ToString());
@@ -1334,8 +1334,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/api/me/challenges/completed/" + _offset + " / " + _limit;
-        string url = "http://192.241.129.184/api/me/challenges/completed/" + _offset + " / " + _limit;
+        string url = "https://wavemanager.mwsive.com/api/me/challenges/completed/" + _offset + " / " + _limit;
+        //string url = "http://192.241.129.184/api/me/challenges/completed/" + _offset + " / " + _limit;
 
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
@@ -1381,8 +1381,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/api/me/challenges/started";
-        string url = "http://192.241.129.184/api/me/challenges/started";
+        string url = "https://wavemanager.mwsive.com/api/me/challenges/started";
+        //string url = "http://192.241.129.184/api/me/challenges/started";
 
         ChallengeCompleteRoot challengeCompleteRoot = new ChallengeCompleteRoot
         {
@@ -1437,8 +1437,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/api/me/challenges/completed";
-        string url = "http://192.241.129.184/api/me/challenges/completed";
+        string url = "https://wavemanager.mwsive.com/api/me/challenges/completed";
+        //string url = "http://192.241.129.184/api/me/challenges/completed";
 
         ChallengeCompleteRoot challengeCompleteRoot = new ChallengeCompleteRoot
         {
@@ -1500,8 +1500,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/advertasing/" + _offset + "/" + _limit;
-        string url = "http://192.241.129.184/api/advertisements/" + _offset + "/" + _limit;
+        string url = "https://wavemanager.mwsive.com/api/advertisements/" + _offset + "/" + _limit;
+        //string url = "http://192.241.129.184/api/advertisements/" + _offset + "/" + _limit;
 
         Dictionary<string, string> parameters = new Dictionary<string, string>();
         parameters.Add("offset", _offset.ToString());
@@ -1551,8 +1551,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/advertisements/click";
-        string url = "http://192.241.129.184/api/advertisements/click";
+        string url = "https://wavemanager.mwsive.com/api/advertisements/click";
+        //string url = "http://192.241.129.184/api/advertisements/click";
 
         AdvertisementClickRoot advertisementClickRoot = new AdvertisementClickRoot
         {
@@ -1608,8 +1608,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/recommended/curators/" + _offset.ToString() + "/" + _limit.ToString();
-        string url = "http://192.241.129.184/api/recommended/curators/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "https://wavemanager.mwsive.com/api/recommended/curators/" + _offset.ToString() + "/" + _limit.ToString();
+        //string url = "http://192.241.129.184/api/recommended/curators/" + _offset.ToString() + "/" + _limit.ToString();
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -1653,8 +1653,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/recommended/artists/" + _offset.ToString() + "/" + _limit.ToString();
-        string url = "http://192.241.129.184/api/recommended/artists/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "https://wavemanager.mwsive.com/api/recommended/artists/" + _offset.ToString() + "/" + _limit.ToString();
+        //string url = "http://192.241.129.184/api/recommended/artists/" + _offset.ToString() + "/" + _limit.ToString();
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -1698,8 +1698,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/recommended/playlists/" + _offset.ToString() + "/" + _limit.ToString();
-        string url = "http://192.241.129.184/api/recommended/playlists/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "https://wavemanager.mwsive.com/api/recommended/playlists/" + _offset.ToString() + "/" + _limit.ToString();
+        //string url = "http://192.241.129.184/api/recommended/playlists/" + _offset.ToString() + "/" + _limit.ToString();
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -1743,8 +1743,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/recommended/tracks/" + _offset.ToString() + "/" + _limit.ToString();
-        string url = "http://192.241.129.184/api/recommended/tracks/" + _offset.ToString() + " / " + _limit.ToString();
+        string url = "https://wavemanager.mwsive.com/api/recommended/tracks/" + _offset.ToString() + "/" + _limit.ToString();
+        //string url = "http://192.241.129.184/api/recommended/tracks/" + _offset.ToString() + " / " + _limit.ToString();
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -1788,8 +1788,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/recommended/albums/" + _offset.ToString() + "/" + _limit.ToString();
-        string url = "http://192.241.129.184/api/recommended/albums/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "https://wavemanager.mwsive.com/api/recommended/albums/" + _offset.ToString() + "/" + _limit.ToString();
+        //string url = "http://192.241.129.184/api/recommended/albums/" + _offset.ToString() + "/" + _limit.ToString();
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -1833,7 +1833,7 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/genres/" + _offset.ToString() + "/" + _limit.ToString();
+        //string url = "https://wavemanager.mwsive.com/api/recommended/genres/" + _offset.ToString() + "/" + _limit.ToString();
         string url = "http://192.241.129.184/api/recommended/genres/" + _offset.ToString() + "/" + _limit.ToString();
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
@@ -1878,8 +1878,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/tracks/" + _track_id;
-        string url = "http://192.241.129.184/api/tracks/" + _track_id;
+        string url = "https://wavemanager.mwsive.com/api/tracks/" + _track_id;
+        //string url = "http://192.241.129.184/api/tracks/" + _track_id;
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
@@ -1923,8 +1923,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://mwsive.com/tracks/" + _track_id + "/info/" + _playlist_id;
-        string url = "http://192.241.129.184/api/tracks/" + _track_id + "/info/" + _playlist_id;
+        string url = "https://wavemanager.mwsive.com/api/tracks/" + _track_id + "/info/" + _playlist_id;
+        //string url = "http://192.241.129.184/api/tracks/" + _track_id + "/info/" + _playlist_id;
 
         DebugLogManager.instance.DebugLog("Track info url is: " + url);
 
