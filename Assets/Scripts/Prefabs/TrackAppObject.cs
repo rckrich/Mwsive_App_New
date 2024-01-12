@@ -21,14 +21,12 @@ public class TrackAppObject : AppObject
     {
         track = (Track)list[0];
 
-        if (track.name.Length > 27)
+        if (track.name.Length > 20)
         {
             string _text2 = "";
-            for (int k = 0; k < 27; k++)
+            for (int k = 0; k < 20; k++)
             {
-
                 _text2 = _text2 + track.name[k];
-
             }
             _text2 = _text2 + "...";
             displayName.text = _text2;
@@ -41,10 +39,10 @@ public class TrackAppObject : AppObject
         artists = "";
         foreach (Artist artist in track.artists) { artists += artist.name + ", "; }
 
-        if (artists.Length > 27)
+        if (artists.Length > 16)
         {
             string _text2 = "";
-            for (int k = 0; k < 27; k++)
+            for (int k = 0; k < 16; k++)
             {
 
                 _text2 = _text2 + artists[k];

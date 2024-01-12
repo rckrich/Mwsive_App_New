@@ -1833,8 +1833,8 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        //string url = "https://wavemanager.mwsive.com/api/recommended/genres/" + _offset.ToString() + "/" + _limit.ToString();
-        string url = "http://192.241.129.184/api/recommended/genres/" + _offset.ToString() + "/" + _limit.ToString();
+        string url = "https://wavemanager.mwsive.com/api/recommended/genres/" + _offset.ToString() + "/" + _limit.ToString();
+        //string url = "http://192.241.129.184/api/recommended/genres/" + _offset.ToString() + "/" + _limit.ToString();
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
