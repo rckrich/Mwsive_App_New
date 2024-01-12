@@ -20,8 +20,10 @@ public class GenreAppObject : AppObject
         genreText.text = mwsiveGenre.name;
         
         if (mwsiveGenre.image != null)
+        {
+            genreCoverImage.color = Color.white;
             ImageManager.instance.GetImage(mwsiveGenre.image_url, genreCoverImage, (RectTransform)this.transform);
-        
+        }
 
         foreach (MwsiveTrack mwsiveTrack in (List<MwsiveTrack>)list[1])
         {
