@@ -69,6 +69,7 @@ public class TrackAppObject : AppObject
 
     public void OnClick_TrackAppObject()
     {
+        
         NewScreenManager.instance.ChangeToSpawnedView("cancion");
         NewScreenManager.instance.GetCurrentView().GetComponent<TrackViewModel>().trackID = trackID;
     }
