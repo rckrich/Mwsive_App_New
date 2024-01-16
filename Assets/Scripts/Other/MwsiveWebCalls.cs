@@ -838,7 +838,7 @@ public class MwsiveWebCalls : MonoBehaviour
     {
         string jsonResult = "";
 
-        string url = "https://wavemanager.mwsive.com/api/me/users/search/" + _name;
+        string url = "https://wavemanager.mwsive.com/api/users/search/" + _name;
         //string url = "http://192.241.129.184/api/users/search/" + _name;
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
