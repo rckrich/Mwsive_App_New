@@ -56,7 +56,22 @@ public class TrackViewModel : ViewModel
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
 
         trackRoot = (TrackRoot)_value[1];
+
         displayName.text = trackRoot.name;
+
+        if (displayName.text.Length > 37)
+        {
+            string _text1 = "";
+            for (int j = 0; j < 37; j++)
+            {
+
+                _text1 = _text1 + displayName.text[j];
+
+            }
+            _text1 = _text1 + "...";
+            displayName.text = _text1;
+        }
+
         trackID = trackRoot.external_urls.spotify;
 
         foreach(Artist artist in trackRoot.artists) {
