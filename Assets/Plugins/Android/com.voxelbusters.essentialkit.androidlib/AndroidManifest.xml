@@ -1,7 +1,22 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="com.voxelbusters.essentialkitplugin" android:versionCode="1" android:versionName="1.0">
   <queries />
-  <application />
+  <application>
+    <activity android:name="com.voxelbusters.essentialkit.deeplinkservices.DeepLinkRedirectActivity" android:label="Mwsive" android:exported="true">
+      <intent-filter android:label="identifier" android:autoVerify="true">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="https" android:host="mwsive.com" android:pathPrefix="/link/track" />
+      </intent-filter>
+      <intent-filter android:label="identifier" android:autoVerify="true">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="https" android:host="mwsive.com" android:pathPrefix="/link/profile" />
+      </intent-filter>
+    </activity>
+  </application>
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
   <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />

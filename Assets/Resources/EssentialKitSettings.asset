@@ -151,23 +151,33 @@ MonoBehaviour:
     m_usesGallery: 1
     m_savesFilesToGallery: 1
   m_deepLinkServicesSettings:
-    m_isEnabled: 0
+    m_isEnabled: 1
     m_iosProperties:
       m_customSchemeUrls: []
-      m_universalLinks: []
+      m_universalLinks:
+      - m_identifier: 
+        m_serviceType: 
+        m_scheme: https
+        m_host: mwsive.com
+        m_path: link/track
+      - m_identifier: 
+        m_serviceType: 
+        m_scheme: https
+        m_host: mwsive.com
+        m_path: link/profile
     m_androidProperties:
-      m_customSchemeUrls:
+      m_customSchemeUrls: []
+      m_universalLinks:
       - m_identifier: 
         m_serviceType: 
-        m_scheme: rck
-        m_host: mwsive
-        m_path: song
+        m_scheme: https
+        m_host: mwsive.com
+        m_path: link/track
       - m_identifier: 
         m_serviceType: 
-        m_scheme: rck
-        m_host: mwsive
-        m_path: profile
-      m_universalLinks: []
+        m_scheme: https
+        m_host: mwsive.com
+        m_path: link/profile
   m_utilitySettings:
     m_isEnabled: 1
     m_usesStoreRatingUtility: 1
