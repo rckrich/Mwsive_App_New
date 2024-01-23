@@ -57,7 +57,7 @@ public class NativeShareManager : MonoBehaviour
         for (int i = 0; i < Link.Length; i++)
         {
             Debug.Log(Link[i]);
-            if(Link[i] == "song"){
+            if(Link[i] == "track"){
                 
                 Surf.SpawnSharePrefab(Link[i+1]);
                 NewScreenManager.instance.ChangeToMainView(ViewID.SurfViewModel);
@@ -166,7 +166,7 @@ public class NativeShareManager : MonoBehaviour
         for (int i = 0; i < Link.Length; i++)
         {
             Debug.Log(Link[i]);
-            if(Link[i] == "song"){
+            if(Link[i] == "track"){
                 
                 Surf.SpawnSharePrefab(Link[i+1]);
                 NewScreenManager.instance.ChangeToMainView(ViewID.SurfViewModel);
@@ -185,8 +185,8 @@ public class NativeShareManager : MonoBehaviour
         
         if(boolswitch){
             ShareSheet shareSheet = ShareSheet.CreateInstance();
-        shareSheet.AddText("rck://mwsive/song" + spotifyId);
-        shareSheet.AddURL(URLString.URLWithPath("rck://mwsive/song" + spotifyId));
+        //shareSheet.AddText("https://mwsive.com/link/track/" + spotifyId);
+        shareSheet.AddURL(URLString.URLWithPath("https://mwsive.com/link/track/" + spotifyId));
         shareSheet.SetCompletionCallback((result, error) => {
             Debug.Log("Share Sheet was closed. Result code: " + result.ResultCode);
         });
@@ -199,8 +199,8 @@ public class NativeShareManager : MonoBehaviour
     public void OnClickShareMwsiveProfile(string profileid){
        
             ShareSheet shareSheet = ShareSheet.CreateInstance();
-        shareSheet.AddText("rck://mwsive/profile" + profileid);
-        shareSheet.AddURL(URLString.URLWithPath("rck://mwsive/profile" + profileid));
+        //shareSheet.AddText("rck://mwsive/profile" + profileid);
+        shareSheet.AddURL(URLString.URLWithPath("https://mwsive.com/link/profile/" + profileid));
         shareSheet.SetCompletionCallback((result, error) => {
             Debug.Log("Share Sheet was closed. Result code: " + result.ResultCode);
         });
