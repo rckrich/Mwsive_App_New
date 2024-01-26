@@ -7,14 +7,14 @@ public class ArrowButtonOnClick : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    public Animator animator;
+    public GameObject arrowObject;
     public int count = 0;
     public GameObject opciones;
     
     public List<GameObject> opcionesList;
     void Start()
     {
-        
+    
     }
 
     // Update is called once per frame
@@ -27,16 +27,17 @@ public class ArrowButtonOnClick : MonoBehaviour
     {
         if (count == 1)
         {
-            
-            animator.Play("ArrowSettingsPlay2_Anim");
+
+            //animator.Play("ArrowSettingsPlay2_Anim");
+            arrowObject.transform.DORotate(new Vector3(0, 0, 0), .5F);
             //animationManager.GetComponent<UIAniManager>().FadeOut(opciones);
             count--;
             opciones.SetActive(false);
         }
         else
         {
-            
-            animator.Play("ArrowSettingsPlay_Anim");
+            arrowObject.transform.DORotate(new Vector3(0, 0, -90), .5F);
+            //animator.Play("ArrowSettingsPlay_Anim");
             count++;
             foreach (var opcion in opcionesList)
             {
@@ -47,4 +48,16 @@ public class ArrowButtonOnClick : MonoBehaviour
         }
         
     }
+
+    private void OnDisable()
+    {
+        if(count == 1)
+        {
+            arrowObject.transform.eulerAngles = Vector3.zero;
+            opciones.SetActive(false);
+            count--;
+        }
+    }
+
+
 }
