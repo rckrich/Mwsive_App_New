@@ -1304,6 +1304,7 @@ public class SurfManager : Manager
         }
 
         Instance.GetComponent<ButtonSurfPlaylist>().ClearData();
+        Instance.GetComponent<MwsiveButton>().ChangeSizeToMain();
         if (PrefabPosition == 0)
         {
             Instance.transform.position = RestPositions[4].transform.position;

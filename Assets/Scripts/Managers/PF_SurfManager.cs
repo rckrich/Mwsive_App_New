@@ -1479,6 +1479,7 @@ public class PF_SurfManager : Manager
 
 
         Instance.GetComponent<ButtonSurfPlaylist>().ClearData();
+        Instance.GetComponent<MwsiveButton>().ChangeSizeForSpawn();
         if (PrefabPosition == 0)
         {
             Instance.transform.position = RestPositions[4].transform.position;
