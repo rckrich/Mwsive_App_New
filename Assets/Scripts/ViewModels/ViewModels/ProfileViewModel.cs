@@ -28,6 +28,7 @@ public class ProfileViewModel : ViewModel
     public Color unfollowColor;
     public Color followTextColor;
     public Color unfollowTextColor;
+    public TextMeshProUGUI yourPlaylist;
     [Header("Badges References")]
     public GameObject BadgesHolderPrefab;
     public Transform BadgesContent;
@@ -143,6 +144,7 @@ public class ProfileViewModel : ViewModel
         {
             StartSearch();
             MwsiveConnectionManager.instance.GetCurrentMwsiveUser(Callback_GetCurrentMwsiveUser);
+            
         }
         else
         {
@@ -197,6 +199,7 @@ public class ProfileViewModel : ViewModel
 
     private void Callback_OnClick_GetUserPlaylists(object[] _value)
     {
+        
         Clear();
 
         if (SpotifyConnectionManager.instance.CheckReauthenticateUser((long)_value[0])) return;
@@ -638,6 +641,7 @@ public class ProfileViewModel : ViewModel
             if (AppManager.instance.currentMwsiveUser.platform_id.Equals(profileId))
             {
                 followButtonText.text = "Editar perfil";
+                yourPlaylist.text = "Tus playlist";
             }
             else
             {
