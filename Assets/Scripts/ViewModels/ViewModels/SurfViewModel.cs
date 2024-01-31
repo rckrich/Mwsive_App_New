@@ -58,7 +58,7 @@ public class SurfViewModel : ViewModel
 
     public void OnClick_Discos()
     {       
-        CallPopUP(PopUpViewModelTypes.MessageOnly, "¿Qué son las PIKCoins?", "Consíguelas surfeando sets y vota por las canciones que sientas serán el próximo hit.. <br> <color=#7C7DF5>1 PIKCoin = 1 Voto</color> <br>", "Aceptar", image);
+        CallPopUP(PopUpViewModelTypes.MessageOnly, "¿Qué son las PIKCoins?", "Consíguelas surfeando sets y vota por las canciones que sientas serán el próximo hit... <br> <color=#7C7DF5>1 PIKCoin = 1 Voto</color> <br>", "Aceptar", image);
 #if PLATFORM_ANDROID
         PopUpViewModel currentPopUp = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
         AppManager.instance.SetAndroidBackAction(() => {
