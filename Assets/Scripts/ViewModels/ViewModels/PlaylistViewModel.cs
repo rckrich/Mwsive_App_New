@@ -243,7 +243,22 @@ public class PlaylistViewModel : ViewModel
     {
         shimmer.SetActive(true);
         isExplore = true;
-        playlistName.text = _playlist_name;
+        if (_playlist_name.Length > 27)
+        {
+            string _text2 = "";
+            for (int k = 0; k < 27; k++)
+            {
+
+                _text2 = _text2 + _playlist_name[k];
+
+            }
+            _text2 = _text2 + "...";
+            playlistName.text = _text2;
+        }
+        else
+        {
+            playlistName.text = _playlist_name;
+        };
         SpotifyConnectionManager.instance.GetSeveralTracks(_tracksID, Callback_GetSeveralTracks);
     }
 
