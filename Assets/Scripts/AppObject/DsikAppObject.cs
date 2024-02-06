@@ -25,7 +25,15 @@ public class DsikAppObject : AppObject
                 }
                 else
                 {
-                    diskCounter.text = AppManager.instance.currentMwsiveUser.total_disks.ToString();
+                    if (AppManager.instance.currentMwsiveUser.total_disks < 0)
+                    {
+                        diskCounter.text = "0";
+                    }
+                    else
+                    {
+                        diskCounter.text = AppManager.instance.currentMwsiveUser.total_disks.ToString();
+                    }
+                    
                 }
             }
         }
@@ -49,7 +57,14 @@ public class DsikAppObject : AppObject
                 }
                 else
                 {
-                    diskCounter.text = AppManager.instance.currentMwsiveUser.total_disks.ToString();
+                    if (AppManager.instance.currentMwsiveUser.total_disks < 0)
+                    {
+                        diskCounter.text = "0";
+                    }
+                    else
+                    {
+                        diskCounter.text = AppManager.instance.currentMwsiveUser.total_disks.ToString();
+                    }
                 }
             }
             else if (_event.type.Equals("SUBSTRACT"))
@@ -61,7 +76,14 @@ public class DsikAppObject : AppObject
                 }
                 else
                 {
-                    diskCounter.text = AppManager.instance.currentMwsiveUser.total_disks.ToString();
+                    if (AppManager.instance.currentMwsiveUser.total_disks < 0)
+                    {
+                        diskCounter.text = "0";
+                    }
+                    else
+                    {
+                        diskCounter.text = AppManager.instance.currentMwsiveUser.total_disks.ToString();
+                    }
                 }
             }
             InvokeEvent<ReadDiskAppEvent>(new ReadDiskAppEvent());
