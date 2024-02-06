@@ -15,7 +15,7 @@ public class AlbumViewModel : ViewModel
     public Transform instanceParent;
    //public int objectsToNotDestroyIndex;
     public string id;
-    public TextMeshProUGUI playlistName;
+    public TextMeshProUGUI albumName;
     public bool @public;
     public string artists;
     public float end;
@@ -97,7 +97,24 @@ public class AlbumViewModel : ViewModel
         if(_Album.images[0].url != null){
             image = _Album.images[0].url;
         }
-    
+
+        if (_Album.name.Length > 27)
+        {
+            string _text2 = "";
+            for (int k = 0; k < 27; k++)
+            {
+
+                _text2 = _text2 + _Album.name[k];
+
+            }
+            _text2 = _text2 + "...";
+            albumName.text = _text2;
+        }
+        else
+        {
+            albumName.text = _Album.name;
+        }
+
         InstanceTrackObjects(_Album.tracks);
         stringUrl = _Album.external_urls.spotify;
        
