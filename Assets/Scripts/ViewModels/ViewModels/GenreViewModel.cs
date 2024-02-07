@@ -85,16 +85,18 @@ public class GenreViewModel : ViewModel
 
     public void OnReachEnd()
     {
-        if (onlyone == 0)
+        if(severalID != null)
         {
-            if (scrollRect.verticalNormalizedPosition <= end)
+            if (onlyone == 0)
             {
-                MoreThan50IDs();
-                onlyone = 1;
+                if (scrollRect.verticalNormalizedPosition <= end)
+                {
+                    MoreThan50IDs();
+                    onlyone = 1;
+                }
             }
         }
-        
-
+       
     }
     public void OnClick_BackButton()
     {
