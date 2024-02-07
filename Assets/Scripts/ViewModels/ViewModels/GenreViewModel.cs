@@ -65,22 +65,27 @@ public class GenreViewModel : ViewModel
             }
 
         }
+        onlyone = 0;
     }
 
     private void MoreThan50IDs()
     {
-        List<string> genreID = new List<string>();
-        for(int i = trackCount; i < trackCount+50; i++)
+        if (!noMoreTracks)
         {
-            if (trackCount > severalID.Length)
+            List<string> genreID = new List<string>();
+            for (int i = trackCount; i < trackCount + 50; i++)
             {
-                noMoreTracks = true;
-                break;
+                if (trackCount > severalID.Length)
+                {
+                    noMoreTracks = true;
+                    break;
+                }
+                genreID.Add(severalID[i]);
+                trackCount++;
             }
-            genreID.Add(severalID[i]);
-            trackCount++;
+            SpotifyConnectionManager.instance.GetSeveralTracks(genreID.ToArray(), Callback_GetSeveralTracks);
         }
-        SpotifyConnectionManager.instance.GetSeveralTracks(genreID.ToArray(), Callback_GetSeveralTracks);
+        
     }
 
     public void OnReachEnd()
@@ -91,8 +96,9 @@ public class GenreViewModel : ViewModel
             {
                 if (scrollRect.verticalNormalizedPosition <= end)
                 {
-                    MoreThan50IDs();
                     onlyone = 1;
+                    MoreThan50IDs();
+                    
                 }
             }
         }

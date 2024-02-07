@@ -30,6 +30,12 @@ public class PlaylistViewModel : ViewModel
     private int NumberofTracks, NumberofTracksToCompare;
 
 
+    private string[] severalID;
+    private int trackCount = 0;
+    private bool noMoreTracks = false;
+
+
+
     public override void Initialize(params object[] list)
     {
 #if PLATFORM_ANDROID
@@ -112,17 +118,36 @@ public class PlaylistViewModel : ViewModel
     }
     public void OnReachEnd()
     {
-
-        if (onlyone == 0)
+        if( id != null)
         {
-            if (scrollRect.verticalNormalizedPosition <= end)
+            if (onlyone == 0)
             {
-                SpotifyConnectionManager.instance.GetPlaylistItems(id, Callback_GetMorePlaylist, "ES", 50, offset);
-                
-                offset += 50;
-                onlyone = 1;
+                if (scrollRect.verticalNormalizedPosition <= end)
+                {
+                    SpotifyConnectionManager.instance.GetPlaylistItems(id, Callback_GetMorePlaylist, "ES", 50, offset);
+
+                    offset += 50;
+                    onlyone = 1;
+                }
             }
         }
+        else
+        {
+            
+            if (severalID != null)
+            {
+                if (onlyone == 0)
+                {
+                    if (scrollRect.verticalNormalizedPosition <= end)
+                    {
+                        onlyone = 1;
+                        MoreThan50IDs();
+                        
+                    }
+                }
+            }
+        }
+        
     }
     private void Callback_GetMorePlaylist(object[] _value)
     {
@@ -259,8 +284,46 @@ public class PlaylistViewModel : ViewModel
         {
             playlistName.text = _playlist_name;
         };
-        SpotifyConnectionManager.instance.GetSeveralTracks(_tracksID, Callback_GetSeveralTracks);
+
+        if (_tracksID.Length >= 50)
+        {
+            severalID = _tracksID;
+            MoreThan50IDs();
+        }
+        else
+        {
+            SpotifyConnectionManager.instance.GetSeveralTracks(_tracksID, Callback_GetSeveralTracks);
+        }
+
+
+
+        
     }
+
+    private void MoreThan50IDs()
+    {
+        if (!noMoreTracks)
+        {
+            List<string> genreID = new List<string>();
+            for (int i = trackCount; i < trackCount + 50; i++)
+            {
+                if (i > severalID.Length-1)
+                {
+                    noMoreTracks = true;
+
+                    break;
+                }
+                Debug.Log(severalID.Length + " - " + i + " - " + trackCount);
+                genreID.Add(severalID[i]);
+
+            }
+
+            trackCount = trackCount + 50;
+            SpotifyConnectionManager.instance.GetSeveralTracks(genreID.ToArray(), Callback_GetSeveralTracks);
+        }
+        
+    }
+
 
     public void Callback_GetSeveralTracks(object[] _value)
     {
@@ -285,6 +348,7 @@ public class PlaylistViewModel : ViewModel
             }
 
         }
+        onlyone = 0;
         shimmer.SetActive(false);
     }
 
