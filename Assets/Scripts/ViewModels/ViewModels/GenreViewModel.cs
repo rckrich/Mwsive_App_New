@@ -1,7 +1,9 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GenreViewModel : ViewModel
 {
@@ -13,6 +15,12 @@ public class GenreViewModel : ViewModel
     public GameObject shimmer;
 
     private SeveralTrackRoot severalTrackRoot;
+    private string[] severalID;
+    private int trackCount = 0;
+    private bool noMoreTracks = false;
+    public ScrollRect scrollRect;
+    public float end;
+    int onlyone = 0;
 
     public override void Initialize(params object[] list)
     {
@@ -24,7 +32,15 @@ public class GenreViewModel : ViewModel
     public void GetSeveralTracks(string[] _genreID, string _name)
     {
         shimmer.SetActive(true);
-        SpotifyConnectionManager.instance.GetSeveralTracks(_genreID, Callback_GetSeveralTracks);
+        if(_genreID.Length >= 50)
+        {
+            severalID = _genreID;
+            MoreThan50IDs();
+        }
+        else
+        {
+            SpotifyConnectionManager.instance.GetSeveralTracks(_genreID, Callback_GetSeveralTracks);  
+        }
         nameTXT.text = _name;
     }
 
@@ -51,7 +67,35 @@ public class GenreViewModel : ViewModel
         }
     }
 
+    private void MoreThan50IDs()
+    {
+        List<string> genreID = new List<string>();
+        for(int i = trackCount; i < trackCount+50; i++)
+        {
+            if (trackCount > severalID.Length)
+            {
+                noMoreTracks = true;
+                break;
+            }
+            genreID.Add(severalID[i]);
+            trackCount++;
+        }
+        SpotifyConnectionManager.instance.GetSeveralTracks(genreID.ToArray(), Callback_GetSeveralTracks);
+    }
 
+    public void OnReachEnd()
+    {
+        if (onlyone == 0)
+        {
+            if (scrollRect.verticalNormalizedPosition <= end)
+            {
+                MoreThan50IDs();
+                onlyone = 1;
+            }
+        }
+        
+
+    }
     public void OnClick_BackButton()
     {
         NewScreenManager.instance.BackToPreviousView();
