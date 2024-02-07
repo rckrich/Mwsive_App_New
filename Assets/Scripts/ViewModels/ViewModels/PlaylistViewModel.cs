@@ -313,7 +313,7 @@ public class PlaylistViewModel : ViewModel
 
                     break;
                 }
-                Debug.Log(severalID.Length + " - " + i + " - " + trackCount);
+                
                 genreID.Add(severalID[i]);
 
             }
