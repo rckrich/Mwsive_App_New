@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,9 +19,14 @@ public class MiPlaylistViewModel : ViewModel
     public string profileID;
     public RectTransform Scroll;
     public GameObject shimmer;
+    public TextMeshProUGUI textPlaylist;
+    public GameObject TusPlaylist;
+    public GameObject button;
+    public GameObject textSelecciona;
 
     public override void Initialize(params object[] list)
     {
+       
 #if PLATFORM_ANDROID
         SetAndroidBackAction();
 #endif
@@ -28,6 +34,7 @@ public class MiPlaylistViewModel : ViewModel
 
     public void GetCurrentUserPlaylist()
     {
+
         shimmer.SetActive(true);
         offset = OFFSET_START;
         SpotifyConnectionManager.instance.GetCurrentUserPlaylists(Callback_OnClick_GetCurrentUserPlaylists);
@@ -51,6 +58,13 @@ public class MiPlaylistViewModel : ViewModel
 
     public void GetUserPlaylist(string _profileId)
     {
+        if (!AppManager.instance.currentMwsiveUser.platform_id.Equals(_profileId))
+        {
+            textPlaylist.text = "Playlist";
+            TusPlaylist.SetActive(false);
+            textSelecciona.SetActive(false);
+            button.SetActive(false);
+        }
         shimmer.SetActive(true);
         profileID = _profileId;
         offset = OFFSET_START;
