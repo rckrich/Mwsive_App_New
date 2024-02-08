@@ -22,6 +22,8 @@ public class GenreViewModel : ViewModel
     public float end;
     int onlyone = 0;
 
+    private List<Track> trackList = new List<Track>();
+
     public override void Initialize(params object[] list)
     {
 #if PLATFORM_ANDROID
@@ -53,6 +55,7 @@ public class GenreViewModel : ViewModel
             if (track != null)
             {
                 TrackHolder instance = GameObject.Instantiate(trackHolderPrefab, instanceParent).GetComponent<TrackHolder>();
+                trackList.Add(track);
                 artists = "";
                 foreach (Artist artist in track.artists) { artists += artist.name + ", "; }
                 instance.Initialize(track.name, artists, track.id, track.artists[0].id, track.uri, track.preview_url, track.external_urls);
@@ -67,25 +70,71 @@ public class GenreViewModel : ViewModel
         }
         onlyone = 0;
     }
+    public void Callback_GetSeveralTracksForSurf(object[] _value)
+    {
+        SeveralTrackRoot severalTrackRootTemporal = (SeveralTrackRoot)_value[1];
+
+        foreach (Track track in severalTrackRootTemporal.tracks)
+        {
+            if (track != null)
+            {
+                trackList.Add(track);
+
+            }
+        }
+
+        if (trackList.Count < severalID.Length)
+        {
+            AskFor50Songs(true);
+        }
+        else
+        {
+
+            NewScreenManager.instance.ChangeToSpawnedView("surf");
+            NewScreenManager.instance.GetCurrentView().GetComponent<PF_SurfViewModel>().Initialize();
+            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(trackList);
+        }
+
+    }
+
+    private void AskFor50Songs(bool flag = false)
+    {
+        List<string> genreID = new List<string>();
+        for (int i = trackCount; i < trackCount + 50; i++)
+        {
+            if (i > severalID.Length - 1)
+            {
+                noMoreTracks = true;
+
+                break;
+            }
+
+            genreID.Add(severalID[i]);
+
+        }
+
+        trackCount = trackCount + 50;
+
+        if (flag == false)
+        {
+
+            SpotifyConnectionManager.instance.GetSeveralTracks(genreID.ToArray(), Callback_GetSeveralTracks);
+        }
+        else
+        {
+
+            SpotifyConnectionManager.instance.GetSeveralTracks(genreID.ToArray(), Callback_GetSeveralTracksForSurf);
+        }
+
+    }
 
     private void MoreThan50IDs()
     {
         if (!noMoreTracks)
         {
-            List<string> genreID = new List<string>();
-            for (int i = trackCount; i < trackCount + 50; i++)
-            {
-                if (trackCount > severalID.Length)
-                {
-                    noMoreTracks = true;
-                    break;
-                }
-                genreID.Add(severalID[i]);
-                trackCount++;
-            }
-            SpotifyConnectionManager.instance.GetSeveralTracks(genreID.ToArray(), Callback_GetSeveralTracks);
+            AskFor50Songs();
         }
-        
+
     }
 
     public void OnReachEnd()
@@ -112,9 +161,21 @@ public class GenreViewModel : ViewModel
 
     public void OnClick_SurfButton()
     {
-        NewScreenManager.instance.ChangeToSpawnedView("surf");
-        NewScreenManager.instance.GetCurrentView().GetComponent<PF_SurfViewModel>().Initialize();
-        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(severalTrackRoot.tracks);
+        
+
+        if(trackList.Count < severalID.Length)
+        {
+            AskFor50Songs(true);
+        }
+        else
+        {
+            NewScreenManager.instance.ChangeToSpawnedView("surf");
+            NewScreenManager.instance.GetCurrentView().GetComponent<PF_SurfViewModel>().Initialize();
+            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(trackList);
+        }
+
+
+        
     }
 
     public override void SetAndroidBackAction()

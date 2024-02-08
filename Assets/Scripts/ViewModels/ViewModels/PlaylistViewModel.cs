@@ -211,42 +211,61 @@ public class PlaylistViewModel : ViewModel
 
     public void OnClick_SurfButton(){
 
-        if (trackList.Count > 0)
+        if( id != null)
         {
-            NewScreenManager.instance.ChangeToSpawnedView("surf");
-            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(trackList);
-            
+            if (trackList.Count > 0)
+            {
+                NewScreenManager.instance.ChangeToSpawnedView("surf");
+                NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(trackList);
+
+            }
+            else
+            {
+                try
+                {
+                    if (searchedPlaylist.tracks.items.Count == 0)
+                    {
+                        UIMessage.instance.UIMessageInstanciate("Esta Playlist no tiene contenido");
+                    }
+                    else
+                    {
+
+                        NewScreenManager.instance.ChangeToSpawnedView("surf");
+                        try
+                        {
+                            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerPLItems(new object[] { playlist }, true, true, id);
+                        }
+                        catch (System.NullReferenceException)
+                        {
+                            SpotifyConnectionManager.instance.GetPlaylistItems(id, Callback_SurfButtonNoPl, "ES", 100);
+                        }
+
+
+                    }
+                }
+                catch (System.NullReferenceException)
+                {
+                    SpotifyConnectionManager.instance.GetPlaylistItems(id, Callback_SurfButtonNoPl, "ES", 100);
+                }
+
+            }
         }
         else
         {
-            try
+            
+            if (trackList.Count == severalID.Length)
             {
-                if (searchedPlaylist.tracks.items.Count == 0)
-                {
-                    UIMessage.instance.UIMessageInstanciate("Esta Playlist no tiene contenido");
-                }
-                else
-                {
+                NewScreenManager.instance.ChangeToSpawnedView("surf");
+                NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(trackList);
 
-                    NewScreenManager.instance.ChangeToSpawnedView("surf");
-                    try
-                    {
-                        NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerPLItems(new object[] { playlist }, true, true, id);
-                    }
-                    catch (System.NullReferenceException)
-                    {
-                        SpotifyConnectionManager.instance.GetPlaylistItems(id, Callback_SurfButtonNoPl, "ES", 100);
-                    }
-
-
-                }
             }
-            catch (System.NullReferenceException)
+            else
             {
-                SpotifyConnectionManager.instance.GetPlaylistItems(id, Callback_SurfButtonNoPl, "ES", 100);
+                AskFor50Songs(true);
             }
-
         }
+
+        
         
         
     }
@@ -259,7 +278,7 @@ public class PlaylistViewModel : ViewModel
     private void Callback_SurfButtonNoPl(object[] _value)
     {
         PlaylistRoot playlist2 = (PlaylistRoot)_value[1];
-        Debug.Log(NewScreenManager.instance.GetCurrentView()); 
+        
         NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerPLItems(new object[] { playlist2 }, true, true, id);
 
     }
@@ -300,32 +319,73 @@ public class PlaylistViewModel : ViewModel
         
     }
 
-    private void MoreThan50IDs()
+    private void AskFor50Songs(bool flag = false)
     {
-        if (!noMoreTracks)
+        List<string> genreID = new List<string>();
+        for (int i = trackCount; i < trackCount + 50; i++)
         {
-            List<string> genreID = new List<string>();
-            for (int i = trackCount; i < trackCount + 50; i++)
+            if (i > severalID.Length - 1)
             {
-                if (i > severalID.Length-1)
-                {
-                    noMoreTracks = true;
+                noMoreTracks = true;
 
-                    break;
-                }
-                
-                genreID.Add(severalID[i]);
-
+                break;
             }
 
-            trackCount = trackCount + 50;
+            genreID.Add(severalID[i]);
+
+        }
+
+        trackCount = trackCount + 50;
+
+        if ( flag == false)
+        {
+            
             SpotifyConnectionManager.instance.GetSeveralTracks(genreID.ToArray(), Callback_GetSeveralTracks);
+        }
+        else
+        {
+            
+            SpotifyConnectionManager.instance.GetSeveralTracks(genreID.ToArray(), Callback_GetSeveralTracksForSurf);
         }
         
     }
 
+    private void MoreThan50IDs()
+    {
+        if (!noMoreTracks)
+        {
+            AskFor50Songs();
+        }
+        
+    }
 
-    public void Callback_GetSeveralTracks(object[] _value)
+    public void Callback_GetSeveralTracksForSurf(object[] _value)
+    {
+        SeveralTrackRoot severalTrackRoot = (SeveralTrackRoot)_value[1];
+
+        foreach (Track track in severalTrackRoot.tracks)
+        {
+            if (track != null)
+            {
+                trackList.Add(track);
+                
+            }
+        }
+        
+        if (trackList.Count < severalID.Length)
+        {
+            AskFor50Songs(true);
+        }
+        else
+        {
+            
+            NewScreenManager.instance.ChangeToSpawnedView("surf");
+            NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(trackList);
+        }
+
+    }
+
+        public void Callback_GetSeveralTracks(object[] _value)
     {
         SeveralTrackRoot severalTrackRoot = (SeveralTrackRoot)_value[1];
 
