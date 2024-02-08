@@ -29,6 +29,8 @@ public class ProfileViewModel : ViewModel
     public Color followTextColor;
     public Color unfollowTextColor;
     public TextMeshProUGUI yourPlaylist;
+    public GameObject ownSurfButton;
+    public GameObject curatorSurfButton;
     [Header("Badges References")]
     public GameObject BadgesHolderPrefab;
     public Transform BadgesContent;
@@ -641,10 +643,14 @@ public class ProfileViewModel : ViewModel
             if (AppManager.instance.currentMwsiveUser.platform_id.Equals(profileId))
             {
                 followButtonText.text = "Editar perfil";
-                yourPlaylist.text = "Tus playlist";
+                yourPlaylist.text = "Tus playlists";
+                if(ownSurfButton)
+                    ownSurfButton.SetActive(true);
             }
             else
             {
+                if (curatorSurfButton)
+                    curatorSurfButton.SetActive(true);
                 MwsiveConnectionManager.instance.GetIsFollowing(profileId, Callback_GetIsFollowing);
             }
         }

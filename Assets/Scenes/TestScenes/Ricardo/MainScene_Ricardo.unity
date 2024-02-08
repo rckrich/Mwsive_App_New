@@ -10188,7 +10188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba74f06bb1706f4bb6b9e2d62b5a808, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 422907724}
+  arrowObject: {fileID: 0}
   count: 0
   opciones: {fileID: 880746552}
   opcionesList:
@@ -11880,6 +11880,8 @@ MonoBehaviour:
   OlaButton: {fileID: 7519699227523887523}
   MwsiveOla: {fileID: 2076137575021857959, guid: dd1c5008e90ef2e4286781ce17bb716a, type: 3}
   MwsiveContainer: {fileID: 84922843037962533}
+  MwsiveControllerButtons: {fileID: 0}
+  SurfShimmer: {fileID: 0}
   MwsiveSongsData: []
   ActiveMwsiveSongs: []
   RestPositions:
@@ -11888,12 +11890,14 @@ MonoBehaviour:
   - {fileID: 4425143123623374842}
   - {fileID: 8645068457791942481}
   - {fileID: 1668667738}
+  surfviewmodel: {fileID: 0}
   SpawnPosition: 0
   CurrentPosition: 0
   MaxRotation: 18
   SurfSuccessSensitivity: 2.2
   LeftRightOffset: {x: 10, y: -10}
   CanGetRecomendations: 1
+  TimeToWaitMwsiveDB: 1
   canSwipe: 1
   time: 0
 --- !u!1 &478528362
@@ -14870,7 +14874,7 @@ MonoBehaviour:
   networkLoadingCanvas: {fileID: 0}
   scrollViewContent: {fileID: 0}
   finishedLoading: 1
-  url: []
+  contactText: {fileID: 0}
 --- !u!1 &576214779
 GameObject:
   m_ObjectHideFlags: 0
@@ -16187,7 +16191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba74f06bb1706f4bb6b9e2d62b5a808, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 636328790}
+  arrowObject: {fileID: 0}
   count: 0
   opciones: {fileID: 110181997}
   opcionesList:
@@ -17188,7 +17192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba74f06bb1706f4bb6b9e2d62b5a808, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 675195500}
+  arrowObject: {fileID: 0}
   count: 0
   opciones: {fileID: 46016164}
   opcionesList:
@@ -23678,9 +23682,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SurfManagers: []
+  SurfViewmodels: []
   SurfManagerIndex: 
   Main: {fileID: 0}
   CurrentView: {fileID: 0}
+  CurrentSurfViewModel: {fileID: 0}
 --- !u!1 &943444572
 GameObject:
   m_ObjectHideFlags: 0
@@ -23808,8 +23814,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PIKColorButton: {fileID: 0}
+  PIKContainer: {fileID: 0}
   RecommendColorButton: {fileID: 0}
+  RecommendContainer: {fileID: 0}
   ShareColorButton: {fileID: 0}
+  ShareContainer: {fileID: 0}
   PIKCallbackEnd: 1
 --- !u!1 &958410457
 GameObject:
@@ -34543,7 +34552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba74f06bb1706f4bb6b9e2d62b5a808, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 1397540215}
+  arrowObject: {fileID: 0}
   count: 0
   opciones: {fileID: 1898366539}
   opcionesList:
@@ -40030,7 +40039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba74f06bb1706f4bb6b9e2d62b5a808, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 1614798288}
+  arrowObject: {fileID: 0}
   count: 0
   opciones: {fileID: 1871827369}
   opcionesList:
@@ -42571,11 +42580,14 @@ MonoBehaviour:
   isTopLoader: 1
   visualsActive: 1
   reloadEventObject: {fileID: 0}
-  reloadEventsText: {fileID: 1027601662}
   Scroll: {fileID: 1717912876}
   descubrir: {fileID: 0}
   loadMoreObjectsLimiter: -50
   limiterToStartReload: -50
+  Baseimage: {fileID: 0}
+  sprite1: {fileID: 0}
+  sprite2: {fileID: 0}
+  finish: {fileID: 0}
 --- !u!1 &1722238766
 GameObject:
   m_ObjectHideFlags: 0
@@ -60222,7 +60234,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5794007413415257779}
         m_TargetAssemblyTypeName: ProfileViewModel, Scripts
-        m_MethodName: OnClick_Surf
+        m_MethodName: OnClick_SurfButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -65925,6 +65937,7 @@ MonoBehaviour:
   networkLoadingCanvas: {fileID: 0}
   scrollViewContent: {fileID: 0}
   finishedLoading: 1
+  socialmediaProfile: {fileID: 0}
   DNAButtons: []
   displayName: {fileID: 3774412407947270776}
   profilePicture: {fileID: 3774412406539563812}
@@ -65948,6 +65961,7 @@ MonoBehaviour:
   unfollowColor: {r: 0, g: 0, b: 0, a: 0}
   followTextColor: {r: 0, g: 0, b: 0, a: 0}
   unfollowTextColor: {r: 0, g: 0, b: 0, a: 0}
+  yourPlaylist: {fileID: 0}
   BadgesHolderPrefab: {fileID: 331966943669959748, guid: 3df4594bd9e3a9e46a0a0c1430e138a9, type: 3}
   BadgesContent: {fileID: 1511060685}
   noBadges: {fileID: 1313510325}
@@ -72187,6 +72201,7 @@ MonoBehaviour:
   SurfTransitionDuration: 0.5
   isAvailable: 0
   debug: 0
+  hasSurfResetEnd: 1
 --- !u!1 &8345200268570881044
 GameObject:
   m_ObjectHideFlags: 0
