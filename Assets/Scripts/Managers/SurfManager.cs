@@ -1479,7 +1479,6 @@ public class SurfManager : Manager
             StopCoroutine(WaitMwsiveDbCo); 
         }
         InternalTime = 0;
-        Debug.Log(time2);
         return time2;
     }
 
