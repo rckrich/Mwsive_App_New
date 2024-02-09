@@ -41,6 +41,7 @@ public class GenreViewModel : ViewModel
         }
         else
         {
+            severalID = _genreID;
             SpotifyConnectionManager.instance.GetSeveralTracks(_genreID, Callback_GetSeveralTracks);  
         }
         nameTXT.text = _name;

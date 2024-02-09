@@ -311,6 +311,7 @@ public class PlaylistViewModel : ViewModel
         }
         else
         {
+            severalID = _tracksID;
             SpotifyConnectionManager.instance.GetSeveralTracks(_tracksID, Callback_GetSeveralTracks);
         }
 
