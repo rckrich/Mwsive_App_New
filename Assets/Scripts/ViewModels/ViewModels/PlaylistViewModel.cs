@@ -34,6 +34,7 @@ public class PlaylistViewModel : ViewModel
     private int trackCount = 0;
     private bool noMoreTracks = false;
 
+    bool NeedsReset = false;
 
 
     public override void Initialize(params object[] list)
@@ -261,6 +262,8 @@ public class PlaylistViewModel : ViewModel
             }
             else
             {
+                NewScreenManager.instance.ChangeToSpawnedView("surf");
+                NewScreenManager.instance.GetCurrentView().GetComponent<PF_SurfViewModel>().Initialize();
                 AskFor50Songs(true);
             }
         }
@@ -304,9 +307,11 @@ public class PlaylistViewModel : ViewModel
             playlistName.text = _playlist_name;
         };
 
+        severalID = _tracksID;
+
         if (_tracksID.Length >= 50)
         {
-            severalID = _tracksID;
+            
             MoreThan50IDs();
         }
         else
@@ -353,6 +358,13 @@ public class PlaylistViewModel : ViewModel
 
     private void MoreThan50IDs()
     {
+        if (NeedsReset)
+        {
+            noMoreTracks = false;
+            trackCount = 50;
+            trackList.RemoveRange(50, trackList.Count - 50);
+            NeedsReset = false;
+        }
         if (!noMoreTracks)
         {
             AskFor50Songs();
@@ -372,7 +384,7 @@ public class PlaylistViewModel : ViewModel
                 
             }
         }
-        
+        NeedsReset = true;
         if (trackList.Count < severalID.Length)
         {
             AskFor50Songs(true);
@@ -380,7 +392,7 @@ public class PlaylistViewModel : ViewModel
         else
         {
             
-            NewScreenManager.instance.ChangeToSpawnedView("surf");
+            
             NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(trackList);
         }
 

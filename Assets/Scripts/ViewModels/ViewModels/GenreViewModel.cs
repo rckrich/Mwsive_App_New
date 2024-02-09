@@ -23,6 +23,7 @@ public class GenreViewModel : ViewModel
     int onlyone = 0;
 
     private List<Track> trackList = new List<Track>();
+    bool NeedsReset = false;
 
     public override void Initialize(params object[] list)
     {
@@ -33,16 +34,16 @@ public class GenreViewModel : ViewModel
 
     public void GetSeveralTracks(string[] _genreID, string _name)
     {
+        severalID = _genreID; 
         shimmer.SetActive(true);
-        if(_genreID.Length >= 50)
+        if(severalID.Length >= 50)
         {
-            severalID = _genreID;
+            
             MoreThan50IDs();
         }
         else
         {
-            severalID = _genreID;
-            SpotifyConnectionManager.instance.GetSeveralTracks(_genreID, Callback_GetSeveralTracks);  
+            SpotifyConnectionManager.instance.GetSeveralTracks(severalID, Callback_GetSeveralTracks);  
         }
         nameTXT.text = _name;
     }
@@ -66,6 +67,7 @@ public class GenreViewModel : ViewModel
                 {
                     instance.PreviewUrlGrey();
                 }
+                
             }
 
         }
@@ -83,16 +85,14 @@ public class GenreViewModel : ViewModel
 
             }
         }
-
+        NeedsReset = true;
         if (trackList.Count < severalID.Length)
         {
             AskFor50Songs(true);
         }
         else
         {
-
-            NewScreenManager.instance.ChangeToSpawnedView("surf");
-            NewScreenManager.instance.GetCurrentView().GetComponent<PF_SurfViewModel>().Initialize();
+            
             NewScreenManager.instance.GetCurrentView().GetComponentInChildren<PF_SurfManager>().DynamicPrefabSpawnerSeveralTracks(trackList);
         }
 
@@ -131,6 +131,13 @@ public class GenreViewModel : ViewModel
 
     private void MoreThan50IDs()
     {
+        if (NeedsReset)
+        {
+            noMoreTracks = false;
+            trackCount = 50;
+            trackList.RemoveRange(50, trackList.Count - 50);
+            NeedsReset = false;
+        }
         if (!noMoreTracks)
         {
             AskFor50Songs();
@@ -166,6 +173,8 @@ public class GenreViewModel : ViewModel
 
         if(trackList.Count < severalID.Length)
         {
+            NewScreenManager.instance.ChangeToSpawnedView("surf");
+            NewScreenManager.instance.GetCurrentView().GetComponent<PF_SurfViewModel>().Initialize();
             AskFor50Songs(true);
         }
         else
