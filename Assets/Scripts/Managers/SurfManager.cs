@@ -61,6 +61,7 @@ public class SurfManager : Manager
 
     private void Start()
     {
+        
         if (UIAniManager.instance.MainCanvas == null)
         {
             UIAniManager.instance.MainCanvas = MainCanvas;
@@ -1416,8 +1417,8 @@ public class SurfManager : Manager
     {
         GameObject Instance = Instantiate(MwsiveOla, Vector3.zero, Quaternion.identity);
         Instance.transform.SetParent(GameObject.Find("SpawnableCanvas_Canvas").transform);
-        Instance.GetComponent<RectTransform>().offsetMin = new Vector2(100, 250);
-        Instance.GetComponent<RectTransform>().offsetMax = new Vector2(-100, -250);
+        Instance.GetComponent<RectTransform>().offsetMin = new Vector2(100, -350);
+        Instance.GetComponent<RectTransform>().offsetMax = new Vector2(-100, 150);
 
         UIAniManager.instance.DoubleClickOla(Instance);
     }
