@@ -32,7 +32,7 @@ public class ButtonSurfPlaylist : ViewModel
 
     public MwsiveButton mwsiveButton;
     public _ChallengeColorAnimation colorani;
-    public GameObject loadingAnimGameObject;
+    //public GameObject loadingAnimGameObject;
     public DurationBar durationBar;
     public GameObject buttonColor;
     public bool TrackPoints;
@@ -228,7 +228,7 @@ public class ButtonSurfPlaylist : ViewModel
         SuccesfulEnded = _data.challenge_songeded;
 
         isTrackinfoEnd = true;
-        DisableAnimation();
+        //DisableAnimation();
 
 
     }
@@ -333,7 +333,7 @@ public class ButtonSurfPlaylist : ViewModel
         CheckIfDurationBarCanPlay();
         isPreviewSongFinishToLoad = true;
 
-        DisableAnimation();
+        //DisableAnimation();
 
         if (SurfManager.instance.isActiveAndEnabled == false)
         {
@@ -849,16 +849,16 @@ public class ButtonSurfPlaylist : ViewModel
     public void Callback_ImageManager(object[] value)
     {
         isImageManagerLoad = true;
-        DisableAnimation();
+        //DisableAnimation();
         imageCoroutine = null;
     }
 
-    private void DisableAnimation()
+   /* private void DisableAnimation()
     {
         if (loadingAnimGameObject != null)
         {
             if (isTrackinfoEnd && isImageManagerLoad && isPreviewSongFinishToLoad)
                 loadingAnimGameObject.SetActive(false);
         }
-    }
+    }*/
 }
