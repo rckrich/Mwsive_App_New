@@ -42,6 +42,11 @@ public class ButtonSurfPlaylist : ViewModel
     public TextMeshProUGUI trackTotalRecommendation;
     public TextMeshProUGUI trackTopCuratorsThatVoted;
 
+    [Header("DurationBar")]
+    public GameObject DurationHeight;
+    public GameObject DurationWidth;
+    public GameObject AlbumCoverMask;
+
     private Color redNew = new Color(0.9411765f, 0.2941177f, 0.4156863f);
     private Color gray = new Color(0.8f, 0.8f, 0.8f);
     private GameObject Surf;
@@ -59,9 +64,22 @@ public class ButtonSurfPlaylist : ViewModel
 
     private void Start()
     {
-
+        SetupPostionDurationBar();
     }
 
+    private void SetupPostionDurationBar()
+    {
+        durationBar.gameObject.transform.position = new Vector3(durationBar.transform.position.x, DurationHeight.transform.position.y);
+
+
+        durationBar.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(DurationWidth.GetComponent<RectTransform>().rect.width, durationBar.gameObject.GetComponent<RectTransform>().sizeDelta.y);
+
+
+        
+
+        //durationBar.gameObject.GetComponent<RectTransform>().offsetMin = new Vector2(offset, durationBar.GetComponent<RectTransform>().offsetMin.y);
+        //durationBar.gameObject.GetComponent<RectTransform>().offsetMax = new Vector2(-offset, durationBar.GetComponent<RectTransform>().offsetMax.y);
+    }
     public void SetSelectedPlaylistNameAppEvent(string _playlistName)
     {
         playlistName = _playlistName;
