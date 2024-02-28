@@ -89,7 +89,7 @@ public class ProfileRoot
 public class Album
 {
     public string album_type { get; set; }
-    public int total_tracks { get; set; }
+    public float total_tracks { get; set; }
     public List<string> available_markets { get; set; }
     public ExternalUrls external_urls { get; set; }
     public string href { get; set; }
@@ -249,8 +249,8 @@ public class Track
     public Album album { get; set; }
     public List<Artist> artists { get; set; }
     public List<string> available_markets { get; set; }
-    public int disc_number { get; set; }
-    public int duration_ms { get; set; }
+    public float disc_number { get; set; }
+    public float duration_ms { get; set; }
     public bool @explicit { get; set; }
     public ExternalIds external_ids { get; set; }
     public ExternalUrls external_urls { get; set; }
@@ -262,7 +262,7 @@ public class Track
     public string name { get; set; }
     public double popularity { get; set; }
     public string? preview_url { get; set; }
-    public int track_number { get; set; }
+    public float track_number { get; set; }
     public string type { get; set; }
     public string uri { get; set; }
     public bool is_local { get; set; }
@@ -275,8 +275,8 @@ public class Item
     public Album album { get; set; }
     public List<Artist> artists { get; set; }
     public List<string> available_markets { get; set; }
-    public int disc_number { get; set; }
-    public int duration_ms { get; set; }
+    public float disc_number { get; set; }
+    public float duration_ms { get; set; }
     public bool @explicit { get; set; }
     public ExternalIds external_ids { get; set; }
     public ExternalUrls external_urls { get; set; }
@@ -293,7 +293,7 @@ public class Item
     public object primary_color { get; set; }
     public double popularity { get; set; }
     public string? preview_url { get; set; }
-    public int track_number { get; set; }
+    public float track_number { get; set; }
     public string type { get; set; }
     public string uri { get; set; }
     public bool is_local { get; set; }
@@ -304,7 +304,7 @@ public class Item
     public LinkedFrom linked_from { get; set; }
     public Restrictions restrictions { get; set; }
     public string album_type { get; set; }
-    public int total_tracks { get; set; }
+    public float total_tracks { get; set; }
     public string release_date { get; set; }
     public string release_date_precision { get; set; }
     public List<Copyright> copyrights { get; set; }
@@ -394,8 +394,8 @@ public class TrackRoot
     public Album album { get; set; }
     public List<Artist> artists { get; set; }
     public List<string> available_markets { get; set; }
-    public int disc_number { get; set; }
-    public int duration_ms { get; set; }
+    public float disc_number { get; set; }
+    public float duration_ms { get; set; }
     public bool @explicit { get; set; }
     public ExternalIds external_ids { get; set; }
     public ExternalUrls external_urls { get; set; }
@@ -407,7 +407,7 @@ public class TrackRoot
     public string name { get; set; }
     public double popularity { get; set; }
     public string? preview_url { get; set; }
-    public int track_number { get; set; }
+    public float track_number { get; set; }
     public string type { get; set; }
     public string uri { get; set; }
     public bool is_local { get; set; }
@@ -493,7 +493,7 @@ public class SearchRoot
 [System.Serializable]
 public class AlbumRoot{
     public string album_type { get; set; }
-    public int total_tracks { get; set; }
+    public float total_tracks { get; set; }
     public List<string> available_markets { get; set; }
     public ExternalUrls external_urls { get; set; }
     public string href { get; set; }
