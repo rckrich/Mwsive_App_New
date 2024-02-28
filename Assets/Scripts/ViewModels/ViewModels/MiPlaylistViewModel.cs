@@ -61,7 +61,7 @@ public class MiPlaylistViewModel : ViewModel
         if (!AppManager.instance.currentMwsiveUser.platform_id.Equals(_profileId))
         {
             textPlaylist.text = "Playlist";
-            TusPlaylist.SetActive(false);
+            //TusPlaylist.SetActive(false);
             textSelecciona.SetActive(false);
             button.SetActive(false);
         }

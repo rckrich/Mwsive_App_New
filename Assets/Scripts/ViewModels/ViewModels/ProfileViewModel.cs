@@ -228,8 +228,11 @@ public class ProfileViewModel : ViewModel
                     instance.SetImage(playlistRoot.items[i].images[0].url);
             }
         }
-
-        EndSearch();
+        if (gameObject.activeSelf)
+        {
+            EndSearch();
+        }
+        
     }
 
     public void OnClick_BackButtonSurf()
@@ -702,15 +705,23 @@ public class ProfileViewModel : ViewModel
 
     private void ClearScrolls(Transform _scrolls)
     {
-        foreach (Transform child in _scrolls.transform)
+        if(_scrolls  != null)
         {
-            Destroy(child.gameObject);
+            foreach (Transform child in _scrolls.transform)
+            {
+                Destroy(child.gameObject);
+            }
         }
+        
     }
 
     public void Clear()
     {
-        ClearScrolls(playlistContent);
+        if(playlistContent != null)
+        {
+            ClearScrolls(playlistContent);
+        }
+        
     }
 
     public void OnClick_TiktokButton()
@@ -852,15 +863,18 @@ public class ProfileViewModel : ViewModel
 
     private void TurnOn_NoBadges()
     {
-
-        if (!areEngagementBadges && !areTrackBadges)
+        if(noBadges != null)
         {
-            noBadges.SetActive(true);
+            if (!areEngagementBadges && !areTrackBadges)
+            {
+                noBadges.SetActive(true);
+            }
+            else
+            {
+                noBadges.SetActive(false);
+            }
         }
-        else
-        {
-            noBadges.SetActive(false);
-        }
+        
 
 
     }
