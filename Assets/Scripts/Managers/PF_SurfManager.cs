@@ -36,6 +36,7 @@ public class PF_SurfManager : Manager
     private int InternalTime = 0;
     public float TimeToWaitMwsiveDB = 1;
     private IEnumerator WaitMwsiveDbCo, WaitForMessageADNCo;
+    public Sprite ADNWarning;
 
     [HideInInspector]
     public bool canSwipe = true;
@@ -1640,8 +1641,20 @@ public class PF_SurfManager : Manager
                     
                     NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
                     PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
-                    popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, " ", "´Parece ser que no hay canciones", "aceptar");
-                    popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); NewScreenManager.instance.BackToPreviousView(); });
+                    popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, " ", "´Parece que no hay canciones por surfear", "aceptar", ADNWarning);
+                    popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); NewScreenManager.instance.BackToPreviousView();
+                        #if PLATFORM_ANDROID
+                        if (Application.platform == RuntimePlatform.Android)
+                        {
+                            AppManager.instance.SetAndroidBackAction(() => {
+                                NewScreenManager.instance.BackToPreviousView();
+                            });
+                        }
+                        #endif
+                    
+
+
+                    });
                 }
             }
         }
