@@ -12,7 +12,7 @@ public class PF_SurfManager : Manager
 
     public SwipeListener swipeListener;
     public ScrollRect Controller;
-    public GameObject Prefab, AddSong, OlaButton, MwsiveOla, MwsiveContainer, MwsiveControllerButtons;
+    public GameObject Prefab, AddSong, OlaButton, MwsiveOla, MwsiveContainer, MwsiveControllerButtons, MessageADNPopUp;
     public GameObject[] RestPositions;
     public GameObject loadingCard;
     public GameObject surfviewmodel;
@@ -35,7 +35,7 @@ public class PF_SurfManager : Manager
 
     private int InternalTime = 0;
     public float TimeToWaitMwsiveDB = 1;
-    private IEnumerator WaitMwsiveDbCo;
+    private IEnumerator WaitMwsiveDbCo, WaitForMessageADNCo;
 
     [HideInInspector]
     public bool canSwipe = true;
@@ -1629,10 +1629,20 @@ public class PF_SurfManager : Manager
 
         if (UserPlaylists != null)
         {
-            if (ProfilePlaylistPosition <= UserPlaylists.items.Count)
+            if (ProfilePlaylistPosition < UserPlaylists.items.Count)
             {
                 SpotifyConnectionManager.instance.GetPlaylistItems(UserPlaylists.items[ProfilePlaylistPosition].id, OnCallback_GetSpotifyPlaylist, "ES", 100, 0);
-
+            }
+            else
+            {
+                if(MwsiveSongsData.Count == 0)
+                {
+                    
+                    NewScreenManager.instance.ChangeToMainView(ViewID.PopUpViewModel, true);
+                    PopUpViewModel popUpViewModel = (PopUpViewModel)NewScreenManager.instance.GetMainView(ViewID.PopUpViewModel);
+                    popUpViewModel.Initialize(PopUpViewModelTypes.MessageOnly, " ", "´Parece ser que no hay canciones", "aceptar");
+                    popUpViewModel.SetPopUpAction(() => { NewScreenManager.instance.BackToPreviousView(); NewScreenManager.instance.BackToPreviousView(); });
+                }
             }
         }
 
@@ -1657,25 +1667,47 @@ public class PF_SurfManager : Manager
     private void OnCallback_GetSpotifyPlaylist(object[] _value)
     {
         ProfileItemsPlaylist = (PlaylistRoot)_value[1];
-        DynamicPrefabSpawnerPLItems(new object[] { ProfileItemsPlaylist }, false, false, UserPlaylists.items[ProfilePlaylistPosition].id, false);
+        if(ProfileItemsPlaylist.items.Count != 0)
+        {
+            DynamicPrefabSpawnerPLItems(new object[] { ProfileItemsPlaylist }, false, false, UserPlaylists.items[ProfilePlaylistPosition].id, false);
+        }
+        
         ProfilePlaylistPosition++;
+
         if (SpawnPosition + 4 >= MwsiveSongsData.Count)
         {
             SurfProfileADN();
+            if (WaitForMessageADNCo == null)
+            {
+                WaitForMessageADNCo = WaitForMessageADN();
+                StartCoroutine(WaitForMessageADNCo);
+            }
         }
         else
         {
             if (!HasFirstPlaylistPlayed)
             {
                 SurfManagerLogicInitialize();
+                if(WaitForMessageADNCo != null)
+                {
+                    StopCoroutine(WaitForMessageADNCo);
+                    WaitForMessageADNCo = null;
+                }
+                
                 HasFirstPlaylistPlayed = true;
             }
 
         }
-
+        
+        
 
     }
 
+    IEnumerator WaitForMessageADN()
+    {
+        yield return new WaitForSeconds(4);
+        MessageADNPopUp.SetActive(true);
+    }
 
     private void Callback_GetUserPlaylists(object[] _value)
     {
